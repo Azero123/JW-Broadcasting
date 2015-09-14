@@ -1,0 +1,390 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9F79A18A1BA6A3AC00B5E925 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F79A1891BA6A3AC00B5E925 /* AppDelegate.swift */; };
+		9F79A18C1BA6A3AC00B5E925 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F79A18B1BA6A3AC00B5E925 /* ViewController.swift */; };
+		9F79A18F1BA6A3AC00B5E925 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F79A18D1BA6A3AC00B5E925 /* Main.storyboard */; };
+		9F79A1911BA6A3AC00B5E925 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F79A1901BA6A3AC00B5E925 /* Assets.xcassets */; };
+		9F79A19C1BA6A3AD00B5E925 /* JW_BroadcastingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F79A19B1BA6A3AD00B5E925 /* JW_BroadcastingTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9F79A1981BA6A3AD00B5E925 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9F79A17E1BA6A3AC00B5E925 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9F79A1851BA6A3AC00B5E925;
+			remoteInfo = "JW Broadcasting";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		9F79A1861BA6A3AC00B5E925 /* JW Broadcasting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JW Broadcasting.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9F79A1891BA6A3AC00B5E925 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		9F79A18B1BA6A3AC00B5E925 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		9F79A18E1BA6A3AC00B5E925 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		9F79A1901BA6A3AC00B5E925 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9F79A1921BA6A3AC00B5E925 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9F79A1971BA6A3AD00B5E925 /* JW BroadcastingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "JW BroadcastingTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9F79A19B1BA6A3AD00B5E925 /* JW_BroadcastingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JW_BroadcastingTests.swift; sourceTree = "<group>"; };
+		9F79A19D1BA6A3AD00B5E925 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9F79A1831BA6A3AC00B5E925 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9F79A1941BA6A3AD00B5E925 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9F79A17D1BA6A3AC00B5E925 = {
+			isa = PBXGroup;
+			children = (
+				9F79A1881BA6A3AC00B5E925 /* JW Broadcasting */,
+				9F79A19A1BA6A3AD00B5E925 /* JW BroadcastingTests */,
+				9F79A1871BA6A3AC00B5E925 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9F79A1871BA6A3AC00B5E925 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9F79A1861BA6A3AC00B5E925 /* JW Broadcasting.app */,
+				9F79A1971BA6A3AD00B5E925 /* JW BroadcastingTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9F79A1881BA6A3AC00B5E925 /* JW Broadcasting */ = {
+			isa = PBXGroup;
+			children = (
+				9F79A1891BA6A3AC00B5E925 /* AppDelegate.swift */,
+				9F79A18B1BA6A3AC00B5E925 /* ViewController.swift */,
+				9F79A18D1BA6A3AC00B5E925 /* Main.storyboard */,
+				9F79A1901BA6A3AC00B5E925 /* Assets.xcassets */,
+				9F79A1921BA6A3AC00B5E925 /* Info.plist */,
+			);
+			path = "JW Broadcasting";
+			sourceTree = "<group>";
+		};
+		9F79A19A1BA6A3AD00B5E925 /* JW BroadcastingTests */ = {
+			isa = PBXGroup;
+			children = (
+				9F79A19B1BA6A3AD00B5E925 /* JW_BroadcastingTests.swift */,
+				9F79A19D1BA6A3AD00B5E925 /* Info.plist */,
+			);
+			path = "JW BroadcastingTests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9F79A1851BA6A3AC00B5E925 /* JW Broadcasting */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9F79A1A01BA6A3AD00B5E925 /* Build configuration list for PBXNativeTarget "JW Broadcasting" */;
+			buildPhases = (
+				9F79A1821BA6A3AC00B5E925 /* Sources */,
+				9F79A1831BA6A3AC00B5E925 /* Frameworks */,
+				9F79A1841BA6A3AC00B5E925 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "JW Broadcasting";
+			productName = "JW Broadcasting";
+			productReference = 9F79A1861BA6A3AC00B5E925 /* JW Broadcasting.app */;
+			productType = "com.apple.product-type.application";
+		};
+		9F79A1961BA6A3AD00B5E925 /* JW BroadcastingTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9F79A1A31BA6A3AD00B5E925 /* Build configuration list for PBXNativeTarget "JW BroadcastingTests" */;
+			buildPhases = (
+				9F79A1931BA6A3AD00B5E925 /* Sources */,
+				9F79A1941BA6A3AD00B5E925 /* Frameworks */,
+				9F79A1951BA6A3AD00B5E925 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9F79A1991BA6A3AD00B5E925 /* PBXTargetDependency */,
+			);
+			name = "JW BroadcastingTests";
+			productName = "JW BroadcastingTests";
+			productReference = 9F79A1971BA6A3AD00B5E925 /* JW BroadcastingTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9F79A17E1BA6A3AC00B5E925 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = xquared;
+				TargetAttributes = {
+					9F79A1851BA6A3AC00B5E925 = {
+						CreatedOnToolsVersion = 7.1;
+					};
+					9F79A1961BA6A3AD00B5E925 = {
+						CreatedOnToolsVersion = 7.1;
+						TestTargetID = 9F79A1851BA6A3AC00B5E925;
+					};
+				};
+			};
+			buildConfigurationList = 9F79A1811BA6A3AC00B5E925 /* Build configuration list for PBXProject "JW Broadcasting" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 9F79A17D1BA6A3AC00B5E925;
+			productRefGroup = 9F79A1871BA6A3AC00B5E925 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9F79A1851BA6A3AC00B5E925 /* JW Broadcasting */,
+				9F79A1961BA6A3AD00B5E925 /* JW BroadcastingTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9F79A1841BA6A3AC00B5E925 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9F79A1911BA6A3AC00B5E925 /* Assets.xcassets in Resources */,
+				9F79A18F1BA6A3AC00B5E925 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9F79A1951BA6A3AD00B5E925 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9F79A1821BA6A3AC00B5E925 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9F79A18C1BA6A3AC00B5E925 /* ViewController.swift in Sources */,
+				9F79A18A1BA6A3AC00B5E925 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9F79A1931BA6A3AD00B5E925 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9F79A19C1BA6A3AD00B5E925 /* JW_BroadcastingTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9F79A1991BA6A3AD00B5E925 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9F79A1851BA6A3AC00B5E925 /* JW Broadcasting */;
+			targetProxy = 9F79A1981BA6A3AD00B5E925 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		9F79A18D1BA6A3AC00B5E925 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9F79A18E1BA6A3AC00B5E925 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		9F79A19E1BA6A3AD00B5E925 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = appletvos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Debug;
+		};
+		9F79A19F1BA6A3AD00B5E925 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = appletvos;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9F79A1A11BA6A3AD00B5E925 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				INFOPLIST_FILE = "JW Broadcasting/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.xquared.JW-Broadcasting";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		9F79A1A21BA6A3AD00B5E925 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				INFOPLIST_FILE = "JW Broadcasting/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.xquared.JW-Broadcasting";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		9F79A1A41BA6A3AD00B5E925 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = "JW BroadcastingTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.xquared.JW-BroadcastingTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JW Broadcasting.app/JW Broadcasting";
+			};
+			name = Debug;
+		};
+		9F79A1A51BA6A3AD00B5E925 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = "JW BroadcastingTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.xquared.JW-BroadcastingTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JW Broadcasting.app/JW Broadcasting";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9F79A1811BA6A3AC00B5E925 /* Build configuration list for PBXProject "JW Broadcasting" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9F79A19E1BA6A3AD00B5E925 /* Debug */,
+				9F79A19F1BA6A3AD00B5E925 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9F79A1A01BA6A3AD00B5E925 /* Build configuration list for PBXNativeTarget "JW Broadcasting" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9F79A1A11BA6A3AD00B5E925 /* Debug */,
+				9F79A1A21BA6A3AD00B5E925 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		9F79A1A31BA6A3AD00B5E925 /* Build configuration list for PBXNativeTarget "JW BroadcastingTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9F79A1A41BA6A3AD00B5E925 /* Debug */,
+				9F79A1A51BA6A3AD00B5E925 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9F79A17E1BA6A3AC00B5E925 /* Project object */;
+}
