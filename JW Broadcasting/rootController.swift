@@ -12,27 +12,31 @@ extension UITabBarController {
     
     func setTabBarVisible(visible:Bool, animated:Bool) {
         
-        // bail if the current state matches the desired state
+        /*If the tab bar is already in the right place then we don't need to animate so just exit now. No bugs no glitches (: */
         if (tabBarIsVisible() == visible) { return }
         
-        // get a frame calculation ready
+        /*figure out what the height of the tab bar is*/
         let frame = self.tabBar.frame
         let height = frame.size.height
         let offsetY = (visible==false ? -height : 0)
-        print("y:\(offsetY) \(visible)")
-        // animate the tabBar
+        
+        /*animate the removal of the tab bar so it looks nice if "animated" is true*/
         UIView.animateWithDuration(animated ? 0.3 : 0.0) {
-            self.tabBar.frame = CGRectOffset(frame, 0, offsetY)
-            //self.view.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height + offsetY)
+            /*adjust the view to move upward hiding the tab bar and then stretch it to make up for moving it*/
+            self.view.frame = CGRectMake(0, offsetY, UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.height - offsetY)
+            /*send some quick update functions just to make sure everything adjust itself properly*/
             self.view.setNeedsDisplay()
             self.view.layoutIfNeeded()
         }
     }
     
+    /*method to check whether the tab bar is lined up or not*/
+    
     func tabBarIsVisible() ->Bool {
-        return self.tabBar.frame.origin.y < CGRectGetMaxY(self.view.frame)
+        return self.view.frame.origin.y == 0
     }
 }
+
 
 class rootController: UITabBarController, UITabBarControllerDelegate{
     
@@ -112,25 +116,35 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         
         timer=NSTimer.scheduledTimerWithTimeInterval(7.5, target: self, selector: "hide", userInfo: nil, repeats: false)
         
+        let swipeRecognizer = UISwipeGestureRecognizer(target: self, action: "swiped:")
+        swipeRecognizer.direction = .Right //|| .Up || .Left || .Right
+        self.view.addGestureRecognizer(swipeRecognizer)
+
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: "tapped:")
+        tapRecognizer.allowedPressTypes = [NSNumber(integer: UIPressType.PlayPause.rawValue)];
+        self.view.addGestureRecognizer(tapRecognizer)
+        
         }
 
+    func tapped(tap:UIGestureRecognizer){
+        keepDown()
+    }
+    
+    func swipe(recognizer:UIGestureRecognizer){
+        keepDown()
+    }
+    
+    override func pressesBegan(presses: Set<UIPress>, withEvent event: UIPressesEvent?){
+        keepDown()
+    }
+    
+    func keepDown(){
+        timer?.invalidate()
+        timer=NSTimer.scheduledTimerWithTimeInterval(7.5, target: self, selector: "hide", userInfo: nil, repeats: false)
+        self.setTabBarVisible(true, animated: true)
+    }
     
     var timer:NSTimer?=nil
-
-    func tabBarController(tabBarController: UITabBarController,
-        shouldSelectViewController viewController: UIViewController) -> Bool{
-            timer?.invalidate()
-            timer=NSTimer.scheduledTimerWithTimeInterval(7.5, target: self, selector: "hide", userInfo: nil, repeats: false)
-            print("should I? ya...")
-            return true
-    }
-
-    func tabBarController(tabBarController: UITabBarController,
-        didSelectViewController viewController: UIViewController){
-            
-            print("did I?")
-            
-    }
     
     func hide(){
         self.setTabBarVisible(false, animated: true)

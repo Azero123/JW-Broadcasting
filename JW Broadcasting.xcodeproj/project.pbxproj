@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9F216EE21BABD888001D8571 /* videoDetail.tvml in Resources */ = {isa = PBXBuildFile; fileRef = 9F216EE11BABD888001D8571 /* videoDetail.tvml */; };
 		9F27BB051BA9341500C6DAFF /* StreamingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F27BB041BA9341500C6DAFF /* StreamingViewController.swift */; };
 		9F38D1B91BB23C980081073A /* rootController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F38D1B81BB23C980081073A /* rootController.swift */; };
 		9F38D1BB1BB2566B0081073A /* LanguageSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F38D1BA1BB2566B0081073A /* LanguageSelector.swift */; };

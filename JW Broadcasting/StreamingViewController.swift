@@ -87,12 +87,17 @@ class StreamingViewController : UIViewController {
         let newVidData=playlist.objectAtIndex(indexInPlaylist).objectForKey("files")
         let videoURL=newVidData!.objectAtIndex(newVidData!.count-1).objectForKey("progressiveDownloadURL")
         player?.replaceCurrentItemWithPlayerItem(AVPlayerItem(URL: NSURL(string: videoURL as! String)!))
-        player?.play()
-        updateStream()
+        if (thisControllerIsVisible){
+            player?.play()
+            updateStream()
+        }
     }
+    
+    var thisControllerIsVisible=false
     
     @IBOutlet var focusButton: UIButton!
     override func viewDidAppear(animated: Bool) {
+        thisControllerIsVisible=true
         player!.play()
         updateStream()
         //self.navigationController?.setNavigationBarHidden(true, animated: true)
@@ -101,7 +106,20 @@ class StreamingViewController : UIViewController {
     }
     
     override func viewDidDisappear(animated: Bool) {
+        thisControllerIsVisible=false
         player?.pause()
+        player?.currentItem?.removeObserver(self, forKeyPath: "status")
+        player?.replaceCurrentItemWithPlayerItem(nil)
+        
+    }
+    
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+        
+        playerLayer?.position=CGPointMake(0, 0)
+        
+        playerLayer!.frame=self.view.frame
+        
     }
     
     func updateStream(){
@@ -134,7 +152,9 @@ class StreamingViewController : UIViewController {
             if (self.player!.currentItem!.status == AVPlayerItemStatus.ReadyToPlay) {
                 activityIndicator.stopAnimating()
                 self.view.layer.addSublayer(playerLayer!)
-                player?.play()
+                if (thisControllerIsVisible){
+                    player?.play()
+                }
             }
             
         }
