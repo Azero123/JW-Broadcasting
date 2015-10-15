@@ -28,8 +28,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     var latestVideos=[]
     
-    var cachedFiles:Dictionary<String,NSData>=[:]
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         //UICollectionViewScrollDirectionHorizontal
@@ -267,74 +265,30 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
         return true
     }
-
-    func imageUsingCache(imageURL:String) -> UIImage{
-        /*
-        This method opens an image from memory if already loaded otherwise it performs a normal data fetch operation.
-        
-        WARNING plossibly unsafe on poor or no connection
-        
-        Read comments in:
-        func dataUsingCache(fileURL:String) -> NSData
-        For more details
-        
-        */
-        return UIImage(data: dataUsingCache(imageURL))!
-    }
-    
-    func dataUsingCache(fileURL:String) -> NSData{
-        /*
-        This method is used to speed up reopening the same file.
-        The file is repeatedly requested until it is found
-        
-        
-        WARNING
-        
-        Need to add a break so when under bad connection it doesn't continue for forever and finally notifies the user that the connection is too poor or that something is blocking the connection.
-        */
-        var data:NSData? = nil
-        if ((cachedFiles[fileURL]) != nil){
-            data=cachedFiles[fileURL]!
-        }
-        
-        while (data == nil){
-            let imageTrueURL=NSURL(string: fileURL)!
-            let imageData=NSData(contentsOfURL: imageTrueURL)
-            if (imageData != nil){
-                cachedFiles[fileURL]=imageData
-                data=cachedFiles[fileURL]!
-                let cacheCopy=cachedFiles
-                print("caching...")
-                saveCache(cacheCopy)
-            }
-        }
-        return data!
-    }
-    
-    var saving=false
-    var nextSave:Dictionary<String,NSData>?=nil
-    
-    func saveCache(cache: Dictionary<String,NSData>){
-        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
-        if (saving == false){
-            saving=true
-            dispatch_async(dispatch_get_global_queue(priority, 0)) {
-                /*
-                save dictionary to library folder
-                
-                This is currently unimplemented!
-                */
-                self.saving=false
-            }
-        }
-        else {
-            nextSave=cache
-        }
-    }
     
     func moveToSlide(atIndex:Int){
         //[self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:NO];
         self.slideShowCollectionView.scrollToItemAtIndexPath(NSIndexPath(forRow: atIndex, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
+        let cellToBlowUp=self.slideShowCollectionView.cellForItemAtIndexPath(NSIndexPath(forRow: atIndex, inSection: 0))
+        
+        for cell in self.slideShowCollectionView.visibleCells() {
+            UIView.animateWithDuration(1, animations: {
+                cell.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1, 1);
+                cell.layer.shadowColor=UIColor.blackColor().CGColor
+                cell.layer.shadowRadius=20
+                cell.layer.shadowOpacity=0
+                cell.layer.zPosition=0
+            })
+        }
+        
+        UIView.animateWithDuration(1, animations: {
+            cellToBlowUp?.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.5, 1.5);
+            cellToBlowUp?.layer.shadowColor=UIColor.blackColor().CGColor
+            cellToBlowUp?.layer.shadowRadius=20
+            cellToBlowUp?.layer.shadowOpacity=1
+            cellToBlowUp?.layer.zPosition=1000
+        })
+        
     }
 }
 

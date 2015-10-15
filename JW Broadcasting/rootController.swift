@@ -57,26 +57,18 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         _ = DISPATCH_QUEUE_PRIORITY_DEFAULT
         //dispatch_async(dispatch_get_global_queue(priority, 0)) {
             //let image=self.imageUsingCache(imageURL)
-            
-            var attempts=0
+        
             while (languageList == nil){
-                if (attempts>10){
-                    languageList=Array()
-                }
-                else {
-                    let download=dictionaryOfPath(base+"/"+version+"/languages/"+languageCode+"/web")
-                    languageList=download?.objectForKey("languages") as? Array<NSDictionary>
-                    attempts++
-                }
+                let download=dictionaryOfPath(base+"/"+version+"/languages/"+languageCode+"/web")
+                languageList=download?.objectForKey("languages") as? Array<NSDictionary>
             }
-            
             
             
             //dispatch_async(dispatch_get_main_queue()) {
                 
-                if (languageList == nil){
+                if (languageList?.count==0){
                     
-                    _=UIAlertController(title: "Cannot connect to JW Broadcasting", message: "Make sure you're connected to the internet then try again.", preferredStyle: UIAlertControllerStyle.Alert)
+                    self.performSelector("displayUnableToConnect", withObject: self, afterDelay: 1.0)
                     
                 }
                 else {
@@ -125,6 +117,13 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         self.view.addGestureRecognizer(tapRecognizer)
         
         }
+    
+    func displayUnableToConnect(){
+        
+        let alert=UIAlertController(title: "Cannot connect to JW Broadcasting", message: "Make sure you're connected to the internet then try again.", preferredStyle: UIAlertControllerStyle.Alert)
+        self.presentViewController(alert, animated: true, completion: nil)
+        
+    }
 
     func tapped(tap:UIGestureRecognizer){
         keepDown()

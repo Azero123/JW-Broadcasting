@@ -34,6 +34,86 @@ var languageCode="E"
 var languageList:Array<NSDictionary>?=nil
 var textDirection=UIUserInterfaceLayoutDirection.LeftToRight
 
+
+var cachedFiles:Dictionary<String,NSData>=[:]
+
+let offlineStorage=false
+let offlineStorageSaving=false
+
+func imageUsingCache(imageURL:String) -> UIImage{
+    /*
+    This method opens an image from memory if already loaded otherwise it performs a normal data fetch operation.
+    
+    WARNING plossibly unsafe on poor or no connection
+    
+    Read comments in:
+    func dataUsingCache(fileURL:String) -> NSData
+    For more details
+    
+    */
+    return UIImage(data: dataUsingCache(imageURL)!)!
+}
+
+func dataUsingCache(fileURL:String) -> NSData?{
+    /*
+    This method is used to speed up reopening the same file.
+    The file is repeatedly requested until it is found
+    
+    
+    WARNING
+    
+    Need to add a break so when under bad connection it doesn't continue for forever and finally notifies the user that the connection is too poor or that something is blocking the connection.
+    */
+    var data:NSData? = nil
+    if ((cachedFiles[fileURL]) != nil){
+        data=cachedFiles[fileURL]!
+    }
+    
+    
+    var attempts=0
+    while (data == nil){
+        if (attempts>10){
+            return nil
+        }
+        else {
+            let imageTrueURL=NSURL(string: fileURL)!
+            let imageData=NSData(contentsOfURL: imageTrueURL)
+            
+            if (imageData != nil){
+                cachedFiles[fileURL]=imageData
+                data=cachedFiles[fileURL]!
+                let cacheCopy=cachedFiles
+                saveCache(cacheCopy)
+                print("attempts \(attempts)")
+                return data!
+            }
+        }
+        attempts++
+    }
+    return data!
+}
+
+var saving=false
+var nextSave:Dictionary<String,NSData>?=nil
+
+func saveCache(cache: Dictionary<String,NSData>){
+    let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+    if (saving == false){
+        saving=true
+        dispatch_async(dispatch_get_global_queue(priority, 0)) {
+            /*
+            save dictionary to library folder
+            
+            This is currently unimplemented!
+            */
+            saving=false
+        }
+    }
+    else {
+        nextSave=cache
+    }
+}
+
 func dictionaryOfPath(path: String) -> NSDictionary?{
     /*
     This method breaks down JSON files converting them to NSDictionaries.
@@ -56,15 +136,18 @@ func dictionaryOfPath(path: String) -> NSDictionary?{
     
     
     
-    let url=NSURL(string: path)!
     do {
-        var sliderData=NSData(contentsOfURL: url)
+        var sliderData=dataUsingCache(path)
         
-        //print(url)
+        if (sliderData == nil){
+            return nil
+        }
+        
         
         let sliderString=try NSMutableAttributedString(data:sliderData!,
             options:[NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,NSCharacterEncodingDocumentAttribute:NSUTF8StringEncoding],
             documentAttributes:nil).string
+        
         sliderData=sliderString.dataUsingEncoding(NSUTF8StringEncoding)
         
         /* Just double check real quick that the class is truly available */
@@ -90,7 +173,7 @@ func dictionaryOfPath(path: String) -> NSDictionary?{
         
         print(error)
     }
-    return NSDictionary()
+    return nil
 }
 
 
