@@ -37,35 +37,71 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
         pageIndicator.hidden=true
         
+        
+        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.grayColor()], forState:.Normal)
+        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState:.Selected)
+        
+        
+    }
+    
+    var previousLanguageCode=languageCode
+    
+    override func viewWillAppear(animated: Bool) {
+        if (previousLanguageCode != languageCode){
+            renewContent()
+        }
+        previousLanguageCode=languageCode
+    }
+    
+    func renewContent(){
         if (languageList?.count>0){
             print("Language config downloaded")
             activityIndicator.startAnimating()
+            
+            /*
+
+            After double checking that the collectionview has our custom flow layout (which it should always be but I like double checking) the collectionview then applies horizontal scrolling for the slide show.
+            */
             
             if (self.slideShowCollectionView.collectionViewLayout.isKindOfClass(collectionViewRightToLeftFlowLayout.self) == true){
                 
                 (self.slideShowCollectionView.collectionViewLayout as! collectionViewRightToLeftFlowLayout).scrollDirection=UICollectionViewScrollDirection.Horizontal
                 
             }
-            UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.grayColor()], forState:.Normal)
-            UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState:.Selected)
             
             
+            /*unnecissary code for experimentation*/
             _=dictionaryOfPath(base+"/"+version+"/categories/"+languageCode)
             
+            /*setup the slideshow on the top and begin the timer*/
             buildSlideshow()
             
             
+            /*[self.collectionView performBatchUpdates:^{
+                [self.collectionView reloadData];
+                } completion:^(BOOL finished) {
+                // notify that completed and do the configuration now
+                }];*/
             
-            latestVideos=(dictionaryOfPath(base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1")?.objectForKey("category")?.objectForKey("media"))! as! NSArray
+            /*fetch information on latest videos then reload the views*/
+            self.latestVideos=(dictionaryOfPath(base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1")?.objectForKey("category")?.objectForKey("media"))! as! NSArray
+            //self.latestVideosCollectionView.reloadData()
+            self.slideShowCollectionView.reloadData()
             
+            
+            /*well everything is downloaded now so lets hide the spinning wheel and start rendering the views*/
             activityIndicator.stopAnimating()
             pageIndicator.hidden=true
 
+            
+            
         }
         else {
             
             activityIndicator.startAnimating()
         }
+        
+        
     }
     
     func buildSlideshow(){
@@ -96,7 +132,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         if (selectedSlideShow == false){
         
-        moveToSlide(SLIndex)
+        //moveToSlide(SLIndex)
             
         }
         
@@ -133,6 +169,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         if (collectionView == latestVideosCollectionView){
 
             let cell: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath)
+            for subview in cell.contentView.subviews {
+                subview.removeFromSuperview()
+            }
             
             let videoData=latestVideos.objectAtIndex(indexPath.row)
             let imageURL=videoData.objectForKey("images")?.objectForKey("lsr")?.objectForKey("md") as! String
@@ -158,6 +197,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
         else if (collectionView == slideShowCollectionView){
             let slide: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("slide", forIndexPath: indexPath)
+            for subview in slide.contentView.subviews {
+                subview.removeFromSuperview()
+            }
+            
             
             //let videoData=latestVideos.objectAtIndex(indexPath.row)
             

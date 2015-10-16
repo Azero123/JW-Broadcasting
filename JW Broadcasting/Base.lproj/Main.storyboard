@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="140" width="1920" height="940"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <pageControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="WIc-0R-BUs">
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="WIc-0R-BUs">
                                 <rect key="frame" x="885" y="525" width="150" height="30"/>
                                 <animations/>
                                 <constraints>
@@ -25,10 +25,10 @@
                                     <constraint firstAttribute="height" constant="30" id="xpj-gx-lPq"/>
                                 </constraints>
                             </pageControl>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DEX-la-mzB">
-                                <rect key="frame" x="0.0" y="490" width="1920" height="590"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DEX-la-mzB">
+                                <rect key="frame" x="0.0" y="590" width="1920" height="350"/>
                                 <subviews>
-                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Aiz-tC-uQO">
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Aiz-tC-uQO">
                                         <rect key="frame" x="0.0" y="0.0" width="1920" height="590"/>
                                         <animations/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ViH-m2-wCW">
@@ -83,16 +83,26 @@
                                 <animations/>
                                 <constraints>
                                     <constraint firstItem="Aiz-tC-uQO" firstAttribute="width" secondItem="DEX-la-mzB" secondAttribute="width" id="13S-JK-1Te"/>
-                                    <constraint firstAttribute="trailing" secondItem="Aiz-tC-uQO" secondAttribute="trailing" id="AJO-6l-y0D"/>
-                                    <constraint firstAttribute="bottom" secondItem="Aiz-tC-uQO" secondAttribute="bottom" id="Di7-Ij-fyy"/>
-                                    <constraint firstItem="Aiz-tC-uQO" firstAttribute="top" secondItem="DEX-la-mzB" secondAttribute="top" id="c1b-nj-qaZ"/>
-                                    <constraint firstItem="Aiz-tC-uQO" firstAttribute="height" secondItem="DEX-la-mzB" secondAttribute="height" id="mX2-g5-LLz"/>
                                     <constraint firstItem="Aiz-tC-uQO" firstAttribute="leading" secondItem="DEX-la-mzB" secondAttribute="leading" id="rnu-Zt-fHL"/>
                                 </constraints>
                             </scrollView>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="bcI-63-HQl">
-                                <rect key="frame" x="0.0" y="140" width="1920" height="350"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Latest Videos" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rcZ-oy-aja">
+                                <rect key="frame" x="710" y="570" width="500" height="30"/>
                                 <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="ZhO-fJ-zrE"/>
+                                    <constraint firstAttribute="width" constant="500" id="qhe-mH-3WX"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="bcI-63-HQl">
+                                <rect key="frame" x="0.0" y="0.0" width="1920" height="590"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="590" id="9ov-hr-ZCW"/>
+                                </constraints>
                                 <collectionViewLayout key="collectionViewLayout" id="LEX-U1-kbm" customClass="collectionViewRightToLeftFlowLayout" customModule="JW_Broadcasting" customModuleProvider="target"/>
                                 <cells>
                                     <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="slide" id="Zap-qt-HvD">
@@ -112,8 +122,8 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="hQZ-MM-nDg"/>
                                 </connections>
                             </collectionView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="200" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="EdW-cC-2hD">
-                                <rect key="frame" x="859.5" y="440" width="200" height="200"/>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="200" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="EdW-cC-2hD">
+                                <rect key="frame" x="859.5" y="370" width="200" height="200"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="8eR-9w-AWA"/>
@@ -125,18 +135,17 @@
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.89852834302325579" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="EdW-cC-2hD" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="2nQ-Rf-RQA"/>
-                            <constraint firstAttribute="trailing" secondItem="DEX-la-mzB" secondAttribute="trailing" id="3Cc-eN-qWw"/>
+                            <constraint firstItem="DEX-la-mzB" firstAttribute="top" secondItem="bcI-63-HQl" secondAttribute="bottom" id="9CA-PI-I49"/>
                             <constraint firstItem="bcI-63-HQl" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="9VZ-MH-ghK"/>
                             <constraint firstItem="EdW-cC-2hD" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="F3z-Gb-ZfD"/>
-                            <constraint firstAttribute="trailing" secondItem="DEX-la-mzB" secondAttribute="trailing" id="LT0-lh-xBo"/>
+                            <constraint firstItem="WIc-0R-BUs" firstAttribute="bottom" secondItem="bcI-63-HQl" secondAttribute="bottom" constant="-35" id="IUz-Yg-Oey"/>
+                            <constraint firstItem="DEX-la-mzB" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="S1G-dd-QBs"/>
                             <constraint firstAttribute="trailing" secondItem="bcI-63-HQl" secondAttribute="trailing" id="V91-lF-2VQ"/>
-                            <constraint firstItem="DEX-la-mzB" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="WCU-tX-lKn"/>
-                            <constraint firstItem="DEX-la-mzB" firstAttribute="top" secondItem="bcI-63-HQl" secondAttribute="bottom" id="ZuC-Tp-Dtd"/>
-                            <constraint firstItem="DEX-la-mzB" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="350" id="gh7-gz-o35"/>
+                            <constraint firstAttribute="trailing" secondItem="DEX-la-mzB" secondAttribute="trailing" id="eEz-Jn-UCT"/>
+                            <constraint firstItem="rcZ-oy-aja" firstAttribute="top" secondItem="DEX-la-mzB" secondAttribute="top" constant="-20" id="gdo-Jl-Wly"/>
+                            <constraint firstItem="rcZ-oy-aja" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gxB-te-MkH"/>
                             <constraint firstItem="bcI-63-HQl" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="h8j-56-p3X"/>
-                            <constraint firstItem="DEX-la-mzB" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="mWJ-6B-BmV"/>
-                            <constraint firstItem="WIc-0R-BUs" firstAttribute="centerX" secondItem="DEX-la-mzB" secondAttribute="centerX" id="qfP-8J-EnT"/>
-                            <constraint firstAttribute="bottom" secondItem="DEX-la-mzB" secondAttribute="bottom" id="rrA-i6-2CS"/>
+                            <constraint firstItem="WIc-0R-BUs" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="nnd-g9-rz7"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="DEX-la-mzB" secondAttribute="bottom" id="sjX-YZ-e8G"/>
                         </constraints>
                     </view>

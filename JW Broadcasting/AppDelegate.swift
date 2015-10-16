@@ -44,8 +44,6 @@ func imageUsingCache(imageURL:String) -> UIImage{
     /*
     This method opens an image from memory if already loaded otherwise it performs a normal data fetch operation.
     
-    WARNING plossibly unsafe on poor or no connection
-    
     Read comments in:
     func dataUsingCache(fileURL:String) -> NSData
     For more details
@@ -56,42 +54,89 @@ func imageUsingCache(imageURL:String) -> UIImage{
 
 func dataUsingCache(fileURL:String) -> NSData?{
     /*
-    This method is used to speed up reopening the same file.
-    The file is repeatedly requested until it is found
+    Refer to:
+    func dataUsingCache(fileURL:String, usingCashe:Bool) -> NSData?
+    Always uses cache if available.
+    */
+    return dataUsingCache(fileURL, usingCashe: true)
+}
+
+func dataUsingCache(fileURL:String, usingCashe:Bool) -> NSData?{
+    /*
+    This method is used to speed up reopening the same file using caching if usingCache is true.
     
+    STEP 1
     
-    WARNING
+    Check if file is already in memory cache. This will only occure if STEP 2/3 have occured successfully for the same fileURL with usingCache == true
     
-    Need to add a break so when under bad connection it doesn't continue for forever and finally notifies the user that the connection is too poor or that something is blocking the connection.
+    STEP 2
+    
+    Check if file has been stored in library directory. If so save it to active memory and return data.
+    
+    STEP 3
+    
+    Attempt online fetch of fileURL.
+    
+    The file is repeatedly requested up to 10 (maxAttempts) times just in cases of poor connection.
+    
+    If failed nil is returned
+    
     */
     var data:NSData? = nil
-    if ((cachedFiles[fileURL]) != nil){
-        data=cachedFiles[fileURL]!
-    }
     
+    let trueURL=NSURL(string: fileURL)!
+    let libraryDirectory=NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true).first
+    let storedPath=libraryDirectory!+"/"+trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-")
     
-    var attempts=0
-    while (data == nil){
-        if (attempts>10){
-            return nil
+    if (usingCashe){
+        if ((cachedFiles[fileURL]) != nil){ //STEP 1
+            data=cachedFiles[fileURL]!
         }
-        else {
-            let imageTrueURL=NSURL(string: fileURL)!
-            let imageData=NSData(contentsOfURL: imageTrueURL)
+        else { //STEP 2
+        
+            do {
+                let stored=NSData(contentsOfFile: storedPath)
+                cachedFiles[fileURL]=stored
+                data=stored
             
-            if (imageData != nil){
-                cachedFiles[fileURL]=imageData
-                data=cachedFiles[fileURL]!
-                let cacheCopy=cachedFiles
-                saveCache(cacheCopy)
-                print("attempts \(attempts)")
-                return data!
+            }
+            catch {
+            
+            /*log out any errors that might have occured*/
+            
+            print(error)
+                
             }
         }
-        attempts++
     }
-    return data!
+    
+    //STEP 3
+    
+    
+    var attempts=0 //Amount of attempts to download the file
+    let maxAttempts=10//Amount of possible attempts
+    
+    while (data == nil){ //If the file is not downloaded download it
+        if (attempts>maxAttempts){ //But if we have tried 10 times then give up
+            return nil //give up
+        }
+        else {
+            let downloadedData=NSData(contentsOfURL: trueURL) //Download
+            
+            if (downloadedData != nil){ //File successfully downloaded
+                
+                downloadedData?.writeToFile(storedPath, atomically: true) //Save file locally for use later
+                cachedFiles[fileURL]=downloadedData //Save file to memory
+                data=cachedFiles[fileURL]! //Use as local variable
+                return data! //Return file
+            }
+        }
+        attempts++ //Count another attempt to download the file
+        print("Bad connection")
+    }
+    return data! //THIS CAN NOT BE CALLED this is just for the compiler
 }
+
 
 var saving=false
 var nextSave:Dictionary<String,NSData>?=nil
@@ -115,29 +160,38 @@ func saveCache(cache: Dictionary<String,NSData>){
 }
 
 func dictionaryOfPath(path: String) -> NSDictionary?{
+    
+    /*
+    Refer to func dictionaryOfPath(path: String, usingCache: Bool) -> NSDictionary?
+    
+    WARNING
+    
+    This method is failable depending on what data is passed in.
+    */
+    
+    return dictionaryOfPath(path, usingCache: true)
+}
+
+
+func dictionaryOfPath(path: String, usingCache: Bool) -> NSDictionary?{
     /*
     This method breaks down JSON files converting them to NSDictionaries.
     
     Firstly grabs data from the path parameter.
     Second strips away all HTML entities (E.g. &amp; = &)
     Finally using NSJSONSerialization the data is converted into a usable NSDictionary class.
-
-
+    
+    
     WARNING
     
     This method is failable depending on what data is passed in.
-    
-    
-    Things to add:
-    
-    Caching system
     
     */
     
     
     
     do {
-        var sliderData=dataUsingCache(path)
+        var sliderData=dataUsingCache(path, usingCashe: usingCache)
         
         if (sliderData == nil){
             return nil

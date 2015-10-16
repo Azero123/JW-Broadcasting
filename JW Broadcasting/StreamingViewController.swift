@@ -47,7 +47,7 @@ class StreamingViewController : UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let streamMeta=dictionaryOfPath(base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-420")
+        let streamMeta=dictionaryOfPath(base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-420", usingCache: false)
         let subcategory=streamMeta?.objectForKey("category")?.objectForKey("subcategories")!.objectAtIndex(0)
         playlist=subcategory!.objectForKey("media") as! NSArray
         let currentVidMaybe=playlist.objectAtIndex(0).objectForKey("files")
@@ -67,6 +67,7 @@ class StreamingViewController : UIViewController {
         
         let videoURL = NSURL(string: videoURLString)
         player = AVPlayer(URL: videoURL!)
+        print("player:\(player)")
         playerLayer=AVPlayerLayer(player: player)
         playerLayer!.frame=self.view.frame
         
@@ -77,6 +78,7 @@ class StreamingViewController : UIViewController {
         
         
         player!.seekToTime(CMTimeMake(Int64(time), 1))
+        player!.play()
         
     }
     
@@ -96,10 +98,12 @@ class StreamingViewController : UIViewController {
     var thisControllerIsVisible=false
     
     @IBOutlet var focusButton: UIButton!
-    override func viewDidAppear(animated: Bool) {
+    override func viewWillAppear(animated: Bool) {
         thisControllerIsVisible=true
-        player!.play()
-        updateStream()
+        if ((player) != nil){
+            player!.play()
+            updateStream()
+        }
         //self.navigationController?.setNavigationBarHidden(true, animated: true)
         //self.navigationController?.navigationBarHidden=true
         //focusButton.canBecomeFocused()
@@ -126,7 +130,7 @@ class StreamingViewController : UIViewController {
         player?.pause()
         playerLayer?.removeFromSuperlayer()
         activityIndicator.startAnimating()
-        let streamMeta=dictionaryOfPath(base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-420")
+        let streamMeta=dictionaryOfPath(base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-420", usingCache: false)
         let subcategory=streamMeta?.objectForKey("category")?.objectForKey("subcategories")!.objectAtIndex(0)
         indexInPlaylist=0
         playlist=subcategory!.objectForKey("media") as! NSArray

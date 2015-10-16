@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9F07787D1BD1A99A00476E4C /* ideas in Resources */ = {isa = PBXBuildFile; fileRef = 9F07787C1BD1A99A00476E4C /* ideas */; };
 		9F216EE21BABD888001D8571 /* videoDetail.tvml in Resources */ = {isa = PBXBuildFile; fileRef = 9F216EE11BABD888001D8571 /* videoDetail.tvml */; };
 		9F27BB051BA9341500C6DAFF /* StreamingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F27BB041BA9341500C6DAFF /* StreamingViewController.swift */; };
 		9F38D1B91BB23C980081073A /* rootController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F38D1B81BB23C980081073A /* rootController.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9F07787C1BD1A99A00476E4C /* ideas */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ideas; sourceTree = "<group>"; };
 		9F216EE11BABD888001D8571 /* videoDetail.tvml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = videoDetail.tvml; sourceTree = "<group>"; };
 		9F27BB041BA9341500C6DAFF /* StreamingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamingViewController.swift; sourceTree = "<group>"; };
 		9F38D1B81BB23C980081073A /* rootController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = rootController.swift; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 				9F5A639B1BB0FE24000EB71B /* videoDetail.swift */,
 				9FFB9DB11BB528820059E5EA /* VideoOnDemandController.swift */,
 				9F38D1BA1BB2566B0081073A /* LanguageSelector.swift */,
+				9F07787C1BD1A99A00476E4C /* ideas */,
 				9F79A18D1BA6A3AC00B5E925 /* Main.storyboard */,
 				9F216EE11BABD888001D8571 /* videoDetail.tvml */,
 				9F38D1BC1BB26B1F0081073A /* jwtv.ttf */,
@@ -216,6 +219,7 @@
 				9F79A1911BA6A3AC00B5E925 /* Assets.xcassets in Resources */,
 				9FFB9DB41BB52D360059E5EA /* Stack.xml.js in Resources */,
 				9F79A18F1BA6A3AC00B5E925 /* Main.storyboard in Resources */,
+				9F07787D1BD1A99A00476E4C /* ideas in Resources */,
 				9F216EE21BABD888001D8571 /* videoDetail.tvml in Resources */,
 				9FFD0D581BB516AA0092CF71 /* jwtv.ttf in Resources */,
 			);

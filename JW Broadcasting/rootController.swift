@@ -37,6 +37,43 @@ extension UITabBarController {
     }
 }
 
+/*
+language dictionary break down
+
+code = language code used by tv.jw.org... all the files are inside various language code named folders
+locale = matches typical locale abbreviation and can be used with NSLocale
+isRTL = Bool for right to left languages
+name = Displayable string name for the language you are in?
+vernacular = Displayable string name in that language?
+isLangPair = 0; unkown bool
+isSignLanguage = Bool for sign languages
+
+*/
+
+func languageFromLocale(locale:String) -> NSDictionary?{
+    for language in languageList! {
+        
+        /* This just simply looks for corresponding language code for the system language Locale */
+        
+        if (language.objectForKey("locale") as! String==locale){
+            return language
+        }
+    }
+    return nil
+}
+
+
+func languageFromCode(code:String) -> NSDictionary?{
+    for language in languageList! {
+        
+        /* This just simply looks for corresponding language code for the system language Locale */
+        
+        if (language.objectForKey("code") as! String==code){
+            return language
+        }
+    }
+    return nil
+}
 
 class rootController: UITabBarController, UITabBarControllerDelegate{
     
@@ -65,7 +102,8 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
             
             
             //dispatch_async(dispatch_get_main_queue()) {
-                
+        
+        
                 if (languageList?.count==0){
                     
                     self.performSelector("displayUnableToConnect", withObject: self, afterDelay: 1.0)
@@ -74,33 +112,24 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                 else {
                     
                     
+                    let libraryDirectory=NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true).first
+                    let settingsDirectory=libraryDirectory!+"/settings.plist"
+                    let settings=NSMutableDictionary(contentsOfFile: settingsDirectory)
                     
-                    for language in languageList! {
-                        /*
-                        language dictionary break down
-                        
-                        code = language code used by tv.jw.org... all the files are inside various language code named folders
-                        locale = matches typical locale abbreviation and can be used with NSLocale
-                        isRTL = Bool for right to left languages
-                        name = Displayable string name for the language you are in?
-                        vernacular = Displayable string name in that language?
-                        isLangPair = 0; unkown bool
-                        isSignLanguage = Bool for sign languages
-                        
-                        */
-                        
-                        /* This just simply looks for corresponding language code for the system language Locale */
-                        
-                        if (language.objectForKey("locale") as! String==NSLocale.preferredLanguages()[0]){
-                            setLanguage(language.objectForKey("code") as! String, newTextDirection: ( language.objectForKey("isRTL")?.boolValue == true ? UIUserInterfaceLayoutDirection.RightToLeft : UIUserInterfaceLayoutDirection.LeftToRight ))
-                            return
-                        }
+                    var language:NSDictionary?
+                    
+                    language=languageFromCode(settings?.objectForKey("language") as! String) //Attempt using language from settings file
+                    if (language == nil){ language=languageFromLocale(NSLocale.preferredLanguages()[0]) } //Attempt using system language
+                    if (language == nil){
+                        //Language detection has failed default to english
+                        let alert=UIAlertController(title: "Language Unknown", message: "Unable to find a language for you.", preferredStyle: UIAlertControllerStyle.Alert)
+                        self.presentViewController(alert, animated: true, completion: nil)
+                    
+                        language=languageFromLocale("en")
                     }
+                    if (language == nil){ language=languageList?.first } //English failed use any language
                     
-                    
-                    //let alertController=UIAlertController(title: "Auto language detection failed!", message: "", preferredStyle: UIAlertControllerStyle.Alert)
-                    /*show the language page*/
-                    
+                    self.setLanguage(language!.objectForKey("code") as! String, newTextDirection: ( language!.objectForKey("isRTL")?.boolValue == true ? UIUserInterfaceLayoutDirection.RightToLeft : UIUserInterfaceLayoutDirection.LeftToRight ))
 
                 }
             //}
@@ -134,7 +163,35 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
     }
     
     override func pressesBegan(presses: Set<UIPress>, withEvent event: UIPressesEvent?){
-        keepDown()
+        for press in presses {
+            switch press.type {
+            case .Select:
+                //print("Select")
+                timer?.invalidate()
+                
+                
+            case .PlayPause:
+                //print("Play/Pause")
+                timer?.invalidate()
+                
+            /*case .UpArrow:
+                print("Up Arrow")
+            case .DownArrow:
+                print("Down arrow")
+            case .LeftArrow:
+                print("Left arrow")
+            case .RightArrow:
+                print("Right arrow")
+            case .Menu:
+                print("Menu")*/
+            default:
+                super.pressesBegan(presses, withEvent: event)
+                keepDown()
+                
+                 break
+            }
+        }
+        
     }
     
     func keepDown(){
@@ -172,6 +229,20 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
     func setLanguage(newLanguageCode:String, newTextDirection:UIUserInterfaceLayoutDirection){
         languageCode=newLanguageCode
         
+        /*
+        Save settings language settings to settings.plist file in library folder.
+        */
+        
+        let libraryDirectory=NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true).first
+        let settingsDirectory=libraryDirectory!+"/settings.plist"
+        
+        var settings=NSMutableDictionary(contentsOfFile: settingsDirectory)
+        if (settings == nil){
+            settings=NSMutableDictionary()
+        }
+        settings?.setObject(newLanguageCode, forKey: "language")
+        settings?.writeToFile(settingsDirectory, atomically: true)
+        
         /* check for possible direction change*/
         
         if (newTextDirection != textDirection){
@@ -182,29 +253,34 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         /* download new translation */
         
         let tranlsatedKeyPhrases=dictionaryOfPath(base+"/"+version+"/translations/"+languageCode)?.objectForKey("translations")?.objectForKey(languageCode)
+        print(tranlsatedKeyPhrases)
         
-        
-        /*These keys are what I found correspond to the navigation buttons on tv.jw.org*/
-        
-        let keyForButton=["lnkHomeView","homepageStreamingBlockTitle","homepageVODBlockTitle","homepageAudioBlockTitle","lnkLanguage"]
-        
-        var startIndex=0
-        var endIndex=keyForButton.count
-        
-        /* reverse replacement order if right to left */
-        
-        if (textDirection==UIUserInterfaceLayoutDirection.RightToLeft){
-            startIndex=keyForButton.count
-            endIndex=0
+        if (tranlsatedKeyPhrases != nil){ // if the language file was obtained
+            
+            /*These keys are what I found correspond to the navigation buttons on tv.jw.org*/
+            
+            let keyForButton=["lnkHomeView","homepageStreamingBlockTitle","homepageVODBlockTitle","homepageAudioBlockTitle","lnkLanguage"]
+            
+            var startIndex=0
+            var endIndex=keyForButton.count
+            
+            /* reverse replacement order if right to left */
+            
+            if (textDirection==UIUserInterfaceLayoutDirection.RightToLeft){
+                startIndex=keyForButton.count
+                endIndex=0
+            }
+            
+            /* replace titles */
+            
+            for var i=startIndex ; i<endIndex ; i++ {
+                let newTitle=tranlsatedKeyPhrases?.objectForKey(keyForButton[i]) as! String
+                self.tabBar.items?[i].title=newTitle
+            }
         }
-        
-        /* replace titles */
-        
-        for var i=startIndex ; i<endIndex ; i++ {
-            let newTitle=tranlsatedKeyPhrases?.objectForKey(keyForButton[i]) as! String
-            self.tabBar.items?[i].title=newTitle
+        else {
+            self.performSelector("displayUnableToConnect", withObject: self, afterDelay: 1.0)
         }
-        
         
         
     }
