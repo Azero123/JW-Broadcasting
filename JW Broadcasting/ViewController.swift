@@ -32,7 +32,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         super.viewDidLoad()
         //UICollectionViewScrollDirectionHorizontal
         
-        latestVideosCollectionView.backgroundColor=UIColor.blueColor()
+        //latestVideosCollectionView.backgroundColor=UIColor.blueColor()
         
         activityIndicator.hidesWhenStopped=true
         activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
@@ -85,9 +85,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             /*fetch information on latest videos then reload the views*/
             self.latestVideos=(dictionaryOfPath(base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1")?.objectForKey("category")?.objectForKey("media"))! as! NSArray
-            print(self.latestVideos)
+            
             self.latestVideosCollectionView.performSelector("reloadData", withObject: nil, afterDelay: 0.25)
-            self.slideShowCollectionView.reloadData()
+            //self.slideShowCollectionView.performSelector("reloadData", withObject: nil, afterDelay: 0.25)
+            //self.slideShowCollectionView.reloadData()
             
             
             /*well everything is downloaded now so lets hide the spinning wheel and start rendering the views*/
@@ -111,9 +112,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let SLWebHome=SLSettings?.objectForKey("WebHomeSlider")
         SLSlides=(SLWebHome?.objectForKey("slides")) as! NSArray
         pageIndicator.numberOfPages=SLSlides.count
-        timesUp()
+        self.slideShowCollectionView.reloadData()
+        self.performSelector("timesUp", withObject: nil, afterDelay: 0.25)
 
     }
+    
     
     func timesUp(){
         pageIndicator.currentPage=SLIndex
@@ -133,7 +136,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         if (selectedSlideShow == false){
         
-        //moveToSlide(SLIndex)
+            moveToSlide(SLIndex)
             
         }
         
@@ -154,7 +157,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("number of items in section?")
         if (collectionView == latestVideosCollectionView){
             return latestVideos.count
         }
