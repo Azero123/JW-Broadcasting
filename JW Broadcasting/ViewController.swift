@@ -54,6 +54,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         previousLanguageCode=languageCode
     }
     
+    @IBOutlet weak var latestVideosLabel: UILabel!
     func renewContent(){
         if (languageList?.count>0){
             activityIndicator.startAnimating()
@@ -70,8 +71,16 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             }
             
             
-            /*unnecissary code for experimentation*/
-            _=dictionaryOfPath(base+"/"+version+"/categories/"+languageCode)
+            /*Some extra translation stuff I found*/
+            let categories=dictionaryOfPath(base+"/"+version+"/categories/"+languageCode)
+            if (categories != nil){
+                print(categories)
+                for category in (categories?.objectForKey("categories") as? NSArray)! {
+                    if ((category.objectForKey("key") as? String)! == "LatestVideos"){
+                        latestVideosLabel.text=category.objectForKey("name") as? String
+                    }
+                }
+            }
             
             /*setup the slideshow on the top and begin the timer*/
             buildSlideshow()

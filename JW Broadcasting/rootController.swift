@@ -269,7 +269,6 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         
         /* download new translation */
         tranlsatedKeyPhrases=dictionaryOfPath(base+"/"+version+"/translations/"+languageCode)?.objectForKey("translations")?.objectForKey(languageCode) as? NSDictionary
-        print(tranlsatedKeyPhrases)
         
         if (tranlsatedKeyPhrases != nil){ // if the language file was obtained
             
@@ -290,8 +289,23 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
             /* replace titles */
             
             for var i=startIndex ; i<endIndex ; i++ {
-                let newTitle=tranlsatedKeyPhrases?.objectForKey(keyForButton[i]) as! String
-                self.tabBar.items?[i].title=newTitle
+                var newTitle=tranlsatedKeyPhrases?.objectForKey(keyForButton[i]) as! String
+                switch i {
+                case 0:
+                    newTitle=""
+                case 1:
+                    newTitle=""
+                case 2:
+                    newTitle=""
+                case 3:
+                    newTitle=""
+                case 4:
+                    newTitle=""
+                default:
+                    newTitle=""
+                }
+                self.tabBar.items?[i].title=newTitle+" "+((tranlsatedKeyPhrases?.objectForKey(keyForButton[i]))! as! String)
+                self.tabBar.items?[i].setTitleTextAttributes(NSDictionary(object: UIFont(name: "jwtv", size: 36)!, forKey: NSFontAttributeName) as? [String : AnyObject], forState: .Normal)
             }
         }
         else {

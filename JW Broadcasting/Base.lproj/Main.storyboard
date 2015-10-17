@@ -156,6 +156,7 @@
                     <connections>
                         <outlet property="activityIndicator" destination="EdW-cC-2hD" id="BK4-TI-1aO"/>
                         <outlet property="latestVideosCollectionView" destination="Aiz-tC-uQO" id="YVK-QH-iMj"/>
+                        <outlet property="latestVideosLabel" destination="rcZ-oy-aja" id="Dgv-KX-Q4j"/>
                         <outlet property="pageIndicator" destination="WIc-0R-BUs" id="4Kg-L1-ugP"/>
                         <outlet property="slideShowCollectionView" destination="bcI-63-HQl" id="Sz3-oy-VQm"/>
                         <segue destination="1yG-Zn-6aQ" kind="showDetail" id="gNh-ix-aZE"/>
