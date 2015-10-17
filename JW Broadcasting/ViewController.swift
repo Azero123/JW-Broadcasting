@@ -225,8 +225,15 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             let imageView=UIImageView(image: image)
             imageView.frame=CGRectMake(0, 0, slide.frame.size.width, slide.frame.size.height)
-            
             slide.contentView.addSubview(imageView)
+            
+            let playIcon=UILabel()
+            playIcon.frame=CGRectMake(50, 100, 100, 100)
+            playIcon.text=""
+            playIcon.font=UIFont(name: "jwtv", size: 75)!
+            playIcon.textColor=UIColor.whiteColor()
+            slide.contentView.addSubview(playIcon)
+            
             return slide
         }
         print("THIS SHOULD NEVER HAPPEN! \(collectionView)")
@@ -334,6 +341,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 cell.layer.shadowRadius=20
                 cell.layer.shadowOpacity=0
                 cell.layer.zPosition=0
+                cell.contentView.subviews[1].alpha=0
             })
         }
         
@@ -343,6 +351,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             cellToBlowUp?.layer.shadowRadius=20
             cellToBlowUp?.layer.shadowOpacity=1
             cellToBlowUp?.layer.zPosition=1000
+            cellToBlowUp?.contentView.subviews[1].alpha=1
         })
         
     }
