@@ -32,6 +32,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         super.viewDidLoad()
         //UICollectionViewScrollDirectionHorizontal
         
+        latestVideosCollectionView.backgroundColor=UIColor.blueColor()
         
         activityIndicator.hidesWhenStopped=true
         activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
@@ -55,7 +56,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func renewContent(){
         if (languageList?.count>0){
-            print("Language config downloaded")
             activityIndicator.startAnimating()
             
             /*
@@ -85,7 +85,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             /*fetch information on latest videos then reload the views*/
             self.latestVideos=(dictionaryOfPath(base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1")?.objectForKey("category")?.objectForKey("media"))! as! NSArray
-            //self.latestVideosCollectionView.reloadData()
+            print(self.latestVideos)
+            self.latestVideosCollectionView.performSelector("reloadData", withObject: nil, afterDelay: 0.25)
             self.slideShowCollectionView.reloadData()
             
             
@@ -153,12 +154,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print("number of items in section?")
         if (collectionView == latestVideosCollectionView){
             return latestVideos.count
         }
         else if (collectionView == slideShowCollectionView){
             return SLSlides.count
         }
+        print("not enough")
         return 0
     }
     
@@ -169,9 +172,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         if (collectionView == latestVideosCollectionView){
 
             let cell: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath)
-            for subview in cell.contentView.subviews {
+            /*for subview in cell.contentView.subviews {
                 subview.removeFromSuperview()
-            }
+            }*/
             
             let videoData=latestVideos.objectAtIndex(indexPath.row)
             let imageURL=videoData.objectForKey("images")?.objectForKey("lsr")?.objectForKey("md") as! String
@@ -213,7 +216,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             imageView.frame=CGRectMake(0, 0, slide.frame.size.width, slide.frame.size.height)
             
             slide.contentView.addSubview(imageView)
-            print(image)
             return slide
         }
         print("THIS SHOULD NEVER HAPPEN! \(collectionView)")

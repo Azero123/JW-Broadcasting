@@ -37,10 +37,11 @@ var textDirection=UIUserInterfaceLayoutDirection.LeftToRight
 
 var cachedFiles:Dictionary<String,NSData>=[:]
 
-let offlineStorage=false
-let offlineStorageSaving=false
+let simulateOffline=false
+let offlineStorage=true
+let offlineStorageSaving=true
 
-func imageUsingCache(imageURL:String) -> UIImage{
+func imageUsingCache(imageURL:String) -> UIImage?{
     /*
     This method opens an image from memory if already loaded otherwise it performs a normal data fetch operation.
     
@@ -49,7 +50,11 @@ func imageUsingCache(imageURL:String) -> UIImage{
     For more details
     
     */
-    return UIImage(data: dataUsingCache(imageURL)!)!
+    let data=dataUsingCache(imageURL)
+    if (data != nil){
+    return UIImage(data:data!)!
+    }
+    return nil
 }
 
 func dataUsingCache(fileURL:String) -> NSData?{
@@ -95,9 +100,11 @@ func dataUsingCache(fileURL:String, usingCashe:Bool) -> NSData?{
         else { //STEP 2
         
             do {
-                let stored=NSData(contentsOfFile: storedPath)
-                cachedFiles[fileURL]=stored
-                data=stored
+                if (offlineStorage){
+                    let stored=NSData(contentsOfFile: storedPath)
+                    cachedFiles[fileURL]=stored
+                    data=stored
+                }
             
             }
             catch {
@@ -115,24 +122,30 @@ func dataUsingCache(fileURL:String, usingCashe:Bool) -> NSData?{
     
     var attempts=0 //Amount of attempts to download the file
     let maxAttempts=10//Amount of possible attempts
+    var badConnection=false
     
     while (data == nil){ //If the file is not downloaded download it
         if (attempts>maxAttempts){ //But if we have tried 10 times then give up
+            print("Failed to download \(fileURL)")
             return nil //give up
         }
         else {
             let downloadedData=NSData(contentsOfURL: trueURL) //Download
             
-            if (downloadedData != nil){ //File successfully downloaded
-                
-                downloadedData?.writeToFile(storedPath, atomically: true) //Save file locally for use later
+            if (downloadedData != nil && simulateOffline == false){ //File successfully downloaded
+                if (offlineStorageSaving){
+                    downloadedData?.writeToFile(storedPath, atomically: true) //Save file locally for use later
+                }
                 cachedFiles[fileURL]=downloadedData //Save file to memory
                 data=cachedFiles[fileURL]! //Use as local variable
                 return data! //Return file
             }
         }
         attempts++ //Count another attempt to download the file
-        print("Bad connection")
+        if (badConnection==false){
+            print("Bad connection \(fileURL)")
+            badConnection=true
+        }
     }
     return data! //THIS CAN NOT BE CALLED this is just for the compiler
 }

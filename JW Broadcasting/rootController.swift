@@ -51,12 +51,15 @@ isSignLanguage = Bool for sign languages
 */
 
 func languageFromLocale(locale:String) -> NSDictionary?{
-    for language in languageList! {
-        
-        /* This just simply looks for corresponding language code for the system language Locale */
-        
-        if (language.objectForKey("locale") as! String==locale){
-            return language
+    
+    if (languageList?.count>0){
+        for language in languageList! {
+            
+            /* This just simply looks for corresponding language for the system language Locale */
+            
+            if (language.objectForKey("locale") as! String==locale){
+                return language
+            }
         }
     }
     return nil
@@ -64,16 +67,20 @@ func languageFromLocale(locale:String) -> NSDictionary?{
 
 
 func languageFromCode(code:String) -> NSDictionary?{
-    for language in languageList! {
-        
-        /* This just simply looks for corresponding language code for the system language Locale */
-        
-        if (language.objectForKey("code") as! String==code){
-            return language
+    if (languageList?.count>0){
+        for language in languageList! {
+            
+            /* This just simply looks for corresponding language for the system language code */
+            
+            if (language.objectForKey("code") as! String==code){
+                return language
+            }
         }
     }
     return nil
 }
+
+var tranlsatedKeyPhrases:NSDictionary?
 
 class rootController: UITabBarController, UITabBarControllerDelegate{
     
@@ -95,10 +102,8 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         //dispatch_async(dispatch_get_global_queue(priority, 0)) {
             //let image=self.imageUsingCache(imageURL)
         
-            while (languageList == nil){
                 let download=dictionaryOfPath(base+"/"+version+"/languages/"+languageCode+"/web")
                 languageList=download?.objectForKey("languages") as? Array<NSDictionary>
-            }
             
             
             //dispatch_async(dispatch_get_main_queue()) {
@@ -121,15 +126,17 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                     language=languageFromCode(settings?.objectForKey("language") as! String) //Attempt using language from settings file
                     if (language == nil){ language=languageFromLocale(NSLocale.preferredLanguages()[0]) } //Attempt using system language
                     if (language == nil){
+                        print("unable to find a language")
                         //Language detection has failed default to english
-                        let alert=UIAlertController(title: "Language Unknown", message: "Unable to find a language for you.", preferredStyle: UIAlertControllerStyle.Alert)
-                        self.presentViewController(alert, animated: true, completion: nil)
-                    
+                        self.performSelector("displayFailedToFindLanguage", withObject: nil, afterDelay: 1.0)
+                        
                         language=languageFromLocale("en")
                     }
                     if (language == nil){ language=languageList?.first } //English failed use any language
                     
-                    self.setLanguage(language!.objectForKey("code") as! String, newTextDirection: ( language!.objectForKey("isRTL")?.boolValue == true ? UIUserInterfaceLayoutDirection.RightToLeft : UIUserInterfaceLayoutDirection.LeftToRight ))
+                    if ((language) != nil){
+                        self.setLanguage(language!.objectForKey("code") as! String, newTextDirection: ( language!.objectForKey("isRTL")?.boolValue == true ? UIUserInterfaceLayoutDirection.RightToLeft : UIUserInterfaceLayoutDirection.LeftToRight ))
+                    }
 
                 }
             //}
@@ -147,11 +154,21 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         
         }
     
-    func displayUnableToConnect(){
-        
-        let alert=UIAlertController(title: "Cannot connect to JW Broadcasting", message: "Make sure you're connected to the internet then try again.", preferredStyle: UIAlertControllerStyle.Alert)
+    func displayFailedToFindLanguage(){
+        let alert=UIAlertController(title: "Language Unknown", message: "Unable to find a language for you.", preferredStyle: UIAlertControllerStyle.Alert)
         self.presentViewController(alert, animated: true, completion: nil)
-        
+    }
+    
+    func displayUnableToConnect(){
+        //msgAPIFailureErrorTitle
+        if (tranlsatedKeyPhrases != nil){
+            let alert=UIAlertController(title: tranlsatedKeyPhrases?.objectForKey("msgAPIFailureErrorTitle") as? String, message: tranlsatedKeyPhrases?.objectForKey("msgAPIFailureErrorBody")as? String, preferredStyle: UIAlertControllerStyle.Alert)
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+        else {
+            let alert=UIAlertController(title: "Cannot connect to JW Broadcasting", message: "Make sure you're connected to the internet then try again.", preferredStyle: UIAlertControllerStyle.Alert)
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
     }
 
     func tapped(tap:UIGestureRecognizer){
@@ -251,8 +268,7 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         }
         
         /* download new translation */
-        
-        let tranlsatedKeyPhrases=dictionaryOfPath(base+"/"+version+"/translations/"+languageCode)?.objectForKey("translations")?.objectForKey(languageCode)
+        tranlsatedKeyPhrases=dictionaryOfPath(base+"/"+version+"/translations/"+languageCode)?.objectForKey("translations")?.objectForKey(languageCode) as? NSDictionary
         print(tranlsatedKeyPhrases)
         
         if (tranlsatedKeyPhrases != nil){ // if the language file was obtained

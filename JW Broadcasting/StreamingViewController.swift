@@ -67,7 +67,6 @@ class StreamingViewController : UIViewController {
         
         let videoURL = NSURL(string: videoURLString)
         player = AVPlayer(URL: videoURL!)
-        print("player:\(player)")
         playerLayer=AVPlayerLayer(player: player)
         playerLayer!.frame=self.view.frame
         
@@ -150,7 +149,6 @@ class StreamingViewController : UIViewController {
     }
     
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        print("observed:\(object)")
         if (object as? AVPlayerItem == self.player!.currentItem && keyPath! == "status"){
         
             if (self.player!.currentItem!.status == AVPlayerItemStatus.ReadyToPlay) {
