@@ -300,7 +300,7 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                 case 3:
                     newTitle=""
                 case 4:
-                    newTitle=""
+                    newTitle=" "
                 default:
                     newTitle=""
                 }
