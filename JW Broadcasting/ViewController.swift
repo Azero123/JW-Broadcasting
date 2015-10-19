@@ -74,7 +74,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             /*Some extra translation stuff I found*/
             let categories=dictionaryOfPath(base+"/"+version+"/categories/"+languageCode)
             if (categories != nil){
-                print(categories)
                 for category in (categories?.objectForKey("categories") as? NSArray)! {
                     if ((category.objectForKey("key") as? String)! == "LatestVideos"){
                         latestVideosLabel.text=category.objectForKey("name") as? String
@@ -117,6 +116,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func buildSlideshow(){
         let sliders=dictionaryOfPath(base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider")
+        print(sliders)
         let SLSettings=sliders?.objectForKey("settings")
         let SLWebHome=SLSettings?.objectForKey("WebHomeSlider")
         SLSlides=(SLWebHome?.objectForKey("slides")) as! NSArray
@@ -216,9 +216,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             }
             
             
+            
             //let videoData=latestVideos.objectAtIndex(indexPath.row)
             
             let SLSlide=SLSlides.objectAtIndex(indexPath.row)//SLSlides?.count
+            print(SLSlide)
             let images=SLSlide.objectForKey("item")!.objectForKey("images")
             let imageURL=images?.objectForKey("pnr")?.objectForKey("lg") as! String
             let image=imageUsingCache(imageURL)
@@ -227,12 +229,30 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             imageView.frame=CGRectMake(0, 0, slide.frame.size.width, slide.frame.size.height)
             slide.contentView.addSubview(imageView)
             
+            let dissipatingView=UIView(frame: CGRect(x: 0, y: 0, width: slide.frame.size.width, height: slide.frame.size.height))
+            
             let playIcon=UILabel()
             playIcon.frame=CGRectMake(50, 100, 100, 100)
             playIcon.text=""
             playIcon.font=UIFont(name: "jwtv", size: 75)!
             playIcon.textColor=UIColor.whiteColor()
-            slide.contentView.addSubview(playIcon)
+            dissipatingView.addSubview(playIcon)
+            
+            
+            let titleLabel=UILabel()
+            titleLabel.frame=CGRectMake(50, 150, 600, 100)
+            titleLabel.text=SLSlide.objectForKey("item")!.objectForKey("title")! as? String
+            titleLabel.layer.shadowColor=UIColor.blackColor().CGColor
+            titleLabel.layer.shadowRadius=5
+            titleLabel.layer.opacity=1
+            titleLabel.numberOfLines=3
+            //titleLabel.font=UIFont(name: "jwtv", size: 75)!
+            titleLabel.font=UIFont.systemFontOfSize(24)
+            titleLabel.textColor=UIColor.whiteColor()
+            dissipatingView.addSubview(titleLabel)
+            
+            
+            slide.contentView.addSubview(dissipatingView)
             
             return slide
         }
@@ -244,8 +264,26 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         
         if (collectionView == latestVideosCollectionView){
-        
+            
             let videosData=latestVideos.objectAtIndex(indexPath.row).objectForKey("files")
+            
+            let videoData=videosData?.objectAtIndex((videosData?.count)!-1)
+            
+            let videoURLString=videoData?.objectForKey("progressiveDownloadURL") as! String
+            
+            
+            let videoURL = NSURL(string: videoURLString)
+            let player = AVPlayer(URL: videoURL!)
+            let playerViewController = AVPlayerViewController()
+            playerViewController.player = player
+            self.presentViewController(playerViewController, animated: true) {
+                playerViewController.player!.play()
+            }
+            
+        }
+        else if (collectionView == slideShowCollectionView){
+            
+            let videosData=SLSlides.objectAtIndex(indexPath.row).objectForKey("item")!.objectForKey("files")
             
             let videoData=videosData?.objectAtIndex((videosData?.count)!-1)
             
@@ -295,10 +333,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         If selectedSlideShow==true (AKA the user is interacting with the slideshow) then the slide show will not roll to next slide.
 
         */
+        print(context.nextFocusedView)
         
         
-        if (collectionView==slideShowCollectionView){
+        if (context.nextFocusedView != nil&&(context.nextFocusedIndexPath != nil)&&context.nextFocusedView?.superview == slideShowCollectionView){
             selectedSlideShow=true
+            moveToSlide((context.nextFocusedIndexPath?.row)!)
         }
         else {
             selectedSlideShow=false
@@ -335,24 +375,28 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let cellToBlowUp=self.slideShowCollectionView.cellForItemAtIndexPath(NSIndexPath(forRow: atIndex, inSection: 0))
         
         for cell in self.slideShowCollectionView.visibleCells() {
-            UIView.animateWithDuration(1, animations: {
-                cell.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1, 1);
-                cell.layer.shadowColor=UIColor.blackColor().CGColor
-                cell.layer.shadowRadius=20
-                cell.layer.shadowOpacity=0
-                cell.layer.zPosition=0
-                cell.contentView.subviews[1].alpha=0
-            })
+            if (cell != cellToBlowUp){
+                UIView.animateWithDuration(1, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
+                    cell.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1, 1);
+                    cell.layer.shadowColor=UIColor.blackColor().CGColor
+                    cell.layer.shadowRadius=20
+                    cell.layer.shadowOpacity=0
+                    cell.layer.zPosition=0
+                    cell.contentView.subviews[1].alpha=0
+                    }, completion: nil)
+            }
+            
         }
-        
-        UIView.animateWithDuration(1, animations: {
+        UIView.animateWithDuration(1, delay: 1, options: UIViewAnimationOptions.CurveEaseIn, animations: {
+            
             cellToBlowUp?.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.5, 1.5);
             cellToBlowUp?.layer.shadowColor=UIColor.blackColor().CGColor
             cellToBlowUp?.layer.shadowRadius=20
             cellToBlowUp?.layer.shadowOpacity=1
             cellToBlowUp?.layer.zPosition=1000
             cellToBlowUp?.contentView.subviews[1].alpha=1
-        })
+            }, completion: nil)
+        
         
     }
 }
