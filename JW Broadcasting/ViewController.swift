@@ -387,7 +387,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             }
             
         }
-        UIView.animateWithDuration(1, delay: 1, options: UIViewAnimationOptions.CurveEaseIn, animations: {
+        UIView.animateWithDuration(1, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
             
             cellToBlowUp?.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.5, 1.5);
             cellToBlowUp?.layer.shadowColor=UIColor.blackColor().CGColor
