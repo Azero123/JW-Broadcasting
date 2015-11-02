@@ -42,6 +42,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.grayColor()], forState:.Normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState:.Selected)
         
+        renewContent()
         
     }
     
@@ -190,6 +191,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             let videoData=latestVideos.objectAtIndex(indexPath.row)
             let imageURL=videoData.objectForKey("images")?.objectForKey("lsr")?.objectForKey("md") as! String
             let image=imageUsingCache(imageURL)
+            print(image)
             
             for subview in cell.contentView.subviews {
                 if (subview.isKindOfClass(UIImageView.self)){

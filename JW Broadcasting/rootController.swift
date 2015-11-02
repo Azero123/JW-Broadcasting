@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import TVMLKit
 
-extension UITabBarController {
+extension UITabBarController : TVApplicationControllerDelegate {
+    
     
     func setTabBarVisible(visible:Bool, animated:Bool) {
         
@@ -50,13 +52,12 @@ isSignLanguage = Bool for sign languages
 
 */
 
-func languageFromLocale(locale:String) -> NSDictionary?{
-    
+func languageFromLocale(var locale:String) -> NSDictionary?{
+    locale=locale.componentsSeparatedByString("-")[0]
     if (languageList?.count>0){
         for language in languageList! {
             
             /* This just simply looks for corresponding language for the system language Locale */
-            
             if (language.objectForKey("locale") as! String==locale){
                 return language
             }
@@ -67,6 +68,7 @@ func languageFromLocale(locale:String) -> NSDictionary?{
 
 
 func languageFromCode(code:String) -> NSDictionary?{
+    
     if (languageList?.count>0){
         for language in languageList! {
             
@@ -123,16 +125,19 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                     
                     var language:NSDictionary?
                     
-                    language=languageFromCode(settings?.objectForKey("language") as! String) //Attempt using language from settings file
-                    if (language == nil){ language=languageFromLocale(NSLocale.preferredLanguages()[0]) } //Attempt using system language
+                    if ((settings) != nil){
+                        language=languageFromCode(settings?.objectForKey("language") as! String) //Attempt using language from settings file
+                    }
+                    if (language == nil){
+                        language=languageFromLocale(NSLocale.preferredLanguages()[0]) ; print("system language")} //Attempt using system language
                     if (language == nil){
                         print("unable to find a language")
                         //Language detection has failed default to english
-                        self.performSelector("displayFailedToFindLanguage", withObject: nil, afterDelay: 1.0)
+                        self.performSelector("displayFailedToFindLanguage", withObject: nil, afterDelay: 1.0); print("default english")
                         
                         language=languageFromLocale("en")
                     }
-                    if (language == nil){ language=languageList?.first } //English failed use any language
+                    if (language == nil){ language=languageList?.first; print("default random") } //English failed use any language
                     
                     if ((language) != nil){
                         self.setLanguage(language!.objectForKey("code") as! String, newTextDirection: ( language!.objectForKey("isRTL")?.boolValue == true ? UIUserInterfaceLayoutDirection.RightToLeft : UIUserInterfaceLayoutDirection.LeftToRight ))

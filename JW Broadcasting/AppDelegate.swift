@@ -205,7 +205,6 @@ func dictionaryOfPath(path: String, usingCache: Bool) -> NSDictionary?{
     
     do {
         var sliderData=dataUsingCache(path, usingCashe: usingCache)
-        
         if (sliderData == nil){
             return nil
         }
