@@ -81,7 +81,6 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(tableView: UITableView, didHighlightRowAtIndexPath indexPath: NSIndexPath) {
         
-        print("row:\(indexPath.row)")
         let subcat=videoOnDemandData!.objectForKey("category")!.objectForKey("subcategories")!.objectAtIndex(indexPath.row)
         
         let directory=base+"/"+version+"/categories/"+languageCode
@@ -96,6 +95,42 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return (parentCategory.objectAtIndex(section).objectForKey("media")?.count)!
+    }
+    
+    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        
+        var header:UICollectionReusableView?=nil
+        
+        if (kind == UICollectionElementKindSectionHeader){
+            header=collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "subcategory", forIndexPath: indexPath)
+            
+            for subview in header!.subviews {
+                subview.removeFromSuperview()
+            }
+            
+            var textspacing:CGFloat=300
+            
+            let subCategoryLabel=UILabel(frame: CGRect(x: 0, y: 0, width: textspacing, height: 60))
+            subCategoryLabel.font=UIFont.systemFontOfSize(30)
+            
+            subCategoryLabel.text=parentCategory.objectAtIndex(indexPath.section).objectForKey("name") as? String
+            textspacing=subCategoryLabel.intrinsicContentSize().width+25
+            subCategoryLabel.frame=CGRect(x: 0, y: 0, width: textspacing, height: 60)
+            header?.addSubview(subCategoryLabel)
+            
+            let textHeight:CGFloat=60
+            
+            let line:UIView=UIView(frame: CGRect(x: textspacing, y: textHeight/2, width: header!.frame.size.width-textspacing, height: 1))
+            line.backgroundColor=UIColor.darkGrayColor()
+            header?.addSubview(line)
+            
+        }
+        if (kind == UICollectionElementKindSectionFooter) {
+            header=collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionFooter, withReuseIdentifier: "footer", forIndexPath: indexPath)
+
+        }
+        
+        return header!
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
@@ -123,10 +158,9 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
         cell.contentView.addSubview(label)
         
         image.layer.shadowColor=UIColor.blackColor().CGColor
-        image.layer.shadowOpacity=1
-        image.layer.shadowRadius=5
-        
-        print(retrievedVideo)
+        image.layer.shadowOpacity=0
+        image.layer.shadowRadius=0
+        image.layer.cornerRadius=5
         
         return cell
     }
@@ -139,14 +173,15 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
         
         */
         
+        UIView.animateWithDuration(0.5, animations: {
         
             if (context.previouslyFocusedView != nil && (context.previouslyFocusedView?.isKindOfClass(UICollectionViewCell.self) == true) ){
                 
                 //Clear shadow on any possible previous selection.
                 
                 context.previouslyFocusedView?.layer.shadowColor=UIColor.clearColor().CGColor
-                context.previouslyFocusedView?.layer.shadowOpacity=1
-                context.previouslyFocusedView?.layer.shadowRadius=5
+                context.previouslyFocusedView?.layer.shadowOpacity=0
+                context.previouslyFocusedView?.layer.shadowRadius=0
                 context.previouslyFocusedView?.layer.shadowOffset=CGSize(width: 0, height: 0)
                 context.previouslyFocusedView?.transform=CGAffineTransformScale(CGAffineTransformIdentity, 1, 1)
                 //context.previouslyFocusedView?.frame=CGRect(x: (context.previouslyFocusedView?.frame.origin.x)!, y: (context.previouslyFocusedView?.frame.origin.y)!+40, width: (context.previouslyFocusedView?.frame.size.width)!, height: (context.previouslyFocusedView?.frame.size.height)!)
@@ -157,21 +192,27 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
                 //Create shadow on newly selected item.
                 
                 context.nextFocusedView?.layer.shadowColor=UIColor.blackColor().CGColor
-                context.nextFocusedView?.layer.shadowOpacity=1
+                context.nextFocusedView?.layer.shadowOpacity=0.5
                 context.nextFocusedView?.layer.shadowOffset=CGSize(width: 0, height: 20)
-                context.nextFocusedView?.transform=CGAffineTransformScale(CGAffineTransformIdentity, 1.2, 1.2)
-                context.nextFocusedView?.layer.shadowRadius=20
+                context.nextFocusedView?.transform=CGAffineTransformScale(CGAffineTransformIdentity, 1.1, 1.1)
+                context.nextFocusedView?.layer.shadowRadius=15
                 //context.nextFocusedView?.frame=CGRect(x: (context.nextFocusedView?.frame.origin.x)!, y: (context.nextFocusedView?.frame.origin.y)!-40, width: (context.nextFocusedView?.frame.size.width)!, height: (context.nextFocusedView?.frame.size.height)!)
             }
+            })
         return true
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-            let videosData=videos[indexPath.row].objectForKey("files")
+        //let videosData=
+        let subcat=videoOnDemandData!.objectForKey("category")!.objectForKey("subcategories")!.objectAtIndex(indexPath.section)
+        print(subcat.allKeys)
+        
+        //videos[indexPath.row].objectForKey("files")
             
-            let videoData=videosData?.objectAtIndex((videosData?.count)!-1)
+            let videoData=subcat.objectForKey("files")!.objectAtIndex(indexPath.row)
+        //.objectForKey("files")!
             
-            let videoURLString=videoData?.objectForKey("progressiveDownloadURL") as! String
+            let videoURLString=videoData.objectForKey("progressiveDownloadURL") as! String
             
             
             let videoURL = NSURL(string: videoURLString)
