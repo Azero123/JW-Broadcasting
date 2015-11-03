@@ -202,14 +202,21 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
         return true
     }
     
+    var playerViewController:AVPlayerViewController?=nil
+    
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         //let videosData=
-        let subcat=videoOnDemandData!.objectForKey("category")!.objectForKey("subcategories")!.objectAtIndex(indexPath.section)
+        let subcat=parentCategory.objectAtIndex(indexPath.section)
         print(subcat.allKeys)
         
         //videos[indexPath.row].objectForKey("files")
-            
-            let videoData=subcat.objectForKey("files")!.objectAtIndex(indexPath.row)
+            let media=subcat.objectForKey("media")
+            //print(media?.count)
+            let videosection=media!.objectAtIndex(indexPath.row)
+            //print(videosection)
+            let files=videosection.objectForKey("files")
+        print(files)
+            let videoData=files!.objectAtIndex(3)
         //.objectForKey("files")!
             
             let videoURLString=videoData.objectForKey("progressiveDownloadURL") as! String
@@ -217,10 +224,23 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
             
             let videoURL = NSURL(string: videoURLString)
             let player = AVPlayer(URL: videoURL!)
-            let playerViewController = AVPlayerViewController()
-            playerViewController.player = player
-            self.presentViewController(playerViewController, animated: true) {
-                playerViewController.player!.play()
+            playerViewController = AVPlayerViewController()
+            playerViewController!.player = player
+            self.presentViewController(playerViewController!, animated: true) {
+                self.playerViewController!.player!.play()
+        }
+        
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerItemDidReachEnd:", name: AVPlayerItemDidPlayToEndTimeNotification, object: player.currentItem)
+        //player.currentItem!.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.New, context: nil)
+    }
+    
+    func playerItemDidReachEnd(notification:NSNotification){
+        print("did reach end")
+        if (playerViewController != nil){
+            //playerViewController?.player!.currentItem?.removeObserver(self, forKeyPath: "status")
+            playerViewController?.dismissViewControllerAnimated(true, completion: nil)
         }
     }
+    
 }
