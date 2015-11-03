@@ -135,7 +135,6 @@
                             </activityIndicatorView>
                         </subviews>
                         <animations/>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.87487887596899228" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="EdW-cC-2hD" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="2nQ-Rf-RQA"/>
                             <constraint firstItem="DEX-la-mzB" firstAttribute="top" secondItem="bcI-63-HQl" secondAttribute="bottom" id="9CA-PI-I49"/>
@@ -185,7 +184,6 @@
                             </activityIndicatorView>
                         </subviews>
                         <animations/>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.89852834299999995" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="U3j-ZR-zh4" firstAttribute="centerY" secondItem="6Ui-v5-MMk" secondAttribute="centerY" id="hOg-Gp-j2o"/>
                             <constraint firstItem="U3j-ZR-zh4" firstAttribute="centerX" secondItem="6Ui-v5-MMk" secondAttribute="centerX" id="qE9-hN-WDq"/>
@@ -214,19 +212,20 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="40" sectionFooterHeight="40" translatesAutoresizingMaskIntoConstraints="NO" id="XO0-SC-oGS">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="940"/>
+                                <rect key="frame" x="0.0" y="0.0" width="576" height="940"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="category" id="fIv-5i-Rit">
-                                        <rect key="frame" x="0.0" y="54" width="768" height="66"/>
+                                        <rect key="frame" x="0.0" y="54" width="576" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fIv-5i-Rit" id="CRB-L6-WTa">
-                                            <rect key="frame" x="0.0" y="0.0" width="752" height="66"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="560" height="66"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <animations/>
                                         </tableViewCellContentView>
                                         <animations/>
+                                        <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -237,7 +236,6 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cn4-LG-RGh">
                                 <rect key="frame" x="768" y="0.0" width="1152" height="940"/>
                                 <animations/>
-                                <color key="backgroundColor" red="1" green="0.85524060703995486" blue="0.85436290851272156" alpha="0.48934108527131781" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="30" minimumInteritemSpacing="30" id="nlv-SO-z8e">
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -264,10 +262,9 @@
                             </collectionView>
                         </subviews>
                         <animations/>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.89852834299999995" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="xZd-08-Dpv" firstAttribute="top" secondItem="cn4-LG-RGh" secondAttribute="bottom" id="34h-HU-AkJ"/>
-                            <constraint firstItem="XO0-SC-oGS" firstAttribute="width" secondItem="5qh-Q0-axF" secondAttribute="width" multiplier="0.4" id="AbA-11-fCv"/>
+                            <constraint firstItem="XO0-SC-oGS" firstAttribute="width" secondItem="5qh-Q0-axF" secondAttribute="width" multiplier="0.3" id="AbA-11-fCv"/>
                             <constraint firstItem="cn4-LG-RGh" firstAttribute="width" secondItem="5qh-Q0-axF" secondAttribute="width" multiplier="0.6" id="D7w-Wj-ANo"/>
                             <constraint firstItem="cn4-LG-RGh" firstAttribute="top" secondItem="qD1-A4-GSP" secondAttribute="bottom" id="I9n-eL-xZg"/>
                             <constraint firstItem="xZd-08-Dpv" firstAttribute="top" secondItem="XO0-SC-oGS" secondAttribute="bottom" id="NQW-Kl-TBH"/>
