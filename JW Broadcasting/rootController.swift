@@ -184,6 +184,28 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         keepDown()
     }
     
+    func swiped(sender:UISwipeGestureRecognizer){
+        
+        
+        switch sender.direction {
+         
+        case UISwipeGestureRecognizerDirection.Right:
+            timer?.invalidate()
+            
+        case UISwipeGestureRecognizerDirection.Left:
+            timer?.invalidate()
+            
+        default:
+            
+            keepDown()
+            
+        }
+        
+        //if (sender.direction == UISwipeGestureRecognizerDirection.Right){
+            
+        //}
+    }
+    
     override func pressesBegan(presses: Set<UIPress>, withEvent event: UIPressesEvent?){
         for press in presses {
             switch press.type {
@@ -207,12 +229,13 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
             case .Menu:
                 print("Menu")*/
             default:
-                super.pressesBegan(presses, withEvent: event)
                 keepDown()
                 
                  break
             }
         }
+        
+        super.pressesBegan(presses, withEvent: event)
         
     }
     
