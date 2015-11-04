@@ -317,23 +317,34 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
             /* replace titles */
             
             for var i=startIndex ; i<endIndex ; i++ {
-                var newTitle=tranlsatedKeyPhrases?.objectForKey(keyForButton[i]) as! String
+                //var newTitle=tranlsatedKeyPhrases?.objectForKey(keyForButton[i]) as! String
                 switch i {
-                case 0:
+                /*case 0:
                     newTitle=""
                 case 1:
                     newTitle=""
                 case 2:
                     newTitle=""
                 case 3:
-                    newTitle=""
+                    newTitle=""*/
                 case 4:
-                    newTitle=" "
-                default:
-                    newTitle=""
+                    //newTitle=" "
+                    self.tabBar.items?[i].title="    "
+                    
+                    let fontattributes=[NSFontAttributeName:UIFont(name: "jwtv", size: 36)!,NSForegroundColorAttributeName:UIColor.grayColor()] as Dictionary<String,AnyObject>
+                    //NSMutableDictionary(object: UIFont(name: "jwtv", size: 36)!, forKey: NSFontAttributeName)
+                    
+                    //fontattributes.setObject(<#T##anObject: AnyObject##AnyObject#>, forKey: <#T##NSCopying#>)
+                    
+                    self.tabBar.items?[i].setTitleTextAttributes(fontattributes, forState: .Normal)
+                    //self.tabBar.items?[i].setTitleTextAttributes([NSForegroundColorAttributeName:UIColor.grayColor()], forState: .Normal)
+                    //self.tabBar.items?[i].setTitleTextAttributes([UITextAttributeTextColor: UIColor.blackColor()], forState: .Normal)
+                default: break
+                    //newTitle=""
+                    self.tabBar.items?[i].title=((tranlsatedKeyPhrases?.objectForKey(keyForButton[i]))! as! String)
                 }
-                self.tabBar.items?[i].title=newTitle+" "+((tranlsatedKeyPhrases?.objectForKey(keyForButton[i]))! as! String)
-                self.tabBar.items?[i].setTitleTextAttributes(NSDictionary(object: UIFont(name: "jwtv", size: 36)!, forKey: NSFontAttributeName) as? [String : AnyObject], forState: .Normal)
+                //self.tabBar.items?[i].title=((tranlsatedKeyPhrases?.objectForKey(keyForButton[i]))! as! String)
+                //self.tabBar.items?[i].setTitleTextAttributes(NSDictionary(object: UIFont(name: "jwtv", size: 36)!, forKey: NSFontAttributeName) as? [String : AnyObject], forState: .Normal)
             }
         }
         else {
