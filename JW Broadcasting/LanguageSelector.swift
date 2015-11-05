@@ -34,7 +34,7 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
         let language=languageList![indexPath.row]
         
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
-        cell.textLabel?.textColor=UIColor.whiteColor()
+        //cell.textLabel?.textColor=UIColor.whiteColor()
         let languageText=NSMutableAttributedString(string: (language.objectForKey("vernacular") as? String)!)
         
         if (language.objectForKey("isSignLanguage")?.boolValue == true){

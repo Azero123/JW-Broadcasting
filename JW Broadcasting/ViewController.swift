@@ -44,6 +44,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         renewContent()
         
+        /*setup the slideshow on the top and begin the timer*/
+        buildSlideshow()
     }
     
     var previousLanguageCode=languageCode
@@ -82,8 +84,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 }
             }
             
-            /*setup the slideshow on the top and begin the timer*/
-            buildSlideshow()
             
             
             /*[self.collectionView performBatchUpdates:^{
@@ -117,7 +117,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func buildSlideshow(){
         let sliders=dictionaryOfPath(base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider")
-        print(sliders)
         let SLSettings=sliders?.objectForKey("settings")
         let SLWebHome=SLSettings?.objectForKey("WebHomeSlider")
         SLSlides=(SLWebHome?.objectForKey("slides")) as! NSArray
@@ -173,7 +172,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         else if (collectionView == slideShowCollectionView){
             return SLSlides.count
         }
-        print("not enough")
+        print("[ERROR] not enough")
         return 0
     }
     
@@ -191,7 +190,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             let videoData=latestVideos.objectAtIndex(indexPath.row)
             let imageURL=videoData.objectForKey("images")?.objectForKey("lsr")?.objectForKey("md") as! String
             let image=imageUsingCache(imageURL)
-            print(image)
             
             for subview in cell.contentView.subviews {
                 if (subview.isKindOfClass(UIImageView.self)){
@@ -222,7 +220,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             //let videoData=latestVideos.objectAtIndex(indexPath.row)
             
             let SLSlide=SLSlides.objectAtIndex(indexPath.row)//SLSlides?.count
-            print(SLSlide)
             let images=SLSlide.objectForKey("item")!.objectForKey("images")
             let imageURL=images?.objectForKey("pnr")?.objectForKey("lg") as! String
             let image=imageUsingCache(imageURL)
@@ -258,7 +255,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             return slide
         }
-        print("THIS SHOULD NEVER HAPPEN! \(collectionView)")
+        print("[ERROR] THIS SHOULD NEVER HAPPEN! \(collectionView)")
         return UICollectionViewCell()
     }
     
@@ -315,6 +312,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     /*
     Sets size of top items and latest items
     */
+    @IBOutlet weak var slideShowTopConstraint: NSLayoutConstraint!
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         if (collectionView == latestVideosCollectionView){
@@ -335,8 +333,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         If selectedSlideShow==true (AKA the user is interacting with the slideshow) then the slide show will not roll to next slide.
 
         */
-        print(context.nextFocusedView)
-        
         
         if (context.nextFocusedView != nil&&(context.nextFocusedIndexPath != nil)&&context.nextFocusedView?.superview == slideShowCollectionView){
             selectedSlideShow=true
@@ -363,9 +359,27 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 
                 //Create shadow on newly selected item.
                 
-                context.nextFocusedView?.layer.shadowColor=UIColor.blueColor().CGColor
+                context.nextFocusedView?.layer.shadowColor=UIColor.blackColor().CGColor
                 context.nextFocusedView?.layer.shadowOpacity=1
                 context.nextFocusedView?.layer.shadowRadius=20
+            }
+            if (context.nextFocusedView?.superview == self.latestVideosCollectionView){
+                
+                UIView.animateWithDuration(0.5, animations: {
+                    
+                    self.slideShowTopConstraint.constant = -self.slideShowCollectionView.frame.size.height+90
+                    self.slideShowCollectionView.alpha=0.1
+                    self.view.layoutIfNeeded()
+                })
+            }
+            else {
+                
+                UIView.animateWithDuration(0.5, animations: {
+                    
+                    self.slideShowTopConstraint.constant = 0
+                    self.slideShowCollectionView.alpha=1
+                    self.view.layoutIfNeeded()
+                })
             }
         }
         return true
@@ -391,7 +405,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
         UIView.animateWithDuration(1, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
             
-            cellToBlowUp?.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.5, 1.5);
+            cellToBlowUp?.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.3, 1.3);
             cellToBlowUp?.layer.shadowColor=UIColor.blackColor().CGColor
             cellToBlowUp?.layer.shadowRadius=20
             cellToBlowUp?.layer.shadowOpacity=1

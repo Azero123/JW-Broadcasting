@@ -147,9 +147,26 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
         
         let retrievedVideo=parentCategory.objectAtIndex(indexPath.section).objectForKey("media")?.objectAtIndex(indexPath.row)
         
-        let image=UIImageView(image: imageUsingCache((retrievedVideo!.objectForKey("images")!.objectForKey("sqr")?.objectForKey("lg"))! as! String))
+        cell.alpha=0
         
-        cell.contentView.addSubview(image)
+        fetchDataUsingCache((retrievedVideo!.objectForKey("images")!.objectForKey("sqr")?.objectForKey("lg"))! as! String, downloaded: {
+            dispatch_async(dispatch_get_main_queue()){
+            let image=UIImageView(image: imageUsingCache((retrievedVideo!.objectForKey("images")!.objectForKey("sqr")?.objectForKey("lg"))! as! String))
+            cell.contentView.addSubview(image)
+            
+            image.layer.shadowColor=UIColor.blackColor().CGColor
+            image.layer.shadowOpacity=0
+            image.layer.shadowRadius=0
+            image.layer.cornerRadius=5
+            
+            UIView.animateWithDuration(0.5, animations: {
+                
+                cell.alpha=1
+                
+            })
+            }
+        })
+        
         
         let label=UILabel(frame: CGRect(x: 0, y: 270, width: 270, height: 50))
         label.text=retrievedVideo!.objectForKey("title") as? String
@@ -157,10 +174,6 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
         label.font=UIFont.systemFontOfSize(30)
         cell.contentView.addSubview(label)
         
-        image.layer.shadowColor=UIColor.blackColor().CGColor
-        image.layer.shadowOpacity=0
-        image.layer.shadowRadius=0
-        image.layer.cornerRadius=5
         
         return cell
     }
@@ -207,7 +220,6 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         //let videosData=
         let subcat=parentCategory.objectAtIndex(indexPath.section)
-        print(subcat.allKeys)
         
         //videos[indexPath.row].objectForKey("files")
             let media=subcat.objectForKey("media")
@@ -215,7 +227,6 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
             let videosection=media!.objectAtIndex(indexPath.row)
             //print(videosection)
             let files=videosection.objectForKey("files")
-        print(files)
             let videoData=files!.objectAtIndex(3)
         //.objectForKey("files")!
             
@@ -236,7 +247,6 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func playerItemDidReachEnd(notification:NSNotification){
-        print("did reach end")
         if (playerViewController != nil){
             //playerViewController?.player!.currentItem?.removeObserver(self, forKeyPath: "status")
             playerViewController?.dismissViewControllerAnimated(true, completion: nil)

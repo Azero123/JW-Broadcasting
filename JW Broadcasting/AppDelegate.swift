@@ -57,16 +57,114 @@ func imageUsingCache(imageURL:String) -> UIImage?{
     return nil
 }
 
+var filesInFetchingQueue:Array<String>=[]
+var fetchingFiles=false
+var fileDownloadedClosures:Dictionary<String, Array< () -> Any >>=[:]
+
+func fetchDataUsingCache(fileURL:String, downloaded: () -> Void){
+    let usingCache=true
+    if (fetchingFiles==false){
+        var data:NSData? = nil
+        
+        let trueURL=NSURL(string: fileURL)!
+        let libraryDirectory=NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true).first
+        let storedPath=libraryDirectory!+"/"+trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-")
+        
+        if (usingCache){
+            if ((cachedFiles[fileURL]) != nil){ //STEP 1
+                data=cachedFiles[fileURL]!
+            }
+            else { //STEP 2
+                
+                if (offlineStorage){
+                    let stored=NSData(contentsOfFile: storedPath)
+                    cachedFiles[fileURL]=stored
+                    data=stored
+                }
+            }
+        }
+        //STEP 3
+        if (data == nil){
+            filesInFetchingQueue.insert(fileURL, atIndex: filesInFetchingQueue.count)
+            
+            if (fetchingFiles==false){
+                if (fileDownloadedClosures[fileURL] == nil ){
+                    fileDownloadedClosures.updateValue([], forKey: fileURL)
+                }
+                fileDownloadedClosures[fileURL]?.append(downloaded)//.insert(downloaded, atIndex: fileDownloadedClosures.count)
+                
+                let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+                    dispatch_async(dispatch_get_global_queue(priority, 0)) {
+                        dispatch_async(dispatch_get_main_queue()) {
+                        fetchingLoop()
+                        }
+                    }
+            }
+        }
+        else {
+            downloaded()
+        }
+    }
+    
+}
+
+func fetchingLoop(){
+    
+    var attempts=0 //Amount of attempts to download the file
+    let maxAttempts=10//Amount of possible attempts
+    var badConnection=false
+    var data:NSData? = nil
+    let fileURL=filesInFetchingQueue.first
+    let trueURL=NSURL(fileURLWithPath: fileURL!)
+    let libraryDirectory=NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true).first
+    let storedPath=libraryDirectory!+"/"+trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-")
+    
+    while (data == nil){ //If the file is not downloaded download it
+        if (attempts>maxAttempts){ //But if we have tried 10 times then give up
+            print("Failed to download \(fileURL)")
+            
+            for closure in fileDownloadedClosures[fileURL!]! {
+                closure()
+            }
+            
+            return
+        }
+        else {
+            let downloadedData=NSData(contentsOfURL: trueURL) //Download
+            if (downloadedData != nil && simulateOffline == false){ //File successfully downloaded
+                if (offlineStorageSaving){
+                    downloadedData?.writeToFile(storedPath, atomically: true) //Save file locally for use later
+                }
+                cachedFiles[fileURL!]=downloadedData //Save file to memory
+                data=cachedFiles[fileURL!]! //Use as local variable
+                
+                for closure in fileDownloadedClosures[fileURL!]! {
+                    closure()
+                }
+                
+                return
+            }
+        }
+        attempts++ //Count another attempt to download the file
+        if (badConnection==false){
+            print("Bad connection \(fileURL)")
+            //badConnection=true
+        }
+    }
+
+}
+
+
 func dataUsingCache(fileURL:String) -> NSData?{
     /*
     Refer to:
-    func dataUsingCache(fileURL:String, usingCashe:Bool) -> NSData?
+    func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?
     Always uses cache if available.
     */
-    return dataUsingCache(fileURL, usingCashe: true)
+    return dataUsingCache(fileURL, usingCache: true)
 }
 
-func dataUsingCache(fileURL:String, usingCashe:Bool) -> NSData?{
+func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
     /*
     This method is used to speed up reopening the same file using caching if usingCache is true.
     
@@ -93,7 +191,7 @@ func dataUsingCache(fileURL:String, usingCashe:Bool) -> NSData?{
     let libraryDirectory=NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true).first
     let storedPath=libraryDirectory!+"/"+trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-")
     
-    if (usingCashe){
+    if (usingCache){
         if ((cachedFiles[fileURL]) != nil){ //STEP 1
             data=cachedFiles[fileURL]!
         }
@@ -204,7 +302,7 @@ func dictionaryOfPath(path: String, usingCache: Bool) -> NSDictionary?{
     
     
     do {
-        var sliderData=dataUsingCache(path, usingCashe: usingCache)
+        var sliderData=dataUsingCache(path, usingCache: usingCache)
         if (sliderData == nil){
             return nil
         }
