@@ -84,7 +84,7 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
         let subcat=videoOnDemandData!.objectForKey("category")!.objectForKey("subcategories")!.objectAtIndex(indexPath.row)
         
         let directory=base+"/"+version+"/categories/"+languageCode
-        let downloadedJSON=dictionaryOfPath(directory+"/"+(subcat.objectForKey("key") as! String)+"?detailed=1")
+        let downloadedJSON=dictionaryOfPath(directory+"/"+(subcat.objectForKey("key") as! String)+"?detailed=1", usingCache: false)
         print(directory+"/"+(subcat.objectForKey("key") as! String)+"?detailed=1")
         parentCategory=(downloadedJSON?.objectForKey("category")!.objectForKey("subcategories"))! as! NSArray
         self.videoCollection.reloadData()
@@ -151,7 +151,7 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
         cell.alpha=0
         
         fetchDataUsingCache((retrievedVideo!.objectForKey("images")!.objectForKey("sqr")?.objectForKey("lg"))! as! String, downloaded: {
-            dispatch_async(dispatch_get_main_queue()){
+            dispatch_async(dispatch_get_main_queue()) {
             let image=UIImageView(image: imageUsingCache((retrievedVideo!.objectForKey("images")!.objectForKey("sqr")?.objectForKey("lg"))! as! String))
             cell.contentView.addSubview(image)
             

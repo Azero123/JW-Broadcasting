@@ -57,13 +57,14 @@ func imageUsingCache(imageURL:String) -> UIImage?{
     return nil
 }
 
-var filesInFetchingQueue:Array<String>=[]
-var fetchingFiles=false
 var fileDownloadedClosures:Dictionary<String, Array< () -> Any >>=[:]
 
+
 func fetchDataUsingCache(fileURL:String, downloaded: () -> Void){
-    let usingCache=true
-    if (fetchingFiles==false){
+    fetchDataUsingCache(fileURL, downloaded: downloaded, usingCache: true)
+}
+
+func fetchDataUsingCache(fileURL:String, downloaded: () -> Void, usingCache:Bool){
         var data:NSData? = nil
         
         let trueURL=NSURL(string: fileURL)!
@@ -85,14 +86,12 @@ func fetchDataUsingCache(fileURL:String, downloaded: () -> Void){
         }
         //STEP 3
         if (data == nil){
-            filesInFetchingQueue.insert(fileURL, atIndex: filesInFetchingQueue.count)
             
-            if (fetchingFiles==false){
                 if (fileDownloadedClosures[fileURL] == nil ){
                     fileDownloadedClosures.updateValue([], forKey: fileURL)
                 }
                 fileDownloadedClosures[fileURL]?.append(downloaded)//.insert(downloaded, atIndex: fileDownloadedClosures.count)
-        
+                
                 print("try session...")
                 let task=NSURLSession.sharedSession().dataTaskWithRequest(NSURLRequest(URL: trueURL), completionHandler: { (data:NSData?, padawan: NSURLResponse?, error:NSError?) -> Void in
                     if (data != nil && simulateOffline == false){ //File successfully downloaded
@@ -101,7 +100,7 @@ func fetchDataUsingCache(fileURL:String, downloaded: () -> Void){
                             data?.writeToFile(storedPath, atomically: true) //Save file locally for use later
                         }
                         cachedFiles[fileURL]=data //Save file to memory
-                       // data=cachedFiles[fileURL!]! //Use as local variable
+                        // data=cachedFiles[fileURL!]! //Use as local variable
                         
                         for closure in fileDownloadedClosures[fileURL]! {
                             closure()
@@ -114,12 +113,10 @@ func fetchDataUsingCache(fileURL:String, downloaded: () -> Void){
                     }
                 })
                 task.resume()
-            }
         }
         else {
             downloaded()
         }
-    }
     
 }
 

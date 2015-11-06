@@ -189,24 +189,31 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             let videoData=latestVideos.objectAtIndex(indexPath.row)
             let imageURL=videoData.objectForKey("images")?.objectForKey("lsr")?.objectForKey("md") as! String
-            let image=imageUsingCache(imageURL)
             
-            for subview in cell.contentView.subviews {
-                if (subview.isKindOfClass(UIImageView.self)){
-                    (subview as! UIImageView).image=image
+            fetchDataUsingCache(imageURL, downloaded: {
+                
+                
+                let image=imageUsingCache(imageURL)
+                
+                for subview in cell.contentView.subviews {
+                    if (subview.isKindOfClass(UIImageView.self)){
+                        (subview as! UIImageView).image=image
+                    }
+                    if (subview.isKindOfClass(UIButton.self)){
+                        
+                        /* apparently the OS will never select UIButton inside of a UICollectionViewCell so this needs to be changed to a UILabel */
+                        
+                        let button=(subview as! UIButton)
+                        button.setTitle(videoData.objectForKey("title") as? String, forState: UIControlState.Normal)
+                        button.tag=indexPath.row
+                        
+                        button.setTitleColor(UIColor.grayColor(), forState: UIControlState.Highlighted)
+                        button.setTitleColor(UIColor.grayColor(), forState: UIControlState.Focused)
+                    }
                 }
-                if (subview.isKindOfClass(UIButton.self)){
-                    
-                    /* apparently the OS will never select UIButton inside of a UICollectionViewCell so this needs to be changed to a UILabel */
-                    
-                    let button=(subview as! UIButton)
-                    button.setTitle(videoData.objectForKey("title") as? String, forState: UIControlState.Normal)
-                    button.tag=indexPath.row
-                    
-                    button.setTitleColor(UIColor.grayColor(), forState: UIControlState.Highlighted)
-                    button.setTitleColor(UIColor.grayColor(), forState: UIControlState.Focused)
-                }
-            }
+                
+            })
+
             return cell
         }
         else if (collectionView == slideShowCollectionView){
@@ -222,36 +229,44 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             let SLSlide=SLSlides.objectAtIndex(indexPath.row)//SLSlides?.count
             let images=SLSlide.objectForKey("item")!.objectForKey("images")
             let imageURL=images?.objectForKey("pnr")?.objectForKey("lg") as! String
-            let image=imageUsingCache(imageURL)
-            
-            let imageView=UIImageView(image: image)
-            imageView.frame=CGRectMake(0, 0, slide.frame.size.width, slide.frame.size.height)
-            slide.contentView.addSubview(imageView)
-            
-            let dissipatingView=UIView(frame: CGRect(x: 0, y: 0, width: slide.frame.size.width, height: slide.frame.size.height))
-            
-            let playIcon=UILabel()
-            playIcon.frame=CGRectMake(50, 100, 100, 100)
-            playIcon.text=""
-            playIcon.font=UIFont(name: "jwtv", size: 75)!
-            playIcon.textColor=UIColor.whiteColor()
-            dissipatingView.addSubview(playIcon)
             
             
-            let titleLabel=UILabel()
-            titleLabel.frame=CGRectMake(50, 150, 600, 100)
-            titleLabel.text=SLSlide.objectForKey("item")!.objectForKey("title")! as? String
-            titleLabel.layer.shadowColor=UIColor.blackColor().CGColor
-            titleLabel.layer.shadowRadius=5
-            titleLabel.layer.opacity=1
-            titleLabel.numberOfLines=3
-            //titleLabel.font=UIFont(name: "jwtv", size: 75)!
-            titleLabel.font=UIFont.systemFontOfSize(24)
-            titleLabel.textColor=UIColor.whiteColor()
-            dissipatingView.addSubview(titleLabel)
             
-            
-            slide.contentView.addSubview(dissipatingView)
+            fetchDataUsingCache(imageURL, downloaded: {
+                
+                
+                let image=imageUsingCache(imageURL)
+                
+                let imageView=UIImageView(image: image)
+                imageView.frame=CGRectMake(0, 0, slide.frame.size.width, slide.frame.size.height)
+                slide.contentView.addSubview(imageView)
+                
+                let dissipatingView=UIView(frame: CGRect(x: 0, y: 0, width: slide.frame.size.width, height: slide.frame.size.height))
+                
+                let playIcon=UILabel()
+                playIcon.frame=CGRectMake(50, 100, 100, 100)
+                playIcon.text=""
+                playIcon.font=UIFont(name: "jwtv", size: 75)!
+                playIcon.textColor=UIColor.whiteColor()
+                dissipatingView.addSubview(playIcon)
+                
+                
+                let titleLabel=UILabel()
+                titleLabel.frame=CGRectMake(50, 150, 600, 100)
+                titleLabel.text=SLSlide.objectForKey("item")!.objectForKey("title")! as? String
+                titleLabel.layer.shadowColor=UIColor.blackColor().CGColor
+                titleLabel.layer.shadowRadius=5
+                titleLabel.layer.opacity=1
+                titleLabel.numberOfLines=3
+                //titleLabel.font=UIFont(name: "jwtv", size: 75)!
+                titleLabel.font=UIFont.systemFontOfSize(24)
+                titleLabel.textColor=UIColor.whiteColor()
+                dissipatingView.addSubview(titleLabel)
+                
+                
+                slide.contentView.addSubview(dissipatingView)
+                
+                })
             
             return slide
         }
