@@ -92,13 +92,28 @@ func fetchDataUsingCache(fileURL:String, downloaded: () -> Void){
                     fileDownloadedClosures.updateValue([], forKey: fileURL)
                 }
                 fileDownloadedClosures[fileURL]?.append(downloaded)//.insert(downloaded, atIndex: fileDownloadedClosures.count)
-                
-                let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
-                    dispatch_async(dispatch_get_global_queue(priority, 0)) {
-                        dispatch_async(dispatch_get_main_queue()) {
-                        fetchingLoop()
+        
+                print("try session...")
+                let task=NSURLSession.sharedSession().dataTaskWithRequest(NSURLRequest(URL: trueURL), completionHandler: { (data:NSData?, padawan: NSURLResponse?, error:NSError?) -> Void in
+                    if (data != nil && simulateOffline == false){ //File successfully downloaded
+                        print("success!")
+                        if (offlineStorageSaving){
+                            data?.writeToFile(storedPath, atomically: true) //Save file locally for use later
                         }
+                        cachedFiles[fileURL]=data //Save file to memory
+                       // data=cachedFiles[fileURL!]! //Use as local variable
+                        
+                        for closure in fileDownloadedClosures[fileURL]! {
+                            closure()
+                        }
+                        
+                        return
                     }
+                    else {
+                        print("[ERROR] Failed to download resource \(fileURL) \(error)")
+                    }
+                })
+                task.resume()
             }
         }
         else {
@@ -107,53 +122,6 @@ func fetchDataUsingCache(fileURL:String, downloaded: () -> Void){
     }
     
 }
-
-func fetchingLoop(){
-    
-    var attempts=0 //Amount of attempts to download the file
-    let maxAttempts=10//Amount of possible attempts
-    var badConnection=false
-    var data:NSData? = nil
-    let fileURL=filesInFetchingQueue.first
-    let trueURL=NSURL(fileURLWithPath: fileURL!)
-    let libraryDirectory=NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true).first
-    let storedPath=libraryDirectory!+"/"+trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-")
-    
-    while (data == nil){ //If the file is not downloaded download it
-        if (attempts>maxAttempts){ //But if we have tried 10 times then give up
-            print("Failed to download \(fileURL)")
-            
-            for closure in fileDownloadedClosures[fileURL!]! {
-                closure()
-            }
-            
-            return
-        }
-        else {
-            let downloadedData=NSData(contentsOfURL: trueURL) //Download
-            if (downloadedData != nil && simulateOffline == false){ //File successfully downloaded
-                if (offlineStorageSaving){
-                    downloadedData?.writeToFile(storedPath, atomically: true) //Save file locally for use later
-                }
-                cachedFiles[fileURL!]=downloadedData //Save file to memory
-                data=cachedFiles[fileURL!]! //Use as local variable
-                
-                for closure in fileDownloadedClosures[fileURL!]! {
-                    closure()
-                }
-                
-                return
-            }
-        }
-        attempts++ //Count another attempt to download the file
-        if (badConnection==false){
-            print("Bad connection \(fileURL)")
-            //badConnection=true
-        }
-    }
-
-}
-
 
 func dataUsingCache(fileURL:String) -> NSData?{
     /*

@@ -85,6 +85,7 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
         
         let directory=base+"/"+version+"/categories/"+languageCode
         let downloadedJSON=dictionaryOfPath(directory+"/"+(subcat.objectForKey("key") as! String)+"?detailed=1")
+        print(directory+"/"+(subcat.objectForKey("key") as! String)+"?detailed=1")
         parentCategory=(downloadedJSON?.objectForKey("category")!.objectForKey("subcategories"))! as! NSArray
         self.videoCollection.reloadData()
     }
