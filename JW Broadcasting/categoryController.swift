@@ -9,20 +9,20 @@
 import UIKit
 import AVKit
 
-class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource {
+class categoryController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource {
     
     @IBOutlet weak var videoCategoryTable: UITableView!
     @IBOutlet weak var videoCollection: UICollectionView!
     
-    let category:String="VideoOnDemand"
+    var category:String=""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         //http://mediator.jw.org/v1/categories/ASL/VideoOnDemand?detailed=1
         self.videoCollection.clipsToBounds=false
         renewContent()
-    
+        
     }
     
     
@@ -38,26 +38,38 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
     var videoOnDemandData:NSDictionary?
     
     func renewContent(){
-        
+        print("renew content")
         //http://mediator.jw.org/v1/categories/E/Audio?detailed=1
         videoOnDemandData=dictionaryOfPath(base+"/"+version+"/categories/"+languageCode+"/"+category+"?detailed=1", usingCache: false)
         
-        let subcat=videoOnDemandData!.objectForKey("category")!.objectForKey("subcategories")!.firstObject
+        /*let subcat=videoOnDemandData!.objectForKey("category")!.objectForKey("subcategories")!.firstObject
         let directory=base+"/"+version+"/categories/"+languageCode
-        let downloadedJSON=dictionaryOfPath(directory+"/"+(subcat!!.objectForKey("key") as! String)+"?detailed=1", usingCache: false)
-        
+        let categoryURL=directory+"/"+(subcat!!.objectForKey("key") as! String)+"?detailed=1"
+        print("caturl:\(categoryURL)")*/
+        let downloadedJSON=videoOnDemandData//dictionaryOfPath(categoryURL, usingCache: false)
+        //http://mediator.jw.org/v1/categories/E/Audio?detailed=1
+        //http://mediator.jw.org/v1/categories/E/NewSongs?detailed=1
         parentCategory=(downloadedJSON?.objectForKey("category")!.objectForKey("subcategories"))! as! NSArray
         
         videoCategoryTable.reloadData()
         videoCollection.reloadData()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (videoOnDemandData?.objectForKey("category")?.objectForKey("subcategories")!.count!)!
+        
+        
+        if (videoOnDemandData?.objectForKey("category")!.objectForKey("media") != nil){
+            return (videoOnDemandData?.objectForKey("category")?.objectForKey("media")!.count!)!
+        }
+        else if (videoOnDemandData?.objectForKey("category")!.objectForKey("subcategories") != nil){
+            return (videoOnDemandData?.objectForKey("category")?.objectForKey("subcategories")!.count!)!
+        }
+        
+        return 0
     }
     
     var parentCategory:NSArray=[]
@@ -78,13 +90,13 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
         /*
         if (context.previouslyFocusedView != nil && (context.previouslyFocusedView?.isKindOfClass(UITableViewCell.self) == true) ){
         
-            (context.previouslyFocusedView as! UITableViewCell).textLabel?.textColor=UIColor.whiteColor()
-            
+        (context.previouslyFocusedView as! UITableViewCell).textLabel?.textColor=UIColor.whiteColor()
+        
         }
         if (context.nextFocusedView != nil && (context.nextFocusedView?.isKindOfClass(UITableViewCell.self) == true) ){
-            
-            (context.nextFocusedView as! UITableViewCell).textLabel?.textColor=UIColor.blackColor()
-            
+        
+        (context.nextFocusedView as! UITableViewCell).textLabel?.textColor=UIColor.blackColor()
+        
         }*/
     }
     
@@ -95,7 +107,14 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
         let directory=base+"/"+version+"/categories/"+languageCode
         let downloadedJSON=dictionaryOfPath(directory+"/"+(subcat.objectForKey("key") as! String)+"?detailed=1", usingCache: false)
         print(directory+"/"+(subcat.objectForKey("key") as! String)+"?detailed=1")
-        parentCategory=(downloadedJSON?.objectForKey("category")!.objectForKey("subcategories"))! as! NSArray
+        
+        if (downloadedJSON?.objectForKey("category")!.objectForKey("media") != nil){
+            parentCategory=(downloadedJSON?.objectForKey("category")!.objectForKey("media"))! as! NSArray
+            
+        }
+        else if (downloadedJSON?.objectForKey("category")!.objectForKey("subcategories") != nil){
+            parentCategory=(downloadedJSON?.objectForKey("category")!.objectForKey("subcategories"))! as! NSArray
+        }
         self.videoCollection.reloadData()
     }
     
@@ -104,7 +123,13 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return (parentCategory.objectAtIndex(section).objectForKey("media")?.count)!
+        
+        if (parentCategory.objectAtIndex(section).objectForKey("media") != nil){
+            return (parentCategory.objectAtIndex(section).objectForKey("media")?.count)!
+        }
+        else {
+            return (parentCategory.objectAtIndex(section).count)!
+        }
     }
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
@@ -137,7 +162,7 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
         }
         if (kind == UICollectionElementKindSectionFooter) {
             header=collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionFooter, withReuseIdentifier: "footer", forIndexPath: indexPath)
-
+            
         }
         
         return header!
@@ -154,26 +179,31 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
         for subview in cell.contentView.subviews {
             subview.removeFromSuperview()
         }
-        
-        let retrievedVideo=parentCategory.objectAtIndex(indexPath.section).objectForKey("media")?.objectAtIndex(indexPath.row)
+        var retrievedVideo:NSDictionary?=nil
+        if (parentCategory.objectAtIndex(indexPath.section).objectForKey("media") != nil){
+            retrievedVideo=parentCategory.objectAtIndex(indexPath.section).objectForKey("media")?.objectAtIndex(indexPath.row) as? NSDictionary
+        }
+        else {
+            retrievedVideo=parentCategory.objectAtIndex(indexPath.row) as? NSDictionary
+        }
         
         cell.alpha=0
         
         fetchDataUsingCache((retrievedVideo!.objectForKey("images")!.objectForKey("sqr")?.objectForKey("lg"))! as! String, downloaded: {
             dispatch_async(dispatch_get_main_queue()) {
-            let image=UIImageView(image: imageUsingCache((retrievedVideo!.objectForKey("images")!.objectForKey("sqr")?.objectForKey("lg"))! as! String))
-            cell.contentView.addSubview(image)
-            
-            image.layer.shadowColor=UIColor.blackColor().CGColor
-            image.layer.shadowOpacity=0
-            image.layer.shadowRadius=0
-            image.layer.cornerRadius=5
-            
-            UIView.animateWithDuration(0.5, animations: {
+                let image=UIImageView(image: imageUsingCache((retrievedVideo!.objectForKey("images")!.objectForKey("sqr")?.objectForKey("lg"))! as! String))
+                cell.contentView.addSubview(image)
+                image.frame=CGRect(x: 0, y: 0, width: 250, height: 250)
+                image.layer.shadowColor=UIColor.blackColor().CGColor
+                image.layer.shadowOpacity=0
+                image.layer.shadowRadius=0
+                image.layer.cornerRadius=5
                 
-                cell.alpha=1
-                
-            })
+                UIView.animateWithDuration(0.5, animations: {
+                    
+                    cell.alpha=1
+                    
+                })
             }
         })
         
@@ -197,7 +227,7 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
         */
         
         UIView.animateWithDuration(0.5, animations: {
-        
+            
             if (context.previouslyFocusedView != nil && (context.previouslyFocusedView?.isKindOfClass(UICollectionViewCell.self) == true) ){
                 
                 //Clear shadow on any possible previous selection.
@@ -221,7 +251,7 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
                 context.nextFocusedView?.layer.shadowRadius=15
                 //context.nextFocusedView?.frame=CGRect(x: (context.nextFocusedView?.frame.origin.x)!, y: (context.nextFocusedView?.frame.origin.y)!-40, width: (context.nextFocusedView?.frame.size.width)!, height: (context.nextFocusedView?.frame.size.height)!)
             }
-            })
+        })
         return true
     }
     
@@ -232,23 +262,23 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
         let subcat=parentCategory.objectAtIndex(indexPath.section)
         
         //videos[indexPath.row].objectForKey("files")
-            let media=subcat.objectForKey("media")
-            //print(media?.count)
-            let videosection=media!.objectAtIndex(indexPath.row)
-            //print(videosection)
-            let files=videosection.objectForKey("files")
-            let videoData=files!.objectAtIndex(3)
+        let media=subcat.objectForKey("media")
+        //print(media?.count)
+        let videosection=media!.objectAtIndex(indexPath.row)
+        //print(videosection)
+        let files=videosection.objectForKey("files")
+        let videoData=files!.objectAtIndex(3)
         //.objectForKey("files")!
-            
-            let videoURLString=videoData.objectForKey("progressiveDownloadURL") as! String
-            
-            
-            let videoURL = NSURL(string: videoURLString)
-            let player = AVPlayer(URL: videoURL!)
-            playerViewController = AVPlayerViewController()
-            playerViewController!.player = player
-            self.presentViewController(playerViewController!, animated: true) {
-                self.playerViewController!.player!.play()
+        
+        let videoURLString=videoData.objectForKey("progressiveDownloadURL") as! String
+        
+        
+        let videoURL = NSURL(string: videoURLString)
+        let player = AVPlayer(URL: videoURL!)
+        playerViewController = AVPlayerViewController()
+        playerViewController!.player = player
+        self.presentViewController(playerViewController!, animated: true) {
+            self.playerViewController!.player!.play()
         }
         
         

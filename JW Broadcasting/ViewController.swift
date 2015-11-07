@@ -57,7 +57,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         previousLanguageCode=languageCode
     }
     
-    @IBOutlet weak var latestVideosLabel: UILabel!
+    var latestVideosTranslatedTitle:String="Latest Videos"
+    
     func renewContent(){
         if (languageList?.count>0){
             activityIndicator.startAnimating()
@@ -73,36 +74,23 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 
             }
             
-            
-            /*Some extra translation stuff I found*/
-            let categories=dictionaryOfPath(base+"/"+version+"/categories/"+languageCode)
-            if (categories != nil){
-                for category in (categories?.objectForKey("categories") as? NSArray)! {
-                    if ((category.objectForKey("key") as? String)! == "LatestVideos"){
-                        latestVideosLabel.text=category.objectForKey("name") as? String
-                    }
-                }
-            }
-            
-            
-            
-            /*[self.collectionView performBatchUpdates:^{
-                [self.collectionView reloadData];
-                } completion:^(BOOL finished) {
-                // notify that completed and do the configuration now
-                }];*/
-            
             /*fetch information on latest videos then reload the views*/
-            self.latestVideos=(dictionaryOfPath(base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1")?.objectForKey("category")?.objectForKey("media"))! as! NSArray
             
-            self.latestVideosCollectionView.performSelector("reloadData", withObject: nil, afterDelay: 0.25)
-            //self.slideShowCollectionView.performSelector("reloadData", withObject: nil, afterDelay: 0.25)
-            //self.slideShowCollectionView.reloadData()
+            let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1"
+                fetchDataUsingCache(latestVideosPath, downloaded: {
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                    //"name":"Latest Videos"
+                    let latestVideosData=dictionaryOfPath(latestVideosPath)!
+                    self.latestVideosTranslatedTitle=(latestVideosData.objectForKey("category")?.objectForKey("name") as? String)!
+                    self.latestVideos=(latestVideosData.objectForKey("category")?.objectForKey("media"))! as! NSArray
             
-            
-            /*well everything is downloaded now so lets hide the spinning wheel and start rendering the views*/
-            activityIndicator.stopAnimating()
-            pageIndicator.hidden=true
+                    self.latestVideosCollectionView.performSelector("reloadData", withObject: nil, afterDelay: 0.25)
+                    /*well everything is downloaded now so lets hide the spinning wheel and start rendering the views*/
+                    self.activityIndicator.stopAnimating()
+                    self.pageIndicator.hidden=true
+                    }
+                })
 
             
             
@@ -116,13 +104,21 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     func buildSlideshow(){
-        let sliders=dictionaryOfPath(base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider")
-        let SLSettings=sliders?.objectForKey("settings")
-        let SLWebHome=SLSettings?.objectForKey("WebHomeSlider")
-        SLSlides=(SLWebHome?.objectForKey("slides")) as! NSArray
-        pageIndicator.numberOfPages=SLSlides.count
-        self.slideShowCollectionView.reloadData()
-        self.performSelector("timesUp", withObject: nil, afterDelay: 0.25)
+        
+        let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
+        
+        fetchDataUsingCache(pathForSliderData, downloaded: {
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                let sliders=dictionaryOfPath(pathForSliderData)
+                let SLSettings=sliders?.objectForKey("settings")
+                let SLWebHome=SLSettings?.objectForKey("WebHomeSlider")
+                self.SLSlides=(SLWebHome?.objectForKey("slides")) as! NSArray
+                self.pageIndicator.numberOfPages=self.SLSlides.count
+                self.slideShowCollectionView.reloadData()
+                self.performSelector("timesUp", withObject: nil, afterDelay: 0.25)
+            }
+        })
 
     }
     
@@ -163,6 +159,43 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    
+    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        
+        var header:UICollectionReusableView?=nil
+        
+        if (kind == UICollectionElementKindSectionHeader){
+            header=collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "title", forIndexPath: indexPath)
+            
+            for subview in header!.subviews {
+                subview.removeFromSuperview()
+            }
+            
+            var textspacing:CGFloat=300
+            
+            let categoryLabel=UILabel(frame: CGRect(x: 0, y: 0, width: textspacing, height: 60))
+            categoryLabel.font=UIFont.systemFontOfSize(30)
+            
+            categoryLabel.text=latestVideosTranslatedTitle
+            textspacing=categoryLabel.intrinsicContentSize().width+25
+            categoryLabel.frame=CGRect(x: 0, y: 0, width: textspacing, height: 60)
+            header?.addSubview(categoryLabel)
+            
+            let textHeight:CGFloat=60
+            
+            let line:UIView=UIView(frame: CGRect(x: textspacing, y: textHeight/2, width: header!.frame.size.width-textspacing, height: 1))
+            line.backgroundColor=UIColor.darkGrayColor()
+            header?.addSubview(line)
+            
+        }
+        if (kind == UICollectionElementKindSectionFooter) {
+            header=collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionFooter, withReuseIdentifier: "footer", forIndexPath: indexPath)
+            
+        }
+        
+        return header!
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

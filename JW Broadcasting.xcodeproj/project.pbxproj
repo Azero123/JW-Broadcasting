@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		9F07787D1BD1A99A00476E4C /* ideas in Resources */ = {isa = PBXBuildFile; fileRef = 9F07787C1BD1A99A00476E4C /* ideas */; };
 		9F07787F1BD1CD5700476E4C /* keyPhrasesIndex in Resources */ = {isa = PBXBuildFile; fileRef = 9F07787E1BD1CD5700476E4C /* keyPhrasesIndex */; };
+		9F161E9A1BED216F0011F16A /* audioController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F161E991BED216F0011F16A /* audioController.swift */; };
+		9F161E9C1BED256C0011F16A /* categoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F161E9B1BED256C0011F16A /* categoryController.swift */; };
 		9F216EE21BABD888001D8571 /* videoDetail.tvml in Resources */ = {isa = PBXBuildFile; fileRef = 9F216EE11BABD888001D8571 /* videoDetail.tvml */; };
 		9F27BB051BA9341500C6DAFF /* StreamingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F27BB041BA9341500C6DAFF /* StreamingViewController.swift */; };
 		9F38D1B91BB23C980081073A /* rootController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F38D1B81BB23C980081073A /* rootController.swift */; };
@@ -42,6 +44,8 @@
 /* Begin PBXFileReference section */
 		9F07787C1BD1A99A00476E4C /* ideas */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ideas; sourceTree = "<group>"; };
 		9F07787E1BD1CD5700476E4C /* keyPhrasesIndex */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = keyPhrasesIndex; sourceTree = "<group>"; };
+		9F161E991BED216F0011F16A /* audioController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = audioController.swift; sourceTree = "<group>"; };
+		9F161E9B1BED256C0011F16A /* categoryController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = categoryController.swift; sourceTree = "<group>"; };
 		9F216EE11BABD888001D8571 /* videoDetail.tvml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = videoDetail.tvml; sourceTree = "<group>"; };
 		9F27BB041BA9341500C6DAFF /* StreamingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamingViewController.swift; sourceTree = "<group>"; };
 		9F38D1B81BB23C980081073A /* rootController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = rootController.swift; sourceTree = "<group>"; };
@@ -119,6 +123,8 @@
 				9F5A639B1BB0FE24000EB71B /* videoDetail.swift */,
 				9FFB9DB11BB528820059E5EA /* VideoOnDemandController.swift */,
 				9F38D1BA1BB2566B0081073A /* LanguageSelector.swift */,
+				9F161E991BED216F0011F16A /* audioController.swift */,
+				9F161E9B1BED256C0011F16A /* categoryController.swift */,
 				9F58F0771BDEB02200211AE3 /* videoOnDemand */,
 				9F07787C1BD1A99A00476E4C /* ideas */,
 				9F79A18D1BA6A3AC00B5E925 /* Main.storyboard */,
@@ -254,7 +260,9 @@
 				9F5A639C1BB0FE24000EB71B /* videoDetail.swift in Sources */,
 				9F5CE48D1BB644C700378D4C /* collectionViewRightToLeftFlowLayout.swift in Sources */,
 				9F27BB051BA9341500C6DAFF /* StreamingViewController.swift in Sources */,
+				9F161E9A1BED216F0011F16A /* audioController.swift in Sources */,
 				9F38D1B91BB23C980081073A /* rootController.swift in Sources */,
+				9F161E9C1BED256C0011F16A /* categoryController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
