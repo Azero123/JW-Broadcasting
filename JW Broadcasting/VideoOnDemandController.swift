@@ -118,12 +118,14 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
         print("attempt focus")
         if (tableView == self.videoCategoryTable){
             print("it is focusing")
-            let subcat=videoOnDemandData!.objectForKey("category")!.objectForKey("subcategories")!.objectAtIndex(context.nextFocusedIndexPath!.row)
-            
-            let directory=base+"/"+version+"/categories/"+languageCode
-            let downloadedJSON=dictionaryOfPath(directory+"/"+(subcat.objectForKey("key") as! String)+"?detailed=1", usingCache: false)
-            parentCategory=(downloadedJSON?.objectForKey("category")!.objectForKey("subcategories"))! as! NSArray
-            self.videoCollection.reloadData()
+                if ((context.nextFocusedView?.isKindOfClass(UITableViewCell.self)) == true){
+                    let subcat=videoOnDemandData!.objectForKey("category")!.objectForKey("subcategories")!.objectAtIndex(context.nextFocusedIndexPath!.row)
+                    
+                let directory=base+"/"+version+"/categories/"+languageCode
+                let downloadedJSON=dictionaryOfPath(directory+"/"+(subcat.objectForKey("key") as! String)+"?detailed=1", usingCache: false)
+                parentCategory=(downloadedJSON?.objectForKey("category")!.objectForKey("subcategories"))! as! NSArray
+                self.videoCollection.reloadData()
+            }
         }
         
     }
