@@ -65,7 +65,7 @@ class StreamingViewController : UIViewController {
                 let timeIndex=subcategory!.objectForKey("position")?.objectForKey("time")?.floatValue
                 if (self.view.hidden==false){
                     //currentVidMaybe!.count-1 is the highest quality
-                    self.startStream((currentVidMaybe?.objectAtIndex(currentVidMaybe!.count-1).objectForKey("progressiveDownloadURL"))! as! String,time: timeIndex!)
+                    self.startStream((currentVidMaybe?.objectAtIndex(currentVidMaybe!.count-2).objectForKey("progressiveDownloadURL"))! as! String,time: timeIndex!)
                 }
             }
         }
@@ -166,7 +166,7 @@ class StreamingViewController : UIViewController {
                     self.indexInPlaylist=0
                     self.playlist=subcategory!.objectForKey("media") as! NSArray
                     let newVidData=self.playlist.objectAtIndex(self.indexInPlaylist).objectForKey("files")
-                    let videoURL=newVidData!.objectAtIndex(0).objectForKey("progressiveDownloadURL")
+                    let videoURL=newVidData!.objectAtIndex(newVidData!.count-2).objectForKey("progressiveDownloadURL")
                     let timeIndex=subcategory!.objectForKey("position")?.objectForKey("time")?.floatValue
                     if (videoURL as? String != self.currentURL){
                         self.player?.currentItem?.removeObserver(self, forKeyPath: "status")
