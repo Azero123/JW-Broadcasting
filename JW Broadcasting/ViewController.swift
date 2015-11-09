@@ -229,43 +229,51 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             /*for subview in cell.contentView.subviews {
                 subview.removeFromSuperview()
             }*/
+            for subview in cell.contentView.subviews {
+                if (subview.isKindOfClass(UIImageView.self)){
+                    (subview as! UIImageView).image=UIImage()
+                }
+            }
+            
             
             let videoData=latestVideos.objectAtIndex(indexPath.row)
             let imageURL=videoData.objectForKey("images")?.objectForKey("lsr")?.objectForKey("md") as! String
             
             fetchDataUsingCache(imageURL, downloaded: {
                 
-                
-                let image=imageUsingCache(imageURL)
-                
-                for subview in cell.contentView.subviews {
-                    if (subview.isKindOfClass(UIImageView.self)){
-                        (subview as! UIImageView).image=image
-                    }
-                    if (subview.isKindOfClass(UILabel.self)){
-                        
-                        /* apparently the OS will never select UIButton inside of a UICollectionViewCell so this needs to be changed to a UILabel */
-                        
-                        /*let button=(subview as! UIButton)
-                        button.setTitle(videoData.objectForKey("title") as? String, forState: UIControlState.Normal)
-                        button.tag=indexPath.row
-                        
-                        button.setTitleColor(UIColor.grayColor(), forState: UIControlState.Highlighted)
-                        button.setTitleColor(UIColor.grayColor(), forState: UIControlState.Focused)
-                        */
-                        
-                        
-                        let titleLabel=(subview as! UILabel)
-                        //titleLabel.frame=CGRectMake(50, 150, 600, 100)
-                        titleLabel.text=videoData.objectForKey("title") as? String
-                        titleLabel.layer.shadowColor=UIColor.blackColor().CGColor
-                        titleLabel.layer.shadowRadius=5
-                        titleLabel.numberOfLines=3
-                        //titleLabel.font=UIFont(name: "jwtv", size: 75)!
-                        
+                dispatch_async(dispatch_get_main_queue()) {
+                    let image=imageUsingCache(imageURL)
+                    
+                    for subview in cell.contentView.subviews {
+                        if (subview.isKindOfClass(UIImageView.self)){
+                            (subview as! UIImageView).image=image
+                            subview.userInteractionEnabled = true
+                            (subview as! UIImageView).adjustsImageWhenAncestorFocused = true
+                        }
+                        if (subview.isKindOfClass(UILabel.self)){
+                            
+                            /* apparently the OS will never select UIButton inside of a UICollectionViewCell so this needs to be changed to a UILabel */
+                            
+                            /*let button=(subview as! UIButton)
+                            button.setTitle(videoData.objectForKey("title") as? String, forState: UIControlState.Normal)
+                            button.tag=indexPath.row
+                            
+                            button.setTitleColor(UIColor.grayColor(), forState: UIControlState.Highlighted)
+                            button.setTitleColor(UIColor.grayColor(), forState: UIControlState.Focused)
+                            */
+                            
+                            
+                            let titleLabel=(subview as! UILabel)
+                            //titleLabel.frame=CGRectMake(50, 150, 600, 100)
+                            titleLabel.text=videoData.objectForKey("title") as? String
+                            titleLabel.layer.shadowColor=UIColor.blackColor().CGColor
+                            titleLabel.layer.shadowRadius=5
+                            titleLabel.numberOfLines=3
+                            //titleLabel.font=UIFont(name: "jwtv", size: 75)!
+                            
+                        }
                     }
                 }
-                
             })
 
             return cell
@@ -423,7 +431,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         
         if (collectionView == self.latestVideosCollectionView || collectionView == slideShowCollectionView ){
-            
+            /*
             if (context.previouslyFocusedView != nil && (context.previouslyFocusedView?.isKindOfClass(UICollectionViewCell.self) == true) ){
                 
                 //Clear shadow on any possible previous selection.
@@ -443,6 +451,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 if (context.nextFocusedView?.superview == self.slideShowCollectionView){
                     context.nextFocusedView?.subviews.first?.alpha=1
                 }
+            }*/
+            
+            if (context.nextFocusedView?.superview == self.slideShowCollectionView){
+                context.nextFocusedView?.subviews.first?.alpha=1
             }
             if (context.nextFocusedView?.superview == self.latestVideosCollectionView){
                 

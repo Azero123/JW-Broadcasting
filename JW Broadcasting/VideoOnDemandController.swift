@@ -22,6 +22,7 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
 
         //http://mediator.jw.org/v1/categories/ASL/VideoOnDemand?detailed=1
         self.videoCollection.clipsToBounds=false
+        self.activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
         activityIndicator.hidesWhenStopped=true
         activityIndicator.startAnimating()
         
@@ -114,6 +115,17 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
             (context.nextFocusedView as! UITableViewCell).textLabel?.textColor=UIColor.blackColor()
             
         }*/
+        print("attempt focus")
+        if (tableView == self.videoCategoryTable){
+            print("it is focusing")
+            let subcat=videoOnDemandData!.objectForKey("category")!.objectForKey("subcategories")!.objectAtIndex(context.nextFocusedIndexPath!.row)
+            
+            let directory=base+"/"+version+"/categories/"+languageCode
+            let downloadedJSON=dictionaryOfPath(directory+"/"+(subcat.objectForKey("key") as! String)+"?detailed=1", usingCache: false)
+            parentCategory=(downloadedJSON?.objectForKey("category")!.objectForKey("subcategories"))! as! NSArray
+            self.videoCollection.reloadData()
+        }
+        
     }
     
     func tableView(tableView: UITableView, didHighlightRowAtIndexPath indexPath: NSIndexPath) {
@@ -122,7 +134,6 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
         
         let directory=base+"/"+version+"/categories/"+languageCode
         let downloadedJSON=dictionaryOfPath(directory+"/"+(subcat.objectForKey("key") as! String)+"?detailed=1", usingCache: false)
-        print(directory+"/"+(subcat.objectForKey("key") as! String)+"?detailed=1")
         parentCategory=(downloadedJSON?.objectForKey("category")!.objectForKey("subcategories"))! as! NSArray
         self.videoCollection.reloadData()
     }
@@ -172,47 +183,52 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSizeMake(270, 320)
+        return CGSizeMake(350, 300)
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cell: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("video", forIndexPath: indexPath)
-        
-        for subview in cell.contentView.subviews {
-            subview.removeFromSuperview()
-        }
-        
         let retrievedVideo=parentCategory.objectAtIndex(indexPath.section).objectForKey("media")?.objectAtIndex(indexPath.row)
         
-        cell.alpha=0
+        let imageURL=((retrievedVideo!.objectForKey("images")!.objectForKey("wsr")?.objectForKey("sm"))! as! String)
         
-        fetchDataUsingCache((retrievedVideo!.objectForKey("images")!.objectForKey("sqr")?.objectForKey("lg"))! as! String, downloaded: {
+        fetchDataUsingCache(imageURL, downloaded: {
+            
             dispatch_async(dispatch_get_main_queue()) {
-                if (self.view.hidden == false){
-            let image=UIImageView(image: imageUsingCache((retrievedVideo!.objectForKey("images")!.objectForKey("sqr")?.objectForKey("lg"))! as! String))
-            cell.contentView.addSubview(image)
             
-            image.layer.shadowColor=UIColor.blackColor().CGColor
-            image.layer.shadowOpacity=0
-            image.layer.shadowRadius=0
-            image.layer.cornerRadius=5
+            let image=imageUsingCache(imageURL)
             
-            UIView.animateWithDuration(0.5, animations: {
-                
-                cell.alpha=1
-                
+            for subview in cell.contentView.subviews {
+                if (subview.isKindOfClass(UIImageView.self)){
+                    subview.alpha=0
+                    (subview as! UIImageView).image=image
+                    subview.userInteractionEnabled = true
+                    (subview as! UIImageView).adjustsImageWhenAncestorFocused = true
+                    subview.layer.cornerRadius=5
+                    UIView.animateWithDuration(0.5, animations: {
+                        subview.alpha=1
+                    })
+                }
+                if (subview.isKindOfClass(UILabel.self)){
+                    
+                    
+                    let titleLabel=(subview as! UILabel)
+                    titleLabel.text=retrievedVideo!.objectForKey("title") as? String
+                    titleLabel.layer.shadowColor=UIColor.blackColor().CGColor
+                    titleLabel.layer.shadowRadius=5
+                    titleLabel.numberOfLines=3
+                    
+                }
+                if (subview.isKindOfClass(UIActivityIndicatorView.self)){
+                    subview.transform = CGAffineTransformMakeScale(2.0, 2.0)
+                }
+            }
+            
+            
+            }
             })
-            }
-            }
-        })
-        
-        
-        let label=UILabel(frame: CGRect(x: 0, y: 270, width: 270, height: 50))
-        label.text=retrievedVideo!.objectForKey("title") as? String
-        label.textAlignment = .Center
-        label.font=UIFont.systemFontOfSize(30)
-        cell.contentView.addSubview(label)
+            
         
         
         return cell
@@ -225,7 +241,7 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
         If selectedSlideShow==true (AKA the user is interacting with the slideshow) then the slide show will not roll to next slide.
         
         */
-        
+        /*
         UIView.animateWithDuration(0.5, animations: {
         
             if (context.previouslyFocusedView != nil && (context.previouslyFocusedView?.isKindOfClass(UICollectionViewCell.self) == true) ){
@@ -251,7 +267,7 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
                 context.nextFocusedView?.layer.shadowRadius=15
                 //context.nextFocusedView?.frame=CGRect(x: (context.nextFocusedView?.frame.origin.x)!, y: (context.nextFocusedView?.frame.origin.y)!-40, width: (context.nextFocusedView?.frame.size.width)!, height: (context.nextFocusedView?.frame.size.height)!)
             }
-            })
+            })*/
         return true
     }
     
