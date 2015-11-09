@@ -37,6 +37,8 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
     
     var videoOnDemandData:NSDictionary?
     
+    var subcategories:Bool=false
+    
     func renewContent(){
         print("renew content")
         //http://mediator.jw.org/v1/categories/E/Audio?detailed=1
@@ -87,6 +89,7 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(tableView: UITableView, didUpdateFocusInContext context: UITableViewFocusUpdateContext, withAnimationCoordinator coordinator: UIFocusAnimationCoordinator) {
+        
         /*
         if (context.previouslyFocusedView != nil && (context.previouslyFocusedView?.isKindOfClass(UITableViewCell.self) == true) ){
         
@@ -98,11 +101,19 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
         (context.nextFocusedView as! UITableViewCell).textLabel?.textColor=UIColor.blackColor()
         
         }*/
+        if (tableView == self.videoCategoryTable && (context.nextFocusedView?.isKindOfClass(UITableViewCell.self) == true)){
+            //chooseSubcategory((context.nextFocusedIndexPath?.row)!)
+        }
     }
     
     func tableView(tableView: UITableView, didHighlightRowAtIndexPath indexPath: NSIndexPath) {
         
-        let subcat=videoOnDemandData!.objectForKey("category")!.objectForKey("subcategories")!.objectAtIndex(indexPath.row)
+        chooseSubcategory((indexPath.row))
+    }
+    
+    func chooseSubcategory(index:Int){
+        
+        let subcat=videoOnDemandData!.objectForKey("category")!.objectForKey("subcategories")!.objectAtIndex(index)
         
         let directory=base+"/"+version+"/categories/"+languageCode
         let downloadedJSON=dictionaryOfPath(directory+"/"+(subcat.objectForKey("key") as! String)+"?detailed=1", usingCache: false)
@@ -114,21 +125,29 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
         }
         else if (downloadedJSON?.objectForKey("category")!.objectForKey("subcategories") != nil){
             parentCategory=(downloadedJSON?.objectForKey("category")!.objectForKey("subcategories"))! as! NSArray
+            subcategories=true
         }
         self.videoCollection.reloadData()
     }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return parentCategory.count
+        
+        /*if (subcategories){
+            return parentCategory.count
+        }
+        else {
+            return 1
+        }*/
+        return 0
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        if (parentCategory.objectAtIndex(section).objectForKey("media") != nil){
-            return (parentCategory.objectAtIndex(section).objectForKey("media")?.count)!
+        return 0
+        if (subcategories){
+            return (parentCategory.objectAtIndex(section).count)!
         }
         else {
-            return (parentCategory.objectAtIndex(section).count)!
+            return (parentCategory.objectAtIndex(section).objectForKey("media")?.count)!
         }
     }
     
@@ -138,7 +157,7 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
         
         if (kind == UICollectionElementKindSectionHeader){
             header=collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "subcategory", forIndexPath: indexPath)
-            
+            /*
             for subview in header!.subviews {
                 subview.removeFromSuperview()
             }
@@ -157,7 +176,7 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
             
             let line:UIView=UIView(frame: CGRect(x: textspacing, y: textHeight/2, width: header!.frame.size.width-textspacing, height: 1))
             line.backgroundColor=UIColor.darkGrayColor()
-            header?.addSubview(line)
+            header?.addSubview(line)*/
             
         }
         if (kind == UICollectionElementKindSectionFooter) {
@@ -175,7 +194,7 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cell: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("video", forIndexPath: indexPath)
-        
+        /*
         for subview in cell.contentView.subviews {
             subview.removeFromSuperview()
         }
@@ -213,7 +232,7 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
         label.textAlignment = .Center
         label.font=UIFont.systemFontOfSize(30)
         cell.contentView.addSubview(label)
-        
+        */
         
         return cell
     }
@@ -225,7 +244,7 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
         If selectedSlideShow==true (AKA the user is interacting with the slideshow) then the slide show will not roll to next slide.
         
         */
-        
+        /*
         UIView.animateWithDuration(0.5, animations: {
             
             if (context.previouslyFocusedView != nil && (context.previouslyFocusedView?.isKindOfClass(UICollectionViewCell.self) == true) ){
@@ -251,7 +270,7 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
                 context.nextFocusedView?.layer.shadowRadius=15
                 //context.nextFocusedView?.frame=CGRect(x: (context.nextFocusedView?.frame.origin.x)!, y: (context.nextFocusedView?.frame.origin.y)!-40, width: (context.nextFocusedView?.frame.size.width)!, height: (context.nextFocusedView?.frame.size.height)!)
             }
-        })
+        })*/
         return true
     }
     

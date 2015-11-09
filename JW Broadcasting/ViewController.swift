@@ -18,6 +18,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var pageIndicator: UIPageControl!
     
     @IBOutlet weak var latestVideosCollectionView: UICollectionView!
+    @IBOutlet weak var customLayout: collectionViewRightToLeftFlowLayout!
     
     @IBOutlet weak var slideShowCollectionView: UICollectionView!
     var timer:NSTimer?
@@ -37,7 +38,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         activityIndicator.hidesWhenStopped=true
         activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
         pageIndicator.hidden=true
-        
         
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.grayColor()], forState:.Normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState:.Selected)
@@ -116,7 +116,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 self.SLSlides=(SLWebHome?.objectForKey("slides")) as! NSArray
                 self.pageIndicator.numberOfPages=self.SLSlides.count
                 self.slideShowCollectionView.reloadData()
-                self.performSelector("timesUp", withObject: nil, afterDelay: 0.25)
+                //self.performSelector("timesUp", withObject: nil, afterDelay: 0.25)
             }
         })
 
@@ -177,17 +177,22 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             let categoryLabel=UILabel(frame: CGRect(x: 0, y: 0, width: textspacing, height: 60))
             categoryLabel.font=UIFont.systemFontOfSize(30)
-            
+            categoryLabel.textAlignment = .Center
             categoryLabel.text=latestVideosTranslatedTitle
             textspacing=categoryLabel.intrinsicContentSize().width+25
-            categoryLabel.frame=CGRect(x: 0, y: 0, width: textspacing, height: 60)
+            categoryLabel.frame=CGRect(x: (collectionView.frame.size.width-textspacing)/2, y: 0, width: textspacing, height: 60)
             header?.addSubview(categoryLabel)
             
             let textHeight:CGFloat=60
             
-            let line:UIView=UIView(frame: CGRect(x: textspacing, y: textHeight/2, width: header!.frame.size.width-textspacing, height: 1))
-            line.backgroundColor=UIColor.darkGrayColor()
-            header?.addSubview(line)
+            let lineA:UIView=UIView(frame: CGRect(x: 0, y: textHeight/2, width: (header!.frame.size.width-textspacing)/2, height: 1))
+            lineA.backgroundColor=UIColor.darkGrayColor()
+            header?.addSubview(lineA)
+            
+            
+            let lineB:UIView=UIView(frame: CGRect(x: (header!.frame.size.width+textspacing)/2, y: textHeight/2, width: (header!.frame.size.width-textspacing)/2, height: 1))
+            lineB.backgroundColor=UIColor.darkGrayColor()
+            header?.addSubview(lineB)
             
         }
         if (kind == UICollectionElementKindSectionFooter) {
@@ -232,16 +237,27 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     if (subview.isKindOfClass(UIImageView.self)){
                         (subview as! UIImageView).image=image
                     }
-                    if (subview.isKindOfClass(UIButton.self)){
+                    if (subview.isKindOfClass(UILabel.self)){
                         
                         /* apparently the OS will never select UIButton inside of a UICollectionViewCell so this needs to be changed to a UILabel */
                         
-                        let button=(subview as! UIButton)
+                        /*let button=(subview as! UIButton)
                         button.setTitle(videoData.objectForKey("title") as? String, forState: UIControlState.Normal)
                         button.tag=indexPath.row
                         
                         button.setTitleColor(UIColor.grayColor(), forState: UIControlState.Highlighted)
                         button.setTitleColor(UIColor.grayColor(), forState: UIControlState.Focused)
+                        */
+                        
+                        
+                        let titleLabel=(subview as! UILabel)
+                        //titleLabel.frame=CGRectMake(50, 150, 600, 100)
+                        titleLabel.text=videoData.objectForKey("title") as? String
+                        titleLabel.layer.shadowColor=UIColor.blackColor().CGColor
+                        titleLabel.layer.shadowRadius=5
+                        titleLabel.numberOfLines=3
+                        //titleLabel.font=UIFont(name: "jwtv", size: 75)!
+                        
                     }
                 }
                 
@@ -281,11 +297,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 playIcon.text=""
                 playIcon.font=UIFont(name: "jwtv", size: 75)!
                 playIcon.textColor=UIColor.whiteColor()
-                dissipatingView.addSubview(playIcon)
+                //dissipatingView.addSubview(playIcon)
                 
                 
                 let titleLabel=UILabel()
-                titleLabel.frame=CGRectMake(50, 150, 600, 100)
+                titleLabel.frame=CGRectMake(50, 175, slide.bounds.width-100, 75)
+                //titleLabel.backgroundColor=UIColor.redColor()
                 titleLabel.text=SLSlide.objectForKey("item")!.objectForKey("title")! as? String
                 titleLabel.layer.shadowColor=UIColor.blackColor().CGColor
                 titleLabel.layer.shadowRadius=5
@@ -294,6 +311,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 //titleLabel.font=UIFont(name: "jwtv", size: 75)!
                 titleLabel.font=UIFont.systemFontOfSize(24)
                 titleLabel.textColor=UIColor.whiteColor()
+                
+                
+                
+                let gradient: CAGradientLayer = CAGradientLayer()
+                gradient.frame = slide.bounds
+                gradient.colors = [UIColor.clearColor().CGColor, UIColor.clearColor(), UIColor.blackColor().CGColor]
+                dissipatingView.layer.insertSublayer(gradient, atIndex: 0)
+                dissipatingView.alpha=0
                 dissipatingView.addSubview(titleLabel)
                 
                 
@@ -367,7 +392,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             return CGSizeMake(560, 360)
         }
         if (collectionView == slideShowCollectionView){
-            return CGSizeMake(1140/1.2, 380/1.2)
+            return CGSizeMake(1140/1.5, 380/1.5)
         }
         return CGSizeMake(0, 0)
     }
@@ -410,13 +435,16 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 context.nextFocusedView?.layer.shadowColor=UIColor.blackColor().CGColor
                 context.nextFocusedView?.layer.shadowOpacity=1
                 context.nextFocusedView?.layer.shadowRadius=20
+                if (context.nextFocusedView?.superview == self.slideShowCollectionView){
+                    context.nextFocusedView?.subviews.first?.alpha=1
+                }
             }
             if (context.nextFocusedView?.superview == self.latestVideosCollectionView){
                 
                 UIView.animateWithDuration(0.5, animations: {
                     
                     self.slideShowTopConstraint.constant = -self.slideShowCollectionView.frame.size.height+90
-                    self.slideShowCollectionView.alpha=0.1
+                    self.slideShowCollectionView.alpha=0.001
                     self.view.layoutIfNeeded()
                 })
             }
@@ -440,7 +468,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         for cell in self.slideShowCollectionView.visibleCells() {
             if (cell != cellToBlowUp){
-                UIView.animateWithDuration(1, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
+                UIView.animateWithDuration(0.25, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
                     cell.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1, 1);
                     cell.layer.shadowColor=UIColor.blackColor().CGColor
                     cell.layer.shadowRadius=20
@@ -451,9 +479,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             }
             
         }
-        UIView.animateWithDuration(1, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
+        UIView.animateWithDuration(0.25, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
             
-            cellToBlowUp?.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.3, 1.3);
+            cellToBlowUp?.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.1, 1.1);
             cellToBlowUp?.layer.shadowColor=UIColor.blackColor().CGColor
             cellToBlowUp?.layer.shadowRadius=20
             cellToBlowUp?.layer.shadowOpacity=1
@@ -462,6 +490,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             }, completion: nil)
         
         
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+            return UIEdgeInsetsMake(0, 0, 0, 0)
     }
 }
 
