@@ -11,16 +11,22 @@ import AVKit
 
 class categoryController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource {
     
+    
     @IBOutlet weak var videoCategoryTable: UITableView!
     @IBOutlet weak var videoCollection: UICollectionView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    var category:String=""
+    var category:String="VideoOnDemand"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //http://mediator.jw.org/v1/categories/ASL/VideoOnDemand?detailed=1
         self.videoCollection.clipsToBounds=false
+        self.activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
+        activityIndicator.hidesWhenStopped=true
+        activityIndicator.startAnimating()
+        
         renewContent()
         
     }
@@ -33,6 +39,7 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
             renewContent()
         }
         previousLanguageCode=languageCode
+        
         self.view.hidden=false
     }
     
@@ -42,44 +49,44 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
     
     var videoOnDemandData:NSDictionary?
     
-    var subcategories:Bool=false
-    
     func renewContent(){
-        print("renew content")
+        
         //http://mediator.jw.org/v1/categories/E/Audio?detailed=1
         
-        let categoryDataURL=base+"/"+version+"/categories/"+languageCode+"/"+category+"?detailed=1"
+        let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
+        let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
         
         fetchDataUsingCache(categoryDataURL, downloaded: {
             dispatch_async(dispatch_get_main_queue()) {
                 
                 self.videoOnDemandData=dictionaryOfPath(categoryDataURL, usingCache: false)
                 
-                let downloadedJSON=self.videoOnDemandData//dictionaryOfPath(categoryURL, usingCache: false)
-                //http://mediator.jw.org/v1/categories/E/Audio?detailed=1
-                //http://mediator.jw.org/v1/categories/E/NewSongs?detailed=1
-                self.parentCategory=(downloadedJSON?.objectForKey("category")!.objectForKey("subcategories"))! as! NSArray
+                self.videoOnDemandData=dictionaryOfPath(categoryDataURL, usingCache: false)
+                
+                let subcat=self.videoOnDemandData!.objectForKey("category")!.objectForKey("subcategories")!.firstObject
+                let downloadedJSON=dictionaryOfPath(categoriesDirectory+"/"+(subcat!!.objectForKey("key") as! String)+"?detailed=1", usingCache: false)
+                
+                //self.parentCategory=(downloadedJSON?.objectForKey("category")!.objectForKey("subcategories"))! as! NSArray
+                
+                self.activityIndicator.stopAnimating()
+                
                 if (self.view.hidden==false){
                     self.videoCategoryTable.reloadData()
                     self.videoCollection.reloadData()
                 }
             }
         })
-        
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        
-        if (videoOnDemandData?.objectForKey("category")!.objectForKey("media") != nil){
-            return (videoOnDemandData?.objectForKey("category")?.objectForKey("media")!.count!)!
-        }
-        else if (videoOnDemandData?.objectForKey("category")!.objectForKey("subcategories") != nil){
-            return (videoOnDemandData?.objectForKey("category")?.objectForKey("subcategories")!.count!)!
+        if (videoOnDemandData != nil){//LEAVE ALONE TO NOT HURT VOD
+            if (videoOnDemandData?.objectForKey("category")!.objectForKey("subcategories") != nil){
+                return (videoOnDemandData?.objectForKey("category")?.objectForKey("subcategories")!.count!)!
+            }
+            else if (videoOnDemandData?.objectForKey("category")!.objectForKey("media") != nil){
+                return (videoOnDemandData?.objectForKey("category")?.objectForKey("media")!.count!)!
+            }
         }
         
         return 0
@@ -94,27 +101,15 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
         
         let category:UITableViewCell=tableView.dequeueReusableCellWithIdentifier("category", forIndexPath: indexPath)
         category.textLabel?.text=subcats.objectAtIndex(indexPath.row).objectForKey("name") as? String
-        //category.textLabel?.textColor=UIColor.whiteColor()
         
         return category
     }
     
     func tableView(tableView: UITableView, didUpdateFocusInContext context: UITableViewFocusUpdateContext, withAnimationCoordinator coordinator: UIFocusAnimationCoordinator) {
-        
-        /*
-        if (context.previouslyFocusedView != nil && (context.previouslyFocusedView?.isKindOfClass(UITableViewCell.self) == true) ){
-        
-        (context.previouslyFocusedView as! UITableViewCell).textLabel?.textColor=UIColor.whiteColor()
-        
-        }
-        if (context.nextFocusedView != nil && (context.nextFocusedView?.isKindOfClass(UITableViewCell.self) == true) ){
-        
-        (context.nextFocusedView as! UITableViewCell).textLabel?.textColor=UIColor.blackColor()
-        
-        }*/
         if (tableView == self.videoCategoryTable && (context.nextFocusedView?.isKindOfClass(UITableViewCell.self) == true)){
-            //chooseSubcategory((context.nextFocusedIndexPath?.row)!)
+            chooseSubcategory((context.nextFocusedIndexPath?.row)!)
         }
+
     }
     
     func tableView(tableView: UITableView, didHighlightRowAtIndexPath indexPath: NSIndexPath) {
@@ -122,44 +117,43 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
         chooseSubcategory((indexPath.row))
     }
     
+    var subcategories=false
+    
     func chooseSubcategory(index:Int){
+        
         
         let subcat=videoOnDemandData!.objectForKey("category")!.objectForKey("subcategories")!.objectAtIndex(index)
         
         let directory=base+"/"+version+"/categories/"+languageCode
-        let downloadedJSON=dictionaryOfPath(directory+"/"+(subcat.objectForKey("key") as! String)+"?detailed=1", usingCache: false)
-        print(directory+"/"+(subcat.objectForKey("key") as! String)+"?detailed=1")
+        let subcategoryDirectory=directory+"/"+(subcat.objectForKey("key") as! String)+"?detailed=1"
         
-        if (downloadedJSON?.objectForKey("category")!.objectForKey("media") != nil){
-            parentCategory=(downloadedJSON?.objectForKey("category")!.objectForKey("media"))! as! NSArray
-            
-        }
-        else if (downloadedJSON?.objectForKey("category")!.objectForKey("subcategories") != nil){
-            parentCategory=(downloadedJSON?.objectForKey("category")!.objectForKey("subcategories"))! as! NSArray
-            subcategories=true
-        }
-        self.videoCollection.reloadData()
+        
+        
+        fetchDataUsingCache(subcategoryDirectory, downloaded: {
+            dispatch_async(dispatch_get_main_queue()) {
+                let downloadedJSON=dictionaryOfPath(subcategoryDirectory, usingCache: false)
+                
+                if (downloadedJSON?.objectForKey("category")!.objectForKey("media") != nil){//If no subcategories then just make itself the subcategory
+                    self.parentCategory=Array(arrayLiteral: downloadedJSON?.objectForKey("category")! as! NSDictionary)
+                    
+                }
+                else if (downloadedJSON?.objectForKey("category")!.objectForKey("subcategories") != nil){//for video on demand pretty much
+                    self.parentCategory=(downloadedJSON?.objectForKey("category")!.objectForKey("subcategories"))! as! NSArray
+                    self.subcategories=true
+                }
+                self.videoCollection.reloadData()
+            }
+        })
+        
     }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         
-        /*if (subcategories){
-            return parentCategory.count
-        }
-        else {
-            return 1
-        }*/
-        return 0
+        return parentCategory.count
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 0
-        if (subcategories){
-            return (parentCategory.objectAtIndex(section).count)!
-        }
-        else {
-            return (parentCategory.objectAtIndex(section).objectForKey("media")?.count)!
-        }
+        return (parentCategory.objectAtIndex(section).objectForKey("media")?.count)!
     }
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
@@ -168,7 +162,7 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
         
         if (kind == UICollectionElementKindSectionHeader){
             header=collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "subcategory", forIndexPath: indexPath)
-            /*
+            
             for subview in header!.subviews {
                 subview.removeFromSuperview()
             }
@@ -187,7 +181,7 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
             
             let line:UIView=UIView(frame: CGRect(x: textspacing, y: textHeight/2, width: header!.frame.size.width-textspacing, height: 1))
             line.backgroundColor=UIColor.darkGrayColor()
-            header?.addSubview(line)*/
+            header?.addSubview(line)
             
         }
         if (kind == UICollectionElementKindSectionFooter) {
@@ -198,91 +192,69 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
         return header!
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSizeMake(270, 320)
-    }
-    
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
+        
         let cell: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("video", forIndexPath: indexPath)
-        /*
-        for subview in cell.contentView.subviews {
-            subview.removeFromSuperview()
-        }
-        var retrievedVideo:NSDictionary?=nil
-        if (parentCategory.objectAtIndex(indexPath.section).objectForKey("media") != nil){
-            retrievedVideo=parentCategory.objectAtIndex(indexPath.section).objectForKey("media")?.objectAtIndex(indexPath.row) as? NSDictionary
-        }
-        else {
-            retrievedVideo=parentCategory.objectAtIndex(indexPath.row) as? NSDictionary
+        let retrievedVideo=parentCategory.objectAtIndex(indexPath.section).objectForKey("media")?.objectAtIndex(indexPath.row)
+        
+        let imageRatios=retrievedVideo!.objectForKey("images")!
+        
+        let priorityRatios=["wsr","sqr"]//wsr
+        
+        var imageURL:String!=""
+        
+        for ratio in imageRatios.allKeys {
+            for priorityRatio in priorityRatios.reverse() {
+                if (ratio as? String == priorityRatio){
+                    if ((imageRatios.objectForKey(ratio)?.objectForKey("sm")) != nil){
+                        imageURL=((imageRatios.objectForKey(ratio)?.objectForKey("sm"))! as! String)
+                    }
+                }
+            }
         }
         
-        cell.alpha=0
         
-        fetchDataUsingCache((retrievedVideo!.objectForKey("images")!.objectForKey("sqr")?.objectForKey("lg"))! as! String, downloaded: {
+        print(imageURL)
+        fetchDataUsingCache(imageURL, downloaded: {
+            
             dispatch_async(dispatch_get_main_queue()) {
-                let image=UIImageView(image: imageUsingCache((retrievedVideo!.objectForKey("images")!.objectForKey("sqr")?.objectForKey("lg"))! as! String))
-                cell.contentView.addSubview(image)
-                image.frame=CGRect(x: 0, y: 0, width: 250, height: 250)
-                image.layer.shadowColor=UIColor.blackColor().CGColor
-                image.layer.shadowOpacity=0
-                image.layer.shadowRadius=0
-                image.layer.cornerRadius=5
                 
-                UIView.animateWithDuration(0.5, animations: {
-                    
-                    cell.alpha=1
-                    
-                })
+                let image=imageUsingCache(imageURL)
+                
+                for subview in cell.contentView.subviews {
+                    if (subview.isKindOfClass(UIImageView.self)){
+                        subview.alpha=0
+                        (subview as! UIImageView).image=image
+                        subview.userInteractionEnabled = true
+                        (subview as! UIImageView).adjustsImageWhenAncestorFocused = true
+                        subview.layer.cornerRadius=5
+                        UIView.animateWithDuration(0.5, animations: {
+                            subview.alpha=1
+                        })
+                    }
+                    if (subview.isKindOfClass(UILabel.self)){
+                        
+                        
+                        let titleLabel=(subview as! UILabel)
+                        titleLabel.text=retrievedVideo!.objectForKey("title") as? String
+                        titleLabel.layer.shadowColor=UIColor.blackColor().CGColor
+                        titleLabel.layer.shadowRadius=5
+                        titleLabel.numberOfLines=3
+                        
+                    }
+                    if (subview.isKindOfClass(UIActivityIndicatorView.self)){
+                        subview.transform = CGAffineTransformMakeScale(2.0, 2.0)
+                    }
+                }
+                
+                
             }
         })
         
         
-        let label=UILabel(frame: CGRect(x: 0, y: 270, width: 270, height: 50))
-        label.text=retrievedVideo!.objectForKey("title") as? String
-        label.textAlignment = .Center
-        label.font=UIFont.systemFontOfSize(30)
-        cell.contentView.addSubview(label)
-        */
         
         return cell
-    }
-    
-    func collectionView(collectionView: UICollectionView, shouldUpdateFocusInContext context: UICollectionViewFocusUpdateContext) -> Bool {
-        
-        /*
-        This method provides the blue highlighting to the cells and sets variable selectedSlideShow:Bool.
-        If selectedSlideShow==true (AKA the user is interacting with the slideshow) then the slide show will not roll to next slide.
-        
-        */
-        /*
-        UIView.animateWithDuration(0.5, animations: {
-            
-            if (context.previouslyFocusedView != nil && (context.previouslyFocusedView?.isKindOfClass(UICollectionViewCell.self) == true) ){
-                
-                //Clear shadow on any possible previous selection.
-                
-                context.previouslyFocusedView?.layer.shadowColor=UIColor.clearColor().CGColor
-                context.previouslyFocusedView?.layer.shadowOpacity=0
-                context.previouslyFocusedView?.layer.shadowRadius=0
-                context.previouslyFocusedView?.layer.shadowOffset=CGSize(width: 0, height: 0)
-                context.previouslyFocusedView?.transform=CGAffineTransformScale(CGAffineTransformIdentity, 1, 1)
-                //context.previouslyFocusedView?.frame=CGRect(x: (context.previouslyFocusedView?.frame.origin.x)!, y: (context.previouslyFocusedView?.frame.origin.y)!+40, width: (context.previouslyFocusedView?.frame.size.width)!, height: (context.previouslyFocusedView?.frame.size.height)!)
-            }
-            
-            if ((context.nextFocusedView != nil) && (context.nextFocusedView?.isKindOfClass(UICollectionViewCell.self) == true) ){
-                
-                //Create shadow on newly selected item.
-                
-                context.nextFocusedView?.layer.shadowColor=UIColor.blackColor().CGColor
-                context.nextFocusedView?.layer.shadowOpacity=0.5
-                context.nextFocusedView?.layer.shadowOffset=CGSize(width: 0, height: 20)
-                context.nextFocusedView?.transform=CGAffineTransformScale(CGAffineTransformIdentity, 1.1, 1.1)
-                context.nextFocusedView?.layer.shadowRadius=15
-                //context.nextFocusedView?.frame=CGRect(x: (context.nextFocusedView?.frame.origin.x)!, y: (context.nextFocusedView?.frame.origin.y)!-40, width: (context.nextFocusedView?.frame.size.width)!, height: (context.nextFocusedView?.frame.size.height)!)
-            }
-        })*/
-        return true
     }
     
     var playerViewController:AVPlayerViewController?=nil
@@ -290,18 +262,13 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         //let videosData=
         let subcat=parentCategory.objectAtIndex(indexPath.section)
-        
-        //videos[indexPath.row].objectForKey("files")
         let media=subcat.objectForKey("media")
-        //print(media?.count)
         let videosection=media!.objectAtIndex(indexPath.row)
-        //print(videosection)
         let files=videosection.objectForKey("files")
-        let videoData=files!.objectAtIndex(3)
-        //.objectForKey("files")!
+        let file=files!.objectAtIndex((files?.count)!-1)
+        let videoData=file
         
         let videoURLString=videoData.objectForKey("progressiveDownloadURL") as! String
-        
         
         let videoURL = NSURL(string: videoURLString)
         let player = AVPlayer(URL: videoURL!)
@@ -321,6 +288,12 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
             //playerViewController?.player!.currentItem?.removeObserver(self, forKeyPath: "status")
             playerViewController?.dismissViewControllerAnimated(true, completion: nil)
         }
+    }
+
+    
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
     
 }

@@ -12,9 +12,12 @@ import AVKit
 class audioController: categoryController {
 
     override func viewDidLoad() {
-        print("setting category")
         category="Audio"
         super.viewDidLoad()
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        return CGSizeMake(270, 320)
     }
     
 }

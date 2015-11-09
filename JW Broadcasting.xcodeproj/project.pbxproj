@@ -18,6 +18,7 @@
 		9F58F0781BDEB02200211AE3 /* videoOnDemand in Resources */ = {isa = PBXBuildFile; fileRef = 9F58F0771BDEB02200211AE3 /* videoOnDemand */; };
 		9F5A639C1BB0FE24000EB71B /* videoDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5A639B1BB0FE24000EB71B /* videoDetail.swift */; };
 		9F5CE48D1BB644C700378D4C /* collectionViewRightToLeftFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5CE48C1BB644C700378D4C /* collectionViewRightToLeftFlowLayout.swift */; };
+		9F6D236D1BF09C0500944AE1 /* VideoOnDemand-old in Resources */ = {isa = PBXBuildFile; fileRef = 9F6D236C1BF09C0500944AE1 /* VideoOnDemand-old */; };
 		9F79A18A1BA6A3AC00B5E925 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F79A1891BA6A3AC00B5E925 /* AppDelegate.swift */; };
 		9F79A18C1BA6A3AC00B5E925 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F79A18B1BA6A3AC00B5E925 /* ViewController.swift */; };
 		9F79A18F1BA6A3AC00B5E925 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F79A18D1BA6A3AC00B5E925 /* Main.storyboard */; };
@@ -54,6 +55,7 @@
 		9F58F0771BDEB02200211AE3 /* videoOnDemand */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = videoOnDemand; sourceTree = "<group>"; };
 		9F5A639B1BB0FE24000EB71B /* videoDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = videoDetail.swift; sourceTree = "<group>"; };
 		9F5CE48C1BB644C700378D4C /* collectionViewRightToLeftFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = collectionViewRightToLeftFlowLayout.swift; sourceTree = "<group>"; };
+		9F6D236C1BF09C0500944AE1 /* VideoOnDemand-old */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "VideoOnDemand-old"; sourceTree = "<group>"; };
 		9F79A1861BA6A3AC00B5E925 /* JW Broadcasting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JW Broadcasting.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F79A1891BA6A3AC00B5E925 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9F79A18B1BA6A3AC00B5E925 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 				9F5A639B1BB0FE24000EB71B /* videoDetail.swift */,
 				9FFB9DB11BB528820059E5EA /* VideoOnDemandController.swift */,
 				9F38D1BA1BB2566B0081073A /* LanguageSelector.swift */,
+				9F6D236C1BF09C0500944AE1 /* VideoOnDemand-old */,
 				9F161E991BED216F0011F16A /* audioController.swift */,
 				9F161E9B1BED256C0011F16A /* categoryController.swift */,
 				9F58F0771BDEB02200211AE3 /* videoOnDemand */,
@@ -229,6 +232,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F79A1911BA6A3AC00B5E925 /* Assets.xcassets in Resources */,
+				9F6D236D1BF09C0500944AE1 /* VideoOnDemand-old in Resources */,
 				9FFB9DB41BB52D360059E5EA /* Stack.xml.js in Resources */,
 				9F58F0781BDEB02200211AE3 /* videoOnDemand in Resources */,
 				9F07787F1BD1CD5700476E4C /* keyPhrasesIndex in Resources */,

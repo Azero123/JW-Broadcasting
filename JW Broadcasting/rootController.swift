@@ -82,7 +82,7 @@ func languageFromCode(code:String) -> NSDictionary?{
     return nil
 }
 
-var tranlsatedKeyPhrases:NSDictionary?
+var translatedKeyPhrases:NSDictionary?
 
 class rootController: UITabBarController, UITabBarControllerDelegate{
     
@@ -166,8 +166,8 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
     
     func displayUnableToConnect(){
         //msgAPIFailureErrorTitle
-        if (tranlsatedKeyPhrases != nil){
-            let alert=UIAlertController(title: tranlsatedKeyPhrases?.objectForKey("msgAPIFailureErrorTitle") as? String, message: tranlsatedKeyPhrases?.objectForKey("msgAPIFailureErrorBody")as? String, preferredStyle: UIAlertControllerStyle.Alert)
+        if (translatedKeyPhrases != nil){
+            let alert=UIAlertController(title: translatedKeyPhrases?.objectForKey("msgAPIFailureErrorTitle") as? String, message: translatedKeyPhrases?.objectForKey("msgAPIFailureErrorBody")as? String, preferredStyle: UIAlertControllerStyle.Alert)
             self.presentViewController(alert, animated: true, completion: nil)
         }
         else {
@@ -273,7 +273,7 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
     
     func setLanguage(newLanguageCode:String, newTextDirection:UIUserInterfaceLayoutDirection){
         languageCode=newLanguageCode
-        
+        print("set language")
         /*
         Save settings language settings to settings.plist file in library folder.
         */
@@ -296,10 +296,9 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         }
         
         /* download new translation */
-        tranlsatedKeyPhrases=dictionaryOfPath(base+"/"+version+"/translations/"+languageCode)?.objectForKey("translations")?.objectForKey(languageCode) as? NSDictionary
-        
-        if (tranlsatedKeyPhrases != nil){ // if the language file was obtained
-            
+        translatedKeyPhrases=dictionaryOfPath(base+"/"+version+"/translations/"+languageCode)?.objectForKey("translations")?.objectForKey(languageCode) as? NSDictionary
+        print(translatedKeyPhrases?.allKeys)
+        if (translatedKeyPhrases != nil){ // if the language file was obtained
             /*These keys are what I found correspond to the navigation buttons on tv.jw.org*/
             
             let keyForButton=["lnkHomeView","homepageStreamingBlockTitle","homepageVODBlockTitle","homepageAudioBlockTitle","lnkLanguage"]
@@ -317,7 +316,7 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
             /* replace titles */
             
             for var i=startIndex ; i<endIndex ; i++ {
-                //var newTitle=tranlsatedKeyPhrases?.objectForKey(keyForButton[i]) as! String
+                //var newTitle=translatedKeyPhrases?.objectForKey(keyForButton[i]) as! String
                 switch i {
                 /*case 0:
                     newTitle=""
@@ -341,9 +340,9 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                     //self.tabBar.items?[i].setTitleTextAttributes([UITextAttributeTextColor: UIColor.blackColor()], forState: .Normal)
                 default: break
                     //newTitle=""
-                    self.tabBar.items?[i].title=((tranlsatedKeyPhrases?.objectForKey(keyForButton[i]))! as! String)
+                    self.tabBar.items?[i].title=((translatedKeyPhrases?.objectForKey(keyForButton[i]))! as! String)
                 }
-                //self.tabBar.items?[i].title=((tranlsatedKeyPhrases?.objectForKey(keyForButton[i]))! as! String)
+                //self.tabBar.items?[i].title=((translatedKeyPhrases?.objectForKey(keyForButton[i]))! as! String)
                 //self.tabBar.items?[i].setTitleTextAttributes(NSDictionary(object: UIFont(name: "jwtv", size: 36)!, forKey: NSFontAttributeName) as? [String : AnyObject], forState: .Normal)
             }
         }

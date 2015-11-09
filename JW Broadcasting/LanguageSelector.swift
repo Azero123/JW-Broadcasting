@@ -47,7 +47,6 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
         let languageText=NSMutableAttributedString(string: (language.objectForKey("vernacular") as? String)!)
         
         if (language.objectForKey("isSignLanguage")?.boolValue == true){
-            print("sign language!")
             languageText.appendAttributedString(NSAttributedString(string: "", attributes: NSDictionary(object: UIFont(name: "jwtv", size: 36)!, forKey: NSFontAttributeName) as? [String : AnyObject]))
             //NSFontAttributeName
         }
@@ -59,7 +58,7 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let language=languageList![indexPath.row]
-        
+        print("did select")
         (self.tabBarController as! rootController).setLanguage(language.objectForKey("code") as! String, newTextDirection: ( language.objectForKey("isRTL")?.boolValue == true ? UIUserInterfaceLayoutDirection.RightToLeft : UIUserInterfaceLayoutDirection.LeftToRight ))
     }
     /*
