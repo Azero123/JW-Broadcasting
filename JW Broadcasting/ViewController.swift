@@ -402,7 +402,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         if (collectionView == latestVideosCollectionView){
-            return CGSizeMake(560, 360)
+            return CGSizeMake(560/1.05, 360/1.05)
         }
         if (collectionView == slideShowCollectionView){
             return CGSizeMake(1140/1.5, 380/1.5)
