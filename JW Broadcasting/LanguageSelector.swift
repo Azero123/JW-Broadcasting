@@ -15,6 +15,15 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
 
         // Do any additional setup after loading the view.
     }
+    
+    
+    override func viewWillAppear(animated: Bool) {
+        self.view.hidden=false
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        self.view.hidden=true
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
