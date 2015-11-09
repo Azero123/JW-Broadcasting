@@ -13,6 +13,7 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
     
     @IBOutlet weak var videoCategoryTable: UITableView!
     @IBOutlet weak var videoCollection: UICollectionView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     let category:String="VideoOnDemand"
     
@@ -21,6 +22,9 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
 
         //http://mediator.jw.org/v1/categories/ASL/VideoOnDemand?detailed=1
         self.videoCollection.clipsToBounds=false
+        activityIndicator.hidesWhenStopped=true
+        activityIndicator.startAnimating()
+        
         renewContent()
     
     }
@@ -46,16 +50,30 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
     func renewContent(){
         
         //http://mediator.jw.org/v1/categories/E/Audio?detailed=1
-        videoOnDemandData=dictionaryOfPath(base+"/"+version+"/categories/"+languageCode+"/"+category+"?detailed=1", usingCache: false)
         
-        let subcat=videoOnDemandData!.objectForKey("category")!.objectForKey("subcategories")!.firstObject
-        let directory=base+"/"+version+"/categories/"+languageCode
-        let downloadedJSON=dictionaryOfPath(directory+"/"+(subcat!!.objectForKey("key") as! String)+"?detailed=1", usingCache: false)
+        let categoryDataURL=base+"/"+version+"/categories/"+languageCode+"/"+category+"?detailed=1"
         
-        parentCategory=(downloadedJSON?.objectForKey("category")!.objectForKey("subcategories"))! as! NSArray
+        fetchDataUsingCache(categoryDataURL, downloaded: {
+            dispatch_async(dispatch_get_main_queue()) {
+                
+                self.videoOnDemandData=dictionaryOfPath(categoryDataURL, usingCache: false)
         
-        videoCategoryTable.reloadData()
-        videoCollection.reloadData()
+                self.videoOnDemandData=dictionaryOfPath(base+"/"+version+"/categories/"+languageCode+"/"+self.category+"?detailed=1", usingCache: false)
+        
+                let subcat=self.videoOnDemandData!.objectForKey("category")!.objectForKey("subcategories")!.firstObject
+                let directory=base+"/"+version+"/categories/"+languageCode
+                let downloadedJSON=dictionaryOfPath(directory+"/"+(subcat!!.objectForKey("key") as! String)+"?detailed=1", usingCache: false)
+        
+                self.parentCategory=(downloadedJSON?.objectForKey("category")!.objectForKey("subcategories"))! as! NSArray
+                
+                self.activityIndicator.stopAnimating()
+                
+                if (self.view.hidden==false){
+                    self.videoCategoryTable.reloadData()
+                    self.videoCollection.reloadData()
+                }
+            }
+        })
     }
 
     override func didReceiveMemoryWarning() {
@@ -63,7 +81,11 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (videoOnDemandData?.objectForKey("category")?.objectForKey("subcategories")!.count!)!
+        
+        if (videoOnDemandData != nil){
+            return (videoOnDemandData?.objectForKey("category")?.objectForKey("subcategories")!.count!)!
+        }
+        return 0
     }
     
     var parentCategory:NSArray=[]
@@ -167,6 +189,7 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
         
         fetchDataUsingCache((retrievedVideo!.objectForKey("images")!.objectForKey("sqr")?.objectForKey("lg"))! as! String, downloaded: {
             dispatch_async(dispatch_get_main_queue()) {
+                if (self.view.hidden == false){
             let image=UIImageView(image: imageUsingCache((retrievedVideo!.objectForKey("images")!.objectForKey("sqr")?.objectForKey("lg"))! as! String))
             cell.contentView.addSubview(image)
             
@@ -180,6 +203,7 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
                 cell.alpha=1
                 
             })
+            }
             }
         })
         

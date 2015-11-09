@@ -47,19 +47,25 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
     func renewContent(){
         print("renew content")
         //http://mediator.jw.org/v1/categories/E/Audio?detailed=1
-        videoOnDemandData=dictionaryOfPath(base+"/"+version+"/categories/"+languageCode+"/"+category+"?detailed=1", usingCache: false)
         
-        /*let subcat=videoOnDemandData!.objectForKey("category")!.objectForKey("subcategories")!.firstObject
-        let directory=base+"/"+version+"/categories/"+languageCode
-        let categoryURL=directory+"/"+(subcat!!.objectForKey("key") as! String)+"?detailed=1"
-        print("caturl:\(categoryURL)")*/
-        let downloadedJSON=videoOnDemandData//dictionaryOfPath(categoryURL, usingCache: false)
-        //http://mediator.jw.org/v1/categories/E/Audio?detailed=1
-        //http://mediator.jw.org/v1/categories/E/NewSongs?detailed=1
-        parentCategory=(downloadedJSON?.objectForKey("category")!.objectForKey("subcategories"))! as! NSArray
+        let categoryDataURL=base+"/"+version+"/categories/"+languageCode+"/"+category+"?detailed=1"
         
-        videoCategoryTable.reloadData()
-        videoCollection.reloadData()
+        fetchDataUsingCache(categoryDataURL, downloaded: {
+            dispatch_async(dispatch_get_main_queue()) {
+                
+                self.videoOnDemandData=dictionaryOfPath(categoryDataURL, usingCache: false)
+                
+                let downloadedJSON=self.videoOnDemandData//dictionaryOfPath(categoryURL, usingCache: false)
+                //http://mediator.jw.org/v1/categories/E/Audio?detailed=1
+                //http://mediator.jw.org/v1/categories/E/NewSongs?detailed=1
+                self.parentCategory=(downloadedJSON?.objectForKey("category")!.objectForKey("subcategories"))! as! NSArray
+                if (self.view.hidden==false){
+                    self.videoCategoryTable.reloadData()
+                    self.videoCollection.reloadData()
+                }
+            }
+        })
+        
     }
     
     override func didReceiveMemoryWarning() {

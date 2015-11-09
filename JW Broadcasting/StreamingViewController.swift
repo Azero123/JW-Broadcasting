@@ -48,24 +48,27 @@ class StreamingViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let streamingSchedule=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-420"
+        let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-420"
         
         self.activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
         self.activityIndicator.hidesWhenStopped=true
+        self.activityIndicator.startAnimating()
         
-        fetchDataUsingCache(streamingSchedule, downloaded: {
-            dispatch_async(dispatch_get_main_queue()) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
                 
-                let streamMeta=dictionaryOfPath(base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-420", usingCache: false)
+            let streamMeta=dictionaryOfPath(streamingScheduleURL, usingCache: false)
+            
+            dispatch_async(dispatch_get_main_queue()) {
                 let subcategory=streamMeta?.objectForKey("category")?.objectForKey("subcategories")!.objectAtIndex(0)
                 self.playlist=subcategory!.objectForKey("media") as! NSArray
                 let currentVidMaybe=self.playlist.objectAtIndex(0).objectForKey("files")
                 let timeIndex=subcategory!.objectForKey("position")?.objectForKey("time")?.floatValue
-                
-                self.startStream((currentVidMaybe?.objectAtIndex(currentVidMaybe!.count-1).objectForKey("progressiveDownloadURL"))! as! String,time: timeIndex!)
-                self.activityIndicator.startAnimating()
+                if (self.view.hidden==false){
+                    //currentVidMaybe!.count-1 is the highest quality
+                    self.startStream((currentVidMaybe?.objectAtIndex(currentVidMaybe!.count-1).objectForKey("progressiveDownloadURL"))! as! String,time: timeIndex!)
+                }
             }
-        })
+        }
         
     }
     
@@ -118,8 +121,12 @@ class StreamingViewController : UIViewController {
         self.view.hidden=false
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewWillDisappear(animated: Bool) {
         self.view.hidden=true
+        player?.pause()
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
         thisControllerIsVisible=false
         player?.pause()
         player?.currentItem?.removeObserver(self, forKeyPath: "status")
@@ -140,19 +147,36 @@ class StreamingViewController : UIViewController {
         player?.pause()
         playerLayer?.removeFromSuperlayer()
         activityIndicator.startAnimating()
-        let streamMeta=dictionaryOfPath(base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-420", usingCache: false)
-        let subcategory=streamMeta?.objectForKey("category")?.objectForKey("subcategories")!.objectAtIndex(0)
-        indexInPlaylist=0
-        playlist=subcategory!.objectForKey("media") as! NSArray
-        let newVidData=playlist.objectAtIndex(indexInPlaylist).objectForKey("files")
-        let videoURL=newVidData!.objectAtIndex(newVidData!.count-1).objectForKey("progressiveDownloadURL")
-        let timeIndex=subcategory!.objectForKey("position")?.objectForKey("time")?.floatValue
-        if (videoURL as? String != currentURL){
-            player?.currentItem?.removeObserver(self, forKeyPath: "status")
-            player?.replaceCurrentItemWithPlayerItem(AVPlayerItem(URL: NSURL(string: videoURL as! String)!))
-            self.player?.currentItem?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.New, context: nil)
-        }
-        player!.seekToTime(CMTimeMake(Int64(timeIndex!), 1))
+        
+        
+        
+        
+        let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-420"
+        
+        //fetchDataUsingCache(streamingScheduleURL, downloaded: {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                
+                print("streaming schedule downloaded...")
+                
+                let streamMeta=dictionaryOfPath(streamingScheduleURL, usingCache: false)
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    let subcategory=streamMeta?.objectForKey("category")?.objectForKey("subcategories")!.objectAtIndex(0)
+                    self.indexInPlaylist=0
+                    self.playlist=subcategory!.objectForKey("media") as! NSArray
+                    let newVidData=self.playlist.objectAtIndex(self.indexInPlaylist).objectForKey("files")
+                    let videoURL=newVidData!.objectAtIndex(0).objectForKey("progressiveDownloadURL")
+                    let timeIndex=subcategory!.objectForKey("position")?.objectForKey("time")?.floatValue
+                    if (videoURL as? String != self.currentURL){
+                        self.player?.currentItem?.removeObserver(self, forKeyPath: "status")
+                        self.player?.replaceCurrentItemWithPlayerItem(AVPlayerItem(URL: NSURL(string: videoURL as! String)!))
+                        self.player?.currentItem?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.New, context: nil)
+                    }
+                    self.player!.seekToTime(CMTimeMake(Int64(timeIndex!), 1))
+                }
+            }
+        //})
         
         //player?.setRate(1.5, time: kCMTimeInvalid, atHostTime: CMTimeMake(Int64(timeIndex!), 1))
         /*might try using set rate to speed the video up until it catches up to the current time that way users can watch the video uninterrupted. Currently having some bugs with this however*/

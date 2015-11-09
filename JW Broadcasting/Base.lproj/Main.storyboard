@@ -275,12 +275,18 @@
                                     <outlet property="delegate" destination="dOE-pI-BIe" id="cm4-gf-M5f"/>
                                 </connections>
                             </collectionView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="200" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="HHD-tl-bQR">
+                                <rect key="frame" x="860" y="370" width="200" height="200"/>
+                                <animations/>
+                            </activityIndicatorView>
                         </subviews>
                         <animations/>
                         <constraints>
+                            <constraint firstItem="HHD-tl-bQR" firstAttribute="centerY" secondItem="5qh-Q0-axF" secondAttribute="centerY" id="1nC-I2-6ah"/>
                             <constraint firstItem="xZd-08-Dpv" firstAttribute="top" secondItem="cn4-LG-RGh" secondAttribute="bottom" constant="30" id="34h-HU-AkJ"/>
                             <constraint firstItem="XO0-SC-oGS" firstAttribute="width" secondItem="5qh-Q0-axF" secondAttribute="width" multiplier="0.3" constant="-60" id="AbA-11-fCv"/>
                             <constraint firstItem="cn4-LG-RGh" firstAttribute="width" secondItem="5qh-Q0-axF" secondAttribute="width" multiplier="0.7" constant="-30" id="D7w-Wj-ANo"/>
+                            <constraint firstItem="HHD-tl-bQR" firstAttribute="centerX" secondItem="5qh-Q0-axF" secondAttribute="centerX" id="DAb-AX-OvK"/>
                             <constraint firstItem="cn4-LG-RGh" firstAttribute="top" secondItem="qD1-A4-GSP" secondAttribute="bottom" constant="30" id="I9n-eL-xZg"/>
                             <constraint firstItem="xZd-08-Dpv" firstAttribute="top" secondItem="XO0-SC-oGS" secondAttribute="bottom" constant="30" id="NQW-Kl-TBH"/>
                             <constraint firstItem="XO0-SC-oGS" firstAttribute="leading" secondItem="5qh-Q0-axF" secondAttribute="leading" constant="30" id="kbP-lv-aiE"/>
@@ -291,6 +297,7 @@
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <tabBarItem key="tabBarItem" title="Video on Demand" id="58h-qI-91Q"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="HHD-tl-bQR" id="Dn7-2L-K79"/>
                         <outlet property="videoCategoryTable" destination="XO0-SC-oGS" id="f7w-cB-0Mn"/>
                         <outlet property="videoCollection" destination="cn4-LG-RGh" id="nBY-Pt-vc3"/>
                     </connections>
