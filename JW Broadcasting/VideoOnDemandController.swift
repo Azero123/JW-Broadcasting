@@ -115,9 +115,7 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
             (context.nextFocusedView as! UITableViewCell).textLabel?.textColor=UIColor.blackColor()
             
         }*/
-        print("attempt focus")
         if (tableView == self.videoCategoryTable){
-            print("it is focusing")
                 if ((context.nextFocusedView?.isKindOfClass(UITableViewCell.self)) == true){
                     let subcat=videoOnDemandData!.objectForKey("category")!.objectForKey("subcategories")!.objectAtIndex(context.nextFocusedIndexPath!.row)
                     
