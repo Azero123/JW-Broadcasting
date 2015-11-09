@@ -297,6 +297,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             fetchDataUsingCache(imageURL, downloaded: {
                 
                 
+                dispatch_async(dispatch_get_main_queue()) {
                 let image=imageUsingCache(imageURL)
                 
                 let imageView=UIImageView(image: image)
@@ -336,7 +337,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 
                 
                 slide.contentView.addSubview(dissipatingView)
-                
+                }
                 })
             
             return slide
