@@ -33,6 +33,12 @@ class VideoOnDemandController: UIViewController, UITableViewDelegate, UITableVie
             renewContent()
         }
         previousLanguageCode=languageCode
+        
+        self.view.hidden=false
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        self.view.hidden=true
     }
     
     var videoOnDemandData:NSDictionary?

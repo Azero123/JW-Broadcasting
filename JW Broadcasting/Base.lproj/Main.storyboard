@@ -183,8 +183,8 @@
                         <rect key="frame" x="0.0" y="140" width="1920" height="940"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="200" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="U3j-ZR-zh4">
-                                <rect key="frame" x="860" y="440" width="200" height="200"/>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="200" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="U3j-ZR-zh4">
+                                <rect key="frame" x="860" y="370" width="200" height="200"/>
                                 <animations/>
                             </activityIndicatorView>
                         </subviews>

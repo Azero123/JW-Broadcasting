@@ -33,6 +33,11 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
             renewContent()
         }
         previousLanguageCode=languageCode
+        self.view.hidden=false
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        self.view.hidden=true
     }
     
     var videoOnDemandData:NSDictionary?

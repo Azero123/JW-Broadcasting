@@ -55,6 +55,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             renewContent()
         }
         previousLanguageCode=languageCode
+        self.view.hidden=false
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        self.view.hidden=true
     }
     
     var latestVideosTranslatedTitle:String="Latest Videos"

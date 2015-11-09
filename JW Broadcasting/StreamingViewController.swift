@@ -103,12 +103,12 @@ class StreamingViewController : UIViewController {
             player!.play()
             updateStream()
         }
-        //self.navigationController?.setNavigationBarHidden(true, animated: true)
-        //self.navigationController?.navigationBarHidden=true
-        //focusButton.canBecomeFocused()
+        
+        self.view.hidden=false
     }
     
     override func viewDidDisappear(animated: Bool) {
+        self.view.hidden=true
         thisControllerIsVisible=false
         player?.pause()
         player?.currentItem?.removeObserver(self, forKeyPath: "status")
