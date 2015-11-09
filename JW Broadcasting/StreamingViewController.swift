@@ -47,16 +47,26 @@ class StreamingViewController : UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let streamMeta=dictionaryOfPath(base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-420", usingCache: false)
-        let subcategory=streamMeta?.objectForKey("category")?.objectForKey("subcategories")!.objectAtIndex(0)
-        playlist=subcategory!.objectForKey("media") as! NSArray
-        let currentVidMaybe=playlist.objectAtIndex(0).objectForKey("files")
-        let timeIndex=subcategory!.objectForKey("position")?.objectForKey("time")?.floatValue
         
-        startStream((currentVidMaybe?.objectAtIndex(currentVidMaybe!.count-1).objectForKey("progressiveDownloadURL"))! as! String,time: timeIndex!)
-        activityIndicator.hidesWhenStopped=true
-        activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
-        activityIndicator.startAnimating()
+        let streamingSchedule=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-420"
+        
+        self.activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
+        self.activityIndicator.hidesWhenStopped=true
+        
+        fetchDataUsingCache(streamingSchedule, downloaded: {
+            dispatch_async(dispatch_get_main_queue()) {
+                
+                let streamMeta=dictionaryOfPath(base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-420", usingCache: false)
+                let subcategory=streamMeta?.objectForKey("category")?.objectForKey("subcategories")!.objectAtIndex(0)
+                self.playlist=subcategory!.objectForKey("media") as! NSArray
+                let currentVidMaybe=self.playlist.objectAtIndex(0).objectForKey("files")
+                let timeIndex=subcategory!.objectForKey("position")?.objectForKey("time")?.floatValue
+                
+                self.startStream((currentVidMaybe?.objectAtIndex(currentVidMaybe!.count-1).objectForKey("progressiveDownloadURL"))! as! String,time: timeIndex!)
+                self.activityIndicator.startAnimating()
+            }
+        })
+        
     }
     
     var player:AVPlayer?
@@ -68,7 +78,7 @@ class StreamingViewController : UIViewController {
         let videoURL = NSURL(string: videoURLString)
         player = AVPlayer(URL: videoURL!)
         playerLayer=AVPlayerLayer(player: player)
-        playerLayer!.frame=self.view.frame
+        playerLayer!.frame=UIScreen.mainScreen().bounds
         
         player!.actionAtItemEnd = AVPlayerActionAtItemEnd.None;
         
@@ -100,6 +110,7 @@ class StreamingViewController : UIViewController {
     override func viewWillAppear(animated: Bool) {
         thisControllerIsVisible=true
         if ((player) != nil){
+            self.player?.currentItem?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.New, context: nil)
             player!.play()
             updateStream()
         }
@@ -153,7 +164,9 @@ class StreamingViewController : UIViewController {
         
             if (self.player!.currentItem!.status == AVPlayerItemStatus.ReadyToPlay) {
                 activityIndicator.stopAnimating()
-                self.view.layer.addSublayer(playerLayer!)
+                if (self.view.hidden==false){
+                    self.view.layer.addSublayer(playerLayer!)
+                }
                 if (thisControllerIsVisible){
                     player?.play()
                 }
