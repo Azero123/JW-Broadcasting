@@ -42,6 +42,7 @@ class StreamingViewController : UIViewController {
     
     var currentURL:String?
     var playlist=[]
+    var streamID=0
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
@@ -53,19 +54,20 @@ class StreamingViewController : UIViewController {
         self.activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
         self.activityIndicator.hidesWhenStopped=true
         self.activityIndicator.startAnimating()
+        self.view.userInteractionEnabled=true
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
                 
             let streamMeta=dictionaryOfPath(streamingScheduleURL, usingCache: false)
             
             dispatch_async(dispatch_get_main_queue()) {
-                let subcategory=streamMeta?.objectForKey("category")?.objectForKey("subcategories")!.objectAtIndex(0)
+                let subcategory=streamMeta?.objectForKey("category")?.objectForKey("subcategories")!.objectAtIndex(self.streamID)
                 self.playlist=subcategory!.objectForKey("media") as! NSArray
-                let currentVidMaybe=self.playlist.objectAtIndex(0).objectForKey("files")
                 let timeIndex=subcategory!.objectForKey("position")?.objectForKey("time")?.floatValue
                 if (self.view.hidden==false){
                     //currentVidMaybe!.count-1 is the highest quality
-                    self.startStream((currentVidMaybe?.objectAtIndex(currentVidMaybe!.count-2).objectForKey("progressiveDownloadURL"))! as! String,time: timeIndex!)
+                    self.startStream(timeIndex!)
+                    self.update()
                 }
             }
         }
@@ -75,28 +77,24 @@ class StreamingViewController : UIViewController {
     var player:AVPlayer?
     var playerLayer:AVPlayerLayer?
     
-    func startStream(vidURL:String,time:Float){
-        let videoURLString=vidURL
+    func startStream(time:Float){
         
-        let videoURL = NSURL(string: videoURLString)
-        player = AVPlayer(URL: videoURL!)
+        player = AVPlayer()
         playerLayer=AVPlayerLayer(player: player)
         playerLayer!.frame=UIScreen.mainScreen().bounds
         
         player!.actionAtItemEnd = AVPlayerActionAtItemEnd.None;
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerItemDidReachEnd:", name: AVPlayerItemDidPlayToEndTimeNotification, object: player?.currentItem)
-        self.player?.currentItem?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.New, context: nil)
-        
-        
-        player!.seekToTime(CMTimeMake(Int64(time), 1))
-        player!.play()
         
     }
     
     var indexInPlaylist=0
     
     func playerItemDidReachEnd(notification:NSNotification){
+        print("WARNING")
+        print("WARNING")
+        print("WARNING")
+        print("WARNING")
+        print("WARNING")
         indexInPlaylist++
         let newVidData=playlist.objectAtIndex(indexInPlaylist).objectForKey("files")
         let videoURL=newVidData!.objectAtIndex(newVidData!.count-1).objectForKey("progressiveDownloadURL")
@@ -110,15 +108,22 @@ class StreamingViewController : UIViewController {
     var thisControllerIsVisible=false
     
     @IBOutlet var focusButton: UIButton!
+    
+    var initialAppear=true
+    
     override func viewWillAppear(animated: Bool) {
         thisControllerIsVisible=true
+        //if (initialAppear){
         if ((player) != nil){
-            self.player?.currentItem?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.New, context: nil)
-            player!.play()
-            updateStream()
+            //NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerItemDidReachEnd:", name: AVPlayerItemDidPlayToEndTimeNotification, object: player?.currentItem)
         }
-        
+        //}
         self.view.hidden=false
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        
+        updateStream()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -129,7 +134,6 @@ class StreamingViewController : UIViewController {
     override func viewDidDisappear(animated: Bool) {
         thisControllerIsVisible=false
         player?.pause()
-        player?.currentItem?.removeObserver(self, forKeyPath: "status")
         player?.replaceCurrentItemWithPlayerItem(nil)
         
     }
@@ -153,6 +157,10 @@ class StreamingViewController : UIViewController {
         
         let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-420"
         
+        if ((self.player?.currentItem) != nil){
+            print("remove observer")
+            //self.player?.currentItem?.removeObserver(self, forKeyPath: "status", context: nil)
+        }
         //fetchDataUsingCache(streamingScheduleURL, downloaded: {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
                 
@@ -162,16 +170,18 @@ class StreamingViewController : UIViewController {
                 
                 dispatch_async(dispatch_get_main_queue()) {
                     
-                    let subcategory=streamMeta?.objectForKey("category")?.objectForKey("subcategories")!.objectAtIndex(0)
+                    let subcategory=streamMeta?.objectForKey("category")?.objectForKey("subcategories")!.objectAtIndex(self.streamID)
                     self.indexInPlaylist=0
                     self.playlist=subcategory!.objectForKey("media") as! NSArray
                     let newVidData=self.playlist.objectAtIndex(self.indexInPlaylist).objectForKey("files")
                     let videoURL=newVidData!.objectAtIndex(newVidData!.count-2).objectForKey("progressiveDownloadURL")
                     let timeIndex=subcategory!.objectForKey("position")?.objectForKey("time")?.floatValue
                     if (videoURL as? String != self.currentURL){
-                        self.player?.currentItem?.removeObserver(self, forKeyPath: "status")
                         self.player?.replaceCurrentItemWithPlayerItem(AVPlayerItem(URL: NSURL(string: videoURL as! String)!))
-                        self.player?.currentItem?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.New, context: nil)
+                        
+                        print("add observer")
+                        NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerItemDidReachEnd:", name: AVPlayerItemDidPlayToEndTimeNotification, object: self.player?.currentItem)
+                       // self.player?.currentItem?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.New, context: nil)
                     }
                     self.player!.seekToTime(CMTimeMake(Int64(timeIndex!), 1))
                 }
@@ -183,7 +193,8 @@ class StreamingViewController : UIViewController {
 
     }
     
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+    /*override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        print("observing...")
         if (object as? AVPlayerItem == self.player!.currentItem && keyPath! == "status"){
         
             if (self.player!.currentItem!.status == AVPlayerItemStatus.ReadyToPlay) {
@@ -197,6 +208,93 @@ class StreamingViewController : UIViewController {
             }
             
         }
+    }*/
+    
+    override func pressesBegan(presses: Set<UIPress>, withEvent event: UIPressesEvent?){
+        print("press")
+        for press in presses {
+            switch press.type {
+            case .Select: break
+                //print("Select")
+                //timer?.invalidate()
+                
+                
+            case .PlayPause: break
+                //print("Play/Pause")
+                //timer?.invalidate()
+                
+                /*case .UpArrow:
+                print("Up Arrow")*/
+            case .DownArrow:
+                streamID++
+                updateStream()
+                print("Down arrow")
+                
+                
+                let alert=UIAlertController(title: "Warning!", message: "This is a test zone feature.", preferredStyle: UIAlertControllerStyle.Alert)
+                self.presentViewController(alert, animated: true, completion: {
+                    self.dismissViewControllerAnimated(true, completion: {
+                        self.advancedMode=true
+                    
+                    })
+                    
+                })
+                
+                
+                case .LeftArrow:
+                    streamID--
+                print("Left arrow")
+                updateStream()
+                case .RightArrow:
+                    streamID++
+                print("Right arrow")
+                updateStream()
+                /*case .Menu:
+                print("Menu")*/
+            default:
+                //keepDown()
+                
+                break
+            }
+        }
+        
+        super.pressesBegan(presses, withEvent: event)
+        
+    }
+    
+    
+    var advancedLabel:UILabel?
+    var advancedMode=false
+    
+    
+    func update(){
+        
+        if (advancedMode){
+        
+            if (advancedLabel == nil){
+                advancedLabel=UILabel(frame: CGRect(x: 10, y: self.view.frame.height-20, width: self.view.bounds.width, height: 40))
+                advancedLabel?.font=UIFont.systemFontOfSize(30)
+                advancedLabel?.shadowColor=UIColor.blackColor()
+                advancedLabel?.textColor=UIColor.whiteColor()
+                self.view.superview!.addSubview(advancedLabel!)
+                player?.rate=1.0
+            }
+        }
+        if ((self.player) != nil && player?.currentItem != nil){
+        advancedLabel?.text=" bitrate \(player?.rate) \(floor((player?.currentTime().seconds)!))/\(floor((player?.currentItem?.duration.seconds)!))"
+            
+            if (self.player!.currentItem!.status == AVPlayerItemStatus.ReadyToPlay) {
+                activityIndicator.stopAnimating()
+                if (self.view.hidden==false){
+                    self.view.layer.addSublayer(playerLayer!)
+                }
+                if (thisControllerIsVisible){
+                    player?.play()
+                }
+            }
+            
+        }
+        self.performSelector("update", withObject: nil, afterDelay: 0.25)
     }
     
 }

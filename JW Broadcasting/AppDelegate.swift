@@ -193,17 +193,22 @@ func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
             return nil //give up
         }
         else {
-            let downloadedData=NSData(contentsOfURL: trueURL) //Download
-            
-            if (downloadedData != nil && simulateOffline == false){ //File successfully downloaded
-                if (offlineStorageSaving){
-                    downloadedData?.writeToFile(storedPath, atomically: true) //Save file locally for use later
+            do {
+            let downloadedData=try NSData(contentsOfURL: trueURL, options: .UncachedRead) //Download
+                if (simulateOffline == false){ //File successfully downloaded
+                    if (offlineStorageSaving){
+                        downloadedData.writeToFile(storedPath, atomically: true) //Save file locally for use later
+                    }
+                    cachedFiles[fileURL]=downloadedData //Save file to memory
+                    data=cachedFiles[fileURL]! //Use as local variable
+                    return data! //Return file
                 }
-                cachedFiles[fileURL]=downloadedData //Save file to memory
-                data=cachedFiles[fileURL]! //Use as local variable
-                return data! //Return file
+            }
+            catch {
+                print(error)
             }
         }
+            
         attempts++ //Count another attempt to download the file
         if (badConnection==false){
             print("Bad connection \(fileURL)")

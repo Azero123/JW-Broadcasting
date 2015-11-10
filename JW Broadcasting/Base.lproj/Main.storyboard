@@ -189,6 +189,7 @@
                             </activityIndicatorView>
                         </subviews>
                         <animations/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="U3j-ZR-zh4" firstAttribute="centerY" secondItem="6Ui-v5-MMk" secondAttribute="centerY" id="hOg-Gp-j2o"/>
                             <constraint firstItem="U3j-ZR-zh4" firstAttribute="centerX" secondItem="6Ui-v5-MMk" secondAttribute="centerX" id="qE9-hN-WDq"/>
