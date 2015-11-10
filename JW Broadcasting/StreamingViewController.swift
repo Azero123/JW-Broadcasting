@@ -74,7 +74,16 @@ class StreamingViewController : UIViewController {
         
     }
     
-    var player:AVPlayer?
+    var _player:AVPlayer?
+    var player:AVPlayer? {
+        set (newValue){
+            _player=newValue
+            updateStream()
+        }
+        get {
+            return _player
+        }
+    }
     var playerLayer:AVPlayerLayer?
     
     func startStream(time:Float){
@@ -90,11 +99,6 @@ class StreamingViewController : UIViewController {
     var indexInPlaylist=0
     
     func playerItemDidReachEnd(notification:NSNotification){
-        print("WARNING")
-        print("WARNING")
-        print("WARNING")
-        print("WARNING")
-        print("WARNING")
         indexInPlaylist++
         let newVidData=playlist.objectAtIndex(indexInPlaylist).objectForKey("files")
         let videoURL=newVidData!.objectAtIndex(newVidData!.count-1).objectForKey("progressiveDownloadURL")
@@ -116,6 +120,7 @@ class StreamingViewController : UIViewController {
         //if (initialAppear){
         if ((player) != nil){
             //NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerItemDidReachEnd:", name: AVPlayerItemDidPlayToEndTimeNotification, object: player?.currentItem)
+            updateStream()
         }
         //}
         self.view.hidden=false
@@ -123,7 +128,6 @@ class StreamingViewController : UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         
-        updateStream()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -183,6 +187,7 @@ class StreamingViewController : UIViewController {
                         NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerItemDidReachEnd:", name: AVPlayerItemDidPlayToEndTimeNotification, object: self.player?.currentItem)
                        // self.player?.currentItem?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.New, context: nil)
                     }
+                    print("timeIndex:\(timeIndex)")
                     self.player!.seekToTime(CMTimeMake(Int64(timeIndex!), 1))
                 }
             }
