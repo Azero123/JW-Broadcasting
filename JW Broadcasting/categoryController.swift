@@ -207,8 +207,8 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
         for ratio in imageRatios.allKeys {
             for priorityRatio in priorityRatios.reverse() {
                 if (ratio as? String == priorityRatio){
-                    if ((imageRatios.objectForKey(ratio)?.objectForKey("sm")) != nil){
-                        imageURL=((imageRatios.objectForKey(ratio)?.objectForKey("sm"))! as! String)
+                    if ((imageRatios.objectForKey(ratio)?.objectForKey("md")) != nil){
+                        imageURL=((imageRatios.objectForKey(ratio)?.objectForKey("md"))! as! String)
                     }
                 }
             }
