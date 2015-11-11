@@ -49,7 +49,7 @@ class StreamingViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-420"
+        let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=0"
         
         self.activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
         self.activityIndicator.hidesWhenStopped=true
@@ -62,7 +62,9 @@ class StreamingViewController : UIViewController {
             
             dispatch_async(dispatch_get_main_queue()) {
                 let subcategory=streamMeta?.objectForKey("category")?.objectForKey("subcategories")!.objectAtIndex(self.streamID)
+                print("time \(subcategory?.objectForKey("position")?.objectForKey("time"))")
                 self.playlist=subcategory!.objectForKey("media") as! NSArray
+                
                 let timeIndex=subcategory!.objectForKey("position")?.objectForKey("time")?.floatValue
                 if (self.view.hidden==false){
                     //currentVidMaybe!.count-1 is the highest quality
@@ -286,7 +288,7 @@ class StreamingViewController : UIViewController {
             }
         }
         if ((self.player) != nil && player?.currentItem != nil){
-        advancedLabel?.text=" bitrate \(player?.rate) \(floor((player?.currentTime().seconds)!))/\(floor((player?.currentItem?.duration.seconds)!))"
+        advancedLabel?.text=" bitrate \(player?.rate) \(floor((player?.currentTime().seconds)!))/\(floor((player?.currentItem?.duration.seconds)!)) \(player?.currentItem?.asset)"
             
             if (self.player!.currentItem!.status == AVPlayerItemStatus.ReadyToPlay) {
                 activityIndicator.stopAnimating()

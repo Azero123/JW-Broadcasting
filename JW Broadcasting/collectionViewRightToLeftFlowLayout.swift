@@ -27,7 +27,6 @@ class collectionViewRightToLeftFlowLayout: UICollectionViewFlowLayout {
         for (var i=0;i<self.collectionView?.numberOfItemsInSection(0);i++){
             attributes.append(self.layoutAttributesForItemAtIndexPath(NSIndexPath(forRow: i, inSection: 0))!)
         }
-        print(attributes)
         
         return attributes
     }
@@ -42,7 +41,7 @@ class collectionViewRightToLeftFlowLayout: UICollectionViewFlowLayout {
         
         let itemIndex=round(proposedContentOffset.x/cellWidth)
         
-        return CGPoint(x: itemIndex*(cellWidth)-60, y: 0)
+        return CGPoint(x: itemIndex*(cellWidth)-40, y: 0)
     }
     
 }

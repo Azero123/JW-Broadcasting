@@ -208,33 +208,8 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
     }
     
     override func pressesBegan(presses: Set<UIPress>, withEvent event: UIPressesEvent?){
-        for press in presses {
-            switch press.type {
-            case .Select:
-                //print("Select")
-                timer?.invalidate()
-                
-                
-            case .PlayPause:
-                //print("Play/Pause")
-                timer?.invalidate()
-                
-            /*case .UpArrow:
-                print("Up Arrow")
-            case .DownArrow:
-                print("Down arrow")
-            case .LeftArrow:
-                print("Left arrow")
-            case .RightArrow:
-                print("Right arrow")
-            case .Menu:
-                print("Menu")*/
-            default:
-                keepDown()
-                
-                 break
-            }
-        }
+        
+        keepDown()
         
         super.pressesBegan(presses, withEvent: event)
         

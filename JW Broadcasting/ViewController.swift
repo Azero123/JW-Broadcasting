@@ -77,6 +77,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             if (self.slideShowCollectionView.collectionViewLayout.isKindOfClass(collectionViewRightToLeftFlowLayout.self) == true){
                 
                 (self.slideShowCollectionView.collectionViewLayout as! collectionViewRightToLeftFlowLayout).scrollDirection=UICollectionViewScrollDirection.Horizontal
+                (self.latestVideosCollectionView.collectionViewLayout as! collectionViewRightToLeftFlowLayout).scrollDirection=UICollectionViewScrollDirection.Horizontal
                 
             }
             
@@ -414,7 +415,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             return CGSizeMake(560/1.05, 360/1.05)
         }
         if (collectionView == slideShowCollectionView){
-            return CGSize(width: self.view.bounds.width-250, height: self.view.bounds.height*0.5)//CGSizeMake(1140/1.5, 380/1.5)
+            return CGSize(width: self.view.bounds.width-200, height: self.view.bounds.height*0.6)//CGSizeMake(1140/1.5, 380/1.5)
         }
         return CGSizeMake(0, 0)
     }
@@ -466,6 +467,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 for subview in (context.previouslyFocusedView?.subviews.first!.subviews)! {
                     if (subview.isKindOfClass(UILabel.self)){
                         (subview as! UILabel).textColor=UIColor.blackColor()
+                        subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y-5, width: subview.frame.size.width, height: subview.frame.size.height)
                     }
                 }
             }
@@ -476,9 +478,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     if (subview.isKindOfClass(UILabel.self)){
                         (subview as! UILabel).textColor=UIColor.whiteColor()
                         (subview as! UILabel).shadowColor=UIColor.blackColor()
+                        subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y+5, width: subview.frame.size.width, height: subview.frame.size.height)
                     }
                 }
             }
+            /*
             if (context.nextFocusedView?.superview == self.latestVideosCollectionView){
                 
                 UIView.animateWithDuration(0.5, animations: {
@@ -496,7 +500,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     self.slideShowCollectionView.alpha=1
                     self.view.layoutIfNeeded()
                 })
-            }
+            }*/
         }
         return true
     }

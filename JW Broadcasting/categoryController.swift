@@ -215,7 +215,6 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         
-        print(imageURL)
         fetchDataUsingCache(imageURL, downloaded: {
             
             dispatch_async(dispatch_get_main_queue()) {
@@ -264,11 +263,13 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
         If selectedSlideShow==true (AKA the user is interacting with the slideshow) then the slide show will not roll to next slide.
         
         */
+        
         if (context.previouslyFocusedView?.superview == self.videoCollection){
             
             for subview in (context.previouslyFocusedView?.subviews.first!.subviews)! {
                 if (subview.isKindOfClass(UILabel.self)){
                     (subview as! UILabel).textColor=UIColor.blackColor()
+                    subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y-5, width: subview.frame.size.width, height: subview.frame.size.height)
                 }
             }
         }
@@ -279,6 +280,7 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
                 if (subview.isKindOfClass(UILabel.self)){
                     (subview as! UILabel).textColor=UIColor.whiteColor()
                     (subview as! UILabel).shadowColor=UIColor.blackColor()
+                    subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y+5, width: subview.frame.size.width, height: subview.frame.size.height)
                 }
             }
         }

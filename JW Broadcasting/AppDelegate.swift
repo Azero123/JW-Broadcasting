@@ -91,11 +91,9 @@ func fetchDataUsingCache(fileURL:String, downloaded: () -> Void, usingCache:Bool
                     fileDownloadedClosures.updateValue([], forKey: fileURL)
                 }
                 fileDownloadedClosures[fileURL]?.append(downloaded)//.insert(downloaded, atIndex: fileDownloadedClosures.count)
-                
-                print("try session...")
+            
                 let task=NSURLSession.sharedSession().dataTaskWithRequest(NSURLRequest(URL: trueURL), completionHandler: { (data:NSData?, padawan: NSURLResponse?, error:NSError?) -> Void in
                     if (data != nil && simulateOffline == false){ //File successfully downloaded
-                        print("success!")
                         if (offlineStorageSaving){
                             data?.writeToFile(storedPath, atomically: true) //Save file locally for use later
                         }
