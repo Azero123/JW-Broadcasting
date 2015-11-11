@@ -61,14 +61,9 @@ class StreamingViewController : UIViewController {
             let streamMeta=dictionaryOfPath(streamingScheduleURL, usingCache: false)
             
             dispatch_async(dispatch_get_main_queue()) {
-                let subcategory=streamMeta?.objectForKey("category")?.objectForKey("subcategories")!.objectAtIndex(self.streamID)
-                print("time \(subcategory?.objectForKey("position")?.objectForKey("time"))")
-                self.playlist=subcategory!.objectForKey("media") as! NSArray
-                
-                let timeIndex=subcategory!.objectForKey("position")?.objectForKey("time")?.floatValue
                 if (self.view.hidden==false){
                     //currentVidMaybe!.count-1 is the highest quality
-                    self.startStream(timeIndex!)
+                    self.startStream()
                     self.update()
                 }
             }
@@ -88,7 +83,7 @@ class StreamingViewController : UIViewController {
     }
     var playerLayer:AVPlayerLayer?
     
-    func startStream(time:Float){
+    func startStream(){
         
         player = AVPlayer()
         playerLayer=AVPlayerLayer(player: player)
@@ -161,7 +156,7 @@ class StreamingViewController : UIViewController {
         
         
         
-        let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-420"
+        let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
         
         if ((self.player?.currentItem) != nil){
             print("remove observer")
