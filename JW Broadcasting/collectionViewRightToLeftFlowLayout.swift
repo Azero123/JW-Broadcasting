@@ -37,16 +37,12 @@ class collectionViewRightToLeftFlowLayout: UICollectionViewFlowLayout {
     }
     
     override func targetContentOffsetForProposedContentOffset(proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
-        print("target content offset \(proposedContentOffset)")
-        
-        let cellWidth=(self.collectionView?.delegate as! ViewController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width
+        let cellWidth=(self.collectionView?.delegate as! ViewController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*1.05
         
         
-        let itemIndex=round(proposedContentOffset.x/cellWidth*1.05)
+        let itemIndex=round(proposedContentOffset.x/cellWidth)
         
-        print("assumed item index:\(itemIndex)")
-        
-        return CGPoint(x: itemIndex*(cellWidth), y: 0)
+        return CGPoint(x: itemIndex*(cellWidth)-60, y: 0)
     }
     
 }
