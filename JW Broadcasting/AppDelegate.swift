@@ -194,7 +194,9 @@ func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
         }
         else {
             do {
+                NSLog("time")
             let downloadedData=try NSData(contentsOfURL: trueURL, options: .UncachedRead) //Download
+                NSLog("time")
                 if (simulateOffline == false){ //File successfully downloaded
                     if (offlineStorageSaving){
                         downloadedData.writeToFile(storedPath, atomically: true) //Save file locally for use later

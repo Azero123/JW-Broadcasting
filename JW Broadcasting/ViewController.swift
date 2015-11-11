@@ -38,6 +38,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         activityIndicator.hidesWhenStopped=true
         activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
         pageIndicator.hidden=true
+        self.slideShowCollectionView.contentInset=UIEdgeInsetsMake(0, 60, 0, 0)
         
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.grayColor()], forState:.Normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState:.Selected)
@@ -298,46 +299,50 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 
                 
                 dispatch_async(dispatch_get_main_queue()) {
-                let image=imageUsingCache(imageURL)
+                    let image=imageUsingCache(imageURL)
                 
-                let imageView=UIImageView(image: image)
-                imageView.frame=CGRectMake(0, 0, slide.frame.size.width, slide.frame.size.height)
-                slide.contentView.addSubview(imageView)
-                
-                let dissipatingView=UIView(frame: CGRect(x: 0, y: 0, width: slide.frame.size.width, height: slide.frame.size.height))
-                
-                let playIcon=UILabel()
-                playIcon.frame=CGRectMake(50, 100, 100, 100)
-                playIcon.text=""
-                playIcon.font=UIFont(name: "jwtv", size: 75)!
-                playIcon.textColor=UIColor.whiteColor()
-                //dissipatingView.addSubview(playIcon)
-                
-                
-                let titleLabel=UILabel()
-                titleLabel.frame=CGRectMake(50, 175, slide.bounds.width-100, 75)
-                //titleLabel.backgroundColor=UIColor.redColor()
-                titleLabel.text=SLSlide.objectForKey("item")!.objectForKey("title")! as? String
-                titleLabel.layer.shadowColor=UIColor.blackColor().CGColor
-                titleLabel.layer.shadowRadius=5
-                titleLabel.layer.opacity=1
-                titleLabel.numberOfLines=3
-                //titleLabel.font=UIFont(name: "jwtv", size: 75)!
-                titleLabel.font=UIFont.systemFontOfSize(24)
-                titleLabel.textColor=UIColor.whiteColor()
-                
-                
-                
-                let gradient: CAGradientLayer = CAGradientLayer()
-                gradient.frame = slide.bounds
-                gradient.colors = [UIColor.clearColor().CGColor, UIColor.clearColor(), UIColor.blackColor().CGColor]
-                dissipatingView.layer.insertSublayer(gradient, atIndex: 0)
-                dissipatingView.alpha=0
-                dissipatingView.addSubview(titleLabel)
-                
-                
-                slide.contentView.addSubview(dissipatingView)
+                    let imageView=UIImageView(image: image)
+                    imageView.userInteractionEnabled = true
+                    imageView.adjustsImageWhenAncestorFocused = true
+                    imageView.frame=CGRectMake(0, 0, slide.frame.size.width, slide.frame.size.height)
+                    
+                    slide.contentView.addSubview(imageView)
+                    
+                    let dissipatingView=UIView(frame: CGRect(x: 0, y: 0, width: slide.frame.size.width, height: slide.frame.size.height))
+                    
+                    let playIcon=UILabel()
+                    playIcon.frame=CGRectMake(50, 100, 100, 100)
+                    playIcon.text=""
+                    playIcon.font=UIFont(name: "jwtv", size: 75)!
+                    playIcon.textColor=UIColor.whiteColor()
+                    //dissipatingView.addSubview(playIcon)
+                    
+                    
+                    let titleLabel=UILabel()
+                    titleLabel.frame=CGRectMake(50, slide.bounds.height-75, slide.bounds.width-100, 75)
+                    //titleLabel.backgroundColor=UIColor.redColor()
+                    titleLabel.text=SLSlide.objectForKey("item")!.objectForKey("title")! as? String
+                    titleLabel.layer.shadowColor=UIColor.blackColor().CGColor
+                    titleLabel.layer.shadowRadius=5
+                    titleLabel.layer.opacity=1
+                    titleLabel.numberOfLines=3
+                    //titleLabel.font=UIFont(name: "jwtv", size: 75)!
+                    titleLabel.font=UIFont.systemFontOfSize(24)
+                    titleLabel.textColor=UIColor.whiteColor()
+                    
+                    
+                    
+                    let gradient: CAGradientLayer = CAGradientLayer()
+                    gradient.frame = slide.bounds
+                    gradient.colors = [UIColor.clearColor().CGColor, UIColor.clearColor(), UIColor.blackColor().CGColor]
+                    dissipatingView.layer.insertSublayer(gradient, atIndex: 0)
+                    dissipatingView.alpha=0
+                    dissipatingView.addSubview(titleLabel)
+                    
+                    
+                    slide.contentView.addSubview(dissipatingView)
                 }
+
                 })
             
             return slide
@@ -406,7 +411,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             return CGSizeMake(560/1.05, 360/1.05)
         }
         if (collectionView == slideShowCollectionView){
-            return CGSizeMake(1140/1.5, 380/1.5)
+            return CGSize(width: self.view.bounds.width-250, height: self.view.bounds.height*0.5)//CGSizeMake(1140/1.5, 380/1.5)
         }
         return CGSizeMake(0, 0)
     }
@@ -481,36 +486,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func moveToSlide(atIndex:Int){
         //[self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:NO];
-        self.slideShowCollectionView.scrollToItemAtIndexPath(NSIndexPath(forRow: atIndex, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
-        let cellToBlowUp=self.slideShowCollectionView.cellForItemAtIndexPath(NSIndexPath(forRow: atIndex, inSection: 0))
-        
-        for cell in self.slideShowCollectionView.visibleCells() {
-            if (cell != cellToBlowUp){
-                UIView.animateWithDuration(0.25, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
-                    cell.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1, 1);
-                    cell.layer.shadowColor=UIColor.blackColor().CGColor
-                    cell.layer.shadowRadius=20
-                    cell.layer.shadowOpacity=0
-                    cell.layer.zPosition=0
-                    cell.contentView.subviews[1].alpha=0
-                    }, completion: nil)
-            }
-            
-        }
-        UIView.animateWithDuration(0.25, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
-            
-            cellToBlowUp?.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.1, 1.1);
-            cellToBlowUp?.layer.shadowColor=UIColor.blackColor().CGColor
-            cellToBlowUp?.layer.shadowRadius=20
-            cellToBlowUp?.layer.shadowOpacity=1
-            cellToBlowUp?.layer.zPosition=1000
-            cellToBlowUp?.contentView.subviews[1].alpha=1
-            }, completion: nil)
-        
-        
+        //self.slideShowCollectionView.scrollToItemAtIndexPath(NSIndexPath(forRow: atIndex, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
+        self.slideShowCollectionView.scrollRectToVisible((self.customLayout.layoutAttributesForItemAtIndexPath(NSIndexPath(forRow: atIndex, inSection: 0))?.frame)!, animated: true)
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+        
             return UIEdgeInsetsMake(0, 0, 0, 0)
     }
 }

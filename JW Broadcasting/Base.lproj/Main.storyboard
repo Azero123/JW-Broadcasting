@@ -19,10 +19,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="bcI-63-HQl">
-                                <rect key="frame" x="90" y="20" width="1740" height="360"/>
+                                <rect key="frame" x="0.0" y="20" width="1920" height="550"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="360" id="9ov-hr-ZCW"/>
+                                    <constraint firstAttribute="height" constant="550" id="9ov-hr-ZCW"/>
                                 </constraints>
                                 <collectionViewLayout key="collectionViewLayout" id="KSp-qK-aUS" customClass="collectionViewRightToLeftFlowLayout" customModule="JW_Broadcasting" customModuleProvider="target"/>
                                 <cells>
@@ -46,7 +46,7 @@
                                 </connections>
                             </collectionView>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="WIc-0R-BUs">
-                                <rect key="frame" x="885" y="315" width="150" height="30"/>
+                                <rect key="frame" x="885" y="505" width="150" height="30"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="rN4-dq-fJc"/>
@@ -54,7 +54,7 @@
                                 </constraints>
                             </pageControl>
                             <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Aiz-tC-uQO">
-                                <rect key="frame" x="90" y="380" width="1740" height="560"/>
+                                <rect key="frame" x="90" y="570" width="1740" height="370"/>
                                 <animations/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="31" minimumInteritemSpacing="10" id="ViH-m2-wCW">
                                     <size key="itemSize" width="50" height="50"/>
@@ -145,11 +145,11 @@
                         <constraints>
                             <constraint firstItem="EdW-cC-2hD" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="2nQ-Rf-RQA"/>
                             <constraint firstItem="Aiz-tC-uQO" firstAttribute="top" secondItem="bcI-63-HQl" secondAttribute="bottom" id="3Jn-K3-lfE"/>
-                            <constraint firstItem="bcI-63-HQl" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="90" id="9VZ-MH-ghK"/>
+                            <constraint firstItem="bcI-63-HQl" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="9VZ-MH-ghK"/>
                             <constraint firstItem="EdW-cC-2hD" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="F3z-Gb-ZfD"/>
                             <constraint firstItem="WIc-0R-BUs" firstAttribute="bottom" secondItem="bcI-63-HQl" secondAttribute="bottom" constant="-35" id="IUz-Yg-Oey"/>
                             <constraint firstItem="Aiz-tC-uQO" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="90" id="QYI-qt-hFO"/>
-                            <constraint firstAttribute="trailing" secondItem="bcI-63-HQl" secondAttribute="trailing" constant="90" id="V91-lF-2VQ"/>
+                            <constraint firstAttribute="trailing" secondItem="bcI-63-HQl" secondAttribute="trailing" id="V91-lF-2VQ"/>
                             <constraint firstItem="bcI-63-HQl" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="20" id="h8j-56-p3X"/>
                             <constraint firstAttribute="trailing" secondItem="Aiz-tC-uQO" secondAttribute="trailing" constant="90" id="n7k-pY-Do4"/>
                             <constraint firstItem="WIc-0R-BUs" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="nnd-g9-rz7"/>
@@ -160,6 +160,7 @@
                     <tabBarItem key="tabBarItem" title="Home" id="gog-J0-hk9"/>
                     <connections>
                         <outlet property="activityIndicator" destination="EdW-cC-2hD" id="BK4-TI-1aO"/>
+                        <outlet property="customLayout" destination="KSp-qK-aUS" id="I8p-te-rts"/>
                         <outlet property="latestVideosCollectionView" destination="Aiz-tC-uQO" id="YVK-QH-iMj"/>
                         <outlet property="pageIndicator" destination="WIc-0R-BUs" id="4Kg-L1-ugP"/>
                         <outlet property="slideShowCollectionView" destination="bcI-63-HQl" id="Sz3-oy-VQm"/>
