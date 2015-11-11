@@ -342,7 +342,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     
                     
                     let midLine=UIView(frame: CGRect(x: slide.frame.size.width/2, y: 0, width: 1, height: 10000))
-                    midLine.backgroundColor=UIColor.redColor()
+                    //midLine.backgroundColor=UIColor.redColor()
                     slide.contentView.addSubview(midLine)
                 }
 
