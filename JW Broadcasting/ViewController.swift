@@ -3,7 +3,7 @@
 //  JW Broadcasting
 //
 //  Created by Austin Zelenka on 9/13/15.
-//  Copyright © 2015 xquared. All rights reserved.
+//  Copyright © 2015 Austin Zelenka. All rights reserved.
 //
 
 
@@ -38,7 +38,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         activityIndicator.hidesWhenStopped=true
         activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
         pageIndicator.hidden=true
-        self.slideShowCollectionView.contentInset=UIEdgeInsetsMake(0, 60, 0, 0)
+        self.slideShowCollectionView.contentInset=UIEdgeInsetsMake(0, 60, 0, 60)
         
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.grayColor()], forState:.Normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState:.Selected)
@@ -293,8 +293,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             let images=SLSlide.objectForKey("item")!.objectForKey("images")
             let imageURL=images?.objectForKey("pnr")?.objectForKey("lg") as! String
             
-            
-            
             fetchDataUsingCache(imageURL, downloaded: {
                 
                 
@@ -341,6 +339,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     
                     
                     slide.contentView.addSubview(dissipatingView)
+                    
+                    
+                    let midLine=UIView(frame: CGRect(x: slide.frame.size.width/2, y: 0, width: 1, height: 10000))
+                    midLine.backgroundColor=UIColor.redColor()
+                    slide.contentView.addSubview(midLine)
                 }
 
                 })
@@ -435,7 +438,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
         
         
-        
         if (collectionView == self.latestVideosCollectionView || collectionView == slideShowCollectionView ){
             /*
             if (context.previouslyFocusedView != nil && (context.previouslyFocusedView?.isKindOfClass(UICollectionViewCell.self) == true) ){
@@ -459,8 +461,23 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 }
             }*/
             
-            if (context.nextFocusedView?.superview == self.slideShowCollectionView){
+            if (context.previouslyFocusedView?.superview == self.latestVideosCollectionView){
+                
+                for subview in (context.previouslyFocusedView?.subviews.first!.subviews)! {
+                    if (subview.isKindOfClass(UILabel.self)){
+                        (subview as! UILabel).textColor=UIColor.blackColor()
+                    }
+                }
+            }
+            if (context.nextFocusedView?.superview == self.latestVideosCollectionView){
                 context.nextFocusedView?.subviews.first?.alpha=1
+                
+                for subview in (context.nextFocusedView?.subviews.first!.subviews)! {
+                    if (subview.isKindOfClass(UILabel.self)){
+                        (subview as! UILabel).textColor=UIColor.whiteColor()
+                        (subview as! UILabel).shadowColor=UIColor.blackColor()
+                    }
+                }
             }
             if (context.nextFocusedView?.superview == self.latestVideosCollectionView){
                 
@@ -486,8 +503,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func moveToSlide(atIndex:Int){
         //[self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:NO];
-        //self.slideShowCollectionView.scrollToItemAtIndexPath(NSIndexPath(forRow: atIndex, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
-        self.slideShowCollectionView.scrollRectToVisible((self.customLayout.layoutAttributesForItemAtIndexPath(NSIndexPath(forRow: atIndex, inSection: 0))?.frame)!, animated: true)
+        self.slideShowCollectionView.scrollToItemAtIndexPath(NSIndexPath(forRow: atIndex, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
+        //self.slideShowCollectionView.scrollRectToVisible((self.customLayout.layoutAttributesForItemAtIndexPath(NSIndexPath(forRow: atIndex, inSection: 0))?.frame)!, animated: true)
+        
+        
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {

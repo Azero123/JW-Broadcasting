@@ -3,7 +3,7 @@
 //  JW Broadcasting
 //
 //  Created by Austin Zelenka on 9/25/15.
-//  Copyright © 2015 xquared. All rights reserved.
+//  Copyright © 2015 Austin Zelenka. All rights reserved.
 //
 
 import UIKit
@@ -20,7 +20,8 @@ class collectionViewRightToLeftFlowLayout: UICollectionViewFlowLayout {
     }
    
     override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        print("is it working?")
+        
+        
         var attributes:Array<UICollectionViewLayoutAttributes>=[]
         
         for (var i=0;i<self.collectionView?.numberOfItemsInSection(0);i++){
@@ -34,4 +35,18 @@ class collectionViewRightToLeftFlowLayout: UICollectionViewFlowLayout {
     override func shouldInvalidateLayoutForBoundsChange(newBounds: CGRect) -> Bool {
         return true
     }
+    
+    override func targetContentOffsetForProposedContentOffset(proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
+        print("target content offset \(proposedContentOffset)")
+        
+        let cellWidth=(self.collectionView?.delegate as! ViewController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width
+        
+        
+        let itemIndex=round(proposedContentOffset.x/cellWidth*1.05)
+        
+        print("assumed item index:\(itemIndex)")
+        
+        return CGPoint(x: itemIndex*(cellWidth), y: 0)
+    }
+    
 }

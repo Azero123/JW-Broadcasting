@@ -3,7 +3,7 @@
 //  JW Broadcasting
 //
 //  Created by Austin Zelenka on 9/15/15.
-//  Copyright © 2015 xquared. All rights reserved.
+//  Copyright © 2015 Austin Zelenka. All rights reserved.
 //
 
 /*
