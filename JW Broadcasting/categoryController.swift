@@ -257,6 +257,34 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
         return cell
     }
     
+    func collectionView(collectionView: UICollectionView, shouldUpdateFocusInContext context: UICollectionViewFocusUpdateContext) -> Bool {
+        
+        /*
+        This method provides the blue highlighting to the cells and sets variable selectedSlideShow:Bool.
+        If selectedSlideShow==true (AKA the user is interacting with the slideshow) then the slide show will not roll to next slide.
+        
+        */
+        if (context.previouslyFocusedView?.superview == self.videoCollection){
+            
+            for subview in (context.previouslyFocusedView?.subviews.first!.subviews)! {
+                if (subview.isKindOfClass(UILabel.self)){
+                    (subview as! UILabel).textColor=UIColor.blackColor()
+                }
+            }
+        }
+        if (context.nextFocusedView?.superview == self.videoCollection){
+            context.nextFocusedView?.subviews.first?.alpha=1
+            
+            for subview in (context.nextFocusedView?.subviews.first!.subviews)! {
+                if (subview.isKindOfClass(UILabel.self)){
+                    (subview as! UILabel).textColor=UIColor.whiteColor()
+                    (subview as! UILabel).shadowColor=UIColor.blackColor()
+                }
+            }
+        }
+        return true
+    }
+    
     var playerViewController:AVPlayerViewController?=nil
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
