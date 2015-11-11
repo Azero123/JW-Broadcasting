@@ -77,7 +77,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             if (self.slideShowCollectionView.collectionViewLayout.isKindOfClass(collectionViewRightToLeftFlowLayout.self) == true){
                 
                 (self.slideShowCollectionView.collectionViewLayout as! collectionViewRightToLeftFlowLayout).scrollDirection=UICollectionViewScrollDirection.Horizontal
+                (self.slideShowCollectionView.collectionViewLayout as! collectionViewRightToLeftFlowLayout).spacingPercentile=1.05
                 (self.latestVideosCollectionView.collectionViewLayout as! collectionViewRightToLeftFlowLayout).scrollDirection=UICollectionViewScrollDirection.Horizontal
+                (self.latestVideosCollectionView.collectionViewLayout as! collectionViewRightToLeftFlowLayout).spacingPercentile=1.1
                 
             }
             
