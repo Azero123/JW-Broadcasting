@@ -187,7 +187,7 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
     func swiped(sender:UISwipeGestureRecognizer){
         
         
-        switch sender.direction {
+       /* switch sender.direction {
          
         case UISwipeGestureRecognizerDirection.Right:
             timer?.invalidate()
@@ -196,10 +196,11 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
             timer?.invalidate()
             
         default:
+            break
             
-            keepDown()
-            
-        }
+        }*/
+        
+        keepDown()
         
         //if (sender.direction == UISwipeGestureRecognizerDirection.Right){
             
