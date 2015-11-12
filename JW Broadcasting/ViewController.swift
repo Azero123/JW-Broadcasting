@@ -254,7 +254,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                             subview.userInteractionEnabled = true
                             (subview as! UIImageView).adjustsImageWhenAncestorFocused = true
                         }
-                        if (subview.isKindOfClass(UILabel.self)){
+                        if (subview.isKindOfClass(marqueeLabel.self)){
                             
                             /* apparently the OS will never select UIButton inside of a UICollectionViewCell so this needs to be changed to a UILabel */
                             
@@ -267,12 +267,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                             */
                             
                             
-                            let titleLabel=(subview as! UILabel)
+                            let titleLabel=(subview as! marqueeLabel)
                             //titleLabel.frame=CGRectMake(50, 150, 600, 100)
-                            titleLabel.text=videoData.objectForKey("title") as? String
+                            titleLabel.text=(videoData.objectForKey("title") as? String)!
                             titleLabel.layer.shadowColor=UIColor.blackColor().CGColor
                             titleLabel.layer.shadowRadius=5
-                            titleLabel.numberOfLines=3
                             //titleLabel.font=UIFont(name: "jwtv", size: 75)!
                             
                         }
@@ -481,6 +480,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                         (subview as! UILabel).textColor=UIColor.whiteColor()
                         (subview as! UILabel).shadowColor=UIColor.blackColor()
                         subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y+5, width: subview.frame.size.width, height: subview.frame.size.height)
+                    }
+                    
+                    if (subview.isKindOfClass(marqueeLabel.self)){
+                        let titleLabel=(subview as! marqueeLabel)
+                        titleLabel.marquee()
                     }
                 }
             }
