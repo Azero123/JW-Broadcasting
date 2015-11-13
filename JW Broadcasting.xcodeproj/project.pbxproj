@@ -29,6 +29,7 @@
 		9F79A1D21BA9136900B5E925 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F79A1D11BA9136900B5E925 /* MediaPlayer.framework */; };
 		9F79A1D41BA91DA900B5E925 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F79A1D31BA91DA900B5E925 /* CoreMedia.framework */; };
 		9F79A1D61BA91DAE00B5E925 /* MediaToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F79A1D51BA91DAE00B5E925 /* MediaToolbox.framework */; };
+		9FC0441C1BF66E4100AB0B4F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FC0441B1BF66E4100AB0B4F /* QuartzCore.framework */; };
 		9FFB9DB21BB528820059E5EA /* VideoOnDemandController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFB9DB11BB528820059E5EA /* VideoOnDemandController.swift */; };
 		9FFB9DB41BB52D360059E5EA /* Stack.xml.js in Resources */ = {isa = PBXBuildFile; fileRef = 9FFB9DB31BB52D360059E5EA /* Stack.xml.js */; };
 		9FFD0D581BB516AA0092CF71 /* jwtv.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9F38D1BC1BB26B1F0081073A /* jwtv.ttf */; };
@@ -72,6 +73,7 @@
 		9F79A1D11BA9136900B5E925 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		9F79A1D31BA91DA900B5E925 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		9F79A1D51BA91DAE00B5E925 /* MediaToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaToolbox.framework; path = System/Library/Frameworks/MediaToolbox.framework; sourceTree = SDKROOT; };
+		9FC0441B1BF66E4100AB0B4F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		9FFB9DB11BB528820059E5EA /* VideoOnDemandController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoOnDemandController.swift; sourceTree = "<group>"; };
 		9FFB9DB31BB52D360059E5EA /* Stack.xml.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Stack.xml.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -81,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FC0441C1BF66E4100AB0B4F /* QuartzCore.framework in Frameworks */,
 				9F79A1D61BA91DAE00B5E925 /* MediaToolbox.framework in Frameworks */,
 				9F79A1D41BA91DA900B5E925 /* CoreMedia.framework in Frameworks */,
 				9F79A1D21BA9136900B5E925 /* MediaPlayer.framework in Frameworks */,
@@ -100,6 +103,7 @@
 		9F79A17D1BA6A3AC00B5E925 = {
 			isa = PBXGroup;
 			children = (
+				9FC0441B1BF66E4100AB0B4F /* QuartzCore.framework */,
 				9F79A1D51BA91DAE00B5E925 /* MediaToolbox.framework */,
 				9F79A1D31BA91DA900B5E925 /* CoreMedia.framework */,
 				9F79A1D11BA9136900B5E925 /* MediaPlayer.framework */,
@@ -394,8 +398,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Austin Zelenka (W4MPR6U338)";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer: Austin Zelenka (W4MPR6U338)";
 				INFOPLIST_FILE = "JW Broadcasting/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xquared.JW-Broadcasting";
@@ -409,8 +413,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Austin Zelenka (W4MPR6U338)";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer: Austin Zelenka (W4MPR6U338)";
 				INFOPLIST_FILE = "JW Broadcasting/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xquared.JW-Broadcasting";

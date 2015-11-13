@@ -471,6 +471,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                         (subview as! UILabel).textColor=UIColor.blackColor()
                         subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y-5, width: subview.frame.size.width, height: subview.frame.size.height)
                     }
+                    
+                    if (subview.isKindOfClass(marqueeLabel.self)){
+                        let titleLabel=(subview as! marqueeLabel)
+                        titleLabel.endFocus()
+                    }
                 }
             }
             if (context.nextFocusedView?.superview == self.latestVideosCollectionView){
@@ -485,7 +490,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     
                     if (subview.isKindOfClass(marqueeLabel.self)){
                         let titleLabel=(subview as! marqueeLabel)
-                        titleLabel.marquee()
+                        titleLabel.beginFocus()
                     }
                 }
             }

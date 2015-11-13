@@ -259,7 +259,7 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
                         
                         let titleLabel=(subview as! UILabel)
                         titleLabel.text=title as String
-                        titleLabel.layer.shadowColor=UIColor.blackColor().CGColor
+                        titleLabel.layer.shadowColor=UIColor.darkGrayColor().CGColor
                         titleLabel.layer.shadowRadius=5
                         titleLabel.numberOfLines=3
                         
@@ -290,7 +290,7 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
             
             for subview in (context.previouslyFocusedView?.subviews.first!.subviews)! {
                 if (subview.isKindOfClass(UILabel.self)){
-                    (subview as! UILabel).textColor=UIColor.blackColor()
+                    (subview as! UILabel).textColor=UIColor.darkGrayColor()
                     subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y-5, width: subview.frame.size.width, height: subview.frame.size.height)
                 }
             }

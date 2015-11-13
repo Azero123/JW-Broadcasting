@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import QuartzCore
 
 class marqueeLabel : UIView  {
     var i:CGFloat=0
@@ -20,8 +21,14 @@ class marqueeLabel : UIView  {
         self.addSubview(label)
         self.clipsToBounds=true
         label.textAlignment = .Center
-        self.backgroundColor=UIColor.greenColor()
-        label.backgroundColor=UIColor.redColor()
+        label.textColor=UIColor.darkGrayColor()
+        self.backgroundColor=UIColor.clearColor()
+        label.font=UIFont.preferredFontForTextStyle(UIFontTextStyleFootnote)
+    }
+    
+    override func layoutSubviews(){
+        super.layoutSubviews()
+        label.frame=labelDemensionsAtScrollPoint(0)
     }
     
     var _frame:CGRect=CGRect(x: 0, y: 0, width: 0, height: 0)
@@ -49,27 +56,59 @@ class marqueeLabel : UIView  {
     
     func labelDemensionsAtScrollPoint(point:CGFloat) -> CGRect{
         if (self.label.intrinsicContentSize().width>self.frame.size.width){
-            return CGRect(x: 0,y: 0,width: self.label.intrinsicContentSize().width,height: self.frame.size.height)
+            print("width is larger")
+            return CGRect(x: point,y: 0,width: self.label.intrinsicContentSize().width,height: self.frame.size.height)
         }
         else {
-            print("hm:\( (self.frame.width-self.label.intrinsicContentSize().width)/2)")
-            return CGRect(x: (self.frame.width-self.label.intrinsicContentSize().width)/2*3-13,y: 0,width: self.label.intrinsicContentSize().width,height: self.frame.size.height)
+            //print("too small:\(self.frame.width) \(self.label.intrinsicContentSize().width)")
+            //print("excess space:\(self.frame.size.width-self.label.intrinsicContentSize().width)")
+            //print("single side space:\((self.frame.size.width-self.label.intrinsicContentSize().width)/2)")
+            let frame=CGRect(x: point+(self.bounds.size.width-self.label.intrinsicContentSize().width)/2,y: 0,width: self.label.intrinsicContentSize().width,height: self.frame.size.height)
+            
+            //print("frame:\(frame)")
+            return frame
         }
+    }
+    
+    var focus=false
+    
+    func beginFocus(){
+        focus=true
+        self.performSelector("checkStillFocused", withObject: nil, afterDelay: 1.5)
+        self.label.textColor=UIColor.whiteColor()
+    }
+    
+    func checkStillFocused(){
+        if (focus==true){
+            self.marquee()
+        }
+    }
+    
+    func endFocus(){
+        focus=false
+        self.label.layer.removeAllAnimations()
+        self.label.frame=labelDemensionsAtScrollPoint(0)
+        self.label.textColor=UIColor.darkGrayColor()
     }
     
     func marquee(){
         
-        print("marquee distance:\(self.frame.width-self.label.intrinsicContentSize().width)")
+        //print("marquee distance:\(self.frame.size.width) \(self.label.intrinsicContentSize().width)")
         
-        if (self.frame.width-self.label.intrinsicContentSize().width<0){
+        if (self.frame.size.width<self.label.frame.size.width){
         
-        self.label.frame=labelDemensionsAtScrollPoint(0)
+            print("animate")
             
-            UIView.animateWithDuration(2, animations: {
-                self.label.frame=self.labelDemensionsAtScrollPoint(self.label.frame.width-self.label.intrinsicContentSize().width)
+        //self.label.frame=labelDemensionsAtScrollPoint(0)
+            
+            UIView.animateWithDuration(NSTimeInterval(abs(Int(self.frame.size.width-self.label.frame.size.width-50)))/50, delay: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
+                self.label.frame=CGRect(x: self.frame.size.width-self.label.frame.size.width-50, y: 0, width: self.label.frame.size.width, height: self.label.frame.size.height)
                 
-            })
+                }, completion: nil)
         }
+    }
+    func finishedAnimation(){
+        //self.label.frame=labelDemensionsAtScrollPoint(0)
     }
 }
 
