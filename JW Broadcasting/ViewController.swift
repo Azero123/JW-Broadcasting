@@ -22,7 +22,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     @IBOutlet weak var slideShowCollectionView: UICollectionView!
     var timer:NSTimer?
-    let timeToShow=5
+    let timeToShow=10
     
     var SLSlides=[]
     var SLIndex=0
@@ -125,7 +125,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 self.SLSlides=(SLWebHome?.objectForKey("slides")) as! NSArray
                 self.pageIndicator.numberOfPages=self.SLSlides.count
                 self.slideShowCollectionView.reloadData()
-                //self.performSelector("timesUp", withObject: nil, afterDelay: 0.25)
+                self.performSelector("timesUp", withObject: nil, afterDelay: 0.25)
             }
         })
 
@@ -521,6 +521,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
         
+        if (collectionView == self.latestVideosCollectionView){
+            return UIEdgeInsetsMake(0, 90, 0, 0)
+        }
             return UIEdgeInsetsMake(0, 0, 0, 0)
     }
 }
