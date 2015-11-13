@@ -24,7 +24,7 @@ class collectionViewRightToLeftFlowLayout: UICollectionViewFlowLayout {
    
     override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         
-        
+        //self.collectionView?.contentSize=CGSizeMake(100000, (self.collectionView?.contentSize.height)!)
         var attributes:Array<UICollectionViewLayoutAttributes>=[]
         
         for (var i=0;i<self.collectionView?.numberOfItemsInSection(0);i++){

@@ -197,6 +197,8 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
         let cell: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("video", forIndexPath: indexPath)
         let retrievedVideo=parentCategory.objectAtIndex(indexPath.section).objectForKey("media")?.objectAtIndex(indexPath.row)
         
+        print(retrievedVideo)
+        
         let imageRatios=retrievedVideo!.objectForKey("images")!
         
         let priorityRatios=["wsr","sqr"]//wsr
@@ -206,8 +208,8 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
         for ratio in imageRatios.allKeys {
             for priorityRatio in priorityRatios.reverse() {
                 if (ratio as? String == priorityRatio){
-                    if ((imageRatios.objectForKey(ratio)?.objectForKey("md")) != nil){
-                        imageURL=((imageRatios.objectForKey(ratio)?.objectForKey("md"))! as! String)
+                    if ((imageRatios.objectForKey(ratio)?.objectForKey("lg")) != nil){
+                        imageURL=((imageRatios.objectForKey(ratio)?.objectForKey("lg"))! as! String)
                     }
                 }
             }
@@ -233,9 +235,30 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
                     }
                     if (subview.isKindOfClass(UILabel.self)){
                         
+                        /*
+
+                        Code for removing the repetitive JW Broadcasting - before all the names of all the monthly broadcasts.
+                        */
+                        
+                        var title=(retrievedVideo!.objectForKey("title") as? NSString)!
+                        
+                        let replacementStrings=["JW Broadcasting —","JW Broadcasting—"]
+                        
+                        for replacement in replacementStrings {
+                        
+                            if (title.containsString(replacement)){
+                                
+                                title=title.stringByReplacingOccurrencesOfString(replacement, withString: "")
+                                title=title.stringByAppendingString(" Broadcast")
+                                /* replace " Broadcast" with a key from:
+                                base+"/"+version+"/languages/"+languageCode+"/web"
+                                so that this works with foreign languages*/
+                            }
+                            
+                        }
                         
                         let titleLabel=(subview as! UILabel)
-                        titleLabel.text=retrievedVideo!.objectForKey("title") as? String
+                        titleLabel.text=title as String
                         titleLabel.layer.shadowColor=UIColor.blackColor().CGColor
                         titleLabel.layer.shadowRadius=5
                         titleLabel.numberOfLines=3
