@@ -39,6 +39,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
         pageIndicator.hidden=true
         self.slideShowCollectionView.contentInset=UIEdgeInsetsMake(0, 60, 0, 60)
+        self.latestVideosCollectionView.contentInset=UIEdgeInsetsMake(0, 60, 0, 0)
         
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.grayColor()], forState:.Normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState:.Selected)
@@ -517,14 +518,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         //self.slideShowCollectionView.scrollRectToVisible((self.customLayout.layoutAttributesForItemAtIndexPath(NSIndexPath(forRow: atIndex, inSection: 0))?.frame)!, animated: true)
         
         
-    }
-    
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
-        
-        if (collectionView == self.latestVideosCollectionView){
-            return UIEdgeInsetsMake(0, 90, 0, 0)
-        }
-            return UIEdgeInsetsMake(0, 0, 0, 0)
     }
 }
 
