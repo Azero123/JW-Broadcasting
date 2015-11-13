@@ -60,11 +60,9 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
             dispatch_async(dispatch_get_main_queue()) {
                 
                 self.videoOnDemandData=dictionaryOfPath(categoryDataURL, usingCache: false)
-                
-                self.videoOnDemandData=dictionaryOfPath(categoryDataURL, usingCache: false)
-                
+                /*
                 let subcat=self.videoOnDemandData!.objectForKey("category")!.objectForKey("subcategories")!.firstObject
-                let downloadedJSON=dictionaryOfPath(categoriesDirectory+"/"+(subcat!!.objectForKey("key") as! String)+"?detailed=1", usingCache: false)
+                let downloadedJSON=dictionaryOfPath(categoriesDirectory+"/"+(subcat!!.objectForKey("key") as! String)+"?detailed=1", usingCache: false)*/
                 
                 //self.parentCategory=(downloadedJSON?.objectForKey("category")!.objectForKey("subcategories"))! as! NSArray
                 
@@ -74,6 +72,7 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
                     self.videoCategoryTable.reloadData()
                     self.videoCollection.reloadData()
                 }
+                self.chooseSubcategory(0)
             }
         })
     }

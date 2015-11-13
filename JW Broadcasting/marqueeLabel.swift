@@ -20,7 +20,8 @@ class marqueeLabel : UIView  {
         self.addSubview(label)
         self.clipsToBounds=true
         label.textAlignment = .Center
-        self.backgroundColor=UIColor.clearColor()
+        self.backgroundColor=UIColor.greenColor()
+        label.backgroundColor=UIColor.redColor()
     }
     
     var _frame:CGRect=CGRect(x: 0, y: 0, width: 0, height: 0)
@@ -51,15 +52,16 @@ class marqueeLabel : UIView  {
             return CGRect(x: 0,y: 0,width: self.label.intrinsicContentSize().width,height: self.frame.size.height)
         }
         else {
-            return CGRect(x: (self.frame.width-self.label.intrinsicContentSize().width)/2,y: 0,width: self.label.intrinsicContentSize().width,height: self.frame.size.height)
+            print("hm:\( (self.frame.width-self.label.intrinsicContentSize().width)/2)")
+            return CGRect(x: (self.frame.width-self.label.intrinsicContentSize().width)/2*3-13,y: 0,width: self.label.intrinsicContentSize().width,height: self.frame.size.height)
         }
     }
     
     func marquee(){
         
-        print("marquee distance:\(self.label.frame.width-self.label.intrinsicContentSize().width)")
+        print("marquee distance:\(self.frame.width-self.label.intrinsicContentSize().width)")
         
-        if (self.label.frame.width-self.label.intrinsicContentSize().width<0){
+        if (self.frame.width-self.label.intrinsicContentSize().width<0){
         
         self.label.frame=labelDemensionsAtScrollPoint(0)
             

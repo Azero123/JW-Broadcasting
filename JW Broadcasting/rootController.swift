@@ -13,7 +13,7 @@ extension UITabBarController : TVApplicationControllerDelegate {
     
     
     func setTabBarVisible(visible:Bool, animated:Bool) {
-        
+        /*
         /*If the tab bar is already in the right place then we don't need to animate so just exit now. No bugs no glitches (: */
         if (tabBarIsVisible() == visible) { return }
         
@@ -29,7 +29,7 @@ extension UITabBarController : TVApplicationControllerDelegate {
             /*send some quick update functions just to make sure everything adjust itself properly*/
             self.view.setNeedsDisplay()
             self.view.layoutIfNeeded()
-        }
+        }*/
     }
     
     /*method to check whether the tab bar is lined up or not*/

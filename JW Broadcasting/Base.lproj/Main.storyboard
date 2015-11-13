@@ -14,11 +14,11 @@
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="140" width="1920" height="940"/>
+                    <view key="view" contentMode="scaleToFill" misplaced="YES" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="bcI-63-HQl">
+                            <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="bcI-63-HQl">
                                 <rect key="frame" x="0.0" y="0.0" width="1920" height="640"/>
                                 <animations/>
                                 <constraints>
@@ -45,7 +45,7 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="hQZ-MM-nDg"/>
                                 </connections>
                             </collectionView>
-                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="WIc-0R-BUs">
+                            <pageControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="WIc-0R-BUs">
                                 <rect key="frame" x="885" y="575" width="150" height="30"/>
                                 <animations/>
                                 <constraints>
@@ -53,7 +53,7 @@
                                     <constraint firstAttribute="height" constant="30" id="xpj-gx-lPq"/>
                                 </constraints>
                             </pageControl>
-                            <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Aiz-tC-uQO">
+                            <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Aiz-tC-uQO">
                                 <rect key="frame" x="90" y="640" width="1830" height="300"/>
                                 <animations/>
                                 <collectionViewLayout key="collectionViewLayout" id="Rc0-4B-Dwk" customClass="collectionViewRightToLeftFlowLayout" customModule="JW_Broadcasting" customModuleProvider="target"/>
@@ -123,7 +123,6 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Aiz-tC-uQO" secondAttribute="bottom" id="yqs-sh-qkM"/>
                         </constraints>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <tabBarItem key="tabBarItem" title="Home" id="gog-J0-hk9"/>
                     <connections>
                         <outlet property="activityIndicator" destination="EdW-cC-2hD" id="BK4-TI-1aO"/>
@@ -147,8 +146,8 @@
                         <viewControllerLayoutGuide type="top" id="l4D-2f-YA5"/>
                         <viewControllerLayoutGuide type="bottom" id="S4j-bd-0YM"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="6Ui-v5-MMk">
-                        <rect key="frame" x="0.0" y="140" width="1920" height="940"/>
+                    <view key="view" contentMode="scaleToFill" misplaced="YES" id="6Ui-v5-MMk">
+                        <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="200" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="U3j-ZR-zh4">
@@ -163,7 +162,6 @@
                             <constraint firstItem="U3j-ZR-zh4" firstAttribute="centerX" secondItem="6Ui-v5-MMk" secondAttribute="centerX" id="qE9-hN-WDq"/>
                         </constraints>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <tabBarItem key="tabBarItem" title="Streaming" id="NOB-2y-Sks"/>
                     <connections>
                         <outlet property="activityIndicator" destination="U3j-ZR-zh4" id="kmd-zv-ceS"/>
@@ -181,15 +179,15 @@
                         <viewControllerLayoutGuide type="top" id="qD1-A4-GSP"/>
                         <viewControllerLayoutGuide type="bottom" id="xZd-08-Dpv"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="5qh-Q0-axF">
-                        <rect key="frame" x="0.0" y="140" width="1920" height="940"/>
+                    <view key="view" contentMode="scaleToFill" misplaced="YES" id="5qh-Q0-axF">
+                        <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="200" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="HHD-tl-bQR">
                                 <rect key="frame" x="860" y="370" width="200" height="200"/>
                                 <animations/>
                             </activityIndicatorView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="40" sectionFooterHeight="40" translatesAutoresizingMaskIntoConstraints="NO" id="XO0-SC-oGS">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="40" sectionFooterHeight="40" translatesAutoresizingMaskIntoConstraints="NO" id="XO0-SC-oGS">
                                 <rect key="frame" x="90" y="60" width="516" height="820"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -211,7 +209,7 @@
                                     <outlet property="delegate" destination="dOE-pI-BIe" id="29H-dg-fhp"/>
                                 </connections>
                             </tableView>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cn4-LG-RGh">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cn4-LG-RGh">
                                 <rect key="frame" x="636" y="60" width="1194" height="850"/>
                                 <animations/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="30" minimumInteritemSpacing="30" id="nlv-SO-z8e">
@@ -294,7 +292,6 @@
                             <constraint firstAttribute="trailing" secondItem="cn4-LG-RGh" secondAttribute="trailing" constant="90" id="yGS-jd-KgG"/>
                         </constraints>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <tabBarItem key="tabBarItem" title="Video on Demand" id="58h-qI-91Q"/>
                     <connections>
                         <outlet property="activityIndicator" destination="HHD-tl-bQR" id="Dn7-2L-K79"/>
@@ -314,15 +311,15 @@
                         <viewControllerLayoutGuide type="top" id="ukR-42-zzP"/>
                         <viewControllerLayoutGuide type="bottom" id="hdI-6M-a7K"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="j8O-ht-tGm">
-                        <rect key="frame" x="0.0" y="140" width="1920" height="940"/>
+                    <view key="view" contentMode="scaleToFill" misplaced="YES" id="j8O-ht-tGm">
+                        <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="200" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="ar1-CW-i4t">
                                 <rect key="frame" x="860" y="370" width="200" height="200"/>
                                 <animations/>
                             </activityIndicatorView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="40" sectionFooterHeight="40" translatesAutoresizingMaskIntoConstraints="NO" id="Zkv-m2-1K3">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="40" sectionFooterHeight="40" translatesAutoresizingMaskIntoConstraints="NO" id="Zkv-m2-1K3">
                                 <rect key="frame" x="90" y="60" width="516" height="820"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -344,7 +341,7 @@
                                     <outlet property="delegate" destination="PyG-dy-RMf" id="cln-jb-JoT"/>
                                 </connections>
                             </tableView>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ABj-KH-P78">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ABj-KH-P78">
                                 <rect key="frame" x="636" y="60" width="1194" height="850"/>
                                 <animations/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="30" minimumInteritemSpacing="30" id="KF5-rC-AmP">
@@ -427,7 +424,6 @@
                             <constraint firstItem="Zkv-m2-1K3" firstAttribute="width" secondItem="j8O-ht-tGm" secondAttribute="width" multiplier="0.3" constant="-60" id="yZ1-VW-nXy"/>
                         </constraints>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <tabBarItem key="tabBarItem" title="Audio" id="vVW-pg-MUA"/>
                     <connections>
                         <outlet property="activityIndicator" destination="ar1-CW-i4t" id="cYa-vG-enN"/>
@@ -447,8 +443,8 @@
                         <viewControllerLayoutGuide type="top" id="z9r-7S-wJM"/>
                         <viewControllerLayoutGuide type="bottom" id="JSM-6Y-woD"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="tpw-Yb-eWp">
-                        <rect key="frame" x="0.0" y="140" width="1920" height="940"/>
+                    <view key="view" contentMode="scaleToFill" misplaced="YES" id="tpw-Yb-eWp">
+                        <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="40" sectionFooterHeight="40" translatesAutoresizingMaskIntoConstraints="NO" id="jgH-Gr-vQl">
@@ -482,7 +478,6 @@
                             <constraint firstItem="jgH-Gr-vQl" firstAttribute="leading" secondItem="tpw-Yb-eWp" secondAttribute="leadingMargin" constant="540" id="z9x-VY-Gi0"/>
                         </constraints>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <tabBarItem key="tabBarItem" title="Language" id="Oc3-lS-zAg"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lqF-5L-nfQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -511,6 +506,7 @@
         <scene sceneID="wEe-09-tOl">
             <objects>
                 <tabBarController id="sS3-3w-g48" customClass="rootController" customModule="JW_Broadcasting" customModuleProvider="target" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="aXR-M3-p8c">
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="120"/>
