@@ -247,7 +247,6 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
     
     func setLanguage(newLanguageCode:String, newTextDirection:UIUserInterfaceLayoutDirection){
         languageCode=newLanguageCode
-        print("set language")
         /*
         Save settings language settings to settings.plist file in library folder.
         */
@@ -271,7 +270,6 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         
         /* download new translation */
         translatedKeyPhrases=dictionaryOfPath(base+"/"+version+"/translations/"+languageCode)?.objectForKey("translations")?.objectForKey(languageCode) as? NSDictionary
-        print(translatedKeyPhrases?.allKeys)
         if (translatedKeyPhrases != nil){ // if the language file was obtained
             /*These keys are what I found correspond to the navigation buttons on tv.jw.org*/
             

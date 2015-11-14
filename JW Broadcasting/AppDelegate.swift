@@ -41,6 +41,104 @@ let simulateOffline=false
 let offlineStorage=true
 let offlineStorageSaving=true
 
+var branchListeners:Dictionary<String, Array< () -> Any >>=[:]
+
+func addBranchListener(instruction:String, serverBonded: () -> Void){
+    if (branchListeners[instruction] == nil){
+        branchListeners.updateValue([], forKey: instruction)
+    }
+    branchListeners[instruction]?.append(serverBonded)
+    
+    if (cachedFiles[instruction.componentsSeparatedByString("|").first!] != nil){
+        serverBonded()
+    }
+    //"\(pathForSliderData)|settings|WebHomeSlider|slides|\(indexPath.row)|item|images|pnr|lg"
+}
+
+func checkBranchesFor(updatedInstruction:String){
+    let updatedFile=updatedInstruction.componentsSeparatedByString("|").first
+    for branch in branchListeners.keys {
+        if (branch.componentsSeparatedByString("|").first == updatedFile){
+            for responder in branchListeners[branch]! {
+                responder()
+            }
+        }
+    }
+}
+
+func unfold(instruction:String)-> AnyObject?{
+    let instructions=NSString(string: instruction).componentsSeparatedByString("|")
+    return unfold(nil, instructions: instructions)
+}
+
+func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
+    var source:AnyObject?=nil
+    print(instructions[0])
+    if (from?.isKindOfClass(NSDictionary.self) == true){
+        source=(from as! NSDictionary).objectForKey(instructions[0])
+    }
+    else if (from?.isKindOfClass(NSArray.self) == true){
+        let stringval=instructions[0] as! String
+        source=(from as! NSArray).objectAtIndex(Int((stringval as NSString).intValue))
+    }
+    else if (from==nil){
+        let sourceURL=NSURL(string: (instructions[0]) as! String)
+        if (sourceURL != nil && sourceURL?.scheme != nil && sourceURL?.host != nil){
+            source=sourceURL
+            var sourceData=cachedFiles[instructions[0] as! String]
+            if (sourceData != nil){
+                source=sourceData
+                
+                do {
+                    
+                    
+                    let sourceString=try NSMutableAttributedString(data:sourceData!,
+                        options:[NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,NSCharacterEncodingDocumentAttribute:NSUTF8StringEncoding],
+                        documentAttributes:nil).string
+                    
+                    sourceData=sourceString.dataUsingEncoding(NSUTF8StringEncoding)
+                    
+                    /* Just double check real quick that the class is truly available */
+                    
+                    
+                    if (NSClassFromString("NSJSONSerialization") != nil){
+                        
+                        /*attempt serialization*/
+                        
+                        let object=try NSJSONSerialization.JSONObjectWithData(sourceData!, options: NSJSONReadingOptions.MutableContainers)
+                        /*if it returned an actual NSDictionary then return it*/
+                        
+                        if (object.isKindOfClass(NSDictionary.self)){
+                            source=object as? NSDictionary
+                        }
+                    }
+                    
+                }
+                catch {
+                    
+                    /*log out any errors that might have occured*/
+                    
+                    print(error)
+                }
+                
+            }
+            else {
+                return nil
+            }
+        }
+    }
+    
+    if (source == nil){
+        return nil
+    }
+    
+    instructions.removeFirst()
+    if (instructions.count>0){
+        return unfold(source, instructions:  instructions)
+    }
+    return source
+}
+
 func imageUsingCache(imageURL:String) -> UIImage?{
     /*
     This method opens an image from memory if already loaded otherwise it performs a normal data fetch operation.
@@ -103,6 +201,7 @@ func fetchDataUsingCache(fileURL:String, downloaded: () -> Void, usingCache:Bool
                         for closure in fileDownloadedClosures[fileURL]! {
                             closure()
                         }
+                        checkBranchesFor(fileURL)
                         
                         return
                     }
@@ -199,6 +298,13 @@ func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
                     }
                     cachedFiles[fileURL]=downloadedData //Save file to memory
                     data=cachedFiles[fileURL]! //Use as local variable
+                    
+                    let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+                        dispatch_async(dispatch_get_global_queue(priority, 0)) {
+                            dispatch_async(dispatch_get_main_queue()) {
+                                checkBranchesFor(fileURL)
+                            }
+                    }
                     return data! //Return file
                 }
             }

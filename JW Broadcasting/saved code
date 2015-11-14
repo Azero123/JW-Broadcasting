@@ -1,0 +1,26 @@
+
+
+
+
+---- this is some code for a nice looking divider line with a title in the middle
+
+var textspacing:CGFloat=300
+
+let categoryLabel=UILabel(frame: CGRect(x: 0, y: 0, width: textspacing, height: 60))
+categoryLabel.font=UIFont.systemFontOfSize(30)
+categoryLabel.textAlignment = .Center
+categoryLabel.text=latestVideosTranslatedTitle
+textspacing=categoryLabel.intrinsicContentSize().width+25
+categoryLabel.frame=CGRect(x: (collectionView.frame.size.width-textspacing)/2, y: 0, width: textspacing, height: 60)
+header?.addSubview(categoryLabel)
+
+let textHeight:CGFloat=60
+
+let lineA:UIView=UIView(frame: CGRect(x: 0, y: textHeight/2, width: (header!.frame.size.width-textspacing)/2, height: 1))
+lineA.backgroundColor=UIColor.darkGrayColor()
+header?.addSubview(lineA)
+
+
+let lineB:UIView=UIView(frame: CGRect(x: (header!.frame.size.width+textspacing)/2, y: textHeight/2, width: (header!.frame.size.width-textspacing)/2, height: 1))
+lineB.backgroundColor=UIColor.darkGrayColor()
+header?.addSubview(lineB)
