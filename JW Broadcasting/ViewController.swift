@@ -20,6 +20,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var latestVideosCollectionView: UICollectionView!
     @IBOutlet weak var customLayout: collectionViewRightToLeftFlowLayout!
     
+    @IBOutlet weak var streamingCollectionView: UICollectionView!
     @IBOutlet weak var slideShowCollectionView: UICollectionView!
     var timer:NSTimer?
     let timeToShow=10
@@ -31,6 +32,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print(UIScreen.mainScreen().bounds)
+        
         //UICollectionViewScrollDirectionHorizontal
         
         //latestVideosCollectionView.backgroundColor=UIColor.blueColor()
@@ -40,6 +44,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         pageIndicator.hidden=true
         self.slideShowCollectionView.contentInset=UIEdgeInsetsMake(0, 60, 0, 60)
         self.latestVideosCollectionView.contentInset=UIEdgeInsetsMake(0, 60, 0, 0)
+        self.streamingCollectionView.contentInset=UIEdgeInsetsMake(0, 60, 0, 0)
         
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.grayColor()], forState:.Normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState:.Selected)
@@ -48,7 +53,23 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         /*setup the slideshow on the top and begin the timer*/
         buildSlideshow()
+        
+        
+        
+        let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
+        self.view.userInteractionEnabled=true
+        
+        
+        fetchDataUsingCache(streamingScheduleURL, downloaded: {
+            dispatch_async(dispatch_get_main_queue()) {
+            self.streamingMeta=(dictionaryOfPath(streamingScheduleURL, usingCache: false)!.objectForKey("category")?.objectForKey("subcategories")!)! as! Array<NSDictionary>
+            self.streamingCollectionView.reloadData()
+            }
+        })
+        
     }
+    
+    var streamingMeta:Array<NSDictionary>=[]
     
     var previousLanguageCode=languageCode
     
@@ -80,7 +101,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 (self.slideShowCollectionView.collectionViewLayout as! collectionViewRightToLeftFlowLayout).scrollDirection=UICollectionViewScrollDirection.Horizontal
                 (self.slideShowCollectionView.collectionViewLayout as! collectionViewRightToLeftFlowLayout).spacingPercentile=1.05
                 (self.latestVideosCollectionView.collectionViewLayout as! collectionViewRightToLeftFlowLayout).scrollDirection=UICollectionViewScrollDirection.Horizontal
-                (self.latestVideosCollectionView.collectionViewLayout as! collectionViewRightToLeftFlowLayout).spacingPercentile=1.1
+                (self.latestVideosCollectionView.collectionViewLayout as! collectionViewRightToLeftFlowLayout).spacingPercentile=1.075
+                
+                (self.streamingCollectionView.collectionViewLayout as! collectionViewRightToLeftFlowLayout).scrollDirection=UICollectionViewScrollDirection.Horizontal
+                UICollectionViewScrollDirection.Horizontal
+                (self.streamingCollectionView.collectionViewLayout as! collectionViewRightToLeftFlowLayout).spacingPercentile=1.1
                 
             }
             
@@ -220,6 +245,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         else if (collectionView == slideShowCollectionView){
             return SLSlides.count
         }
+        else if (collectionView == streamingCollectionView){
+            return (streamingMeta.count)
+        }
         print("[ERROR] not enough")
         return 0
     }
@@ -273,6 +301,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                             titleLabel.text=(videoData.objectForKey("title") as? String)!
                             titleLabel.layer.shadowColor=UIColor.blackColor().CGColor
                             titleLabel.layer.shadowRadius=5
+                            /*
+                            titleLabel.fadeLength=10
+                            titleLabel.scrollDuration=CGFloat(abs(Int(titleLabel.frame.size.width-titleLabel.intrinsicContentSize().width)))/25
+                            titleLabel.type = .Continuous
+                            titleLabel.pauseLabel()*/
+                            
                             //titleLabel.font=UIFont(name: "jwtv", size: 75)!
                             
                         }
@@ -294,6 +328,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             let SLSlide=SLSlides.objectAtIndex(indexPath.row)//SLSlides?.count
             let images=SLSlide.objectForKey("item")!.objectForKey("images")
+            
             let imageURL=images?.objectForKey("pnr")?.objectForKey("lg") as! String
             
             fetchDataUsingCache(imageURL, downloaded: {
@@ -304,7 +339,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 
                     let imageView=UIImageView(image: image)
                     imageView.userInteractionEnabled = true
-                    imageView.adjustsImageWhenAncestorFocused = true
+                    //imageView.adjustsImageWhenAncestorFocused = true
                     imageView.frame=CGRectMake(0, 0, slide.frame.size.width, slide.frame.size.height)
                     
                     slide.contentView.addSubview(imageView)
@@ -343,6 +378,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     
                     slide.contentView.addSubview(dissipatingView)
                     
+                    let view=UIView()
+                    view.frame=CGRect(x: 0, y: 0, width: 1140, height: 380)//1140 × 380
+                    view.backgroundColor=UIColor.redColor()
+                    slide.contentView.addSubview(view)
+                    
                     /*
                     let midLine=UIView(frame: CGRect(x: slide.frame.size.width/2, y: 0, width: 1, height: 10000))
                     midLine.backgroundColor=UIColor.redColor()
@@ -353,11 +393,44 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             return slide
         }
+        else if (collectionView == streamingCollectionView){
+            let channelMeta=streamingMeta[indexPath.row]
+            let channel: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("channel", forIndexPath: indexPath)
+            
+            let imageURL=channelMeta.objectForKey("images")?.objectForKey("wss")!.objectForKey("sm") as! String
+            
+            
+            for subview in channel.contentView.subviews {
+                if (subview.isKindOfClass(UIImageView.self)){
+                    let imageView=(subview as! UIImageView)
+                    imageView.userInteractionEnabled = true
+                    imageView.adjustsImageWhenAncestorFocused = true
+                    
+                    fetchDataUsingCache(imageURL, downloaded: {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            
+                            imageView.image=imageUsingCache(imageURL)
+                            imageView.userInteractionEnabled=true
+                            imageView.adjustsImageWhenAncestorFocused = true
+                            channel.contentView.addSubview(imageView)
+                        }
+                    })
+                }
+                if (subview.isKindOfClass(marqueeLabel.self)){
+                    let titleLabel=subview as! marqueeLabel
+                    titleLabel.text=channelMeta.objectForKey("name") as? String
+                    
+                }
+            }
+            
+            
+            return channel
+        }
         print("[ERROR] THIS SHOULD NEVER HAPPEN! \(collectionView)")
         return UICollectionViewCell()
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
         
         
         if (collectionView == latestVideosCollectionView){
@@ -396,9 +469,32 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             }
             
         }
-        
+        else if (collectionView == streamingCollectionView){
+            
+            /*let streamingViewController=StreamingViewController()
+            streamingViewController.streamID=indexPath.row
+            self.presentViewController(streamingViewController, animated: true, completion: {})
+            */
+            print("should select")
+            goToStreamID=indexPath.row
+            self.performSegueWithIdentifier("presentStreaming", sender: self)
+        }
+        return true
     }
     
+    var goToStreamID:Int = -1
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        print("prepare for segue")
+        
+        if (segue.destinationViewController.isKindOfClass(StreamingViewController.self)){
+            if (goToStreamID > -1){
+                print("pass in \(goToStreamID)")
+                (segue.destinationViewController as! StreamingViewController).streamID=goToStreamID
+            }
+        }
+    }
     /*
     Makes all cells selectable.
     */
@@ -417,7 +513,13 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             return CGSizeMake(560/1.05, 360/1.05)
         }
         if (collectionView == slideShowCollectionView){
-            return CGSize(width: self.view.bounds.width-200, height: self.view.bounds.height*0.6)//CGSizeMake(1140/1.5, 380/1.5)
+            return CGSize(width: self.view.bounds.width-200, height: self.view.bounds.height*0.4)//CGSizeMake(1140/1.5, 380/1.5)
+        }
+        if (collectionView == streamingCollectionView){
+            let multiplier:CGFloat=1.5
+            let ratio:CGFloat=1.875
+            let width:CGFloat=320/2
+            return CGSize(width: width*ratio*multiplier, height: width*multiplier+60)
         }
         return CGSizeMake(0, 0)
     }
@@ -464,38 +566,60 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 }
             }*/
             
+            print("new context")
+            
             if (context.previouslyFocusedView?.superview == self.latestVideosCollectionView){
                 
                 for subview in (context.previouslyFocusedView?.subviews.first!.subviews)! {
                     if (subview.isKindOfClass(UILabel.self)){
-                        (subview as! UILabel).textColor=UIColor.blackColor()
+                        (subview as! UILabel).textColor=UIColor.darkGrayColor()
                         subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y-5, width: subview.frame.size.width, height: subview.frame.size.height)
                     }
                     
                     if (subview.isKindOfClass(marqueeLabel.self)){
                         let titleLabel=(subview as! marqueeLabel)
-                        titleLabel.endFocus()
+                        //titleLabel.shutdownLabel()
+                        //titleLabel.pauseLabel()
                     }
                 }
             }
+            
             if (context.nextFocusedView?.superview == self.latestVideosCollectionView){
                 context.nextFocusedView?.subviews.first?.alpha=1
                 
                 for subview in (context.nextFocusedView?.subviews.first!.subviews)! {
                     if (subview.isKindOfClass(UILabel.self)){
                         (subview as! UILabel).textColor=UIColor.whiteColor()
-                        (subview as! UILabel).shadowColor=UIColor.blackColor()
+                        (subview as! UILabel).shadowColor=UIColor.darkGrayColor()
                         subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y+5, width: subview.frame.size.width, height: subview.frame.size.height)
                     }
                     
                     if (subview.isKindOfClass(marqueeLabel.self)){
                         let titleLabel=(subview as! marqueeLabel)
-                        titleLabel.beginFocus()
+                        //titleLabel.unpauseLabel()
                     }
                 }
             }
-            /*
-            if (context.nextFocusedView?.superview == self.latestVideosCollectionView){
+            if (context.previouslyFocusedView!.superview == self.slideShowCollectionView){
+                for subviewA in (context.previouslyFocusedView?.subviews.first!.subviews)! {
+                    if (subviewA.isKindOfClass(UIImageView.self)){
+                        subviewA.frame=CGRect(x: 0, y: 0, width: subviewA.frame.size.width, height: subviewA.frame.size.height-40)
+                        
+                    }
+                }
+
+            }
+            if (context.nextFocusedView?.superview == self.slideShowCollectionView){
+                for subviewA in (context.nextFocusedView?.subviews.first!.subviews)! {
+                    if (subviewA.isKindOfClass(UIImageView.self)){
+                        subviewA.frame=CGRect(x: 0, y: -20, width: subviewA.frame.size.width, height: subviewA.frame.size.height+40)
+                        
+                    }
+                }
+                
+            }
+            
+            if (context.nextFocusedView?.superview == self.latestVideosCollectionView || context.nextFocusedView?.superview == self.streamingCollectionView){
                 
                 UIView.animateWithDuration(0.5, animations: {
                     
@@ -512,7 +636,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     self.slideShowCollectionView.alpha=1
                     self.view.layoutIfNeeded()
                 })
-            }*/
+            }
         }
         return true
     }

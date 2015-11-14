@@ -42,7 +42,22 @@ class StreamingViewController : UIViewController {
     
     var currentURL:String?
     var playlist=[]
-    var streamID=0
+    var _streamID:Int=0
+    var streamID:Int {
+        set (newValue){
+            _streamID=newValue
+            if (thisControllerIsVisible){
+                print("new value \(newValue)")
+                updateStream()
+                previousLanguageCode=languageCode
+                previousStreamId=streamID
+            }
+        }
+        get {
+            return _streamID
+        }
+        
+    }
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
@@ -55,6 +70,7 @@ class StreamingViewController : UIViewController {
         self.activityIndicator.hidesWhenStopped=true
         self.activityIndicator.startAnimating()
         self.view.userInteractionEnabled=true
+        //self.startStream()
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
                 
@@ -75,7 +91,7 @@ class StreamingViewController : UIViewController {
     var player:AVPlayer? {
         set (newValue){
             _player=newValue
-            updateStream()
+            //updateStream()
         }
         get {
             return _player
@@ -90,7 +106,7 @@ class StreamingViewController : UIViewController {
         playerLayer!.frame=UIScreen.mainScreen().bounds
         
         player!.actionAtItemEnd = AVPlayerActionAtItemEnd.None;
-        
+        updateStream()
     }
     
     var indexInPlaylist=0
@@ -112,19 +128,23 @@ class StreamingViewController : UIViewController {
     
     var initialAppear=true
     
+    var previousLanguageCode=languageCode
+    var previousStreamId = -1
+    
     override func viewWillAppear(animated: Bool) {
         thisControllerIsVisible=true
         //if (initialAppear){
-        if ((player) != nil){
-            //NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerItemDidReachEnd:", name: AVPlayerItemDidPlayToEndTimeNotification, object: player?.currentItem)
+        if ((player) != nil || previousLanguageCode != languageCode || previousStreamId != streamID){
             updateStream()
         }
-        //}
+        previousLanguageCode=languageCode
+        previousStreamId=streamID
         self.view.hidden=false
     }
     
     override func viewDidAppear(animated: Bool) {
         
+        //updateStream()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -158,6 +178,9 @@ class StreamingViewController : UIViewController {
         
         let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
         
+        
+        
+        
         if ((self.player?.currentItem) != nil){
             print("remove observer")
             //self.player?.currentItem?.removeObserver(self, forKeyPath: "status", context: nil)
@@ -170,6 +193,7 @@ class StreamingViewController : UIViewController {
                 let streamMeta=dictionaryOfPath(streamingScheduleURL, usingCache: false)
                 
                 dispatch_async(dispatch_get_main_queue()) {
+                    print(self.streamID)
                     
                     let subcategory=streamMeta?.objectForKey("category")?.objectForKey("subcategories")!.objectAtIndex(self.streamID)
                     self.indexInPlaylist=0
@@ -185,7 +209,9 @@ class StreamingViewController : UIViewController {
                        // self.player?.currentItem?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.New, context: nil)
                     }
                     print("timeIndex:\(timeIndex)")
-                    self.player!.seekToTime(CMTimeMake(Int64(timeIndex!), 1))
+                    if (self.player != nil){
+                        self.player!.seekToTime(CMTimeMake(Int64(timeIndex!), 1))
+                    }
                 }
             }
         //})

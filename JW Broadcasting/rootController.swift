@@ -11,9 +11,14 @@ import TVMLKit
 
 extension UITabBarController : TVApplicationControllerDelegate {
     
+    /*method to check whether the tab bar is lined up or not*/
+    
+    func tabBarIsVisible() ->Bool {
+        return self.view.frame.origin.y == 0
+    }
     
     func setTabBarVisible(visible:Bool, animated:Bool) {
-        /*
+        
         /*If the tab bar is already in the right place then we don't need to animate so just exit now. No bugs no glitches (: */
         if (tabBarIsVisible() == visible) { return }
         
@@ -25,18 +30,11 @@ extension UITabBarController : TVApplicationControllerDelegate {
         /*animate the removal of the tab bar so it looks nice if "animated" is true*/
         UIView.animateWithDuration(animated ? 0.3 : 0.0) {
             /*adjust the view to move upward hiding the tab bar and then stretch it to make up for moving it*/
-            self.view.frame = CGRectMake(0, offsetY, UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.height - offsetY)
-            /*send some quick update functions just to make sure everything adjust itself properly*/
-            self.view.setNeedsDisplay()
-            self.view.layoutIfNeeded()
-        }*/
+            self.tabBar.frame=CGRect(x: 0, y: offsetY, width: self.tabBar.frame.size.width, height: self.tabBar.frame.size.height)
+        }
     }
     
-    /*method to check whether the tab bar is lined up or not*/
     
-    func tabBarIsVisible() ->Bool {
-        return self.view.frame.origin.y == 0
-    }
 }
 
 /*
