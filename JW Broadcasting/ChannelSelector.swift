@@ -121,7 +121,9 @@ class ChannelSelector: SuperCollectionView {
     }
     
     override func cellSelect(indexPath:NSIndexPath){
-        //goToStreamID=indexPath.row
-        //self.performSegueWithIdentifier("presentStreaming", sender: self)
+        if ((self.delegate?.isKindOfClass(ViewController)) == true){
+            (self.delegate as! ViewController).goToStreamID=indexPath.row
+            (self.delegate as! ViewController).performSegueWithIdentifier("presentStreaming", sender: self)
+        }
     }
 }

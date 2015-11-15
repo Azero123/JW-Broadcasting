@@ -51,11 +51,13 @@ func addBranchListener(instruction:String, serverBonded: () -> Void){
     branchListeners[instruction]?.append(serverBonded)
     
     if (cachedFiles[instruction.componentsSeparatedByString("|").first!] != nil){
+        print("[Bonding] using cache... \(instruction.componentsSeparatedByString("|").first!)")
         serverBonded()
     }
     else {
         fetchDataUsingCache(instruction, downloaded: nil, usingCache: true)
         
+        print("[Bonding] using download... \(instruction.componentsSeparatedByString("|").first!)")
         /*
 
         
