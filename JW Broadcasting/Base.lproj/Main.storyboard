@@ -53,12 +53,12 @@
                                 <rect key="frame" x="0.0" y="530" width="1920" height="90"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Channels" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ylw-l7-zqG">
-                                        <rect key="frame" x="116" y="0.0" width="399" height="58"/>
+                                        <rect key="frame" x="116" y="10" width="399" height="58"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="399" id="QpO-ut-4Se"/>
                                             <constraint firstAttribute="height" constant="58" id="ied-AQ-Upg"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -66,11 +66,11 @@
                                 <color key="backgroundColor" red="0.65252357719999998" green="0.66733610629999995" blue="0.66081053020000002" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="Ylw-l7-zqG" firstAttribute="leading" secondItem="c1U-oz-E1L" secondAttribute="leading" constant="116" id="7to-dB-0O4"/>
-                                    <constraint firstItem="Ylw-l7-zqG" firstAttribute="top" secondItem="c1U-oz-E1L" secondAttribute="top" id="Pxy-L8-iQs"/>
+                                    <constraint firstItem="Ylw-l7-zqG" firstAttribute="top" secondItem="c1U-oz-E1L" secondAttribute="top" constant="10" id="Pxy-L8-iQs"/>
                                     <constraint firstAttribute="height" constant="90" id="sND-My-Eqd"/>
                                 </constraints>
                             </view>
-                            <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Aiz-tC-uQO">
+                            <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Aiz-tC-uQO" customClass="ChannelSelector" customModule="JW_Broadcasting" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="710" width="1830" height="350"/>
                                 <color key="backgroundColor" red="0.65252357719999998" green="0.66733610629999995" blue="0.66081053020000002" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -93,8 +93,8 @@
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="60" id="gcP-kI-mgA"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -121,12 +121,12 @@
                                 <rect key="frame" x="0.0" y="970" width="1920" height="90"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Latest Videos" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zb4-44-uCv">
-                                        <rect key="frame" x="116" y="0.0" width="399" height="58"/>
+                                        <rect key="frame" x="116" y="10" width="399" height="58"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="399" id="LPN-ps-QpD"/>
                                             <constraint firstAttribute="height" constant="58" id="OJY-GA-7cR"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -134,11 +134,11 @@
                                 <constraints>
                                     <constraint firstItem="Zb4-44-uCv" firstAttribute="leading" secondItem="wVA-sT-yi4" secondAttribute="leading" constant="116" id="DzB-fQ-8ub"/>
                                     <constraint firstAttribute="height" constant="90" id="FgE-YH-vUg"/>
-                                    <constraint firstItem="Zb4-44-uCv" firstAttribute="top" secondItem="wVA-sT-yi4" secondAttribute="top" id="jDB-vx-IX1"/>
+                                    <constraint firstItem="Zb4-44-uCv" firstAttribute="top" secondItem="wVA-sT-yi4" secondAttribute="top" constant="10" id="jDB-vx-IX1"/>
                                 </constraints>
                             </view>
                             <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0FA-Mk-FN8" customClass="LatestVideos" customModule="JW_Broadcasting" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="1110" width="1920" height="350"/>
+                                <rect key="frame" x="0.0" y="1085" width="1920" height="350"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="350" id="V1N-d9-yVc"/>
                                 </constraints>
@@ -203,7 +203,7 @@
                             <constraint firstItem="WIc-0R-BUs" firstAttribute="bottom" secondItem="bcI-63-HQl" secondAttribute="bottom" constant="-35" id="IUz-Yg-Oey"/>
                             <constraint firstItem="Aiz-tC-uQO" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="QYI-qt-hFO"/>
                             <constraint firstAttribute="trailing" secondItem="bcI-63-HQl" secondAttribute="trailing" id="V91-lF-2VQ"/>
-                            <constraint firstItem="0FA-Mk-FN8" firstAttribute="top" secondItem="wVA-sT-yi4" secondAttribute="bottom" constant="50" id="WSs-Np-zxc"/>
+                            <constraint firstItem="0FA-Mk-FN8" firstAttribute="top" secondItem="wVA-sT-yi4" secondAttribute="bottom" constant="25" id="WSs-Np-zxc"/>
                             <constraint firstItem="c1U-oz-E1L" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="ciy-08-3W6"/>
                             <constraint firstAttribute="trailing" secondItem="c1U-oz-E1L" secondAttribute="trailing" id="dML-vV-sIe"/>
                             <constraint firstItem="wVA-sT-yi4" firstAttribute="top" secondItem="Aiz-tC-uQO" secondAttribute="bottom" id="ezu-ax-MMF"/>

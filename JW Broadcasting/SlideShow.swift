@@ -22,9 +22,10 @@ class SlideShow: SuperCollectionView {
         self.contentInset=UIEdgeInsetsMake(0, 60, 0, 60)
         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
         
+        NSLog("[SlideShow] loading...")
         fetchDataUsingCache(pathForSliderData, downloaded: {
-            
             dispatch_async(dispatch_get_main_queue()) {
+                NSLog("[SlideShow] Downloaded")
                 self.reloadData()
                 //self.performSelector("timesUp", withObject: nil, afterDelay: 2.25)
             }
@@ -33,7 +34,7 @@ class SlideShow: SuperCollectionView {
     }
     override func totalItemsInSection(section: Int) -> Int {
         
-        let slides=unfold(base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider|settings|WebHomeSlider|slides") as? NSArray
+        let slides=dictionaryOfPath(base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider")?.objectForKey("settings")?.objectForKey("WebHomeSlider")?.objectForKey("slides") as? NSArray//unfold(base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider|settings|WebHomeSlider|slides") as? NSArray
         if (slides == nil){
             return 0
         }
@@ -47,6 +48,7 @@ class SlideShow: SuperCollectionView {
     
     
     override func cellAtIndex(indexPath:NSIndexPath) -> UICollectionViewCell{
+        NSLog("[SlideShow-Cell-\(indexPath.row)] init")
         let slide: UICollectionViewCell = self.dequeueReusableCellWithReuseIdentifier("slide", forIndexPath: indexPath)
         for subview in slide.contentView.subviews {
             subview.removeFromSuperview()
@@ -58,7 +60,7 @@ class SlideShow: SuperCollectionView {
         
             addBranchListener(pathForSliderData, serverBonded: {
                 
-                let SLSlide=unfold("\(pathForSliderData)|settings|WebHomeSlider|slides|\(indexPath.row)")!
+                let SLSlide=dictionaryOfPath(pathForSliderData)?.objectForKey("settings")?.objectForKey("WebHomeSlider")?.objectForKey("slides")?.objectAtIndex(indexPath.row)//unfold("\(pathForSliderData)|settings|WebHomeSlider|slides|\(indexPath.row)")!
                 let imageURL=unfold(SLSlide, instructions: ["item","images","pnr","lg"]) as? String
                 if (imageURL != nil){
                     
@@ -87,7 +89,7 @@ class SlideShow: SuperCollectionView {
                             let titleLabel=UILabel()
                             titleLabel.frame=CGRectMake(50, slide.bounds.height-75, slide.bounds.width-100, 75)
                             //titleLabel.backgroundColor=UIColor.redColor()
-                            titleLabel.text=SLSlide.objectForKey("item")!.objectForKey("title")! as? String
+                            titleLabel.text=SLSlide!.objectForKey("item")!.objectForKey("title")! as? String
                             titleLabel.layer.shadowColor=UIColor.blackColor().CGColor
                             titleLabel.layer.shadowRadius=5
                             titleLabel.layer.opacity=1

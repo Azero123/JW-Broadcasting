@@ -28,35 +28,19 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.view.userInteractionEnabled=true
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.grayColor()], forState:.Normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState:.Selected)
         activityIndicator.hidesWhenStopped=true
         activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
         pageIndicator.hidden=true
-        self.latestVideosCollectionView.contentInset=UIEdgeInsetsMake(0, 60, 0, 0)
-        self.streamingCollectionView.contentInset=UIEdgeInsetsMake(0, 60, 0, 0)
+        
         self.slideShowCollectionView.prepare()
         
         
         renewContent()
         
-        
-        
-        
-        let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
-        self.view.userInteractionEnabled=true
-        
-        
-        fetchDataUsingCache(streamingScheduleURL, downloaded: {
-            dispatch_async(dispatch_get_main_queue()) {
-            self.streamingMeta=(dictionaryOfPath(streamingScheduleURL, usingCache: false)!.objectForKey("category")?.objectForKey("subcategories")!)! as! Array<NSDictionary>
-            self.streamingCollectionView.reloadData()
-            }
-        })
-        
     }
-    
-    var streamingMeta:Array<NSDictionary>=[]
     
     var previousLanguageCode=languageCode
     
@@ -103,9 +87,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             /*fetch information on latest videos then reload the views*/
             
             let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1"
+            NSLog("[Latest] loading...")
                 fetchDataUsingCache(latestVideosPath, downloaded: {
                     
                     dispatch_async(dispatch_get_main_queue()) {
+                        NSLog("[Latest] downloaded")
                     //"name":"Latest Videos"
                     let latestVideosData=dictionaryOfPath(latestVideosPath)!
                     self.latestVideosTranslatedTitle=(latestVideosData.objectForKey("category")?.objectForKey("name") as? String)!
@@ -119,6 +105,16 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 })
 
             
+            let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
+            
+            NSLog("[Channels] loading... \(streamingScheduleURL)")
+                fetchDataUsingCache(streamingScheduleURL, downloaded: {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        NSLog("[Channels] Downloaded")
+                        dictionaryOfPath(streamingScheduleURL)!
+                        self.streamingCollectionView.reloadData()
+                    }
+                })
             
         }
         else {
@@ -154,50 +150,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         if (collectionView.isKindOfClass(SuperCollectionView.self)){
             return (collectionView as! SuperCollectionView).totalItemsInSection(section)
         }
-        else if (collectionView == streamingCollectionView){
-            return (streamingMeta.count)
-        }
         print("[ERROR] not enough")
         return 0
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell{
         
-        
         if (collectionView.isKindOfClass(SuperCollectionView.self)){
             return (collectionView as! SuperCollectionView).cellAtIndex(indexPath)
-        }
-        else if (collectionView == streamingCollectionView){
-            let channelMeta=streamingMeta[indexPath.row]
-            let channel: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("channel", forIndexPath: indexPath)
-            
-            let imageURL=unfold(channelMeta, instructions: ["images","wss","sm"]) as? String
-            
-            for subview in channel.contentView.subviews {
-                if (subview.isKindOfClass(UIImageView.self)){
-                    let imageView=(subview as! UIImageView)
-                    imageView.userInteractionEnabled = true
-                    imageView.adjustsImageWhenAncestorFocused = true
-                    
-                    fetchDataUsingCache(imageURL!, downloaded: {
-                        dispatch_async(dispatch_get_main_queue()) {
-                            
-                            imageView.image=imageUsingCache(imageURL!)
-                            imageView.userInteractionEnabled=true
-                            imageView.adjustsImageWhenAncestorFocused = true
-                            channel.contentView.addSubview(imageView)
-                        }
-                    })
-                }
-                if (subview.isKindOfClass(marqueeLabel.self)){
-                    let titleLabel=subview as! marqueeLabel
-                    titleLabel.text=channelMeta.objectForKey("name") as? String
-                    
-                }
-            }
-            
-            
-            return channel
         }
         print("[ERROR] THIS SHOULD NEVER HAPPEN! \(collectionView)")
         return UICollectionViewCell()
@@ -215,7 +175,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             streamingViewController.streamID=indexPath.row
             self.presentViewController(streamingViewController, animated: true, completion: {})
             */
-            print("should select")
             goToStreamID=indexPath.row
             self.performSegueWithIdentifier("presentStreaming", sender: self)
         }
@@ -226,11 +185,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        print("prepare for segue")
-        
         if (segue.destinationViewController.isKindOfClass(StreamingViewController.self)){
             if (goToStreamID > -1){
-                print("pass in \(goToStreamID)")
                 (segue.destinationViewController as! StreamingViewController).streamID=goToStreamID
             }
         }
@@ -253,12 +209,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         if (collectionView.isKindOfClass(SuperCollectionView.self)){
             return (collectionView as! SuperCollectionView).sizeOfItemAtIndex(indexPath)
-        }
-        if (collectionView == streamingCollectionView){
-            let multiplier:CGFloat=1.5
-            let ratio:CGFloat=1.875
-            let width:CGFloat=320/2
-            return CGSize(width: width*ratio*multiplier, height: width*multiplier+60)
         }
         return CGSizeMake(0, 0)
     }
@@ -287,7 +237,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 
                 UIView.animateWithDuration(0.5, animations: {
                     
-                    self.slideShowTopConstraint.constant = -self.slideShowCollectionView.frame.size.height+90
+                    self.slideShowTopConstraint.constant = -self.slideShowCollectionView.frame.size.height+100//880 1080
                     self.slideShowCollectionView.alpha=0.001
                     self.view.layoutIfNeeded()
                 })

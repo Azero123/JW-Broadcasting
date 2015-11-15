@@ -36,6 +36,7 @@ var textDirection=UIUserInterfaceLayoutDirection.LeftToRight
 
 
 var cachedFiles:Dictionary<String,NSData>=[:]
+var cachedBond:Dictionary<String,AnyObject?>=[:]
 
 let simulateOffline=false
 let offlineStorage=true
@@ -82,7 +83,10 @@ func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
     }
     else if (from==nil){
         let sourceURL=NSURL(string: (instructions[0]) as! String)
-        if (sourceURL != nil && sourceURL?.scheme != nil && sourceURL?.host != nil){
+        if (cachedBond[instructions[0] as! String] != nil){
+            source=cachedBond[instructions[0] as! String]!
+        }
+        else if (sourceURL != nil && sourceURL?.scheme != nil && sourceURL?.host != nil){
             source=sourceURL
             var sourceData=cachedFiles[instructions[0] as! String]
             if (sourceData != nil){
@@ -119,7 +123,7 @@ func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
                     
                     print(error)
                 }
-                
+               cachedBond[instructions[0] as! String]=source
             }
             else {
                 return nil
@@ -162,12 +166,20 @@ func fetchDataUsingCache(fileURL:String, downloaded: () -> Void){
 }
 
 func fetchDataUsingCache(fileURL:String, downloaded: () -> Void, usingCache:Bool){
-        var data:NSData? = nil
-        
-        let trueURL=NSURL(string: fileURL)!
-        let libraryDirectory=NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true).first
-        let storedPath=libraryDirectory!+"/"+trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-")
-        
+    
+    
+    if (fileDownloadedClosures[fileURL] == nil ){
+        fileDownloadedClosures.updateValue([], forKey: fileURL)
+    }
+    fileDownloadedClosures[fileURL]?.append(downloaded)//.insert(downloaded, atIndex: fileDownloadedClosures.count)
+    
+    var data:NSData? = nil
+    
+    let trueURL=NSURL(string: fileURL)!
+    let libraryDirectory=NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true).first
+    let storedPath=libraryDirectory!+"/"+trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-")
+    
+    
         if (usingCache){
             if ((cachedFiles[fileURL]) != nil){ //STEP 1
                 data=cachedFiles[fileURL]!
@@ -178,16 +190,19 @@ func fetchDataUsingCache(fileURL:String, downloaded: () -> Void, usingCache:Bool
                     let stored=NSData(contentsOfFile: storedPath)
                     cachedFiles[fileURL]=stored
                     data=stored
+                    if (fileDownloadedClosures[fileURL] != nil){
+                        for closure in fileDownloadedClosures[fileURL]! {
+                            closure()
+                        }
+                    }
+                    checkBranchesFor(fileURL)
+                    
+                    return
                 }
             }
         }
         //STEP 3
         if (data == nil){
-            
-                if (fileDownloadedClosures[fileURL] == nil ){
-                    fileDownloadedClosures.updateValue([], forKey: fileURL)
-                }
-                fileDownloadedClosures[fileURL]?.append(downloaded)//.insert(downloaded, atIndex: fileDownloadedClosures.count)
             
                 let task=NSURLSession.sharedSession().dataTaskWithRequest(NSURLRequest(URL: trueURL), completionHandler: { (data:NSData?, padawan: NSURLResponse?, error:NSError?) -> Void in
                     if (data != nil && simulateOffline == false){ //File successfully downloaded
@@ -257,22 +272,19 @@ func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
             data=cachedFiles[fileURL]!
         }
         else { //STEP 2
-        
-            do {
-                if (offlineStorage){
-                    let stored=NSData(contentsOfFile: storedPath)
-                    cachedFiles[fileURL]=stored
-                    data=stored
-                }
-            
-            }
-            catch {
-            
-            /*log out any errors that might have occured*/
-            
-            print(error)
+            if (offlineStorage){
+                let stored=NSData(contentsOfFile: storedPath)
+                cachedFiles[fileURL]=stored
+                data=stored
                 
+                let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+                dispatch_async(dispatch_get_global_queue(priority, 0)) {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        checkBranchesFor(fileURL)
+                    }
+                }
             }
+            
         }
     }
     
@@ -399,6 +411,7 @@ func dictionaryOfPath(path: String, usingCache: Bool) -> NSDictionary?{
             /*if it returned an actual NSDictionary then return it*/
             
             if (object.isKindOfClass(NSDictionary.self)){
+                cachedBond[path]=object
                 return object as? NSDictionary
             }
         }

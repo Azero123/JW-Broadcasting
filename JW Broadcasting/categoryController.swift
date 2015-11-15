@@ -197,8 +197,6 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
         let cell: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("video", forIndexPath: indexPath)
         let retrievedVideo=parentCategory.objectAtIndex(indexPath.section).objectForKey("media")?.objectAtIndex(indexPath.row)
         
-        print(retrievedVideo)
-        
         let imageRatios=retrievedVideo!.objectForKey("images")!
         
         let priorityRatios=["wsr","sqr"]//wsr

@@ -28,7 +28,6 @@ class LatestVideos: SuperCollectionView {
     override func totalItemsInSection(section: Int) -> Int {
         
         let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1|category|media"
-        print(latestVideosPath)
         let videos:AnyObject?=unfold(latestVideosPath)
         if ((videos?.isKindOfClass(NSArray.self)) == true){
             return videos!.count
@@ -38,10 +37,11 @@ class LatestVideos: SuperCollectionView {
     
     override func sizeOfItemAtIndex(indexPath:NSIndexPath) -> CGSize{
         
-        return CGSize(width: 560/1.05, height: 360/1.05)
+        return CGSize(width: 560/1.05, height: 360/1.05)//588,378
     }
     
     override func cellAtIndex(indexPath:NSIndexPath) -> UICollectionViewCell{
+        NSLog("[Latest-Cell-\(indexPath.row)] init")
         
         let cell: UICollectionViewCell = self.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath)
 
@@ -55,31 +55,33 @@ class LatestVideos: SuperCollectionView {
         
         let videoData:NSDictionary?=unfold("\(latestVideosPath)|category|media|\(indexPath.row)")! as? NSDictionary
         let imageURL=unfold(videoData, instructions: ["images","lsr","md"]) as? String
-        
-        fetchDataUsingCache(imageURL!, downloaded: {
+        if (imageURL != nil) {
             
-            dispatch_async(dispatch_get_main_queue()) {
-                let image=imageUsingCache(imageURL!)
+            fetchDataUsingCache(imageURL!, downloaded: {
                 
-                for subview in cell.contentView.subviews {
-                    if (subview.isKindOfClass(UIImageView.self)){
-                        (subview as! UIImageView).image=image
-                        subview.userInteractionEnabled = true
-                        (subview as! UIImageView).adjustsImageWhenAncestorFocused = true
-                    }
-                    if (subview.isKindOfClass(marqueeLabel.self)){
-                        
-                        
-                        let titleLabel=(subview as! marqueeLabel)
-                        //titleLabel.frame=CGRectMake(50, 150, 600, 100)
-                        titleLabel.text=(videoData!.objectForKey("title") as? String)!
-                        titleLabel.layer.shadowColor=UIColor.blackColor().CGColor
-                        titleLabel.layer.shadowRadius=5
-                        
+                dispatch_async(dispatch_get_main_queue()) {
+                    let image=imageUsingCache(imageURL!)
+                    
+                    for subview in cell.contentView.subviews {
+                        if (subview.isKindOfClass(UIImageView.self)){
+                            (subview as! UIImageView).image=image
+                            subview.userInteractionEnabled = true
+                            (subview as! UIImageView).adjustsImageWhenAncestorFocused = true
+                        }
+                        if (subview.isKindOfClass(marqueeLabel.self)){
+                            
+                            
+                            let titleLabel=(subview as! marqueeLabel)
+                            //titleLabel.frame=CGRectMake(50, 150, 600, 100)
+                            titleLabel.text=(videoData!.objectForKey("title") as? String)!
+                            titleLabel.layer.shadowColor=UIColor.blackColor().CGColor
+                            titleLabel.layer.shadowRadius=5
+                            
+                        }
                     }
                 }
-            }
-        })
+            })
+        }
         
         return cell
     }
@@ -96,11 +98,11 @@ class LatestVideos: SuperCollectionView {
                 (subview as! UILabel).shadowColor=UIColor.darkGrayColor()
                 subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y+5, width: subview.frame.size.width, height: subview.frame.size.height)
             }
-            
+            /*
             if (subview.isKindOfClass(marqueeLabel.self)){
                 let titleLabel=(subview as! marqueeLabel)
                 //titleLabel.unpauseLabel()
-            }
+            }*/
         }
     }
     
@@ -112,12 +114,12 @@ class LatestVideos: SuperCollectionView {
                 (subview as! UILabel).textColor=UIColor.darkGrayColor()
                 subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y-5, width: subview.frame.size.width, height: subview.frame.size.height)
             }
-            
+            /*
             if (subview.isKindOfClass(marqueeLabel.self)){
                 let titleLabel=(subview as! marqueeLabel)
                 //titleLabel.shutdownLabel()
                 //titleLabel.pauseLabel()
-            }
+            }*/
         }
     }
     
