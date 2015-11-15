@@ -85,16 +85,16 @@ func addBranchListener(instruction:String, serverBonded: () -> Void){
                 formatter.dateFormat = "EEE, d MMM yyyy H:mm:ss v"
                 //NSLog("online:\(formatter.dateFromString((response as! NSHTTPURLResponse).allHeaderFields["Last-Modified"] as! String))")
                 //formatter.dateFromString(
+                if (NSFileManager.defaultManager().fileExistsAtPath(storedPath)){
                 let onlineDate=formatter.dateFromString((response as! NSHTTPURLResponse).allHeaderFields["Last-Modified"] as! String)
                 let offlineDate=try NSFileManager.defaultManager().attributesOfItemAtPath(storedPath)[NSFileModificationDate] as! NSDate
-                //NSLog("online:\(onlineDate) \(onlineDate?.timeIntervalSince1970)")
-                //NSLog("offline:\(offlineDate) \(offlineDate.timeIntervalSince1970)")
-                
-                /*if (onlineDate?.compare(offlineDate) == .OrderedDescending){
-                    print("online is newer by \((onlineDate?.timeIntervalSince1970)!-offlineDate.timeIntervalSince1970<3600)")
-                }*/
-                if ((onlineDate?.timeIntervalSince1970)!-offlineDate.timeIntervalSince1970>60){
-                    print("renew \(trueURL)")
+                    if ((onlineDate?.timeIntervalSince1970)!-offlineDate.timeIntervalSince1970>60){
+                        print("renew \(trueURL)")
+                        fetchDataUsingCache(instruction, downloaded: nil, usingCache: false)
+                    }
+                }
+                else {
+                    
                     fetchDataUsingCache(instruction, downloaded: nil, usingCache: false)
                 }
                 
