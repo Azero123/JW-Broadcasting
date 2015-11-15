@@ -272,25 +272,16 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         If selectedSlideShow==true (AKA the user is interacting with the slideshow) then the slide show will not roll to next slide.
 
         */
-        if (context.previouslyFocusedView?.superview!.isKindOfClass(SuperCollectionView.self) == true){
-            (context.previouslyFocusedView?.superview as! SuperCollectionView).cellShouldFocus(context.previouslyFocusedView!, indexPath: context.previouslyFocusedIndexPath!)
+        
+        if (context.previouslyFocusedView?.superview!.isKindOfClass(SuperCollectionView.self) == true && context.previouslyFocusedIndexPath != nil){
+            (context.previouslyFocusedView?.superview as! SuperCollectionView).cellShouldLoseFocus(context.previouslyFocusedView!, indexPath: context.previouslyFocusedIndexPath!)
         }
-        if (context.nextFocusedView?.superview!.isKindOfClass(SuperCollectionView.self) == true){
+        if (context.nextFocusedView?.superview!.isKindOfClass(SuperCollectionView.self) == true && context.nextFocusedIndexPath != nil){
             (context.nextFocusedView?.superview as! SuperCollectionView).cellShouldFocus(context.nextFocusedView!, indexPath: context.nextFocusedIndexPath!)
         }
         
         
         if (collectionView == self.latestVideosCollectionView || collectionView == slideShowCollectionView ){
-            
-            print("new context")
-            
-            if (context.previouslyFocusedView?.superview == self.latestVideosCollectionView){
-                
-            }
-            
-            if (context.nextFocusedView?.superview == self.latestVideosCollectionView){
-                
-            }
             
             if (context.nextFocusedView?.superview == self.latestVideosCollectionView || context.nextFocusedView?.superview == self.streamingCollectionView){
                 

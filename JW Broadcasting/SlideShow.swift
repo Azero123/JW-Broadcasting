@@ -121,7 +121,7 @@ class SlideShow: SuperCollectionView {
         
         for subview in (view.subviews.first!.subviews) {
             if (subview.isKindOfClass(UIImageView.self)){
-                subview.frame=CGRect(x: 0, y: 0, width: subview.frame.size.width, height: subview.frame.size.height-40)
+                subview.frame=CGRect(x: 0, y: -20, width: subview.frame.size.width, height: subview.frame.size.height+40)
             }
         }
         selectedSlideShow=true
@@ -131,7 +131,7 @@ class SlideShow: SuperCollectionView {
         
         for subview in (view.subviews.first!.subviews) {
             if (subview.isKindOfClass(UIImageView.self)){
-                subview.frame=CGRect(x: 0, y: -20, width: subview.frame.size.width, height: subview.frame.size.height+40)
+                subview.frame=view.bounds
             }
         }
         selectedSlideShow=false
@@ -164,20 +164,20 @@ class SlideShow: SuperCollectionView {
         }
     }
     
-   override func cellSelect(indexPath:NSIndexPath){
-        let videosData=SLSlides.objectAtIndex(indexPath.row).objectForKey("item")!.objectForKey("files")
-        
-        let videoData=videosData?.objectAtIndex((videosData?.count)!-1)
-        
-        let videoURLString=videoData?.objectForKey("progressiveDownloadURL") as! String
-        
-        
-        let videoURL = NSURL(string: videoURLString)
-        let player = AVPlayer(URL: videoURL!)
-        let playerViewController = AVPlayerViewController()
-        playerViewController.player = player
-        self.window?.rootViewController!.presentViewController(playerViewController, animated: true) {
-            playerViewController.player!.play()
+    override func cellSelect(indexPath:NSIndexPath){
+        let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
+        let videosData=unfold("\(pathForSliderData)|settings|WebHomeSlider|slides|\(indexPath.row)")!.objectForKey("item")!.objectForKey("files")
+        if (videosData != nil){
+            let videoData=videosData?.objectAtIndex((videosData?.count)!-1)
+            let videoURLString=videoData?.objectForKey("progressiveDownloadURL") as! String
+            
+            let videoURL = NSURL(string: videoURLString)
+            let player = AVPlayer(URL: videoURL!)
+            let playerViewController = AVPlayerViewController()
+            playerViewController.player = player
+            self.window?.rootViewController!.presentViewController(playerViewController, animated: true) {
+                playerViewController.player!.play()
+            }
         }
     }
 }

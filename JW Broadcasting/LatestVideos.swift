@@ -28,11 +28,12 @@ class LatestVideos: SuperCollectionView {
     override func totalItemsInSection(section: Int) -> Int {
         
         let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1|category|media"
-        let videos=unfold(latestVideosPath)! as? NSArray
-        if (videos == nil){
-            return 0
+        print(latestVideosPath)
+        let videos:AnyObject?=unfold(latestVideosPath)
+        if ((videos?.isKindOfClass(NSArray.self)) == true){
+            return videos!.count
         }
-        return videos!.count
+        return 0
     }
     
     override func sizeOfItemAtIndex(indexPath:NSIndexPath) -> CGSize{

@@ -73,7 +73,6 @@ func unfold(instruction:String)-> AnyObject?{
 
 func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
     var source:AnyObject?=nil
-    print(instructions[0])
     if (from?.isKindOfClass(NSDictionary.self) == true){
         source=(from as! NSDictionary).objectForKey(instructions[0])
     }
