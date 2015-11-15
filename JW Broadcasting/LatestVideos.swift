@@ -14,13 +14,20 @@ class LatestVideos: SuperCollectionView {
     override func prepare(){
         
         self.contentInset=UIEdgeInsetsMake(0, 60, 0, 60)
-        let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1"
         
-        fetchDataUsingCache(latestVideosPath, downloaded: {
-            
+        /*fetch information on latest videos then reload the views*/
+        
+        let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1"
+        NSLog("[Latest] loading...")
+        addBranchListener(latestVideosPath, serverBonded: {
             dispatch_async(dispatch_get_main_queue()) {
+                NSLog("[Latest] downloaded")
+                unfold(latestVideosPath)
+                //self.latestVideosTranslatedTitle=(latestVideosData.objectForKey("category")?.objectForKey("name") as? String)!
+                
+                //self.latestVideosCollectionView.performSelector("reloadData", withObject: nil, afterDelay: 0.25)
                 self.reloadData()
-                //self.performSelector("timesUp", withObject: nil, afterDelay: 2.25)
+                /*well everything is downloaded now so lets hide the spinning wheel and start rendering the views*/
             }
         })
         

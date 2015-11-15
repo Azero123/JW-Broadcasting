@@ -14,11 +14,11 @@ class ChannelSelector: SuperCollectionView {
         
         self.contentInset=UIEdgeInsetsMake(0, 60, 0, 0)
         let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
-        
-        
-        fetchDataUsingCache(streamingScheduleURL, downloaded: {
+        NSLog("[Channels] loading... \(streamingScheduleURL)")
+        addBranchListener(streamingScheduleURL, serverBonded: {
             dispatch_async(dispatch_get_main_queue()) {
-                unfold("\(streamingScheduleURL)|category|subcategories")
+                NSLog("[Channels] Downloaded")
+                unfold(streamingScheduleURL)
                 self.reloadData()
             }
         })

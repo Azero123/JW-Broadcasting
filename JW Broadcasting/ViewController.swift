@@ -17,10 +17,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var slideshow: UIImageView!
     @IBOutlet weak var pageIndicator: UIPageControl!
     
-    @IBOutlet weak var latestVideosCollectionView: UICollectionView!
+    @IBOutlet weak var latestVideosCollectionView: LatestVideos!
     @IBOutlet weak var customLayout: collectionViewRightToLeftFlowLayout!
     
-    @IBOutlet weak var streamingCollectionView: UICollectionView!
+    @IBOutlet weak var streamingCollectionView: ChannelSelector!
     @IBOutlet weak var slideShowCollectionView: SlideShow!
     
     var latestVideos=[]
@@ -36,6 +36,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         pageIndicator.hidden=true
         
         self.slideShowCollectionView.prepare()
+        self.streamingCollectionView.prepare()
+        self.latestVideosCollectionView.prepare()
         
         
         renewContent()
@@ -84,38 +86,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 
             }
             
-            /*fetch information on latest videos then reload the views*/
-            
-            let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1"
-            NSLog("[Latest] loading...")
-                fetchDataUsingCache(latestVideosPath, downloaded: {
-                    
-                    dispatch_async(dispatch_get_main_queue()) {
-                        NSLog("[Latest] downloaded")
-                    //"name":"Latest Videos"
-                    let latestVideosData=dictionaryOfPath(latestVideosPath)!
-                    self.latestVideosTranslatedTitle=(latestVideosData.objectForKey("category")?.objectForKey("name") as? String)!
-                    self.latestVideos=(latestVideosData.objectForKey("category")?.objectForKey("media"))! as! NSArray
-            
-                    self.latestVideosCollectionView.performSelector("reloadData", withObject: nil, afterDelay: 0.25)
-                    /*well everything is downloaded now so lets hide the spinning wheel and start rendering the views*/
-                    self.activityIndicator.stopAnimating()
-                    self.pageIndicator.hidden=true
-                    }
-                })
-
-            
-            let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
-            
-            NSLog("[Channels] loading... \(streamingScheduleURL)")
-                fetchDataUsingCache(streamingScheduleURL, downloaded: {
-                    dispatch_async(dispatch_get_main_queue()) {
-                        NSLog("[Channels] Downloaded")
-                        dictionaryOfPath(streamingScheduleURL)!
-                        self.streamingCollectionView.reloadData()
-                    }
-                })
-            
+            self.activityIndicator.stopAnimating()
+            self.pageIndicator.hidden=true
         }
         else {
             
