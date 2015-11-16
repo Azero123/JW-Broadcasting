@@ -19,7 +19,9 @@ class ChannelSelector: SuperCollectionView {
             dispatch_async(dispatch_get_main_queue()) {
                 NSLog("[Channels] Downloaded")
                 unfold(streamingScheduleURL)
+                NSLog("[Channels] Unfolded")
                 self.reloadData()
+                NSLog("[Channels] Reloaded")
             }
         })
 
@@ -30,8 +32,10 @@ class ChannelSelector: SuperCollectionView {
         let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
         let channels:AnyObject?=unfold("\(streamingScheduleURL)|category|subcategories")
         if ((channels?.isKindOfClass(NSArray.self)) == true){
+            NSLog("[Channels] detected")
             return channels!.count
         }
+        NSLog("[Channels] no channels")
         return 0
     }
     
@@ -70,6 +74,10 @@ class ChannelSelector: SuperCollectionView {
                             }
                         })
                     }
+                }
+                if (subview.isKindOfClass(UILabel.self)){
+                    let titleLabel=subview as! UILabel
+                    titleLabel.layer.zPosition=100000
                 }
                 if (subview.isKindOfClass(marqueeLabel.self)){
                     let titleLabel=subview as! marqueeLabel
@@ -121,9 +129,9 @@ class ChannelSelector: SuperCollectionView {
     }
     
     override func cellSelect(indexPath:NSIndexPath){
-        if ((self.delegate?.isKindOfClass(ViewController)) == true){
-            (self.delegate as! ViewController).goToStreamID=indexPath.row
-            (self.delegate as! ViewController).performSegueWithIdentifier("presentStreaming", sender: self)
+        if ((self.delegate?.isKindOfClass(HomeController)) == true){
+            (self.delegate as! HomeController).goToStreamID=indexPath.row
+            (self.delegate as! HomeController).performSegueWithIdentifier("presentStreaming", sender: self)
         }
     }
 }

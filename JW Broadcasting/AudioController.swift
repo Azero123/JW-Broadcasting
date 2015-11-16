@@ -1,14 +1,14 @@
 //
-//  VideoOnDemandController.swift
+//  AudioControllerViewController.swift
 //  JW Broadcasting
 //
-//  Created by Austin Zelenka on 9/25/15.
+//  Created by Austin Zelenka on 11/6/15.
 //  Copyright © 2015 xquared. All rights reserved.
 //
 
 /*
 
-The code backing this UIViewController is for the "Video On Demand" tab.
+The code backing this UIViewController is for the "Audio" tab.
 This UIViewController is a subclass of CategoryController please refer to CategoryController for anything regarding this controller as it only changes the graphics sizes and resource url used for fetching content.
 
 */
@@ -17,7 +17,7 @@ This UIViewController is a subclass of CategoryController please refer to Catego
 import UIKit
 import AVKit
 
-class VideoOnDemandController: CategoryController {
+class AudioController: CategoryController {
     
     /*
     
@@ -26,7 +26,7 @@ class VideoOnDemandController: CategoryController {
     */
 
     override func viewDidLoad() {
-        self.category="VideoOnDemand"
+        self.category="Audio"
         super.viewDidLoad()
     }
     
@@ -37,7 +37,7 @@ class VideoOnDemandController: CategoryController {
     */
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSizeMake(350, 300)
+        return CGSizeMake(270, 320)
     }
     
 }

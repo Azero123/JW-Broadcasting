@@ -23,9 +23,6 @@ class LatestVideos: SuperCollectionView {
             dispatch_async(dispatch_get_main_queue()) {
                 NSLog("[Latest] downloaded")
                 unfold(latestVideosPath)
-                //self.latestVideosTranslatedTitle=(latestVideosData.objectForKey("category")?.objectForKey("name") as? String)!
-                
-                //self.latestVideosCollectionView.performSelector("reloadData", withObject: nil, afterDelay: 0.25)
                 self.reloadData()
                 /*well everything is downloaded now so lets hide the spinning wheel and start rendering the views*/
             }
@@ -106,6 +103,9 @@ class LatestVideos: SuperCollectionView {
                 subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y+5, width: subview.frame.size.width, height: subview.frame.size.height)
             }
             /*
+            
+            This is code for marquee effect on labels. Currently this does not work.
+            
             if (subview.isKindOfClass(marqueeLabel.self)){
                 let titleLabel=(subview as! marqueeLabel)
                 //titleLabel.unpauseLabel()
@@ -122,6 +122,9 @@ class LatestVideos: SuperCollectionView {
                 subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y-5, width: subview.frame.size.width, height: subview.frame.size.height)
             }
             /*
+            
+            This is code for marquee effect on labels. Currently this does not work.
+            
             if (subview.isKindOfClass(marqueeLabel.self)){
                 let titleLabel=(subview as! marqueeLabel)
                 //titleLabel.shutdownLabel()
@@ -135,7 +138,7 @@ class LatestVideos: SuperCollectionView {
         let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1|category|media"
         let videos=unfold(latestVideosPath)! as? NSArray
         
-        let videoData:NSArray?=unfold(videos, instructions: ["\(indexPath.row)","files"]) as! NSArray
+        let videoData:NSArray?=unfold(videos, instructions: ["\(indexPath.row)","files"]) as? NSArray
         
         let videoFile=videoData?.objectAtIndex((videoData?.count)!-1)
         

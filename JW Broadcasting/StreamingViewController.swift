@@ -74,7 +74,7 @@ class StreamingViewController : UIViewController {
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
                 
-            let streamMeta=dictionaryOfPath(streamingScheduleURL, usingCache: false)
+            dictionaryOfPath(streamingScheduleURL, usingCache: false)
             
             dispatch_async(dispatch_get_main_queue()) {
                 if (self.view.hidden==false){

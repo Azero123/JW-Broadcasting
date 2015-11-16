@@ -6,10 +6,114 @@
 //  Copyright © 2015 xquared. All rights reserved.
 //
 
+/*
+
+This code is the super class for VideoOnDemandController and AudioController.
+This handles the fetching of files and displaying of content for both VideoOnDemandController and AudioController.
+
+
+
+
+
+1. -- Where the data is coming from?
+
+After examining the JS code for tv.jw.org I have come to the understanding that all the content for Categories is fetched from URLs of this format
+
+%BaseDomainKey% = "mediator.jw.org"
+%VersionKey% = "v1"
+%LanguageKey% = String (used for file name of category)
+
+"http:// %BaseDomainKey% / %VersionKey% /categories/ %LanguageKey% / %CategoryKey% ?detailed=1"
+
+This request drops the JSON formatted data for an indivigual category.
+Some known category keys:
+
+VideoOnDemand
+Audio
+LatestVideos
+
+
+
+2. -- What are we looking for in the data?
+
+The contents of $RESPONSE contains a %category% pattern:
+
+%category% = {
+
+    description = String (Displayable String for describing the category)
+    key = String (%LanguageKey% For the current file)
+    name = String (Displayable string for category)
+    type = "container" (Unknown)
+
+    tags = [
+    "RokuCategorySelectionPosterScreen" (Unkown string for Roku???)
+    ]
+    media = [
+        {
+        files = [
+        {
+        progressiveDownloadURL = String (String of URL for mp4 file)
+        }
+        ...
+        ] (files related to the video or audio file the later down the list the higher the resolution)
+    }
+    ...
+    ]
+    images = {
+        %ImageRatio% {
+            %ImageSize% = String (URL of images)
+            ...
+        }
+        ...
+    } (dictionary containing all available image urls)
+
+    subcategories [
+    %category%,
+    %category%,
+    ...
+    ]
+
+}
+
+- keys for images
+
+%ImageRatio% is a String correlating to an aspect ratio 
+Known keys and their ratios:
+pnr (3:1)
+psr (21:30)
+pss (21:30)
+rph (204:237
+rps
+wsr
+wss
+
+%ImageSize% is a String referencing a general size of the image... however not all ratios have all the same sizes. Some known size keys are:
+xs
+sm
+md
+lg
+
+category.media[i].files[x].p
+
+- choosing image
+
+So now we need to look for a consistant ratio and size key pair that fits our needs.
+
+Ideally I was looking for something either square or with a heigher width than height ratio that was around 2-4 hundred pixels in size to not take a lot of bandwidth and loading time and not stretch the image.
+
+
+-- How to load the content
+
+So the content
+
+
+
+*/
+
 import UIKit
 import AVKit
 
-class categoryController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource {
+class CategoryController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource {
     
     
     @IBOutlet weak var videoCategoryTable: UITableView!
@@ -21,7 +125,6 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //http://mediator.jw.org/v1/categories/ASL/VideoOnDemand?detailed=1
         self.videoCollection.clipsToBounds=false
         self.activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
         activityIndicator.hidesWhenStopped=true
@@ -60,11 +163,6 @@ class categoryController: UIViewController, UITableViewDelegate, UITableViewData
             dispatch_async(dispatch_get_main_queue()) {
                 
                 self.videoOnDemandData=dictionaryOfPath(categoryDataURL, usingCache: false)
-                /*
-                let subcat=self.videoOnDemandData!.objectForKey("category")!.objectForKey("subcategories")!.firstObject
-                let downloadedJSON=dictionaryOfPath(categoriesDirectory+"/"+(subcat!!.objectForKey("key") as! String)+"?detailed=1", usingCache: false)*/
-                
-                //self.parentCategory=(downloadedJSON?.objectForKey("category")!.objectForKey("subcategories"))! as! NSArray
                 
                 self.activityIndicator.stopAnimating()
                 
