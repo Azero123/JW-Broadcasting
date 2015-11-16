@@ -19,7 +19,7 @@
 		9F5CE48D1BB644C700378D4C /* CollectionViewHorizontalFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5CE48C1BB644C700378D4C /* CollectionViewHorizontalFlowLayout.swift */; };
 		9F72EF451BF738D000680302 /* ChannelSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F72EF441BF738D000680302 /* ChannelSelector.swift */; };
 		9F7872D21BF952DD00EE409B /* ResourceHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7872D11BF952DD00EE409B /* ResourceHandling.swift */; };
-		9F7872DF1BFA72EF00EE409B /* LaunchScreenEarth.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F7872DE1BFA72EF00EE409B /* LaunchScreenEarth.png */; };
+		9F7872E11BFA782D00EE409B /* LaunchScreenEarth.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F7872E01BFA782D00EE409B /* LaunchScreenEarth.png */; };
 		9F79A18A1BA6A3AC00B5E925 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F79A1891BA6A3AC00B5E925 /* AppDelegate.swift */; };
 		9F79A18C1BA6A3AC00B5E925 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F79A18B1BA6A3AC00B5E925 /* HomeController.swift */; };
 		9F79A18F1BA6A3AC00B5E925 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F79A18D1BA6A3AC00B5E925 /* Main.storyboard */; };
@@ -64,7 +64,8 @@
 		9F7872D41BF955C800EE409B /* LaunchScreenBlue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchScreenBlue.png; sourceTree = "<group>"; };
 		9F7872D51BF955C800EE409B /* LaunchScreenEarth-Washed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LaunchScreenEarth-Washed.png"; sourceTree = "<group>"; };
 		9F7872D91BF955E100EE409B /* jwbroadcasting_images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = jwbroadcasting_images; sourceTree = "<group>"; };
-		9F7872DE1BFA72EF00EE409B /* LaunchScreenEarth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchScreenEarth.png; sourceTree = "<group>"; };
+		9F7872DE1BFA72EF00EE409B /* LaunchScreenEarth-Dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LaunchScreenEarth-Dark.png"; sourceTree = "<group>"; };
+		9F7872E01BFA782D00EE409B /* LaunchScreenEarth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchScreenEarth.png; sourceTree = "<group>"; };
 		9F79A1861BA6A3AC00B5E925 /* JW Broadcasting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JW Broadcasting.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F79A1891BA6A3AC00B5E925 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9F79A18B1BA6A3AC00B5E925 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
@@ -194,7 +195,8 @@
 				9F7872D31BF955C800EE409B /* LaunchScreen.png */,
 				9F7872D41BF955C800EE409B /* LaunchScreenBlue.png */,
 				9F7872D51BF955C800EE409B /* LaunchScreenEarth-Washed.png */,
-				9F7872DE1BFA72EF00EE409B /* LaunchScreenEarth.png */,
+				9F7872DE1BFA72EF00EE409B /* LaunchScreenEarth-Dark.png */,
+				9F7872E01BFA782D00EE409B /* LaunchScreenEarth.png */,
 				9F7872D91BF955E100EE409B /* jwbroadcasting_images */,
 				9F79A1901BA6A3AC00B5E925 /* Assets.xcassets */,
 			);
@@ -357,8 +359,8 @@
 				9F79A1911BA6A3AC00B5E925 /* Assets.xcassets in Resources */,
 				9F07787F1BD1CD5700476E4C /* keyPhrasesIndex in Resources */,
 				9F79A18F1BA6A3AC00B5E925 /* Main.storyboard in Resources */,
-				9F7872DF1BFA72EF00EE409B /* LaunchScreenEarth.png in Resources */,
 				9FFD0D581BB516AA0092CF71 /* jwtv.ttf in Resources */,
+				9F7872E11BFA782D00EE409B /* LaunchScreenEarth.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
