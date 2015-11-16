@@ -1,14 +1,24 @@
 //
-//  collectionViewRightToLeftFlowLayout.swift
+//  CollectionViewHorizontalFlowLayout.swift
 //  JW Broadcasting
 //
 //  Created by Austin Zelenka on 9/25/15.
 //  Copyright © 2015 Austin Zelenka. All rights reserved.
 //
 
+
+/*
+This is some code for
+
+*/
+
+
+
 import UIKit
 
-class collectionViewRightToLeftFlowLayout: UICollectionViewFlowLayout {
+//CollectionViewHorizontalFlowLayout
+
+class CollectionViewHorizontalFlowLayout: UICollectionViewFlowLayout {
     
     var spacingPercentile:CGFloat=1
     

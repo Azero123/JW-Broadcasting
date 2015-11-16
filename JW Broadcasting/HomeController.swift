@@ -119,20 +119,20 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
             After double checking that the collectionview has our custom flow layout (which it should always be but I like double checking) the collectionview then applies horizontal scrolling for the slide show and adjusts the margins between cells.
             */
             
-            if (self.slideShowCollectionView.collectionViewLayout.isKindOfClass(collectionViewRightToLeftFlowLayout.self) == true){
+            if (self.slideShowCollectionView.collectionViewLayout.isKindOfClass(CollectionViewHorizontalFlowLayout.self) == true){
                 
-                (self.slideShowCollectionView.collectionViewLayout as! collectionViewRightToLeftFlowLayout).scrollDirection=UICollectionViewScrollDirection.Horizontal
-                (self.slideShowCollectionView.collectionViewLayout as! collectionViewRightToLeftFlowLayout).spacingPercentile=1.05
+                (self.slideShowCollectionView.collectionViewLayout as! CollectionViewHorizontalFlowLayout).scrollDirection=UICollectionViewScrollDirection.Horizontal
+                (self.slideShowCollectionView.collectionViewLayout as! CollectionViewHorizontalFlowLayout).spacingPercentile=1.05
             }
             
-            if (self.latestVideosCollectionView.collectionViewLayout.isKindOfClass(collectionViewRightToLeftFlowLayout.self) == true){
-                (self.latestVideosCollectionView.collectionViewLayout as! collectionViewRightToLeftFlowLayout).scrollDirection=UICollectionViewScrollDirection.Horizontal
-                (self.latestVideosCollectionView.collectionViewLayout as! collectionViewRightToLeftFlowLayout).spacingPercentile=1.075
+            if (self.latestVideosCollectionView.collectionViewLayout.isKindOfClass(CollectionViewHorizontalFlowLayout.self) == true){
+                (self.latestVideosCollectionView.collectionViewLayout as! CollectionViewHorizontalFlowLayout).scrollDirection=UICollectionViewScrollDirection.Horizontal
+                (self.latestVideosCollectionView.collectionViewLayout as! CollectionViewHorizontalFlowLayout).spacingPercentile=1.075
             }
-            if (self.streamingCollectionView.collectionViewLayout.isKindOfClass(collectionViewRightToLeftFlowLayout.self) == true){
-                (self.streamingCollectionView.collectionViewLayout as! collectionViewRightToLeftFlowLayout).scrollDirection=UICollectionViewScrollDirection.Horizontal
+            if (self.streamingCollectionView.collectionViewLayout.isKindOfClass(CollectionViewHorizontalFlowLayout.self) == true){
+                (self.streamingCollectionView.collectionViewLayout as! CollectionViewHorizontalFlowLayout).scrollDirection=UICollectionViewScrollDirection.Horizontal
                 UICollectionViewScrollDirection.Horizontal
-                (self.streamingCollectionView.collectionViewLayout as! collectionViewRightToLeftFlowLayout).spacingPercentile=1.1
+                (self.streamingCollectionView.collectionViewLayout as! CollectionViewHorizontalFlowLayout).spacingPercentile=1.1
                 
             }
             
