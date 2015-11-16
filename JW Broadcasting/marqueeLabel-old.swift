@@ -6,6 +6,29 @@
 //  Copyright © 2015 xquared. All rights reserved.
 //
 
+
+
+
+/*
+
+
+WARNING
+
+
+This code is not working and not finished. Ideally we want to make the text inside UICollectionViewCells scroll after a small delay of focus. However producing this effect with UIView.animation(...) seems to produce a lot of problems with the text jumping.
+We also tried some code from cbpowell on Github (MarqueeLabel.swift) however this code seems to have some issues with side fade out effects not cooperating inside UICollectionViews and causing the app to crash.
+https://github.com/cbpowell/MarqueeLabel
+*/
+
+
+
+
+
+
+
+
+
+
 import Foundation
 import UIKit
 import QuartzCore
