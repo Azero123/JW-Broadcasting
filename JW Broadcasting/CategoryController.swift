@@ -255,46 +255,30 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
                 
                 
                 
-                    self.videoCollection.performBatchUpdates({
-                        
-                        if (self.parentCategory.count>1) {
+                let downloadedJSON=dictionaryOfPath(subcategoryDirectory, usingCache: false)
+                
+                if (downloadedJSON?.objectForKey("category")!.objectForKey("media") != nil){//If no subcategories then just make itself the subcategory
+                    self.parentCategory=Array(arrayLiteral: downloadedJSON?.objectForKey("category")! as! NSDictionary)
+                    
+                }
+                else if (downloadedJSON?.objectForKey("category")!.objectForKey("subcategories") != nil){//for video on demand pretty much
+                    self.parentCategory=(downloadedJSON?.objectForKey("category")!.objectForKey("subcategories"))! as! NSArray
+                    self.subcategories=true
+                }
+                
+                
+                self.videoCollection.reloadData()
+                self.videoCollection.performBatchUpdates({
+                    //self.videoCollection.reloadData()
+                    }, completion: { (finished:Bool) in
+                        if (finished){
+                            UIView.animateWithDuration(0.15, animations: {
+                                self.videoCollection.alpha=1
+                            })
                             
-                            var paths:Array<NSIndexPath>=[]
-                            for var i=0; i<self.collectionView(self.videoCollection, numberOfItemsInSection: index); i++ {
-                                paths.append(NSIndexPath(forRow: i, inSection: index))
-                            }
-                            self.videoCollection.deleteItemsAtIndexPaths(paths)
                         }
-                        }, completion: { (finished:Bool) in
-                            if (finished){
-                                let downloadedJSON=dictionaryOfPath(subcategoryDirectory, usingCache: false)
-                                
-                                if (downloadedJSON?.objectForKey("category")!.objectForKey("media") != nil){//If no subcategories then just make itself the subcategory
-                                    self.parentCategory=Array(arrayLiteral: downloadedJSON?.objectForKey("category")! as! NSDictionary)
-                                    
-                                }
-                                else if (downloadedJSON?.objectForKey("category")!.objectForKey("subcategories") != nil){//for video on demand pretty much
-                                    self.parentCategory=(downloadedJSON?.objectForKey("category")!.objectForKey("subcategories"))! as! NSArray
-                                    self.subcategories=true
-                                }
-                                
-                                
-                                self.videoCollection.reloadData()
-                                self.videoCollection.performBatchUpdates({
-                                    //self.videoCollection.reloadData()
-                                    }, completion: { (finished:Bool) in
-                                        if (finished){
-                                            UIView.animateWithDuration(0.15, animations: {
-                                                self.videoCollection.alpha=1
-                                            })
-                                            
-                                        }
-                                    }
-                                )
-                                
-                            }
-                            
-                    })
+                    }
+                )
                 
                 
             }
@@ -308,6 +292,7 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print("parent category \(parentCategory.objectAtIndex(section).allKeys)")
         return (parentCategory.objectAtIndex(section).objectForKey("media")?.count)!
     }
     
