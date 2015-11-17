@@ -216,6 +216,7 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     var categoryTimer:NSTimer?
+    var previouslyLoaded=false
     
     func tableView(tableView: UITableView, didHighlightRowAtIndexPath indexPath: NSIndexPath) {
         
@@ -244,21 +245,58 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
         let subcategoryDirectory=directory+"/"+(subcat.objectForKey("key") as! String)+"?detailed=1"
         print("subcategory directory:\(subcategoryDirectory)")
         
+        UIView.animateWithDuration(0.15, animations: {
+            self.videoCollection.alpha=0
+        })
         
         fetchDataUsingCache(subcategoryDirectory, downloaded: {
             dispatch_async(dispatch_get_main_queue()) {
                 print("new category")
-                let downloadedJSON=dictionaryOfPath(subcategoryDirectory, usingCache: false)
                 
-                if (downloadedJSON?.objectForKey("category")!.objectForKey("media") != nil){//If no subcategories then just make itself the subcategory
-                    self.parentCategory=Array(arrayLiteral: downloadedJSON?.objectForKey("category")! as! NSDictionary)
-                    
-                }
-                else if (downloadedJSON?.objectForKey("category")!.objectForKey("subcategories") != nil){//for video on demand pretty much
-                    self.parentCategory=(downloadedJSON?.objectForKey("category")!.objectForKey("subcategories"))! as! NSArray
-                    self.subcategories=true
-                }
-                self.videoCollection.reloadData()
+                
+                
+                    self.videoCollection.performBatchUpdates({
+                        
+                        if (self.parentCategory.count>1) {
+                            
+                            var paths:Array<NSIndexPath>=[]
+                            for var i=0; i<self.collectionView(self.videoCollection, numberOfItemsInSection: index); i++ {
+                                paths.append(NSIndexPath(forRow: i, inSection: index))
+                            }
+                            self.videoCollection.deleteItemsAtIndexPaths(paths)
+                        }
+                        }, completion: { (finished:Bool) in
+                            if (finished){
+                                let downloadedJSON=dictionaryOfPath(subcategoryDirectory, usingCache: false)
+                                
+                                if (downloadedJSON?.objectForKey("category")!.objectForKey("media") != nil){//If no subcategories then just make itself the subcategory
+                                    self.parentCategory=Array(arrayLiteral: downloadedJSON?.objectForKey("category")! as! NSDictionary)
+                                    
+                                }
+                                else if (downloadedJSON?.objectForKey("category")!.objectForKey("subcategories") != nil){//for video on demand pretty much
+                                    self.parentCategory=(downloadedJSON?.objectForKey("category")!.objectForKey("subcategories"))! as! NSArray
+                                    self.subcategories=true
+                                }
+                                
+                                
+                                self.videoCollection.reloadData()
+                                self.videoCollection.performBatchUpdates({
+                                    //self.videoCollection.reloadData()
+                                    }, completion: { (finished:Bool) in
+                                        if (finished){
+                                            UIView.animateWithDuration(0.15, animations: {
+                                                self.videoCollection.alpha=1
+                                            })
+                                            
+                                        }
+                                    }
+                                )
+                                
+                            }
+                            
+                    })
+                
+                
             }
         })
         
@@ -313,6 +351,7 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
         
         
         let cell: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("video", forIndexPath: indexPath)
+        cell.alpha=1
         let retrievedVideo=parentCategory.objectAtIndex(indexPath.section).objectForKey("media")?.objectAtIndex(indexPath.row)
         
         let imageRatios=retrievedVideo!.objectForKey("images")!
