@@ -86,6 +86,8 @@ rph (204:237
 rps
 wsr
 wss
+cvr (only on Dramas and DBR?)
+prd (only on Dramas and DBR?)
 
 %ImageSize% is a String referencing a general size of the image... however not all ratios have all the same sizes. Some known size keys are:
 xs
@@ -208,7 +210,6 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
             if (categoryTimer != nil){
                 categoryTimer?.invalidate()
             }
-            print("\(context.nextFocusedIndexPath?.row)")
             categoryTimer=NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("chooseSubcategoryTimer:"), userInfo: NSDictionary(object: Int((context.nextFocusedIndexPath?.row)!), forKey: "index"), repeats: false)
             //chooseSubcategory((context.nextFocusedIndexPath?.row)!)["index":context.nextFocusedIndexPath?.row]
         }
@@ -231,19 +232,16 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
     var subcategories=false
     
     func chooseSubcategoryTimer(timer:NSTimer){
-        print("choosing subcategory \(timer.userInfo)")
         chooseSubcategory((timer.userInfo?.objectForKey("index"))! as! Int)
     }
     
     func chooseSubcategory(index:Int){
-        print("choosing subcategory \(index)")
         
         
         let subcat=videoOnDemandData!.objectForKey("category")!.objectForKey("subcategories")!.objectAtIndex(index)
         
         let directory=base+"/"+version+"/categories/"+languageCode
         let subcategoryDirectory=directory+"/"+(subcat.objectForKey("key") as! String)+"?detailed=1"
-        print("subcategory directory:\(subcategoryDirectory)")
         
         UIView.animateWithDuration(0.15, animations: {
             self.videoCollection.alpha=0
@@ -251,7 +249,6 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
         
         fetchDataUsingCache(subcategoryDirectory, downloaded: {
             dispatch_async(dispatch_get_main_queue()) {
-                print("new category")
                 
                 
                 
@@ -292,7 +289,6 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("parent category \(parentCategory.objectAtIndex(section).allKeys)")
         return (parentCategory.objectAtIndex(section).objectForKey("media")?.count)!
     }
     
@@ -341,77 +337,89 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
         
         let imageRatios=retrievedVideo!.objectForKey("images")!
         
-        let priorityRatios=["wsr","sqr"]//wsr
+        let priorityRatios=["wsr","sqr","cvr"]//wsr
         
-        var imageURL:String!=""
+        var imageURL:String?=""
         
         for ratio in imageRatios.allKeys {
             for priorityRatio in priorityRatios.reverse() {
                 if (ratio as? String == priorityRatio){
-                    if ((imageRatios.objectForKey(ratio)?.objectForKey("lg")) != nil){
-                        imageURL=((imageRatios.objectForKey(ratio)?.objectForKey("lg"))! as! String)
+                    if (unfold(imageRatios, instructions: ["\(ratio)","lg"]) != nil){
+                        imageURL = unfold(imageRatios, instructions: ["\(ratio)","lg"]) as? String
+                    }
+                    else if (unfold(imageRatios, instructions: ["\(ratio)","md"]) != nil){
+                        imageURL = unfold(imageRatios, instructions: ["\(ratio)","md"]) as? String
+                    }
+                    else if (unfold(imageRatios, instructions: ["\(ratio)","md"]) != nil){
+                        imageURL = unfold(imageRatios, instructions: ["\(ratio)","sm"]) as? String
                     }
                 }
             }
         }
+        if (imageURL == ""){
+            let sizes=unfold(imageRatios, instructions: [imageRatios.allKeys.first!]) as? NSDictionary
+            imageURL=unfold(sizes, instructions: [sizes!.allKeys.first!]) as? String
+        }
         
-        
-        fetchDataUsingCache(imageURL, downloaded: {
-            
-            dispatch_async(dispatch_get_main_queue()) {
+        for subview in cell.contentView.subviews {
+            if (subview.isKindOfClass(UIImageView.self)){
                 
-                let image=imageUsingCache(imageURL)
-                
-                for subview in cell.contentView.subviews {
-                    if (subview.isKindOfClass(UIImageView.self)){
-                        subview.alpha=0
+                fetchDataUsingCache(imageURL!, downloaded: {
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        
+                        let image=imageUsingCache(imageURL!)
+                        
+                        
                         (subview as! UIImageView).image=image
-                        subview.userInteractionEnabled = true
-                        (subview as! UIImageView).adjustsImageWhenAncestorFocused = true
-                        subview.layer.cornerRadius=5
                         UIView.animateWithDuration(0.5, animations: {
                             subview.alpha=1
                         })
-                    }
-                    if (subview.isKindOfClass(UILabel.self)){
-                        
-                        /*
-
-                        Code for removing the repetitive JW Broadcasting - before all the names of all the monthly broadcasts.
-                        */
-                        
-                        var title=(retrievedVideo!.objectForKey("title") as? NSString)!
-                        
-                        let replacementStrings=["JW Broadcasting —","JW Broadcasting—"]
-                        
-                        for replacement in replacementStrings {
-                        
-                            if (title.containsString(replacement)){
-                                
-                                title=title.stringByReplacingOccurrencesOfString(replacement, withString: "")
-                                title=title.stringByAppendingString(" Broadcast")
-                                /* replace " Broadcast" with a key from:
-                                base+"/"+version+"/languages/"+languageCode+"/web"
-                                so that this works with foreign languages*/
-                            }
-                            
-                        }
-                        
-                        let titleLabel=(subview as! UILabel)
-                        titleLabel.text=title as String
-                        titleLabel.layer.shadowColor=UIColor.darkGrayColor().CGColor
-                        titleLabel.layer.shadowRadius=5
-                        titleLabel.numberOfLines=3
                         
                     }
-                    if (subview.isKindOfClass(UIActivityIndicatorView.self)){
-                        subview.transform = CGAffineTransformMakeScale(2.0, 2.0)
+                })
+                
+                subview.alpha=0
+                subview.userInteractionEnabled = true
+                (subview as! UIImageView).adjustsImageWhenAncestorFocused = true
+                subview.layer.cornerRadius=5
+            }
+            if (subview.isKindOfClass(UILabel.self)){
+                
+                /*
+                
+                Code for removing the repetitive JW Broadcasting - before all the names of all the monthly broadcasts.
+                */
+                
+                var title=(retrievedVideo!.objectForKey("title") as? NSString)!
+                
+                let replacementStrings=["JW Broadcasting —","JW Broadcasting—"]
+                
+                for replacement in replacementStrings {
+                    
+                    if (title.containsString(replacement)){
+                        
+                        title=title.stringByReplacingOccurrencesOfString(replacement, withString: "")
+                        title=title.stringByAppendingString(" Broadcast")
+                        /* replace " Broadcast" with a key from:
+                        base+"/"+version+"/languages/"+languageCode+"/web"
+                        so that this works with foreign languages*/
                     }
+                    
                 }
                 
+                let titleLabel=(subview as! UILabel)
+                titleLabel.text=title as String
+                titleLabel.layer.shadowColor=UIColor.darkGrayColor().CGColor
+                titleLabel.layer.shadowRadius=5
+                titleLabel.numberOfLines=3
                 
             }
-        })
+            if (subview.isKindOfClass(UIActivityIndicatorView.self)){
+                subview.transform = CGAffineTransformMakeScale(2.0, 2.0)
+            }
+        }
+
         
         
         
