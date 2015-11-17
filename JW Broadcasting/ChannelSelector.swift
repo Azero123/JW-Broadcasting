@@ -14,14 +14,12 @@ class ChannelSelector: SuperCollectionView {
         
         self.contentInset=UIEdgeInsetsMake(0, 60, 0, 0)
         let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
-        NSLog("[Channels] loading... \(streamingScheduleURL)")
-        addBranchListener(streamingScheduleURL, serverBonded: {
+        print("[Channels] loading... \(streamingScheduleURL)")
+        fetchDataUsingCache(streamingScheduleURL, downloaded: {
             dispatch_async(dispatch_get_main_queue()) {
-                NSLog("[Channels] Downloaded")
                 unfold(streamingScheduleURL)
-                NSLog("[Channels] Unfolded")
                 self.reloadData()
-                NSLog("[Channels] Reloaded")
+                print("[Channels] Reloaded")
             }
         })
 
@@ -32,10 +30,9 @@ class ChannelSelector: SuperCollectionView {
         let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
         let channels:AnyObject?=unfold("\(streamingScheduleURL)|category|subcategories")
         if ((channels?.isKindOfClass(NSArray.self)) == true){
-            NSLog("[Channels] detected")
             return channels!.count
         }
-        NSLog("[Channels] no channels")
+        
         return 0
     }
     
@@ -49,7 +46,6 @@ class ChannelSelector: SuperCollectionView {
     
     
     override func cellAtIndex(indexPath:NSIndexPath) -> UICollectionViewCell{
-        NSLog("[Channels-Cell-\(indexPath.row)] init")
         let channel: UICollectionViewCell = self.dequeueReusableCellWithReuseIdentifier("channel", forIndexPath: indexPath)
         
         let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
@@ -70,7 +66,7 @@ class ChannelSelector: SuperCollectionView {
                                 imageView.image=imageUsingCache(imageURL!)
                                 imageView.userInteractionEnabled=true
                                 imageView.adjustsImageWhenAncestorFocused = true
-                                channel.contentView.addSubview(imageView)
+                                //channel.contentView.addSubview(imageView)
                             }
                         })
                     }

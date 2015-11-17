@@ -18,10 +18,10 @@ class LatestVideos: SuperCollectionView {
         /*fetch information on latest videos then reload the views*/
         
         let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1"
-        NSLog("[Latest] loading...")
+        print("[Latest] loading...")
         addBranchListener(latestVideosPath, serverBonded: {
             dispatch_async(dispatch_get_main_queue()) {
-                NSLog("[Latest] downloaded")
+                print("[Latest] downloaded")
                 unfold(latestVideosPath)
                 self.reloadData()
                 /*well everything is downloaded now so lets hide the spinning wheel and start rendering the views*/
@@ -45,7 +45,6 @@ class LatestVideos: SuperCollectionView {
     }
     
     override func cellAtIndex(indexPath:NSIndexPath) -> UICollectionViewCell{
-        NSLog("[Latest-Cell-\(indexPath.row)] init")
         
         let cell: UICollectionViewCell = self.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath)
 

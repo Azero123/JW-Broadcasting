@@ -22,10 +22,10 @@ class SlideShow: SuperCollectionView {
         self.contentInset=UIEdgeInsetsMake(0, 60, 0, 60)
         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
         
-        NSLog("[SlideShow] loading...")
+        print("[SlideShow] loading...")
         fetchDataUsingCache(pathForSliderData, downloaded: {
             dispatch_async(dispatch_get_main_queue()) {
-                NSLog("[SlideShow] Downloaded")
+                print("[SlideShow] Downloaded")
                 self.reloadData()
                 //self.performSelector("timesUp", withObject: nil, afterDelay: 2.25)
             }
@@ -43,77 +43,65 @@ class SlideShow: SuperCollectionView {
     
     override func sizeOfItemAtIndex(indexPath:NSIndexPath) -> CGSize{
         
-        return CGSize(width: self.superview!.bounds.width-200, height: self.superview!.bounds.height*0.4)//1140, 380 image size
+        return CGSize(width: 1140, height: 380)//1140, 380 image size
     }
     
     
     override func cellAtIndex(indexPath:NSIndexPath) -> UICollectionViewCell{
-        NSLog("[SlideShow-Cell-\(indexPath.row)] init")
         let slide: UICollectionViewCell = self.dequeueReusableCellWithReuseIdentifier("slide", forIndexPath: indexPath)
-        for subview in slide.contentView.subviews {
-            subview.removeFromSuperview()
-        }
-        
-        slide.backgroundColor=UIColor.grayColor()
         
         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
         
-            addBranchListener(pathForSliderData, serverBonded: {
+        
+        let SLSlide=dictionaryOfPath(pathForSliderData)?.objectForKey("settings")?.objectForKey("WebHomeSlider")?.objectForKey("slides")?.objectAtIndex(indexPath.row)
+        for subview in slide.contentView.subviews {
+            if (subview.isKindOfClass(UIImageView.self)){
+                let imageView=subview as! UIImageView
+                //addBranchListener(pathForSliderData, serverBonded: {
+                    //unfold("\(pathForSliderData)|settings|WebHomeSlider|slides|\(indexPath.row)")!
+                    
+                //})
                 
-                let SLSlide=dictionaryOfPath(pathForSliderData)?.objectForKey("settings")?.objectForKey("WebHomeSlider")?.objectForKey("slides")?.objectAtIndex(indexPath.row)//unfold("\(pathForSliderData)|settings|WebHomeSlider|slides|\(indexPath.row)")!
+                
                 let imageURL=unfold(SLSlide, instructions: ["item","images","pnr","lg"]) as? String
                 if (imageURL != nil){
-                    
                     fetchDataUsingCache(imageURL!, downloaded: {
                         
                         dispatch_async(dispatch_get_main_queue()) {
                             let image=imageUsingCache(imageURL!)
-                            
-                            let imageView=UIImageView(image: image)
+                            imageView.image=image
                             imageView.userInteractionEnabled = true
-                            //imageView.adjustsImageWhenAncestorFocused = true
+                            imageView.adjustsImageWhenAncestorFocused = true
                             imageView.frame=CGRectMake(0, 0, slide.frame.size.width, slide.frame.size.height)
                             
-                            slide.contentView.addSubview(imageView)
-                            
-                            let dissipatingView=UIView(frame: CGRect(x: 0, y: 0, width: slide.frame.size.width, height: slide.frame.size.height))
-                            
-                            let playIcon=UILabel()
-                            playIcon.frame=CGRectMake(50, 100, 100, 100)
-                            playIcon.text=""
-                            playIcon.font=UIFont(name: "jwtv", size: 75)!
-                            playIcon.textColor=UIColor.whiteColor()
-                            //dissipatingView.addSubview(playIcon)
                             
                             
-                            let titleLabel=UILabel()
-                            titleLabel.frame=CGRectMake(50, slide.bounds.height-75, slide.bounds.width-100, 75)
-                            //titleLabel.backgroundColor=UIColor.redColor()
-                            titleLabel.text=SLSlide!.objectForKey("item")!.objectForKey("title")! as? String
-                            titleLabel.layer.shadowColor=UIColor.blackColor().CGColor
-                            titleLabel.layer.shadowRadius=5
-                            titleLabel.layer.opacity=1
-                            titleLabel.numberOfLines=3
-                            //titleLabel.font=UIFont(name: "jwtv", size: 75)!
-                            titleLabel.font=UIFont.systemFontOfSize(24)
-                            titleLabel.textColor=UIColor.whiteColor()
-                            
-                            
-                            
-                            let gradient: CAGradientLayer = CAGradientLayer()
-                            gradient.frame = slide.bounds
-                            gradient.colors = [UIColor.clearColor().CGColor, UIColor.clearColor(), UIColor.blackColor().CGColor]
-                            dissipatingView.layer.insertSublayer(gradient, atIndex: 0)
-                            dissipatingView.alpha=0
-                            dissipatingView.addSubview(titleLabel)
-                            
-                            
-                            slide.contentView.addSubview(dissipatingView)
                         }
                         
                     })
+
+                    
                 }
-            })
+                
+            }
+            if (subview.isKindOfClass(UILabel.self)){
+                let titleLabel = subview as! UILabel
+                titleLabel.frame=CGRectMake(50, slide.bounds.height-75, slide.bounds.width-100, 75)
+                titleLabel.text=SLSlide!.objectForKey("item")!.objectForKey("title")! as? String
+                titleLabel.layer.shadowColor=UIColor.blackColor().CGColor
+                titleLabel.layer.shadowRadius=5
+                titleLabel.textColor=UIColor.whiteColor()
+                
+            }
+        }
+        
+        let gradient: CAGradientLayer = CAGradientLayer()
+        gradient.frame = slide.bounds
+        gradient.colors = [UIColor.clearColor().CGColor, UIColor.clearColor().CGColor, UIColor.clearColor().CGColor, UIColor(red: 0, green: 0, blue: 0, alpha: 0.5).CGColor]
+        //slide.contentView.layer.addSublayer(gradient)
+        
+        
+        
         return slide
     }
     
@@ -121,19 +109,29 @@ class SlideShow: SuperCollectionView {
 
     override func cellShouldFocus(view:UIView, indexPath:NSIndexPath){
         
+        //view.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.1, 1.1);
+        
         for subview in (view.subviews.first!.subviews) {
             if (subview.isKindOfClass(UIImageView.self)){
-                subview.frame=CGRect(x: 0, y: -20, width: subview.frame.size.width, height: subview.frame.size.height+40)
+                
+                //subview.frame=CGRect(x: 0, y: -20, width: subview.frame.size.width, height: subview.frame.size.height+40)
+            }
+            if (subview.isKindOfClass(UILabel.self)){
+                subview.alpha=1
             }
         }
         selectedSlideShow=true
     }
     
     override func cellShouldLoseFocus(view:UIView, indexPath:NSIndexPath){
+        //view.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0, 0);
         
         for subview in (view.subviews.first!.subviews) {
             if (subview.isKindOfClass(UIImageView.self)){
                 subview.frame=view.bounds
+            }
+            if (subview.isKindOfClass(UILabel.self)){
+                subview.alpha=0
             }
         }
         selectedSlideShow=false

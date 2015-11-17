@@ -47,7 +47,6 @@ class StreamingViewController : UIViewController {
         set (newValue){
             _streamID=newValue
             if (thisControllerIsVisible){
-                print("new value \(newValue)")
                 updateStream()
                 previousLanguageCode=languageCode
                 previousStreamId=streamID
@@ -182,18 +181,16 @@ class StreamingViewController : UIViewController {
         
         
         if ((self.player?.currentItem) != nil){
-            print("remove observer")
             //self.player?.currentItem?.removeObserver(self, forKeyPath: "status", context: nil)
         }
         //fetchDataUsingCache(streamingScheduleURL, downloaded: {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
                 
-                print("streaming schedule downloaded...")
                 
                 let streamMeta=dictionaryOfPath(streamingScheduleURL, usingCache: false)
                 
                 dispatch_async(dispatch_get_main_queue()) {
-                    print(self.streamID)
+                    print("[Channels] \(self.streamID)")
                     
                     let subcategory=streamMeta?.objectForKey("category")?.objectForKey("subcategories")!.objectAtIndex(self.streamID)
                     self.indexInPlaylist=0
@@ -204,11 +201,9 @@ class StreamingViewController : UIViewController {
                     if (videoURL as? String != self.currentURL){
                         self.player?.replaceCurrentItemWithPlayerItem(AVPlayerItem(URL: NSURL(string: videoURL as! String)!))
                         
-                        print("add observer")
                         NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerItemDidReachEnd:", name: AVPlayerItemDidPlayToEndTimeNotification, object: self.player?.currentItem)
                        // self.player?.currentItem?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.New, context: nil)
                     }
-                    print("timeIndex:\(timeIndex)")
                     if (self.player != nil){
                         self.player!.seekToTime(CMTimeMake(Int64(timeIndex!), 1))
                     }
@@ -239,7 +234,6 @@ class StreamingViewController : UIViewController {
     }*/
     
     override func pressesBegan(presses: Set<UIPress>, withEvent event: UIPressesEvent?){
-        print("press")
         for press in presses {
             switch press.type {
             case .Select: break

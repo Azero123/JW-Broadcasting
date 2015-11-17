@@ -19,6 +19,8 @@ let offlineStorageSaving=true
 
 var branchListeners:Dictionary<String, Array< () -> Any >>=[:]
 
+var testLogSteps=false
+
 func addBranchListener(instruction:String, serverBonded: () -> Void){
     if (branchListeners[instruction] == nil){
         branchListeners.updateValue([], forKey: instruction)
@@ -49,17 +51,20 @@ func addBranchListener(instruction:String, serverBonded: () -> Void){
                 formatter.dateFormat = "EEE, d MMM yyyy H:mm:ss v"
                 //NSLog("online:\(formatter.dateFromString((response as! NSHTTPURLResponse).allHeaderFields["Last-Modified"] as! String))")
                 //formatter.dateFromString(
-                if (NSFileManager.defaultManager().fileExistsAtPath(storedPath)){
-                    let onlineDate=formatter.dateFromString((response as! NSHTTPURLResponse).allHeaderFields["Last-Modified"] as! String)
-                    let offlineDate=try NSFileManager.defaultManager().attributesOfItemAtPath(storedPath)[NSFileModificationDate] as! NSDate
-                    if ((onlineDate?.timeIntervalSince1970)!-offlineDate.timeIntervalSince1970>60){
-                        print("renew \(trueURL)")
+                
+                if ((response as! NSHTTPURLResponse).allHeaderFields["Last-Modified"] == nil){
+                    
+                    if (NSFileManager.defaultManager().fileExistsAtPath(storedPath)){
+                        let onlineDate=formatter.dateFromString((response as! NSHTTPURLResponse).allHeaderFields["Last-Modified"] as! String)
+                        let offlineDate=try NSFileManager.defaultManager().attributesOfItemAtPath(storedPath)[NSFileModificationDate] as! NSDate
+                        if ((onlineDate?.timeIntervalSince1970)!-offlineDate.timeIntervalSince1970>60){
+                            fetchDataUsingCache(instruction, downloaded: nil, usingCache: false)
+                        }
+                    }
+                    else {
+                        
                         fetchDataUsingCache(instruction, downloaded: nil, usingCache: false)
                     }
-                }
-                else {
-                    
-                    fetchDataUsingCache(instruction, downloaded: nil, usingCache: false)
                 }
                 
             }
@@ -73,7 +78,6 @@ func addBranchListener(instruction:String, serverBonded: () -> Void){
         task.resume()
         
     }
-    //"\(pathForSliderData)|settings|WebHomeSlider|slides|\(indexPath.row)|item|images|pnr|lg"
 }
 
 func checkBranchesFor(updatedInstruction:String){
@@ -94,19 +98,38 @@ func unfold(instruction:String)-> AnyObject?{
 
 func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
     var source:AnyObject?=nil
+    if (testLogSteps){
+        print("\(from) \(instructions)")
+    }
+    
     if (from?.isKindOfClass(NSDictionary.self) == true){
+        if (testLogSteps){
+            print("from if NSDictionary")
+        }
         source=(from as! NSDictionary).objectForKey(instructions[0])
     }
     else if (from?.isKindOfClass(NSArray.self) == true){
+        if (testLogSteps){
+            print("from if NSArray")
+        }
         let stringval=instructions[0] as! String
         source=(from as! NSArray).objectAtIndex(Int((stringval as NSString).intValue))
     }
     else if (from==nil){
+        if (testLogSteps){
+            print("from==nil")
+        }
         let sourceURL=NSURL(string: (instructions[0]) as! String)
         if (cachedBond[instructions[0] as! String] != nil){
+            if (testLogSteps){
+                print("cachedbond...")
+            }
             source=cachedBond[instructions[0] as! String]!
         }
         else if (sourceURL != nil && sourceURL?.scheme != nil && sourceURL?.host != nil){
+            if (testLogSteps){
+                print("url is real")
+            }
             source=sourceURL
             var sourceData=cachedFiles[instructions[0] as! String]
             if (sourceData != nil){
@@ -187,7 +210,6 @@ func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?){
 
 func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?, usingCache:Bool){
     
-    print("fetching \(fileURL)")
     if (fileURL != ""){
         if (fileDownloadedClosures[fileURL] == nil ){
             fileDownloadedClosures.updateValue([], forKey: fileURL)
@@ -211,17 +233,19 @@ func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?, usingCache:B
                 
                 if (offlineStorage){
                     let stored=NSData(contentsOfFile: storedPath)
-                    
-                    cachedFiles[fileURL]=stored
-                    data=stored
-                    if (fileDownloadedClosures[fileURL] != nil){
-                        for closure in fileDownloadedClosures[fileURL]! {
-                            closure()
+                    if (stored != nil){
+                        cachedFiles[fileURL]=stored
+                        data=stored
+                        if (fileDownloadedClosures[fileURL] != nil){
+                            for closure in fileDownloadedClosures[fileURL]! {
+                                closure()
+                            }
+                            fileDownloadedClosures.removeAll()
                         }
-                    }
                     checkBranchesFor(fileURL)
                     
                     return
+                    }
                 }
             }
         }
@@ -230,14 +254,13 @@ func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?, usingCache:B
             
             var cachePolicy=NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData
             if (usingCache){
-                cachePolicy=NSURLRequestCachePolicy.ReturnCacheDataDontLoad
+                cachePolicy=NSURLRequestCachePolicy.ReloadRevalidatingCacheData
             }
             
             let request=NSURLRequest(URL: trueURL, cachePolicy: cachePolicy, timeoutInterval: 20)
             
             let task=NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: { (data:NSData?, padawan: NSURLResponse?, error:NSError?) -> Void in
                 if (data != nil && simulateOffline == false){ //File successfully downloaded
-                    print("about to save cache to file")
                     if (offlineStorageSaving){
                         data?.writeToFile(storedPath, atomically: true) //Save file locally for use later
                     }
@@ -426,7 +449,6 @@ func dictionaryOfPath(path: String, usingCache: Bool) -> NSDictionary?{
         if (sliderData == nil){
             return nil
         }
-        
         
         let sliderString=try NSMutableAttributedString(data:sliderData!,
             options:[NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,NSCharacterEncodingDocumentAttribute:NSUTF8StringEncoding],

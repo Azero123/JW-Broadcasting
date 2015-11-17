@@ -70,10 +70,9 @@ class CollectionViewHorizontalFlowLayout: UICollectionViewFlowLayout {
         
         let cellWidth=(self.collectionView?.delegate as! HomeController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*spacingPercentile
         
-        
-        let itemIndex=round(proposedContentOffset.x/cellWidth)
-        
-        return CGPoint(x: itemIndex*(cellWidth)-40, y: 0)
+        let itemIndex=round((proposedContentOffset.x+((self.collectionView?.frame.size.width)!-cellWidth)/2)/cellWidth)
+        return CGPoint(x: itemIndex*(cellWidth)-((self.collectionView?.frame.size.width)!-cellWidth)/2
+            , y: 0)
     }
     
 }
