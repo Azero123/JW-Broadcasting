@@ -347,14 +347,14 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
             for priorityRatio in priorityRatios.reverse() {
                 if (ratio as? String == priorityRatio){
                     
-                    if (unfold(imageRatios, instructions: ["\(ratio)","sm"]) != nil){
-                        imageURL = unfold(imageRatios, instructions: ["\(ratio)","sm"]) as? String
+                    if (unfold(imageRatios, instructions: ["\(ratio)","lg"]) != nil){
+                        imageURL = unfold(imageRatios, instructions: ["\(ratio)","lg"]) as? String
                     }
                     else if (unfold(imageRatios, instructions: ["\(ratio)","md"]) != nil){
                         imageURL = unfold(imageRatios, instructions: ["\(ratio)","md"]) as? String
                     }
-                    else if (unfold(imageRatios, instructions: ["\(ratio)","lg"]) != nil){
-                        imageURL = unfold(imageRatios, instructions: ["\(ratio)","lg"]) as? String
+                    else if (unfold(imageRatios, instructions: ["\(ratio)","sm"]) != nil){
+                        imageURL = unfold(imageRatios, instructions: ["\(ratio)","sm"]) as? String
                     }
                 }
             }
