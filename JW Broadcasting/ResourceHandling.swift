@@ -227,25 +227,24 @@ func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?, usingCache:B
         
         if (usingCache){
             if ((cachedFiles[fileURL]) != nil){ //STEP 1
+                print("offline 1...")
                 data=cachedFiles[fileURL]!
             }
-            else { //STEP 2
-                
-                if (offlineStorage){
-                    let stored=NSData(contentsOfFile: storedPath)
-                    if (stored != nil){
-                        cachedFiles[fileURL]=stored
-                        data=stored
-                        if (fileDownloadedClosures[fileURL] != nil){
-                            for closure in fileDownloadedClosures[fileURL]! {
-                                closure()
-                            }
-                            fileDownloadedClosures.removeAll()
+            else if (offlineStorage){ //STEP 2
+                let stored=NSData(contentsOfFile: storedPath)
+                if (stored != nil){
+                    print("offline 2...")
+                    cachedFiles[fileURL]=stored
+                    data=stored
+                    if (fileDownloadedClosures[fileURL] != nil){
+                        for closure in fileDownloadedClosures[fileURL]! {
+                            closure()
                         }
+                        fileDownloadedClosures.removeAll()
+                    }
                     checkBranchesFor(fileURL)
                     
                     return
-                    }
                 }
             }
         }
@@ -258,10 +257,12 @@ func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?, usingCache:B
             }
             
             let request=NSURLRequest(URL: trueURL, cachePolicy: cachePolicy, timeoutInterval: 20)
-            
+            print("online...")
             let task=NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: { (data:NSData?, padawan: NSURLResponse?, error:NSError?) -> Void in
+                print("recieved...")
                 if (data != nil && simulateOffline == false){ //File successfully downloaded
                     if (offlineStorageSaving){
+                        print("saving...")
                         data?.writeToFile(storedPath, atomically: true) //Save file locally for use later
                     }
                     cachedFiles[fileURL]=data //Save file to memory

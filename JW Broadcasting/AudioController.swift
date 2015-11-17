@@ -37,7 +37,7 @@ class AudioController: CategoryController {
     */
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSizeMake(270, 320)
+        return CGSizeMake(300, 300)
     }
     
 }

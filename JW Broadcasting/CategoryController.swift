@@ -337,21 +337,24 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
         
         let imageRatios=retrievedVideo!.objectForKey("images")!
         
-        let priorityRatios=["wsr","sqr","cvr"]//wsr
+        let priorityRatios=["pns","pss","wsr","lss","wss"]//wsr
         
         var imageURL:String?=""
+        
+        print(imageRatios.allKeys)
         
         for ratio in imageRatios.allKeys {
             for priorityRatio in priorityRatios.reverse() {
                 if (ratio as? String == priorityRatio){
-                    if (unfold(imageRatios, instructions: ["\(ratio)","lg"]) != nil){
-                        imageURL = unfold(imageRatios, instructions: ["\(ratio)","lg"]) as? String
+                    
+                    if (unfold(imageRatios, instructions: ["\(ratio)","sm"]) != nil){
+                        imageURL = unfold(imageRatios, instructions: ["\(ratio)","sm"]) as? String
                     }
                     else if (unfold(imageRatios, instructions: ["\(ratio)","md"]) != nil){
                         imageURL = unfold(imageRatios, instructions: ["\(ratio)","md"]) as? String
                     }
-                    else if (unfold(imageRatios, instructions: ["\(ratio)","md"]) != nil){
-                        imageURL = unfold(imageRatios, instructions: ["\(ratio)","sm"]) as? String
+                    else if (unfold(imageRatios, instructions: ["\(ratio)","lg"]) != nil){
+                        imageURL = unfold(imageRatios, instructions: ["\(ratio)","lg"]) as? String
                     }
                 }
             }
@@ -367,11 +370,20 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
                 fetchDataUsingCache(imageURL!, downloaded: {
                     
                     dispatch_async(dispatch_get_main_queue()) {
-                        
+                        print(imageURL)
                         let image=imageUsingCache(imageURL!)
                         
+                        var ratio=(image?.size.width)!/(image?.size.height)!
+                        (subview as! UIImageView).frame=CGRect(x: (cell.frame.size.width-((cell.frame.size.height-60)*ratio))/2, y: 0, width: (cell.frame.size.height-60)*ratio, height: (cell.frame.size.height-60))
+                        
+                        if (image?.size.width>(image!.size.height)){
+                            ratio=(image?.size.height)!/(image?.size.width)!
+                            (subview as! UIImageView).frame=CGRect(x: 0, y: 0, width: cell.frame.size.width, height: cell.frame.size.width*ratio)
+                        }
                         
                         (subview as! UIImageView).image=image
+                        (subview as! UIImageView).frame=CGRect(x: (cell.frame.size.width-subview.frame.size.width)/2, y: (cell.frame.size.height-subview.frame.size.height)/2, width: subview.frame.size.width, height: subview.frame.size.height)
+                        //(subview as! UIImageView).contentMode = .ScaleToFill
                         UIView.animateWithDuration(0.5, animations: {
                             subview.alpha=1
                         })
@@ -460,6 +472,12 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
     var playerViewController:AVPlayerViewController?=nil
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        
+        
+        let retrievedVideo=parentCategory.objectAtIndex(indexPath.section).objectForKey("media")?.objectAtIndex(indexPath.row)
+        
+        let imageRatios=retrievedVideo!.objectForKey("images")!
+        
         //let videosData=
         let subcat=parentCategory.objectAtIndex(indexPath.section)
         let media=subcat.objectForKey("media")
