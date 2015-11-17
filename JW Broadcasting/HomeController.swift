@@ -7,10 +7,6 @@
 //
 
 
-
-import UIKit
-import AVKit
-
 /*
 
 This controller is code backing the Home tab.
@@ -35,6 +31,10 @@ UICollectionView - {
 
 
 */
+
+
+import UIKit
+import AVKit
 
 class HomeController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     

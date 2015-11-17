@@ -204,30 +204,50 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(tableView: UITableView, didUpdateFocusInContext context: UITableViewFocusUpdateContext, withAnimationCoordinator coordinator: UIFocusAnimationCoordinator) {
         if (tableView == self.videoCategoryTable && (context.nextFocusedView?.isKindOfClass(UITableViewCell.self) == true)){
-            chooseSubcategory((context.nextFocusedIndexPath?.row)!)
+            
+            if (categoryTimer != nil){
+                categoryTimer?.invalidate()
+            }
+            print("\(context.nextFocusedIndexPath?.row)")
+            categoryTimer=NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("chooseSubcategoryTimer:"), userInfo: NSDictionary(object: Int((context.nextFocusedIndexPath?.row)!), forKey: "index"), repeats: false)
+            //chooseSubcategory((context.nextFocusedIndexPath?.row)!)["index":context.nextFocusedIndexPath?.row]
         }
 
     }
     
+    var categoryTimer:NSTimer?
+    
     func tableView(tableView: UITableView, didHighlightRowAtIndexPath indexPath: NSIndexPath) {
         
+        if (categoryTimer != nil){
+            categoryTimer?.invalidate()
+        }
+        //categoryTimer?.fire()
+        //categoryTimer?.fire()
         chooseSubcategory((indexPath.row))
     }
     
     var subcategories=false
     
+    func chooseSubcategoryTimer(timer:NSTimer){
+        print("choosing subcategory \(timer.userInfo)")
+        chooseSubcategory((timer.userInfo?.objectForKey("index"))! as! Int)
+    }
+    
     func chooseSubcategory(index:Int){
+        print("choosing subcategory \(index)")
         
         
         let subcat=videoOnDemandData!.objectForKey("category")!.objectForKey("subcategories")!.objectAtIndex(index)
         
         let directory=base+"/"+version+"/categories/"+languageCode
         let subcategoryDirectory=directory+"/"+(subcat.objectForKey("key") as! String)+"?detailed=1"
-        
+        print("subcategory directory:\(subcategoryDirectory)")
         
         
         fetchDataUsingCache(subcategoryDirectory, downloaded: {
             dispatch_async(dispatch_get_main_queue()) {
+                print("new category")
                 let downloadedJSON=dictionaryOfPath(subcategoryDirectory, usingCache: false)
                 
                 if (downloadedJSON?.objectForKey("category")!.objectForKey("media") != nil){//If no subcategories then just make itself the subcategory

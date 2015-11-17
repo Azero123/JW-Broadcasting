@@ -187,82 +187,83 @@ func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?){
 
 func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?, usingCache:Bool){
     
-    
-    if (fileDownloadedClosures[fileURL] == nil ){
-        fileDownloadedClosures.updateValue([], forKey: fileURL)
-    }
-    if (downloaded != nil){
-        fileDownloadedClosures[fileURL]?.append(downloaded!)//.insert(downloaded, atIndex: fileDownloadedClosures.count)
-    }
-    
-    var data:NSData? = nil
-    
-    let trueURL=NSURL(string: fileURL)!
-    let libraryDirectory=NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true).first
-    let storedPath=libraryDirectory!+"/"+trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-")
-    
-    
-    if (usingCache){
-        if ((cachedFiles[fileURL]) != nil){ //STEP 1
-            data=cachedFiles[fileURL]!
+    print("fetching \(fileURL)")
+    if (fileURL != ""){
+        if (fileDownloadedClosures[fileURL] == nil ){
+            fileDownloadedClosures.updateValue([], forKey: fileURL)
         }
-        else { //STEP 2
-            
-            if (offlineStorage){
-                let stored=NSData(contentsOfFile: storedPath)
+        if (downloaded != nil){
+            fileDownloadedClosures[fileURL]?.append(downloaded!)//.insert(downloaded, atIndex: fileDownloadedClosures.count)
+        }
+        
+        var data:NSData? = nil
+        
+        let trueURL=NSURL(string: fileURL)!
+        let libraryDirectory=NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true).first
+        let storedPath=libraryDirectory!+"/"+trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-")
+        
+        
+        if (usingCache){
+            if ((cachedFiles[fileURL]) != nil){ //STEP 1
+                data=cachedFiles[fileURL]!
+            }
+            else { //STEP 2
                 
-                cachedFiles[fileURL]=stored
-                data=stored
-                if (fileDownloadedClosures[fileURL] != nil){
+                if (offlineStorage){
+                    let stored=NSData(contentsOfFile: storedPath)
+                    
+                    cachedFiles[fileURL]=stored
+                    data=stored
+                    if (fileDownloadedClosures[fileURL] != nil){
+                        for closure in fileDownloadedClosures[fileURL]! {
+                            closure()
+                        }
+                    }
+                    checkBranchesFor(fileURL)
+                    
+                    return
+                }
+            }
+        }
+        //STEP 3
+        if (data == nil){
+            
+            var cachePolicy=NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData
+            if (usingCache){
+                cachePolicy=NSURLRequestCachePolicy.ReturnCacheDataDontLoad
+            }
+            
+            let request=NSURLRequest(URL: trueURL, cachePolicy: cachePolicy, timeoutInterval: 20)
+            
+            let task=NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: { (data:NSData?, padawan: NSURLResponse?, error:NSError?) -> Void in
+                if (data != nil && simulateOffline == false){ //File successfully downloaded
+                    print("about to save cache to file")
+                    if (offlineStorageSaving){
+                        data?.writeToFile(storedPath, atomically: true) //Save file locally for use later
+                    }
+                    cachedFiles[fileURL]=data //Save file to memory
+                    // data=cachedFiles[fileURL!]! //Use as local variable
+                    
                     for closure in fileDownloadedClosures[fileURL]! {
                         closure()
                     }
+                    checkBranchesFor(fileURL)
+                    
+                    return
                 }
-                checkBranchesFor(fileURL)
-                
-                return
+                else {
+                    print("[ERROR] Failed to download resource \(fileURL) \(error)")
+                }
+            })
+            task.resume()
+        }
+        else {
+            
+            if (downloaded != nil){
+                downloaded!()
             }
         }
     }
-    //STEP 3
-    if (data == nil){
-        
-        var cachePolicy=NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData
-        if (usingCache){
-            cachePolicy=NSURLRequestCachePolicy.ReturnCacheDataDontLoad
-        }
-        
-        let request=NSURLRequest(URL: trueURL, cachePolicy: cachePolicy, timeoutInterval: 20)
-        
-        let task=NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: { (data:NSData?, padawan: NSURLResponse?, error:NSError?) -> Void in
-            if (data != nil && simulateOffline == false){ //File successfully downloaded
-                print("about to save cache to file")
-                if (offlineStorageSaving){
-                    data?.writeToFile(storedPath, atomically: true) //Save file locally for use later
-                }
-                cachedFiles[fileURL]=data //Save file to memory
-                // data=cachedFiles[fileURL!]! //Use as local variable
-                
-                for closure in fileDownloadedClosures[fileURL]! {
-                    closure()
-                }
-                checkBranchesFor(fileURL)
-                
-                return
-            }
-            else {
-                print("[ERROR] Failed to download resource \(fileURL) \(error)")
-            }
-        })
-        task.resume()
-    }
-    else {
-        
-        if (downloaded != nil){
-            downloaded!()
-        }
-    }
-    
 }
 
 func dataUsingCache(fileURL:String) -> NSData?{
