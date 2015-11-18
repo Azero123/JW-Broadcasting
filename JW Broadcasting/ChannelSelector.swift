@@ -9,6 +9,8 @@
 import UIKit
 
 class ChannelSelector: SuperCollectionView {
+    
+    @IBOutlet weak var label:UILabel!
 
     override func prepare() {
         
@@ -17,6 +19,13 @@ class ChannelSelector: SuperCollectionView {
         print("[Channels] loading... \(streamingScheduleURL)")
         fetchDataUsingCache(streamingScheduleURL, downloaded: {
             dispatch_async(dispatch_get_main_queue()) {
+                self.label.text=unfold("\(streamingScheduleURL)|category|name")! as? String
+                if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
+                    self.label.textAlignment=NSTextAlignment.Right
+                }
+                else {
+                    self.label.textAlignment=NSTextAlignment.Left
+                }
                 unfold(streamingScheduleURL)
                 self.reloadData()
                 print("[Channels] Reloaded")
@@ -49,7 +58,14 @@ class ChannelSelector: SuperCollectionView {
         let channel: UICollectionViewCell = self.dequeueReusableCellWithReuseIdentifier("channel", forIndexPath: indexPath)
         
         let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
-        let channelMeta=unfold("\(streamingScheduleURL)|category|subcategories|\(indexPath.row)")
+        var channelsMeta=(unfold("\(streamingScheduleURL)|category|subcategories") as? NSArray)
+        
+        
+        if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
+            channelsMeta=channelsMeta!.reverse()
+        }
+        
+        let channelMeta=channelsMeta?[indexPath.row]
         if (channelMeta != nil){
             let imageURL=unfold(channelMeta, instructions: ["images","wss","sm"]) as? String
             

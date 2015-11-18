@@ -246,6 +246,7 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
     */
     
     func setLanguage(newLanguageCode:String, newTextDirection:UIUserInterfaceLayoutDirection){
+        print("setting new language \(newLanguageCode)")
         languageCode=newLanguageCode
         /*
         Save settings language settings to settings.plist file in library folder.
@@ -264,7 +265,7 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         /* check for possible direction change*/
         
         if (newTextDirection != textDirection){
-            textDirection=UIUserInterfaceLayoutDirection.RightToLeft
+            textDirection=newTextDirection
             self.setViewControllers(self.viewControllers?.reverse(), animated: true)
         }
         
@@ -276,6 +277,7 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
             let keyForButton=["lnkHomeView","homepageStreamingBlockTitle","homepageVODBlockTitle","homepageAudioBlockTitle","lnkLanguage"]
             
             var startIndex=0
+            var change=1
             var endIndex=keyForButton.count
             
             /* reverse replacement order if right to left */
@@ -283,11 +285,12 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
             if (textDirection==UIUserInterfaceLayoutDirection.RightToLeft){
                 startIndex=keyForButton.count
                 endIndex=0
+                change = -1
             }
             
             /* replace titles */
             
-            for var i=startIndex ; i<endIndex ; i++ {
+            for var i=startIndex ; i<endIndex ; i+=change {
                 //var newTitle=translatedKeyPhrases?.objectForKey(keyForButton[i]) as! String
                 switch i {
                 /*case 0:
@@ -310,9 +313,11 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                     self.tabBar.items?[i].setTitleTextAttributes(fontattributes, forState: .Normal)
                     //self.tabBar.items?[i].setTitleTextAttributes([NSForegroundColorAttributeName:UIColor.grayColor()], forState: .Normal)
                     //self.tabBar.items?[i].setTitleTextAttributes([UITextAttributeTextColor: UIColor.blackColor()], forState: .Normal)
-                default: break
+                default:
                     //newTitle=""
+                    print("[Translation] \(translatedKeyPhrases?.objectForKey(keyForButton[i]))")
                     self.tabBar.items?[i].title=((translatedKeyPhrases?.objectForKey(keyForButton[i]))! as! String)
+                    break
                 }
                 //self.tabBar.items?[i].title=((translatedKeyPhrases?.objectForKey(keyForButton[i]))! as! String)
                 //self.tabBar.items?[i].setTitleTextAttributes(NSDictionary(object: UIFont(name: "jwtv", size: 36)!, forKey: NSFontAttributeName) as? [String : AnyObject], forState: .Normal)

@@ -11,6 +11,8 @@ import AVKit
 
 class LatestVideos: SuperCollectionView {
     
+    @IBOutlet weak var label:UILabel!
+    
     override func prepare(){
         
         self.contentInset=UIEdgeInsetsMake(0, 60, 0, 60)
@@ -21,6 +23,13 @@ class LatestVideos: SuperCollectionView {
         print("[Latest] loading...")
         addBranchListener(latestVideosPath, serverBonded: {
             dispatch_async(dispatch_get_main_queue()) {
+                self.label.text=unfold("\(latestVideosPath)|category|name")! as? String
+                if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
+                    self.label.textAlignment=NSTextAlignment.Right
+                }
+                else {
+                    self.label.textAlignment=NSTextAlignment.Left
+                }
                 print("[Latest] downloaded")
                 unfold(latestVideosPath)
                 self.reloadData()
@@ -56,7 +65,14 @@ class LatestVideos: SuperCollectionView {
         
         let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1"
         
-        let videoData:NSDictionary?=unfold("\(latestVideosPath)|category|media|\(indexPath.row)")! as? NSDictionary
+        var videosData:NSArray?=unfold("\(latestVideosPath)|category|media") as? NSArray
+        
+        
+        if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
+            videosData=videosData!.reverse()
+        }
+        
+        let videoData=videosData![indexPath.row] as? NSDictionary
         let imageURL=unfold(videoData, instructions: ["images","lsr","md"]) as? String
         if (imageURL != nil) {
             

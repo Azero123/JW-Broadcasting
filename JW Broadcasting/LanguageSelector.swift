@@ -51,6 +51,15 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
             //NSFontAttributeName
         }
         
+        if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
+            cell.textLabel?.textAlignment=NSTextAlignment.Right
+        }
+        else {
+            cell.textLabel?.textAlignment=NSTextAlignment.Left
+            
+        }
+        
+        
         cell.textLabel?.attributedText=languageText
         
         return cell
@@ -60,6 +69,7 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
         let language=languageList![indexPath.row]
         print("did select")
         (self.tabBarController as! rootController).setLanguage(language.objectForKey("code") as! String, newTextDirection: ( language.objectForKey("isRTL")?.boolValue == true ? UIUserInterfaceLayoutDirection.RightToLeft : UIUserInterfaceLayoutDirection.LeftToRight ))
+        tableView.reloadData()
     }
     /*
     // MARK: - Navigation

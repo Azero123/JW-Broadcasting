@@ -47,7 +47,6 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <color key="backgroundColor" red="0.54182330830000003" green="0.0" blue="0.0" alpha="0.89852834299999995" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="nJd-Dk-Mmp" secondAttribute="bottom" id="DiS-Yv-Ayv"/>
                                             <constraint firstItem="nJd-Dk-Mmp" firstAttribute="leading" secondItem="Zap-qt-HvD" secondAttribute="leading" id="DsM-M7-XB9"/>
@@ -69,10 +68,9 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c1U-oz-E1L">
                                 <rect key="frame" x="0.0" y="530" width="1920" height="90"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Channels" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ylw-l7-zqG">
-                                        <rect key="frame" x="116" y="10" width="399" height="58"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Streaming" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ylw-l7-zqG">
+                                        <rect key="frame" x="115" y="10" width="1690" height="58"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="399" id="QpO-ut-4Se"/>
                                             <constraint firstAttribute="height" constant="58" id="ied-AQ-Upg"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
@@ -82,8 +80,9 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.65252357719999998" green="0.66733610629999995" blue="0.66081053020000002" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstItem="Ylw-l7-zqG" firstAttribute="leading" secondItem="c1U-oz-E1L" secondAttribute="leading" constant="116" id="7to-dB-0O4"/>
+                                    <constraint firstItem="Ylw-l7-zqG" firstAttribute="leading" secondItem="c1U-oz-E1L" secondAttribute="leading" constant="115" id="7to-dB-0O4"/>
                                     <constraint firstItem="Ylw-l7-zqG" firstAttribute="top" secondItem="c1U-oz-E1L" secondAttribute="top" constant="10" id="Pxy-L8-iQs"/>
+                                    <constraint firstAttribute="trailing" secondItem="Ylw-l7-zqG" secondAttribute="trailing" constant="115" id="ZOt-jh-rIe"/>
                                     <constraint firstAttribute="height" constant="90" id="sND-My-Eqd"/>
                                 </constraints>
                             </view>
@@ -132,15 +131,15 @@
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="7cv-qO-egl"/>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="aBN-fe-eHt"/>
+                                    <outlet property="label" destination="Ylw-l7-zqG" id="TJu-wX-7Sv"/>
                                 </connections>
                             </collectionView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wVA-sT-yi4">
                                 <rect key="frame" x="0.0" y="970" width="1920" height="90"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Latest Videos" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zb4-44-uCv">
-                                        <rect key="frame" x="116" y="10" width="399" height="58"/>
+                                        <rect key="frame" x="115" y="10" width="1690" height="58"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="399" id="LPN-ps-QpD"/>
                                             <constraint firstAttribute="height" constant="58" id="OJY-GA-7cR"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
@@ -149,9 +148,10 @@
                                     </label>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="Zb4-44-uCv" firstAttribute="leading" secondItem="wVA-sT-yi4" secondAttribute="leading" constant="116" id="DzB-fQ-8ub"/>
+                                    <constraint firstItem="Zb4-44-uCv" firstAttribute="leading" secondItem="wVA-sT-yi4" secondAttribute="leading" constant="115" id="DzB-fQ-8ub"/>
                                     <constraint firstAttribute="height" constant="90" id="FgE-YH-vUg"/>
                                     <constraint firstItem="Zb4-44-uCv" firstAttribute="top" secondItem="wVA-sT-yi4" secondAttribute="top" constant="10" id="jDB-vx-IX1"/>
+                                    <constraint firstAttribute="trailing" secondItem="Zb4-44-uCv" secondAttribute="trailing" constant="115" id="ovt-sP-TY3"/>
                                 </constraints>
                             </view>
                             <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0FA-Mk-FN8" customClass="LatestVideos" customModule="JW_Broadcasting" customModuleProvider="target">
@@ -198,6 +198,7 @@
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="tKc-MV-9UP"/>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="gfq-hz-7tr"/>
+                                    <outlet property="label" destination="Zb4-44-uCv" id="CWt-Zu-mGl"/>
                                 </connections>
                             </collectionView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="200" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="EdW-cC-2hD">
@@ -206,6 +207,7 @@
                                     <constraint firstAttribute="width" constant="200" id="8eR-9w-AWA"/>
                                     <constraint firstAttribute="height" constant="200" id="K01-Rb-Pah"/>
                                 </constraints>
+                                <color key="color" cocoaTouchSystemColor="darkTextColor"/>
                             </activityIndicatorView>
                         </subviews>
                         <constraints>
@@ -287,6 +289,7 @@
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="200" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="HHD-tl-bQR">
                                 <rect key="frame" x="860" y="440" width="200" height="200"/>
+                                <color key="color" cocoaTouchSystemColor="darkTextColor"/>
                             </activityIndicatorView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="40" sectionFooterHeight="40" translatesAutoresizingMaskIntoConstraints="NO" id="XO0-SC-oGS">
                                 <rect key="frame" x="90" y="60" width="516" height="960"/>
@@ -323,8 +326,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="350" height="215"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="EW8-6i-NKt">
-                                                    <rect key="frame" x="150" y="98" width="20" height="20"/>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="EW8-6i-NKt">
+                                                    <rect key="frame" x="165" y="98" width="20" height="20"/>
                                                 </activityIndicatorView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TCs-sf-Kug">
                                                     <rect key="frame" x="0.0" y="0.0" width="350" height="180"/>
@@ -386,6 +389,8 @@
                     <tabBarItem key="tabBarItem" title="Video on Demand" id="58h-qI-91Q"/>
                     <connections>
                         <outlet property="activityIndicator" destination="HHD-tl-bQR" id="Dn7-2L-K79"/>
+                        <outlet property="collectionSideConstraint" destination="yGS-jd-KgG" id="fb0-kD-e9E"/>
+                        <outlet property="tableSideConstraint" destination="kbP-lv-aiE" id="fGV-ip-68e"/>
                         <outlet property="videoCategoryTable" destination="XO0-SC-oGS" id="f7w-cB-0Mn"/>
                         <outlet property="videoCollection" destination="cn4-LG-RGh" id="nBY-Pt-vc3"/>
                     </connections>
@@ -408,6 +413,7 @@
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="200" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="ar1-CW-i4t">
                                 <rect key="frame" x="860" y="440" width="200" height="200"/>
+                                <color key="color" cocoaTouchSystemColor="darkTextColor"/>
                             </activityIndicatorView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="40" sectionFooterHeight="40" translatesAutoresizingMaskIntoConstraints="NO" id="Zkv-m2-1K3">
                                 <rect key="frame" x="90" y="60" width="516" height="960"/>
@@ -507,6 +513,8 @@
                     <tabBarItem key="tabBarItem" title="Audio" id="vVW-pg-MUA"/>
                     <connections>
                         <outlet property="activityIndicator" destination="ar1-CW-i4t" id="cYa-vG-enN"/>
+                        <outlet property="collectionSideConstraint" destination="Hzl-BI-izT" id="WfP-GB-ydS"/>
+                        <outlet property="tableSideConstraint" destination="ca0-G3-KDr" id="Ur2-pC-lhw"/>
                         <outlet property="videoCategoryTable" destination="Zkv-m2-1K3" id="0nD-oY-7Z9"/>
                         <outlet property="videoCollection" destination="ABj-KH-P78" id="tW4-lh-dxe"/>
                     </connections>
@@ -586,6 +594,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="rll-L9-hmz"/>
+        <segue reference="eOq-gS-Wby"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -15,7 +15,6 @@ class SlideShow: SuperCollectionView {
     var timer:NSTimer?
     var SLIndex=0
     let timeToShow=10
-    var SLSlides=[]
     
     override func prepare(){
         
@@ -34,7 +33,7 @@ class SlideShow: SuperCollectionView {
     }
     override func totalItemsInSection(section: Int) -> Int {
         
-        let slides=dictionaryOfPath(base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider")?.objectForKey("settings")?.objectForKey("WebHomeSlider")?.objectForKey("slides") as? NSArray//unfold(base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider|settings|WebHomeSlider|slides") as? NSArray
+        let slides=unfold(base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider|settings|WebHomeSlider|slides") as? NSArray//unfold(base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider|settings|WebHomeSlider|slides") as? NSArray
         if (slides == nil){
             return 0
         }
@@ -52,8 +51,23 @@ class SlideShow: SuperCollectionView {
         
         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
         
+        var index=indexPath.row
+        /*let totalItems=self.totalItemsInSection(0)
+        index=indexPath.row-1
+        if (index<0){
+            index=totalItems-1
+        }*/
+        /*if (index>totalItems-1){
+            index=index-totalItems
+        }*/
+        print("indexpath:\(indexPath.row) = \(index)")
+        var SLSlides=unfold(pathForSliderData+"|settings|WebHomeSlider|slides") as? NSArray
         
-        let SLSlide=dictionaryOfPath(pathForSliderData)?.objectForKey("settings")?.objectForKey("WebHomeSlider")?.objectForKey("slides")?.objectAtIndex(indexPath.row)
+        if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
+            SLSlides=SLSlides!.reverse()
+        }
+        
+        let SLSlide=SLSlides![index]
         for subview in slide.contentView.subviews {
             if (subview.isKindOfClass(UIImageView.self)){
                 let imageView=subview as! UIImageView
@@ -87,7 +101,7 @@ class SlideShow: SuperCollectionView {
             if (subview.isKindOfClass(UILabel.self)){
                 let titleLabel = subview as! UILabel
                 titleLabel.frame=CGRectMake(50, slide.bounds.height-75, slide.bounds.width-100, 75)
-                titleLabel.text=SLSlide!.objectForKey("item")!.objectForKey("title")! as? String
+                titleLabel.text=SLSlide.objectForKey("item")!.objectForKey("title")! as? String
                 titleLabel.layer.shadowColor=UIColor.blackColor().CGColor
                 titleLabel.layer.shadowRadius=5
                 titleLabel.textColor=UIColor.whiteColor()
@@ -110,7 +124,7 @@ class SlideShow: SuperCollectionView {
     override func cellShouldFocus(view:UIView, indexPath:NSIndexPath){
         
         //view.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.1, 1.1);
-        
+        SLIndex=indexPath.row
         for subview in (view.subviews.first!.subviews) {
             if (subview.isKindOfClass(UIImageView.self)){
                 
@@ -140,6 +154,7 @@ class SlideShow: SuperCollectionView {
     func moveToSlide(atIndex:Int){
         if (unfold(base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider") != nil ){
             self.scrollToItemAtIndexPath(NSIndexPath(forRow: atIndex, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
+            SLIndex=atIndex
         }
     }
     
@@ -158,7 +173,7 @@ class SlideShow: SuperCollectionView {
             
             SLIndex++;
             
-            if (SLIndex>=SLSlides.count){
+            if (SLIndex>=(unfold(base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider|settings|WebHomeSlider|slides") as? NSArray)!.count){
                 SLIndex=0
             }
         }

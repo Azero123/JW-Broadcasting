@@ -154,7 +154,43 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
     
     var videoOnDemandData:NSDictionary?
     
+    @IBOutlet weak var tableSideConstraint: NSLayoutConstraint!
+    @IBOutlet weak var collectionSideConstraint: NSLayoutConstraint!
     func renewContent(){
+        
+        if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
+            print("constraints")
+            let newTableConstraint =
+            NSLayoutConstraint(item: tableSideConstraint.firstItem, attribute: .Right, relatedBy: tableSideConstraint.relation, toItem: tableSideConstraint.secondItem, attribute: .Right, multiplier: tableSideConstraint.multiplier, constant: -abs(tableSideConstraint.constant))
+            self.view.removeConstraint(tableSideConstraint)
+            self.view.addConstraint(newTableConstraint)
+            tableSideConstraint=newTableConstraint
+            
+            
+            let newCollectionConstraint =
+            NSLayoutConstraint(item: collectionSideConstraint.firstItem, attribute: .Left, relatedBy: collectionSideConstraint.relation, toItem: collectionSideConstraint.secondItem, attribute: .Left, multiplier: collectionSideConstraint.multiplier, constant: -abs(collectionSideConstraint.constant))
+            self.view.removeConstraint(collectionSideConstraint)
+            self.view.addConstraint(newCollectionConstraint)
+            collectionSideConstraint=newCollectionConstraint
+            
+            self.view.layoutIfNeeded()
+        }
+        else {
+            let newTableConstraint =
+            NSLayoutConstraint(item: tableSideConstraint.firstItem, attribute: .Left, relatedBy: tableSideConstraint.relation, toItem: tableSideConstraint.secondItem, attribute: .Left, multiplier: tableSideConstraint.multiplier, constant: abs(tableSideConstraint.constant))
+            self.view.removeConstraint(tableSideConstraint)
+            self.view.addConstraint(newTableConstraint)
+            tableSideConstraint=newTableConstraint
+            
+            
+            let newCollectionConstraint =
+            NSLayoutConstraint(item: collectionSideConstraint.firstItem, attribute: .Right, relatedBy: collectionSideConstraint.relation, toItem: collectionSideConstraint.secondItem, attribute: .Right, multiplier: collectionSideConstraint.multiplier, constant: abs(collectionSideConstraint.constant))
+            self.view.removeConstraint(collectionSideConstraint)
+            self.view.addConstraint(newCollectionConstraint)
+            collectionSideConstraint=newCollectionConstraint
+            
+            self.view.layoutIfNeeded()
+        }
         
         //http://mediator.jw.org/v1/categories/E/Audio?detailed=1
         
@@ -201,6 +237,9 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
         let category:UITableViewCell=tableView.dequeueReusableCellWithIdentifier("category", forIndexPath: indexPath)
         category.textLabel?.text=subcats.objectAtIndex(indexPath.row).objectForKey("name") as? String
         
+        if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
+            category.textLabel?.textAlignment=NSTextAlignment.Right
+        }
         return category
     }
     
@@ -311,12 +350,19 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
             subCategoryLabel.text=parentCategory.objectAtIndex(indexPath.section).objectForKey("name") as? String
             textspacing=subCategoryLabel.intrinsicContentSize().width+25
             subCategoryLabel.frame=CGRect(x: 0, y: 0, width: textspacing, height: 60)
-            header?.addSubview(subCategoryLabel)
             
             let textHeight:CGFloat=60
             
             let line:UIView=UIView(frame: CGRect(x: textspacing, y: textHeight/2, width: header!.frame.size.width-textspacing, height: 1))
             line.backgroundColor=UIColor.darkGrayColor()
+            
+            
+            if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
+                subCategoryLabel.textAlignment=NSTextAlignment.Right
+                subCategoryLabel.frame=CGRect(x: (header?.frame.size.width)!-textspacing, y: 0, width: textspacing, height: 60)
+                line.frame=CGRect(x: 0, y: textHeight/2, width: header!.frame.size.width-textspacing, height: 1)
+            }
+            header?.addSubview(subCategoryLabel)
             header?.addSubview(line)
             
         }
@@ -340,8 +386,6 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
         let priorityRatios=["pns","pss","wsr","lss","wss"]//wsr
         
         var imageURL:String?=""
-        
-        print(imageRatios.allKeys)
         
         for ratio in imageRatios.allKeys {
             for priorityRatio in priorityRatios.reverse() {
@@ -370,7 +414,6 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
                 fetchDataUsingCache(imageURL!, downloaded: {
                     
                     dispatch_async(dispatch_get_main_queue()) {
-                        print(imageURL)
                         let image=imageUsingCache(imageURL!)
                         
                         var ratio=(image?.size.width)!/(image?.size.height)!

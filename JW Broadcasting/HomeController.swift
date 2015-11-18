@@ -306,5 +306,31 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
         }
         return true
     }
+    
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        if (scrollView == self.slideShowCollectionView){
+            print("did move to new item")
+            /*if (scrollView.contentOffset.x == contentOffsetWhenFullyScrolledRight) {
+                
+                // user is scrolling to the right from the last item to the 'fake' item 1.
+                // reposition offset to show the 'real' item 1 at the left-hand end of the collection view
+                
+                NSIndexPath *newIndexPath = [NSIndexPath indexPathForItem:1 inSection:0];
+                
+                [self.collectionView scrollToItemAtIndexPath:newIndexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
+                
+            } else if (scrollView.contentOffset.x == 0)  {
+                
+                // user is scrolling to the left from the first item to the fake 'item N'.
+                // reposition offset to show the 'real' item N at the right end end of the collection view
+                
+                NSIndexPath *newIndexPath = [NSIndexPath indexPathForItem:([self.dataArray count] -2) inSection:0];
+                
+                [self.collectionView scrollToItemAtIndexPath:newIndexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
+                
+            }*/
+            
+        }
+    }
 }
 
