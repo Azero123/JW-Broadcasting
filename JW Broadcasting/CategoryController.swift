@@ -240,6 +240,9 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
         if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
             category.textLabel?.textAlignment=NSTextAlignment.Right
         }
+        else {
+            category.textLabel?.textAlignment=NSTextAlignment.Left
+        }
         return category
     }
     
