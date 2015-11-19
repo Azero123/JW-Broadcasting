@@ -106,6 +106,7 @@ class ChannelSelector: SuperCollectionView {
     
     
     override func cellShouldFocus(view:UIView, indexPath:NSIndexPath){
+        print("scrolled to \(self.contentOffset) \(self.contentSize) \(view.frame)")
         
         view.subviews.first?.alpha=1
         

@@ -122,7 +122,6 @@ class SlideShow: SuperCollectionView {
     var selectedSlideShow=false
 
     override func cellShouldFocus(view:UIView, indexPath:NSIndexPath){
-        
         //view.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.1, 1.1);
         SLIndex=indexPath.row
         for subview in (view.subviews.first!.subviews) {
