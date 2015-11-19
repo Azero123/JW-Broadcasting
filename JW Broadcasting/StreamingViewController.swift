@@ -65,7 +65,7 @@ class StreamingViewController : UIViewController {
         
         let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=0"
         
-        self.activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
+        //self.activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
         self.activityIndicator.hidesWhenStopped=true
         self.activityIndicator.startAnimating()
         self.view.userInteractionEnabled=true

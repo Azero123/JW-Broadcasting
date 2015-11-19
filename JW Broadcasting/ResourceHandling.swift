@@ -221,8 +221,8 @@ func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?, usingCache:B
         var data:NSData? = nil
         
         let trueURL=NSURL(string: fileURL)!
-        let libraryDirectory=NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true).first
-        let storedPath=libraryDirectory!+"/"+trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-")
+        let cacheDirectory=NSSearchPathForDirectoriesInDomains(.CachesDirectory , .UserDomainMask, true).first
+        let storedPath=cacheDirectory!+"/"+trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-")
         
         
         if (usingCache){
@@ -258,7 +258,13 @@ func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?, usingCache:B
             let task=NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: { (data:NSData?, padawan: NSURLResponse?, error:NSError?) -> Void in
                 if (data != nil && simulateOffline == false){ //File successfully downloaded
                     if (offlineStorageSaving){
-                        data?.writeToFile(storedPath, atomically: true) //Save file locally for use later
+                        do {
+                            //try data?.writeToFile(storedPath, atomically: true) //Save file locally for use later
+                           try  NSString(data: data!, encoding: NSUTF8StringEncoding)?.writeToFile(storedPath, atomically: true, encoding: NSUTF8StringEncoding)
+                        }
+                        catch {
+                            print(error)
+                        }
                     }
                     cachedFiles[fileURL]=data //Save file to memory
                     // data=cachedFiles[fileURL!]! //Use as local variable
@@ -318,8 +324,8 @@ func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
     var data:NSData? = nil
     
     let trueURL=NSURL(string: fileURL)!
-    let libraryDirectory=NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true).first
-    let storedPath=libraryDirectory!+"/"+trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-")
+    let cacheDirectory=NSSearchPathForDirectoriesInDomains(.CachesDirectory , .UserDomainMask, true).first
+    let storedPath=cacheDirectory!+"/"+trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-")
     
     if (usingCache){
         if ((cachedFiles[fileURL]) != nil){ //STEP 1
@@ -359,7 +365,12 @@ func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
                 let downloadedData=try NSData(contentsOfURL: trueURL, options: .UncachedRead) //Download
                 if (simulateOffline == false){ //File successfully downloaded
                     if (offlineStorageSaving){
-                        downloadedData.writeToFile(storedPath, atomically: true) //Save file locally for use later
+                        print("[dataUsingCache] write to file...")
+                        //downloadedData.writeToFile(storedPath, atomically: true) //Save file locally for use later
+                        let fileSaved:Bool = NSFileManager.defaultManager().createFileAtPath(storedPath,contents:downloadedData, attributes:nil)
+                        if (fileSaved){
+                            print("successful")
+                        }
                     }
                     cachedFiles[fileURL]=downloadedData //Save file to memory
                     data=cachedFiles[fileURL]! //Use as local variable

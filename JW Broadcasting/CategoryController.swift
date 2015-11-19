@@ -128,10 +128,9 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         
         self.videoCollection.clipsToBounds=false
-        self.activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
+        //self.activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
         activityIndicator.hidesWhenStopped=true
         activityIndicator.startAnimating()
-        
         renewContent()
         
     }
@@ -157,6 +156,11 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var tableSideConstraint: NSLayoutConstraint!
     @IBOutlet weak var collectionSideConstraint: NSLayoutConstraint!
     func renewContent(){
+        
+        UIView.animateWithDuration(0.25, animations: {
+            self.videoCategoryTable.alpha=0
+            self.videoCollection.alpha=0
+        })
         
         if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
             print("constraints")
@@ -205,10 +209,29 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
                 self.activityIndicator.stopAnimating()
                 
                 if (self.view.hidden==false){
+                    
                     self.videoCategoryTable.reloadData()
-                    self.videoCollection.reloadData()
+                    self.videoCollection.performBatchUpdates({
+                        self.chooseSubcategory(0)
+                        }, completion: { (finished:Bool) in
+                            if (finished){
+                                UIView.animateWithDuration(0.25, animations: {
+                                    self.videoCategoryTable.alpha=1
+                                    self.videoCollection.alpha=1
+                                })
+                            }
+                    })
+                    /*
+                    
+                    
+                    UIView.animateWithDuration(0.25, animations: {
+                    self.videoCategoryTable.alpha=0
+                    self.videoCollection.alpha=0
+                    })
+                    */
+                    //self.videoCategoryTable.reloadData()
+                    //self.videoCollection.reloadData()
                 }
-                self.chooseSubcategory(0)
             }
         })
     }

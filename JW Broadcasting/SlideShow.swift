@@ -51,7 +51,7 @@ class SlideShow: SuperCollectionView {
         
         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
         
-        var index=indexPath.row
+        let index=indexPath.row
         /*let totalItems=self.totalItemsInSection(0)
         index=indexPath.row-1
         if (index<0){
@@ -61,12 +61,12 @@ class SlideShow: SuperCollectionView {
             index=index-totalItems
         }*/
         print("indexpath:\(indexPath.row) = \(index)")
-        var SLSlides=unfold(pathForSliderData+"|settings|WebHomeSlider|slides") as? NSArray
-        
+        let SLSlides=unfold(pathForSliderData+"|settings|WebHomeSlider|slides") as? NSArray
+        /*
         if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
             SLSlides=SLSlides!.reverse()
         }
-        
+        */
         let SLSlide=SLSlides![index]
         for subview in slide.contentView.subviews {
             if (subview.isKindOfClass(UIImageView.self)){

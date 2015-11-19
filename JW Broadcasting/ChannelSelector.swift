@@ -58,12 +58,12 @@ class ChannelSelector: SuperCollectionView {
         let channel: UICollectionViewCell = self.dequeueReusableCellWithReuseIdentifier("channel", forIndexPath: indexPath)
         
         let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
-        var channelsMeta=(unfold("\(streamingScheduleURL)|category|subcategories") as? NSArray)
+        let channelsMeta=(unfold("\(streamingScheduleURL)|category|subcategories") as? NSArray)
         
-        
+        /*
         if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
             channelsMeta=channelsMeta!.reverse()
-        }
+        }*/
         
         let channelMeta=channelsMeta?[indexPath.row]
         if (channelMeta != nil){

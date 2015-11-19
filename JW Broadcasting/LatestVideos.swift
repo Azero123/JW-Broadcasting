@@ -65,12 +65,12 @@ class LatestVideos: SuperCollectionView {
         
         let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1"
         
-        var videosData:NSArray?=unfold("\(latestVideosPath)|category|media") as? NSArray
+        let videosData:NSArray?=unfold("\(latestVideosPath)|category|media") as? NSArray
         
-        
+        /*
         if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
             videosData=videosData!.reverse()
-        }
+        }*/
         
         let videoData=videosData![indexPath.row] as? NSDictionary
         let imageURL=unfold(videoData, instructions: ["images","lsr","md"]) as? String

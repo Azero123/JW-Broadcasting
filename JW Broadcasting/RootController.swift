@@ -98,9 +98,6 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState:.Selected)
         
         
-        _ = DISPATCH_QUEUE_PRIORITY_DEFAULT
-        //dispatch_async(dispatch_get_global_queue(priority, 0)) {
-            //let image=self.imageUsingCache(imageURL)
         
                 let download=dictionaryOfPath(base+"/"+version+"/languages/"+languageCode+"/web")
                 languageList=download?.objectForKey("languages") as? Array<NSDictionary>
@@ -139,10 +136,10 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                     
                     if ((language) != nil){
                         self.setLanguage(language!.objectForKey("code") as! String, newTextDirection: ( language!.objectForKey("isRTL")?.boolValue == true ? UIUserInterfaceLayoutDirection.RightToLeft : UIUserInterfaceLayoutDirection.LeftToRight ))
+                        //textDirection=UIUserInterfaceLayoutDirection.RightToLeft
                     }
 
                 }
-            //}
         
         
         timer=NSTimer.scheduledTimerWithTimeInterval(7.5, target: self, selector: "hide", userInfo: nil, repeats: false)
@@ -306,21 +303,11 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                     self.tabBar.items?[i].title="    "
                     
                     let fontattributes=[NSFontAttributeName:UIFont(name: "jwtv", size: 36)!,NSForegroundColorAttributeName:UIColor.grayColor()] as Dictionary<String,AnyObject>
-                    //NSMutableDictionary(object: UIFont(name: "jwtv", size: 36)!, forKey: NSFontAttributeName)
-                    
-                    //fontattributes.setObject(<#T##anObject: AnyObject##AnyObject#>, forKey: <#T##NSCopying#>)
-                    
                     self.tabBar.items?[i].setTitleTextAttributes(fontattributes, forState: .Normal)
-                    //self.tabBar.items?[i].setTitleTextAttributes([NSForegroundColorAttributeName:UIColor.grayColor()], forState: .Normal)
-                    //self.tabBar.items?[i].setTitleTextAttributes([UITextAttributeTextColor: UIColor.blackColor()], forState: .Normal)
                 default:
-                    //newTitle=""
-                    print("[Translation] \(translatedKeyPhrases?.objectForKey(keyForButton[i]))")
                     self.tabBar.items?[i].title=((translatedKeyPhrases?.objectForKey(keyForButton[i]))! as! String)
                     break
                 }
-                //self.tabBar.items?[i].title=((translatedKeyPhrases?.objectForKey(keyForButton[i]))! as! String)
-                //self.tabBar.items?[i].setTitleTextAttributes(NSDictionary(object: UIFont(name: "jwtv", size: 36)!, forKey: NSFontAttributeName) as? [String : AnyObject], forState: .Normal)
             }
         }
         else {
