@@ -405,6 +405,7 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
         
         let cell: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("video", forIndexPath: indexPath)
         cell.alpha=1
+        cell.layoutIfNeeded()
         let retrievedVideo=parentCategory.objectAtIndex(indexPath.section).objectForKey("media")?.objectAtIndex(indexPath.row)
         
         let imageRatios=retrievedVideo!.objectForKey("images")!
@@ -530,7 +531,7 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
             for subview in (context.nextFocusedView?.subviews.first!.subviews)! {
                 if (subview.isKindOfClass(UILabel.self)){
                     (subview as! UILabel).textColor=UIColor.whiteColor()
-                    (subview as! UILabel).shadowColor=UIColor.blackColor()
+                    //(subview as! UILabel).shadowColor=UIColor.blackColor()
                     subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y+5, width: subview.frame.size.width, height: subview.frame.size.height)
                 }
             }

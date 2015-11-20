@@ -52,7 +52,11 @@ class SlideShow: SuperCollectionView {
         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
         
         let index=indexPath.row
-        /*let totalItems=self.totalItemsInSection(0)
+        /*
+        Code for infinite looping. Still working on this.
+        
+        
+        let totalItems=self.totalItemsInSection(0)
         index=indexPath.row-1
         if (index<0){
             index=totalItems-1
@@ -60,13 +64,7 @@ class SlideShow: SuperCollectionView {
         /*if (index>totalItems-1){
             index=index-totalItems
         }*/
-        print("indexpath:\(indexPath.row) = \(index)")
         let SLSlides=unfold(pathForSliderData+"|settings|WebHomeSlider|slides") as? NSArray
-        /*
-        if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
-            SLSlides=SLSlides!.reverse()
-        }
-        */
         let SLSlide=SLSlides![index]
         for subview in slide.contentView.subviews {
             if (subview.isKindOfClass(UIImageView.self)){
@@ -122,13 +120,8 @@ class SlideShow: SuperCollectionView {
     var selectedSlideShow=false
 
     override func cellShouldFocus(view:UIView, indexPath:NSIndexPath){
-        //view.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.1, 1.1);
         SLIndex=indexPath.row
         for subview in (view.subviews.first!.subviews) {
-            if (subview.isKindOfClass(UIImageView.self)){
-                
-                //subview.frame=CGRect(x: 0, y: -20, width: subview.frame.size.width, height: subview.frame.size.height+40)
-            }
             if (subview.isKindOfClass(UILabel.self)){
                 subview.alpha=1
             }
@@ -137,7 +130,6 @@ class SlideShow: SuperCollectionView {
     }
     
     override func cellShouldLoseFocus(view:UIView, indexPath:NSIndexPath){
-        //view.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0, 0);
         
         for subview in (view.subviews.first!.subviews) {
             if (subview.isKindOfClass(UIImageView.self)){

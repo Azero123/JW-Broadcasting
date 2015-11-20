@@ -312,34 +312,34 @@
                             </tableView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cn4-LG-RGh">
                                 <rect key="frame" x="636" y="60" width="1194" height="990"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="30" minimumInteritemSpacing="30" id="nlv-SO-z8e">
-                                    <size key="itemSize" width="350" height="215"/>
-                                    <size key="headerReferenceSize" width="50" height="50"/>
-                                    <size key="footerReferenceSize" width="50" height="50"/>
-                                    <inset key="sectionInset" minX="30" minY="30" maxX="30" maxY="30"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="TiL-cx-ZNb">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="video" id="PgU-Zq-C6y">
-                                        <rect key="frame" x="30" y="80" width="350" height="215"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="350" height="215"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="EW8-6i-NKt">
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="EW8-6i-NKt">
                                                     <rect key="frame" x="165" y="98" width="20" height="20"/>
                                                 </activityIndicatorView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TCs-sf-Kug">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TCs-sf-Kug">
                                                     <rect key="frame" x="0.0" y="0.0" width="350" height="180"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="350" id="UY7-yg-oyL"/>
                                                         <constraint firstAttribute="height" constant="180" id="Zzi-cw-ZLk"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8JH-Vm-t9y">
-                                                    <rect key="frame" x="0.0" y="240" width="350" height="60"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8JH-Vm-t9y">
+                                                    <rect key="frame" x="0.0" y="240" width="350" height="120"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="60" id="4az-6M-vmD"/>
+                                                        <constraint firstAttribute="height" constant="120" id="4az-6M-vmD"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -349,7 +349,7 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="8JH-Vm-t9y" firstAttribute="top" secondItem="TCs-sf-Kug" secondAttribute="bottom" constant="60" id="OxD-Bg-EXC"/>
+                                            <constraint firstItem="8JH-Vm-t9y" firstAttribute="top" secondItem="TCs-sf-Kug" secondAttribute="bottom" constant="180" id="OxD-Bg-EXC"/>
                                             <constraint firstItem="8JH-Vm-t9y" firstAttribute="leading" secondItem="PgU-Zq-C6y" secondAttribute="leading" id="QRh-9x-Aao"/>
                                             <constraint firstAttribute="trailing" secondItem="8JH-Vm-t9y" secondAttribute="trailing" id="UTF-QG-L7j"/>
                                             <constraint firstItem="TCs-sf-Kug" firstAttribute="centerX" secondItem="PgU-Zq-C6y" secondAttribute="centerX" id="awa-n0-PJe"/>
@@ -359,14 +359,6 @@
                                         </constraints>
                                     </collectionViewCell>
                                 </cells>
-                                <collectionReusableView key="sectionHeaderView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="subcategory" id="VEI-5O-cRP">
-                                    <rect key="frame" x="0.0" y="0.0" width="1194" height="50"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                </collectionReusableView>
-                                <collectionReusableView key="sectionFooterView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="footer" id="t62-TK-PH3">
-                                    <rect key="frame" x="0.0" y="325" width="1194" height="50"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                </collectionReusableView>
                                 <connections>
                                     <outlet property="dataSource" destination="dOE-pI-BIe" id="t3H-WM-8Tt"/>
                                     <outlet property="delegate" destination="dOE-pI-BIe" id="cm4-gf-M5f"/>
@@ -436,31 +428,31 @@
                             </tableView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ABj-KH-P78">
                                 <rect key="frame" x="636" y="60" width="1194" height="990"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="30" minimumInteritemSpacing="30" id="KF5-rC-AmP">
-                                    <size key="itemSize" width="360" height="290"/>
-                                    <size key="headerReferenceSize" width="50" height="50"/>
-                                    <size key="footerReferenceSize" width="50" height="50"/>
-                                    <inset key="sectionInset" minX="30" minY="30" maxX="30" maxY="30"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="fOP-fo-2vI">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="video" id="6zl-lO-I1S">
-                                        <rect key="frame" x="30" y="80" width="360" height="290"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="360" height="290"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="otI-lM-znK">
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="otI-lM-znK">
                                                     <rect key="frame" x="170" y="135" width="20" height="20"/>
                                                 </activityIndicatorView>
-                                                <imageView userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="R8i-gF-Gqf">
+                                                <imageView userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R8i-gF-Gqf">
                                                     <rect key="frame" x="0.0" y="0.0" width="360" height="300"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="360" id="Gtn-af-mN9"/>
                                                         <constraint firstAttribute="height" constant="300" id="NcK-gR-MNH"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oqo-E3-83b">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oqo-E3-83b">
                                                     <rect key="frame" x="0.0" y="285" width="360" height="60"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="60" id="PZ0-yH-Tld"/>
@@ -483,14 +475,6 @@
                                         </constraints>
                                     </collectionViewCell>
                                 </cells>
-                                <collectionReusableView key="sectionHeaderView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="subcategory" id="3QP-61-5lW">
-                                    <rect key="frame" x="0.0" y="0.0" width="1194" height="50"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                </collectionReusableView>
-                                <collectionReusableView key="sectionFooterView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="footer" id="3yO-lh-y5j">
-                                    <rect key="frame" x="0.0" y="400" width="1194" height="50"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                </collectionReusableView>
                                 <connections>
                                     <outlet property="dataSource" destination="PyG-dy-RMf" id="Qb6-if-1jY"/>
                                     <outlet property="delegate" destination="PyG-dy-RMf" id="rP3-iM-xK8"/>
@@ -594,6 +578,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="eOq-gS-Wby"/>
+        <segue reference="rll-L9-hmz"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -37,7 +37,8 @@ class VideoOnDemandController: CategoryController {
     */
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        let multiplier:CGFloat=1
+        let multiplier:CGFloat=1.5
+        //908,512
         return CGSizeMake(CGFloat(350)*multiplier, CGFloat(240)*multiplier+60)//640,360//ws320,180
         //320,205-(60)
     }

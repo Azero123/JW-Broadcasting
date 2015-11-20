@@ -39,9 +39,8 @@ class CollectionViewHorizontalFlowLayout: UICollectionViewFlowLayout {
             positionIndex=(self.collectionView?.numberOfItemsInSection(indexPath.section))!-indexPath.row-1
         }
         
-        let layoutAttribute=super.layoutAttributesForItemAtIndexPath(indexPath)
-        
-        layoutAttribute?.frame=CGRectMake((self.collectionView?.contentInset.left)!+((layoutAttribute?.frame.size.width)!*spacingPercentile)*CGFloat(positionIndex), ((self.collectionView?.frame.size.height)!-(layoutAttribute?.frame.size.height)!)/2, (layoutAttribute?.frame.size.width)!, (layoutAttribute?.frame.size.height)!)
+        let layoutAttribute=super.layoutAttributesForItemAtIndexPath(indexPath)?.copy() as! UICollectionViewLayoutAttributes
+        layoutAttribute.frame=CGRectMake((self.collectionView?.contentInset.left)!+((layoutAttribute.frame.size.width)*spacingPercentile)*CGFloat(positionIndex), ((self.collectionView?.frame.size.height)!-(layoutAttribute.frame.size.height))/2, (layoutAttribute.frame.size.width), (layoutAttribute.frame.size.height))
         
         return layoutAttribute
     }
