@@ -29,6 +29,7 @@
 		9F79A1D21BA9136900B5E925 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F79A1D11BA9136900B5E925 /* MediaPlayer.framework */; };
 		9F79A1D41BA91DA900B5E925 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F79A1D31BA91DA900B5E925 /* CoreMedia.framework */; };
 		9F79A1D61BA91DAE00B5E925 /* MediaToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F79A1D51BA91DAE00B5E925 /* MediaToolbox.framework */; };
+		9F9333E31BFFB5CA00092AED /* mm3.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9F9333E21BFFB5CA00092AED /* mm3.ttf */; };
 		9FC0441C1BF66E4100AB0B4F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FC0441B1BF66E4100AB0B4F /* QuartzCore.framework */; };
 		9FD474651BFDA1CF008C55C6 /* CollectionViewAlignmentFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD474641BFDA1CF008C55C6 /* CollectionViewAlignmentFlowLayout.swift */; };
 		9FFB9DB21BB528820059E5EA /* VideoOnDemandController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFB9DB11BB528820059E5EA /* VideoOnDemandController.swift */; };
@@ -81,6 +82,7 @@
 		9F79A1D11BA9136900B5E925 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		9F79A1D31BA91DA900B5E925 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		9F79A1D51BA91DAE00B5E925 /* MediaToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaToolbox.framework; path = System/Library/Frameworks/MediaToolbox.framework; sourceTree = SDKROOT; };
+		9F9333E21BFFB5CA00092AED /* mm3.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = mm3.ttf; sourceTree = "<group>"; };
 		9FC0441B1BF66E4100AB0B4F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		9FD474641BFDA1CF008C55C6 /* CollectionViewAlignmentFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewAlignmentFlowLayout.swift; sourceTree = "<group>"; };
 		9FFB9DB11BB528820059E5EA /* VideoOnDemandController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoOnDemandController.swift; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 		9F7872CD1BF9514E00EE409B /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				9F9333E21BFFB5CA00092AED /* mm3.ttf */,
 				9F38D1BC1BB26B1F0081073A /* jwtv.ttf */,
 			);
 			name = Fonts;
@@ -362,6 +365,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F9333E31BFFB5CA00092AED /* mm3.ttf in Resources */,
 				9F22B00D1BFBCBCF0041E588 /* JW-White-Background-Blue.png in Resources */,
 				9F79A1911BA6A3AC00B5E925 /* Assets.xcassets in Resources */,
 				9F07787F1BD1CD5700476E4C /* keyPhrasesIndex in Resources */,

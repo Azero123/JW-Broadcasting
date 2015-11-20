@@ -207,7 +207,7 @@
                                     <constraint firstAttribute="width" constant="200" id="8eR-9w-AWA"/>
                                     <constraint firstAttribute="height" constant="200" id="K01-Rb-Pah"/>
                                 </constraints>
-                                <color key="color" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
                         </subviews>
                         <constraints>
@@ -289,7 +289,7 @@
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="200" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="HHD-tl-bQR">
                                 <rect key="frame" x="860" y="440" width="200" height="200"/>
-                                <color key="color" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="40" sectionFooterHeight="40" translatesAutoresizingMaskIntoConstraints="NO" id="XO0-SC-oGS">
                                 <rect key="frame" x="90" y="60" width="516" height="960"/>
@@ -312,12 +312,7 @@
                             </tableView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cn4-LG-RGh">
                                 <rect key="frame" x="636" y="60" width="1194" height="990"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="TiL-cx-ZNb">
-                                    <size key="itemSize" width="50" height="50"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
+                                <collectionViewLayout key="collectionViewLayout" id="jKm-uz-lBV" customClass="CollectionViewAlignmentFlowLayout" customModule="JW_Broadcasting" customModuleProvider="target"/>
                                 <cells>
                                     <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="video" id="PgU-Zq-C6y">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -405,7 +400,7 @@
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="200" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="ar1-CW-i4t">
                                 <rect key="frame" x="860" y="440" width="200" height="200"/>
-                                <color key="color" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="40" sectionFooterHeight="40" translatesAutoresizingMaskIntoConstraints="NO" id="Zkv-m2-1K3">
                                 <rect key="frame" x="90" y="60" width="516" height="960"/>
@@ -428,12 +423,7 @@
                             </tableView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ABj-KH-P78">
                                 <rect key="frame" x="636" y="60" width="1194" height="990"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="fOP-fo-2vI">
-                                    <size key="itemSize" width="50" height="50"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
+                                <collectionViewLayout key="collectionViewLayout" id="QrZ-tf-Did" customClass="CollectionViewAlignmentFlowLayout" customModule="JW_Broadcasting" customModuleProvider="target"/>
                                 <cells>
                                     <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="video" id="6zl-lO-I1S">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>

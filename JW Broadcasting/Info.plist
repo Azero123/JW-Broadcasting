@@ -31,6 +31,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>jwtv.ttf</string>
+		<string>mm3.ttf</string>
 	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
