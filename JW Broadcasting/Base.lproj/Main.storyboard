@@ -319,24 +319,24 @@
                                 <collectionViewLayout key="collectionViewLayout" id="jKm-uz-lBV" customClass="CollectionViewAlignmentFlowLayout" customModule="JW_Broadcasting" customModuleProvider="target"/>
                                 <cells>
                                     <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="video" id="PgU-Zq-C6y">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="350" height="240"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="350" height="240"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="EW8-6i-NKt">
                                                     <rect key="frame" x="165" y="98" width="20" height="20"/>
                                                 </activityIndicatorView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TCs-sf-Kug">
-                                                    <rect key="frame" x="0.0" y="0.0" width="350" height="180"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TCs-sf-Kug">
+                                                    <rect key="frame" x="0.0" y="0.0" width="350" height="240"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="350" id="UY7-yg-oyL"/>
-                                                        <constraint firstAttribute="height" constant="180" id="Zzi-cw-ZLk"/>
+                                                        <constraint firstAttribute="height" constant="240" id="Zzi-cw-ZLk"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8JH-Vm-t9y">
-                                                    <rect key="frame" x="0.0" y="240" width="350" height="120"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8JH-Vm-t9y">
+                                                    <rect key="frame" x="0.0" y="340" width="350" height="120"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="120" id="4az-6M-vmD"/>
                                                     </constraints>
@@ -348,7 +348,7 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="8JH-Vm-t9y" firstAttribute="top" secondItem="TCs-sf-Kug" secondAttribute="bottom" constant="180" id="OxD-Bg-EXC"/>
+                                            <constraint firstItem="8JH-Vm-t9y" firstAttribute="top" secondItem="TCs-sf-Kug" secondAttribute="bottom" constant="100" id="OxD-Bg-EXC"/>
                                             <constraint firstItem="8JH-Vm-t9y" firstAttribute="leading" secondItem="PgU-Zq-C6y" secondAttribute="leading" id="QRh-9x-Aao"/>
                                             <constraint firstAttribute="trailing" secondItem="8JH-Vm-t9y" secondAttribute="trailing" id="UTF-QG-L7j"/>
                                             <constraint firstItem="TCs-sf-Kug" firstAttribute="centerX" secondItem="PgU-Zq-C6y" secondAttribute="centerX" id="awa-n0-PJe"/>
@@ -356,6 +356,7 @@
                                             <constraint firstItem="TCs-sf-Kug" firstAttribute="top" secondItem="PgU-Zq-C6y" secondAttribute="top" id="hfF-zU-h2c"/>
                                             <constraint firstItem="EW8-6i-NKt" firstAttribute="centerX" secondItem="PgU-Zq-C6y" secondAttribute="centerX" id="jUP-n5-hW1"/>
                                         </constraints>
+                                        <size key="customSize" width="350" height="240"/>
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
@@ -430,24 +431,24 @@
                                 <collectionViewLayout key="collectionViewLayout" id="QrZ-tf-Did" customClass="CollectionViewAlignmentFlowLayout" customModule="JW_Broadcasting" customModuleProvider="target"/>
                                 <cells>
                                     <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="video" id="6zl-lO-I1S">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="otI-lM-znK">
                                                     <rect key="frame" x="170" y="135" width="20" height="20"/>
                                                 </activityIndicatorView>
-                                                <imageView userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R8i-gF-Gqf">
-                                                    <rect key="frame" x="0.0" y="0.0" width="360" height="300"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="R8i-gF-Gqf">
+                                                    <rect key="frame" x="-30" y="0.0" width="360" height="300"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="360" id="Gtn-af-mN9"/>
                                                         <constraint firstAttribute="height" constant="300" id="NcK-gR-MNH"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oqo-E3-83b">
-                                                    <rect key="frame" x="0.0" y="285" width="360" height="60"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oqo-E3-83b">
+                                                    <rect key="frame" x="0.0" y="320" width="300" height="60"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="60" id="PZ0-yH-Tld"/>
                                                     </constraints>
@@ -465,8 +466,9 @@
                                             <constraint firstAttribute="trailing" secondItem="Oqo-E3-83b" secondAttribute="trailing" id="gRI-07-cAb"/>
                                             <constraint firstItem="otI-lM-znK" firstAttribute="centerX" secondItem="6zl-lO-I1S" secondAttribute="centerX" id="nb4-21-vY1"/>
                                             <constraint firstItem="Oqo-E3-83b" firstAttribute="leading" secondItem="6zl-lO-I1S" secondAttribute="leading" id="p7S-dz-4kx"/>
-                                            <constraint firstItem="Oqo-E3-83b" firstAttribute="top" secondItem="R8i-gF-Gqf" secondAttribute="bottom" constant="-15" id="qL8-0Y-cPg"/>
+                                            <constraint firstItem="Oqo-E3-83b" firstAttribute="top" secondItem="R8i-gF-Gqf" secondAttribute="bottom" constant="20" id="qL8-0Y-cPg"/>
                                         </constraints>
+                                        <size key="customSize" width="300" height="300"/>
                                     </collectionViewCell>
                                 </cells>
                                 <connections>

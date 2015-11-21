@@ -81,7 +81,7 @@ class CollectionViewHorizontalFlowLayout: UICollectionViewFlowLayout {
         
         let cellWidth=(self.collectionView?.delegate as! HomeController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*spacingPercentile
         
-        return CGSize(width: CGFloat((self.collectionView?.numberOfItemsInSection(0))!)*cellWidth, height: super.collectionViewContentSize().width)
+        return CGSize(width: CGFloat((self.collectionView?.numberOfItemsInSection(0))!)*cellWidth, height: super.collectionViewContentSize().height)
     }
     
 }

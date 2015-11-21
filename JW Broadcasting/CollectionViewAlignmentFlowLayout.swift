@@ -9,7 +9,10 @@
 import UIKit
 
 class CollectionViewAlignmentFlowLayout: UICollectionViewFlowLayout {
-
+    //1.3
+    var spacingPercentile:CGFloat=1
+    var headerSpace:CGFloat=50
+    var headerBottomSpace:CGFloat=25
     override func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
         /*
         Defines the position and size of the indivigual cell.
@@ -63,14 +66,14 @@ class CollectionViewAlignmentFlowLayout: UICollectionViewFlowLayout {
                 attrs.frame=CGRect(x: (self.collectionView?.superview!.frame.size.width)!-attrs.frame.origin.x-((self.collectionView?.superview!.frame.size.width)!*0.7)+90, y: attrs.frame.origin.y, width: attrs.frame.size.width, height: attrs.frame.height)
             }
             
-            attrs.frame=CGRect(x: (attrs.frame.origin.x), y: attrs.frame.origin.y+CGFloat(50*attrs.indexPath.section), width: attrs.frame.size.width, height: attrs.frame.height)
+            attrs.frame=CGRect(x: (attrs.frame.origin.x), y: attrs.frame.origin.y*spacingPercentile+CGFloat(headerSpace*CGFloat(attrs.indexPath.section+1)), width: attrs.frame.size.width, height: attrs.frame.height)
             
             if attrs.indexPath.row == 0 {
                 sections.append(attrs.indexPath.section)
                 //yBoost+=50
                 let indexPath        = NSIndexPath(forItem: 0, inSection: attrs.indexPath.section)
                 let layoutAttributes = self.layoutAttributesForSupplementaryViewOfKind(UICollectionElementKindSectionHeader, atIndexPath: indexPath)
-                layoutAttributes?.frame=CGRect(x: (layoutAttributes?.frame.origin.x)!, y: attrs.frame.origin.y, width: (layoutAttributes?.frame.size.width)!, height: (layoutAttributes?.frame.size.height)!)
+                layoutAttributes?.frame=CGRect(x: (layoutAttributes?.frame.origin.x)!, y: attrs.frame.origin.y-headerSpace+headerBottomSpace, width: (layoutAttributes?.frame.size.width)!, height: (layoutAttributes?.frame.size.height)!)
                 attributes.append(layoutAttributes!)
             }
         }
@@ -86,5 +89,15 @@ class CollectionViewAlignmentFlowLayout: UICollectionViewFlowLayout {
         referenceSizeForHeaderInSection section: Int) -> CGSize
     {
         return CGSizeMake(UIScreen.mainScreen().bounds.width, 40)
+    }
+    
+    override func collectionViewContentSize() -> CGSize {
+        
+        let layout=(self.collectionView?.delegate as! CategoryController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forRow: 0, inSection: 0))
+        let verticalRowCount=ceil(super.collectionViewContentSize().height/(layout.height))
+        /*let cellHeight=(self.collectionView?.delegate as! HomeController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).height
+        let verticalRowCount=(self.collectionView?.delegate as! HomeController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*spacingPercentile/cellHeight*/
+        
+        return CGSize(width: super.collectionViewContentSize().width, height: (layout.height)*spacingPercentile*verticalRowCount)
     }
 }
