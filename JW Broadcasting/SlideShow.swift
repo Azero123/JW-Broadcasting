@@ -56,10 +56,6 @@ class SlideShow: SuperCollectionView {
         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
         
         var index=indexPath.row
-        
-        //Code for infinite looping. Still working on this.
-        
-        
         let totalItems=self.totalItemsInSection(0)
         index=indexPath.row-1+indexOffset
         print("pre \(index)")
@@ -144,7 +140,6 @@ class SlideShow: SuperCollectionView {
         let indexToGoTo=totalItems-1
         let cell=self.cellForItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0))
         if ( previousIndexPath != nil){
-            print("index path:\(indexPath.row) previous:\(previousIndexPath!.row)")
         if (indexPath.row>previousIndexPath!.row){
             indexOffset++
             if (self.cellForItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0)) != nil){
@@ -233,8 +228,23 @@ class SlideShow: SuperCollectionView {
     }
     
     override func cellSelect(indexPath:NSIndexPath){
+        
+        var index=indexPath.row
+        
+        let totalItems=self.totalItemsInSection(0)
+        index=indexPath.row-1+indexOffset
+        while (index>totalItems-1){
+            index = index-(totalItems)
+        }
+        while (index < -1){
+            index = index+(totalItems)
+        }
+        if (index == -1){
+            index = 4
+        }
+        
         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
-        let videosData=unfold("\(pathForSliderData)|settings|WebHomeSlider|slides|\(indexPath.row)")!.objectForKey("item")!.objectForKey("files") as? NSArray
+        let videosData=unfold("\(pathForSliderData)|settings|WebHomeSlider|slides|\(index)")!.objectForKey("item")!.objectForKey("files") as? NSArray
         if (videosData != nil){
             let videoData=videosData?.objectAtIndex((videosData?.count)!-1)
             let videoURLString=videoData?.objectForKey("progressiveDownloadURL") as! String
@@ -274,8 +284,15 @@ class SlideShow: SuperCollectionView {
         //let cellWidth=(self.delegate as! HomeController).collectionView(self, layout: self, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*(self.collectionViewLayout as! CollectionViewHorizontalFlowLayout).spacingPercentile
         let cellWidth=(self.delegate as! HomeController).collectionView(self, layout: self.collectionViewLayout, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*(self.collectionViewLayout as! CollectionViewHorizontalFlowLayout).spacingPercentile
         
-        let itemIndex=round((proposedContentOffset.x+((self.frame.size.width)-cellWidth)/2)/cellWidth)+1
+        let itemIndex=round((proposedContentOffset.x+((self.frame.size.width)-cellWidth)/2)/cellWidth)
         return CGPoint(x: itemIndex*(cellWidth)-((self.frame.size.width)-cellWidth)/2
             , y: 0)
+        
+/*
+let cellWidth=(self.collectionView?.delegate as! HomeController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*spacingPercentile
+
+let itemIndex=round((proposedContentOffset.x+((self.collectionView?.frame.size.width)!-cellWidth)/2)/cellWidth)
+return CGPoint(x: itemIndex*(cellWidth)-((self.collectionView?.frame.size.width)!-cellWidth)/2
+, y: 0)*/
     }
 }

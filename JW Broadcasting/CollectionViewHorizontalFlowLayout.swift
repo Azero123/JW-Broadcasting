@@ -70,18 +70,18 @@ class CollectionViewHorizontalFlowLayout: UICollectionViewFlowLayout {
         First we calculate how wide the cells are roughly (probably could use some improvements but for now this is fine as it works until there are dozens of featured items). Then using that width we discover to which cell index the code is originally taking us. Then we calculate where that cell index would be for our code and return it.
         */
         
-        let cellWidth=(self.collectionView?.delegate as! HomeController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*spacingPercentile
         
-        let itemIndex=round((proposedContentOffset.x+((self.collectionView?.frame.size.width)!-cellWidth)/2)/cellWidth)
-        return CGPoint(x: itemIndex*(cellWidth)-((self.collectionView?.frame.size.width)!-cellWidth)/2
-            , y: 0)
+        if (collectionView!.isKindOfClass(SuperCollectionView.self)){
+            return (collectionView as! SuperCollectionView).centerPointForCellAtIndex(proposedContentOffset)
+        }
+        return CGPoint(x: 0  , y: 0)
     }
     
     override func collectionViewContentSize() -> CGSize {
         
         let cellWidth=(self.collectionView?.delegate as! HomeController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*spacingPercentile
         
-        return CGSize(width: CGFloat((self.collectionView?.numberOfItemsInSection(0))!)*cellWidth, height: super.collectionViewContentSize().height)
+        return CGSize(width: CGFloat((self.collectionView?.numberOfItemsInSection(0))!)*cellWidth+90, height: super.collectionViewContentSize().height)
     }
     
 }
