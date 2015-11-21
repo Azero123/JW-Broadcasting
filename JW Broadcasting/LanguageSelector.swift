@@ -10,9 +10,11 @@ import UIKit
 
 class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.activityIndicator.hidesWhenStopped=true
+        self.activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
         // Do any additional setup after loading the view.
     }
     
@@ -51,7 +53,7 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
         }
         cell.selectionStyle = .Default
         let selectedBackgroundView=UIView()
-        selectedBackgroundView.backgroundColor=UIColor(colorLiteralRed: 0.3, green: 0.44, blue: 0.64, alpha: 1.0)
+        //selectedBackgroundView.backgroundColor=UIColor(colorLiteralRed: 0.3, green: 0.44, blue: 0.64, alpha: 1.0)
 
         cell.selectedBackgroundView=selectedBackgroundView
         if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
@@ -86,9 +88,14 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
         tableView.reloadData()
         disableNavBar=true
         tableView.hidden=true
+        self.activityIndicator.startAnimating()
         fetchDataUsingCache(base+"/"+version+"/languages/"+languageCode+"/web", downloaded: {
             disableNavBar=false
             tableView.hidden=false
+            self.activityIndicator.stopAnimating()
+            if ((self.tabBarController?.isKindOfClass(rootController.self)) == true){
+                (self.tabBarController as? rootController)!.setTabBarVisible(true, animated: true)
+            }
         })
     }
     /*

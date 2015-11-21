@@ -139,6 +139,12 @@ class SuperCollectionView: UICollectionView {
         */
     }
     
+    func cellShouldFocus(view:UIView, indexPath:NSIndexPath, previousIndexPath:NSIndexPath?){
+        /*
+        Used to create hover effect and update content upon focus with some extra data on the previous item.
+        */
+    }
+    
     func cellShouldLoseFocus(view:UIView, indexPath:NSIndexPath){
         /*
         Used to cancel hover effect and update content upon unfocus.
@@ -149,5 +155,32 @@ class SuperCollectionView: UICollectionView {
         /*
         Select or chose event for a cell.
         */
+    }
+    
+    func perferedFocus() -> NSIndexPath{
+        return NSIndexPath(forRow: 0, inSection: 0)
+    }
+    
+    func canSelectCellAtIndex(indexPath:NSIndexPath) -> Bool {
+        return true
+    }
+    
+    func layoutForCellAtIndex(indexPath:NSIndexPath, withPreLayout:UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+        
+        /*
+        Defines the position and size of the indivigual cell.
+        */
+        
+        
+        var positionIndex=indexPath.row
+        
+        if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
+            positionIndex=(self.numberOfItemsInSection(indexPath.section))-indexPath.row-1
+        }
+        
+        let layoutAttribute=withPreLayout
+        layoutAttribute.frame=CGRectMake((self.contentInset.left)+((layoutAttribute.frame.size.width)*(self.collectionViewLayout as! CollectionViewHorizontalFlowLayout).spacingPercentile)*CGFloat(positionIndex), ((self.frame.size.height)-(layoutAttribute.frame.size.height))/2, (layoutAttribute.frame.size.width), (layoutAttribute.frame.size.height))
+        
+        return layoutAttribute
     }
 }

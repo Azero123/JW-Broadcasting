@@ -20,7 +20,7 @@ extension UITabBarController : TVApplicationControllerDelegate {
     }
     
     func setTabBarVisible(visible:Bool, animated:Bool) {
-        if (disableNavBar){
+        if (disableNavBar == true){
         /*If the tab bar is already in the right place then we don't need to animate so just exit now. No bugs no glitches (: */
             if (tabBarIsVisible() == visible) { return }
             

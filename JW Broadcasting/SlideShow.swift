@@ -45,22 +45,29 @@ class SlideShow: SuperCollectionView {
         return CGSize(width: 1140, height: 380)//1140, 380 image size
     }
     
+    var indexOffset=0
     
     override func cellAtIndex(indexPath:NSIndexPath) -> UICollectionViewCell{
         let slide: UICollectionViewCell = self.dequeueReusableCellWithReuseIdentifier("slide", forIndexPath: indexPath)
         
         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
         
-        let index=indexPath.row
-        /*
-        Code for infinite looping. Still working on this.
+        var index=indexPath.row
+        
+        //Code for infinite looping. Still working on this.
         
         
         let totalItems=self.totalItemsInSection(0)
-        index=indexPath.row-1
+        index=indexPath.row-1+indexOffset
         if (index<0){
             index=totalItems-1
-        }*/
+        }
+        print("reloading index \(indexPath.row) as \(index)")
+        
+        while (index>totalItems-1){
+            index = index-(totalItems)
+        }
+        
         /*if (index>totalItems-1){
             index=index-totalItems
         }*/
@@ -117,9 +124,51 @@ class SlideShow: SuperCollectionView {
         return slide
     }
     
+    override func perferedFocus() -> NSIndexPath{
+        return NSIndexPath(forRow: 1, inSection: 0)
+    }
+    
     var selectedSlideShow=false
 
-    override func cellShouldFocus(view:UIView, indexPath:NSIndexPath){
+    override func cellShouldFocus(view: UIView, indexPath: NSIndexPath, previousIndexPath: NSIndexPath?) {
+        let totalItems=self.totalItemsInSection(0)
+        
+        let indexToMove = 0//indexOffset
+        let indexToGoTo=totalItems-1
+        if ( previousIndexPath != nil){
+        if (indexPath.row>previousIndexPath!.row){
+        print("\(indexToMove) or \(SLIndex) or \(indexOffset) moving to \(indexToGoTo)")
+        if (SLIndex > -1){
+            /*if (self.cellForItemAtIndexPath(NSIndexPath(forRow: SLIndex, inSection: 0)) != nil){
+                indexOffset++
+                self.moveItemAtIndexPath(NSIndexPath(forRow: SLIndex, inSection: 0), toIndexPath: NSIndexPath(forRow: totalItems+1, inSection: 0))
+            }*/
+            indexOffset++
+            if (self.cellForItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0)) != nil){
+            self.moveItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0), toIndexPath: NSIndexPath(forRow: indexToGoTo, inSection: 0))
+                //self.deleteItemsAtIndexPaths([NSIndexPath(forRow: indexToMove, inSection: 0)])
+                //self.insertItemsAtIndexPaths([NSIndexPath(forRow: indexToGoTo, inSection: 0)])
+                
+            }
+        }
+            if (indexPath.row<previousIndexPath!.row){
+                let indexToMove = totalItems-1//indexOffset
+                let indexToGoTo=0
+                /*if (self.cellForItemAtIndexPath(NSIndexPath(forRow: SLIndex, inSection: 0)) != nil){
+                indexOffset++
+                self.moveItemAtIndexPath(NSIndexPath(forRow: SLIndex, inSection: 0), toIndexPath: NSIndexPath(forRow: totalItems+1, inSection: 0))
+                }*/
+                indexOffset++
+                if (self.cellForItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0)) != nil){
+                    self.moveItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0), toIndexPath: NSIndexPath(forRow: indexToGoTo, inSection: 0))
+                    //self.deleteItemsAtIndexPaths([NSIndexPath(forRow: indexToMove, inSection: 0)])
+                    //self.insertItemsAtIndexPaths([NSIndexPath(forRow: indexToGoTo, inSection: 0)])
+                    
+                }
+            }
+        }
+        }
+        
         SLIndex=indexPath.row
         for subview in (view.subviews.first!.subviews) {
             if (subview.isKindOfClass(UILabel.self)){
@@ -127,6 +176,7 @@ class SlideShow: SuperCollectionView {
             }
         }
         selectedSlideShow=true
+        
     }
     
     override func cellShouldLoseFocus(view:UIView, indexPath:NSIndexPath){
@@ -185,5 +235,24 @@ class SlideShow: SuperCollectionView {
                 playerViewController.player!.play()
             }
         }
+    }
+    
+    override func layoutForCellAtIndex(indexPath:NSIndexPath, withPreLayout:UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+        
+        /*
+        Defines the position and size of the indivigual cell.
+        */
+        
+        
+        var positionIndex=indexPath.row
+        
+        if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
+            positionIndex=(self.numberOfItemsInSection(indexPath.section))-indexPath.row-1
+        }
+        
+        let layoutAttribute=withPreLayout
+        layoutAttribute.frame=CGRectMake((self.contentInset.left)+((layoutAttribute.frame.size.width)*(self.collectionViewLayout as! CollectionViewHorizontalFlowLayout).spacingPercentile)*CGFloat(positionIndex-1), ((self.frame.size.height)-(layoutAttribute.frame.size.height))/2, (layoutAttribute.frame.size.width), (layoutAttribute.frame.size.height))
+        
+        return layoutAttribute
     }
 }

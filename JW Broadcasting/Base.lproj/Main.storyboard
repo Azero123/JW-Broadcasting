@@ -533,8 +533,8 @@
                                     <constraint firstItem="rHE-Nq-J19" firstAttribute="centerX" secondItem="TEm-aI-VPe" secondAttribute="centerX" id="V0U-cs-nOY"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fjs-Yn-hqD">
-                                <rect key="frame" x="960" y="0.0" width="960" height="128"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fjs-Yn-hqD">
+                                <rect key="frame" x="960" y="0.0" width="960" height="1080"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="40" sectionFooterHeight="40" translatesAutoresizingMaskIntoConstraints="NO" id="jgH-Gr-vQl">
                                         <rect key="frame" x="0.0" y="-371" width="960" height="870"/>
@@ -555,12 +555,17 @@
                                             <outlet property="delegate" destination="uAE-Hn-cy1" id="Om1-Rf-HZg"/>
                                         </connections>
                                     </tableView>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="dyS-gb-iCM">
+                                        <rect key="frame" x="470" y="54" width="20" height="20"/>
+                                    </activityIndicatorView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="jgH-Gr-vQl" firstAttribute="height" secondItem="fjs-Yn-hqD" secondAttribute="height" multiplier="0.7" id="1c1-sa-ANU"/>
                                     <constraint firstItem="jgH-Gr-vQl" firstAttribute="centerY" secondItem="fjs-Yn-hqD" secondAttribute="centerY" id="6JT-HH-SxI"/>
                                     <constraint firstItem="jgH-Gr-vQl" firstAttribute="width" secondItem="fjs-Yn-hqD" secondAttribute="width" multiplier="0.6" id="eHi-XR-h2j"/>
+                                    <constraint firstItem="dyS-gb-iCM" firstAttribute="centerX" secondItem="fjs-Yn-hqD" secondAttribute="centerX" id="iLi-6a-IfC"/>
+                                    <constraint firstItem="dyS-gb-iCM" firstAttribute="centerY" secondItem="fjs-Yn-hqD" secondAttribute="centerY" id="oeD-LM-ao9"/>
                                     <constraint firstItem="jgH-Gr-vQl" firstAttribute="centerX" secondItem="fjs-Yn-hqD" secondAttribute="centerX" id="x0a-oj-7ZW"/>
                                 </constraints>
                             </view>
@@ -577,6 +582,9 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Language" id="Oc3-lS-zAg"/>
+                    <connections>
+                        <outlet property="activityIndicator" destination="dyS-gb-iCM" id="hW4-KZ-eMZ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lqF-5L-nfQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

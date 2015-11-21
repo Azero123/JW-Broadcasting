@@ -242,6 +242,7 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
         /*
         Makes all cells selectable.
         */
+        
         return true
     }
     
@@ -261,7 +262,16 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
         */
         return CGSizeMake(0, 0)
     }
-    
+    /*
+    func indexPathForPreferredFocusedViewInCollectionView(collectionView: UICollectionView) -> NSIndexPath? {
+        print("prefered focus")
+        if (collectionView.isKindOfClass(SuperCollectionView.self)){
+            return (collectionView as! SuperCollectionView).perferedFocus()
+        }
+        print("oops")
+        return NSIndexPath(forRow: 0, inSection: 0)
+    }
+    */
     var selectedSlideShow=false
     
     func collectionView(collectionView: UICollectionView, shouldUpdateFocusInContext context: UICollectionViewFocusUpdateContext) -> Bool {
@@ -280,6 +290,7 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
         }
         if (context.nextFocusedView?.superview!.isKindOfClass(SuperCollectionView.self) == true && context.nextFocusedIndexPath != nil){
             (context.nextFocusedView?.superview as! SuperCollectionView).cellShouldFocus(context.nextFocusedView!, indexPath: context.nextFocusedIndexPath!)
+            (context.nextFocusedView?.superview as! SuperCollectionView).cellShouldFocus(context.nextFocusedView!, indexPath: context.nextFocusedIndexPath!, previousIndexPath: context.previouslyFocusedIndexPath)
         }
         
         

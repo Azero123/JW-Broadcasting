@@ -31,7 +31,10 @@ class CollectionViewHorizontalFlowLayout: UICollectionViewFlowLayout {
         /*
         Defines the position and size of the indivigual cell.
         */
-    
+        
+        if (collectionView!.isKindOfClass(SuperCollectionView.self)){
+            return (collectionView as! SuperCollectionView).layoutForCellAtIndex(indexPath, withPreLayout: super.layoutAttributesForItemAtIndexPath(indexPath)?.copy() as! UICollectionViewLayoutAttributes)
+        }
         
         var positionIndex=indexPath.row
         
