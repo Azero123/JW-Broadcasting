@@ -20,7 +20,7 @@ extension UITabBarController : TVApplicationControllerDelegate {
     }
     
     func setTabBarVisible(visible:Bool, animated:Bool) {
-        if (disableNavBar == true){
+        if (disableNavBar == false || visible == false){
         /*If the tab bar is already in the right place then we don't need to animate so just exit now. No bugs no glitches (: */
             if (tabBarIsVisible() == visible) { return }
             
@@ -180,10 +180,12 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
     
     func swipe(recognizer:UIGestureRecognizer){
         keepDown()
+        print("swipe 2")
     }
     
     func swiped(sender:UISwipeGestureRecognizer){
         
+        print("swipe 1")
         
        /* switch sender.direction {
          

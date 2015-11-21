@@ -69,7 +69,7 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
         
         return cell
     }
-    /*
+    
     func tableView(tableView: UITableView, shouldUpdateFocusInContext context: UITableViewFocusUpdateContext) -> Bool {
         if ((context.nextFocusedView?.isKindOfClass(UITableViewCell.self)) == true){
             (context.nextFocusedView as! UITableViewCell).backgroundColor=UIColor(colorLiteralRed: 0.3, green: 0.44, blue: 0.64, alpha: 1.0)
@@ -78,25 +78,32 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
         if ((context.nextFocusedView?.isKindOfClass(UITableViewCell.self)) == true){
             (context.nextFocusedView as! UITableViewCell).backgroundColor=UIColor.clearColor()
         }
+        if (disableNavBar==true) {
+            return false
+        }
         
         return true
-    }*/
+    }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let language=languageList![indexPath.row]
-        (self.tabBarController as! rootController).setLanguage(language.objectForKey("code") as! String, newTextDirection: ( language.objectForKey("isRTL")?.boolValue == true ? UIUserInterfaceLayoutDirection.RightToLeft : UIUserInterfaceLayoutDirection.LeftToRight ))
-        tableView.reloadData()
         disableNavBar=true
         tableView.hidden=true
         self.activityIndicator.startAnimating()
         fetchDataUsingCache(base+"/"+version+"/languages/"+languageCode+"/web", downloaded: {
-            disableNavBar=false
-            tableView.hidden=false
-            self.activityIndicator.stopAnimating()
-            if ((self.tabBarController?.isKindOfClass(rootController.self)) == true){
-                (self.tabBarController as? rootController)!.setTabBarVisible(true, animated: true)
+            dispatch_async(dispatch_get_main_queue()) {
+                disableNavBar=false
+                tableView.hidden=false
+                self.activityIndicator.stopAnimating()
+                if ((self.tabBarController?.isKindOfClass(rootController.self)) == true){
+                    
+                    (self.tabBarController as! rootController).setLanguage(language.objectForKey("code") as! String, newTextDirection: ( language.objectForKey("isRTL")?.boolValue == true ? UIUserInterfaceLayoutDirection.RightToLeft : UIUserInterfaceLayoutDirection.LeftToRight ))
+                    tableView.reloadData()
+                    (self.tabBarController as? rootController)!.setTabBarVisible(true, animated: true)
+                }
             }
         })
+            
     }
     /*
     // MARK: - Navigation

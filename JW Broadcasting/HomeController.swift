@@ -107,7 +107,6 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
         
         
         if (languageList?.count>0){
-            
             /*
             The content is being refreshed so indicate that.
             */
