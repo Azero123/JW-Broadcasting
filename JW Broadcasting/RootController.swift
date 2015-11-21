@@ -9,6 +9,8 @@
 import UIKit
 import TVMLKit
 
+var disableNavBar=false
+
 extension UITabBarController : TVApplicationControllerDelegate {
     
     /*method to check whether the tab bar is lined up or not*/
@@ -18,19 +20,20 @@ extension UITabBarController : TVApplicationControllerDelegate {
     }
     
     func setTabBarVisible(visible:Bool, animated:Bool) {
-        
+        if (disableNavBar){
         /*If the tab bar is already in the right place then we don't need to animate so just exit now. No bugs no glitches (: */
-        if (tabBarIsVisible() == visible) { return }
-        
-        /*figure out what the height of the tab bar is*/
-        let frame = self.tabBar.frame
-        let height = frame.size.height
-        let offsetY = (visible==false ? -height : 0)
-        
-        /*animate the removal of the tab bar so it looks nice if "animated" is true*/
-        UIView.animateWithDuration(animated ? 0.3 : 0.0) {
-            /*adjust the view to move upward hiding the tab bar and then stretch it to make up for moving it*/
-            self.tabBar.frame=CGRect(x: 0, y: offsetY, width: self.tabBar.frame.size.width, height: self.tabBar.frame.size.height)
+            if (tabBarIsVisible() == visible) { return }
+            
+            /*figure out what the height of the tab bar is*/
+            let frame = self.tabBar.frame
+            let height = frame.size.height
+            let offsetY = (visible==false ? -height : 0)
+            
+            /*animate the removal of the tab bar so it looks nice if "animated" is true*/
+            UIView.animateWithDuration(animated ? 0.3 : 0.0) {
+                /*adjust the view to move upward hiding the tab bar and then stretch it to make up for moving it*/
+                self.tabBar.frame=CGRect(x: 0, y: offsetY, width: self.tabBar.frame.size.width, height: self.tabBar.frame.size.height)
+            }
         }
     }
     

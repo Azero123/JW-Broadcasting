@@ -45,15 +45,15 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
         //cell.textLabel?.textColor=UIColor.whiteColor()
         let languageText=NSMutableAttributedString(string: (language.objectForKey("vernacular") as? String)!)
-        if (language.objectForKey("code") as! String == "BU"){
-            cell.textLabel?.font=UIFont(name: "Myanmar3", size: 20)
-        }
-        
         if (language.objectForKey("isSignLanguage")?.boolValue == true){
             languageText.appendAttributedString(NSAttributedString(string: "", attributes: NSDictionary(object: UIFont(name: "jwtv", size: 36)!, forKey: NSFontAttributeName) as? [String : AnyObject]))
             //NSFontAttributeName
         }
-        
+        cell.selectionStyle = .Default
+        let selectedBackgroundView=UIView()
+        selectedBackgroundView.backgroundColor=UIColor(colorLiteralRed: 0.3, green: 0.44, blue: 0.64, alpha: 1.0)
+
+        cell.selectedBackgroundView=selectedBackgroundView
         if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
             cell.textLabel?.textAlignment=NSTextAlignment.Right
         }
@@ -67,11 +67,29 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
         
         return cell
     }
+    /*
+    func tableView(tableView: UITableView, shouldUpdateFocusInContext context: UITableViewFocusUpdateContext) -> Bool {
+        if ((context.nextFocusedView?.isKindOfClass(UITableViewCell.self)) == true){
+            (context.nextFocusedView as! UITableViewCell).backgroundColor=UIColor(colorLiteralRed: 0.3, green: 0.44, blue: 0.64, alpha: 1.0)
+        }
+        
+        if ((context.nextFocusedView?.isKindOfClass(UITableViewCell.self)) == true){
+            (context.nextFocusedView as! UITableViewCell).backgroundColor=UIColor.clearColor()
+        }
+        
+        return true
+    }*/
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let language=languageList![indexPath.row]
         (self.tabBarController as! rootController).setLanguage(language.objectForKey("code") as! String, newTextDirection: ( language.objectForKey("isRTL")?.boolValue == true ? UIUserInterfaceLayoutDirection.RightToLeft : UIUserInterfaceLayoutDirection.LeftToRight ))
         tableView.reloadData()
+        disableNavBar=true
+        tableView.hidden=true
+        fetchDataUsingCache(base+"/"+version+"/languages/"+languageCode+"/web", downloaded: {
+            disableNavBar=false
+            tableView.hidden=false
+        })
     }
     /*
     // MARK: - Navigation
