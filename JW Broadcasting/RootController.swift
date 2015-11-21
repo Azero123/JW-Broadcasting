@@ -8,6 +8,7 @@
 
 import UIKit
 import TVMLKit
+import CloudKit
 
 var disableNavBar=false
 
@@ -87,7 +88,6 @@ var translatedKeyPhrases:NSDictionary?
 
 class rootController: UITabBarController, UITabBarControllerDelegate{
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -117,14 +117,12 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                 else {
                     
                     
-                    let libraryDirectory=NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true).first
-                    let settingsDirectory=libraryDirectory!+"/settings.plist"
-                    let settings=NSMutableDictionary(contentsOfFile: settingsDirectory)
+                    let settings=NSUserDefaults.standardUserDefaults()
                     
                     var language:NSDictionary?
                     
-                    if ((settings) != nil){
-                        language=languageFromCode(settings?.objectForKey("language") as! String) //Attempt using language from settings file
+                    if ((settings.objectForKey("language")) != nil){
+                        language=languageFromCode(settings.objectForKey("language") as! String) //Attempt using language from settings file
                     }
                     if (language == nil){
                         language=languageFromLocale(NSLocale.preferredLanguages()[0]) ; print("system language")} //Attempt using system language
@@ -254,15 +252,10 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         Save settings language settings to settings.plist file in library folder.
         */
         
-        let libraryDirectory=NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true).first
-        let settingsDirectory=libraryDirectory!+"/settings.plist"
+        let settings=NSUserDefaults.standardUserDefaults()
+        //.setObject("", forKey: "")
         
-        var settings=NSMutableDictionary(contentsOfFile: settingsDirectory)
-        if (settings == nil){
-            settings=NSMutableDictionary()
-        }
-        settings?.setObject(newLanguageCode, forKey: "language")
-        settings?.writeToFile(settingsDirectory, atomically: true)
+        settings.setObject(newLanguageCode, forKey: "language")
         
         /* check for possible direction change*/
         
