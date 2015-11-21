@@ -85,6 +85,7 @@
 		9F79A1D51BA91DAE00B5E925 /* MediaToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaToolbox.framework; path = System/Library/Frameworks/MediaToolbox.framework; sourceTree = SDKROOT; };
 		9F9333E21BFFB5CA00092AED /* mm3.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = mm3.ttf; sourceTree = "<group>"; };
 		9F9333E61C00320100092AED /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = SOURCE_ROOT; };
+		9F9333E81C00396800092AED /* DEMO NOTES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "DEMO NOTES.md"; sourceTree = SOURCE_ROOT; };
 		9FC0441B1BF66E4100AB0B4F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		9FD474641BFDA1CF008C55C6 /* CollectionViewAlignmentFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewAlignmentFlowLayout.swift; sourceTree = "<group>"; };
 		9FFB9DB11BB528820059E5EA /* VideoOnDemandController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoOnDemandController.swift; sourceTree = "<group>"; };
@@ -217,6 +218,7 @@
 		9F7872CF1BF9516900EE409B /* References */ = {
 			isa = PBXGroup;
 			children = (
+				9F9333E81C00396800092AED /* DEMO NOTES.md */,
 				9F9333E61C00320100092AED /* LICENSE.md */,
 				9F07787E1BD1CD5700476E4C /* keyPhrasesIndex */,
 			);

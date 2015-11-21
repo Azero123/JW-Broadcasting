@@ -268,11 +268,12 @@ func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?, usingCache:B
                     }
                     cachedFiles[fileURL]=data //Save file to memory
                     // data=cachedFiles[fileURL!]! //Use as local variable
-                    
-                    for closure in fileDownloadedClosures[fileURL]! {
+                    if (fileDownloadedClosures[fileURL] != nil){
+                        for closure in fileDownloadedClosures[fileURL]! {
                         closure()
+                        }
+                        checkBranchesFor(fileURL)
                     }
-                    checkBranchesFor(fileURL)
                     
                     return
                 }
