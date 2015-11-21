@@ -42,7 +42,6 @@ class CollectionViewAlignmentFlowLayout: UICollectionViewFlowLayout {
     }
 */
     override func layoutAttributesForSupplementaryViewOfKind(elementKind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
-        print("supplementary!")
         let attributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: elementKind, withIndexPath: indexPath)//super.layoutAttributesForSupplementaryViewOfKind(elementKind, atIndexPath: indexPath)
         /*if (attributes != nil && elementKind == UICollectionElementKindSectionHeader){
             attributes

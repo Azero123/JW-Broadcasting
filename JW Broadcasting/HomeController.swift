@@ -65,7 +65,7 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
         */
         
         activityIndicator.hidesWhenStopped=true
-        //activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
+        activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
         
         renewContent()
         
