@@ -205,7 +205,14 @@ class StreamingViewController : UIViewController {
                        // self.player?.currentItem?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.New, context: nil)
                     }
                     if (self.player != nil){
-                        self.player!.seekToTime(CMTimeMake(Int64(timeIndex!), 1))
+                        if ((self.player?.currentTime().value)!+10>CMTimeMake(Int64(timeIndex!), 1).value){
+                            print("[Channels] too far behind")
+                            self.player!.seekToTime(CMTimeMake(Int64(timeIndex!), 1))
+                        }
+                        else {
+                            print("[Channels] close enough")
+                            
+                        }
                     }
                 }
             }

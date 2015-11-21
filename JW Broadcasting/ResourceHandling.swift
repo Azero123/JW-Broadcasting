@@ -370,7 +370,6 @@ func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
                         //downloadedData.writeToFile(storedPath, atomically: true) //Save file locally for use later
                         let fileSaved:Bool = NSFileManager.defaultManager().createFileAtPath(storedPath,contents:downloadedData, attributes:nil)
                         if (fileSaved){
-                            print("successful")
                         }
                     }
                     cachedFiles[fileURL]=downloadedData //Save file to memory

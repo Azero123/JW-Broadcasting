@@ -8,7 +8,6 @@
 
 import UIKit
 import TVMLKit
-import CloudKit
 
 var disableNavBar=false
 
@@ -178,12 +177,9 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
     
     func swipe(recognizer:UIGestureRecognizer){
         keepDown()
-        print("swipe 2")
     }
     
     func swiped(sender:UISwipeGestureRecognizer){
-        
-        print("swipe 1")
         
        /* switch sender.direction {
          

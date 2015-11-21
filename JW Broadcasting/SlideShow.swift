@@ -234,7 +234,7 @@ class SlideShow: SuperCollectionView {
     
     override func cellSelect(indexPath:NSIndexPath){
         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
-        let videosData=unfold("\(pathForSliderData)|settings|WebHomeSlider|slides|\(indexPath.row)")!.objectForKey("item")!.objectForKey("files")
+        let videosData=unfold("\(pathForSliderData)|settings|WebHomeSlider|slides|\(indexPath.row)")!.objectForKey("item")!.objectForKey("files") as? NSArray
         if (videosData != nil){
             let videoData=videosData?.objectAtIndex((videosData?.count)!-1)
             let videoURLString=videoData?.objectForKey("progressiveDownloadURL") as! String

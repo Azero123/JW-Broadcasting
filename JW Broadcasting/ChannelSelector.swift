@@ -65,7 +65,7 @@ class ChannelSelector: SuperCollectionView {
             channelsMeta=channelsMeta!.reverse()
         }*/
         
-        let channelMeta=channelsMeta?[indexPath.row]
+        let channelMeta=channelsMeta?[indexPath.row] as? NSDictionary
         if (channelMeta != nil){
             let imageURL=unfold(channelMeta, instructions: ["images","wss","sm"]) as? String
             
@@ -106,7 +106,6 @@ class ChannelSelector: SuperCollectionView {
     
     
     override func cellShouldFocus(view:UIView, indexPath:NSIndexPath){
-        print("scrolled to \(self.contentOffset) \(self.contentSize) \(view.frame)")
         
         view.subviews.first?.alpha=1
         
