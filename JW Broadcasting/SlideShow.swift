@@ -25,11 +25,14 @@ class SlideShow: SuperCollectionView {
         fetchDataUsingCache(pathForSliderData, downloaded: {
             dispatch_async(dispatch_get_main_queue()) {
                 print("[SlideShow] Downloaded")
-                self.reloadData()
-                //self.performSelector("timesUp", withObject: nil, afterDelay: 2.25)
+                self.performBatchUpdates({
+                    self.reloadData()
+                    }, completion: { (finished:Bool) in
+                    self.moveToSlide(1)
+                })
+                self.performSelector("timesUp", withObject: nil, afterDelay: 2.25)
             }
         })
-        
     }
     override func totalItemsInSection(section: Int) -> Int {
         
@@ -59,14 +62,18 @@ class SlideShow: SuperCollectionView {
         
         let totalItems=self.totalItemsInSection(0)
         index=indexPath.row-1+indexOffset
-        if (index<0){
-            index=totalItems-1
-        }
-        print("reloading index \(indexPath.row) as \(index)")
-        
+        print("pre \(index)")
         while (index>totalItems-1){
             index = index-(totalItems)
         }
+        while (index < -1){
+            index = index+(totalItems)
+        }
+        if (index == -1){
+            index = 4
+        }
+        
+        print("reloading index \(indexPath.row) as \(index)")
         
         /*if (index>totalItems-1){
             index=index-totalItems
@@ -135,37 +142,38 @@ class SlideShow: SuperCollectionView {
         
         let indexToMove = 0//indexOffset
         let indexToGoTo=totalItems-1
+        let cell=self.cellForItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0))
         if ( previousIndexPath != nil){
+            print("index path:\(indexPath.row) previous:\(previousIndexPath!.row)")
         if (indexPath.row>previousIndexPath!.row){
-        print("\(indexToMove) or \(SLIndex) or \(indexOffset) moving to \(indexToGoTo)")
-        if (SLIndex > -1){
-            /*if (self.cellForItemAtIndexPath(NSIndexPath(forRow: SLIndex, inSection: 0)) != nil){
-                indexOffset++
-                self.moveItemAtIndexPath(NSIndexPath(forRow: SLIndex, inSection: 0), toIndexPath: NSIndexPath(forRow: totalItems+1, inSection: 0))
-            }*/
             indexOffset++
             if (self.cellForItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0)) != nil){
-            self.moveItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0), toIndexPath: NSIndexPath(forRow: indexToGoTo, inSection: 0))
-                //self.deleteItemsAtIndexPaths([NSIndexPath(forRow: indexToMove, inSection: 0)])
-                //self.insertItemsAtIndexPaths([NSIndexPath(forRow: indexToGoTo, inSection: 0)])
-                
+                cell?.hidden=true
+                self.performBatchUpdates({
+                    
+                    self.moveItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0), toIndexPath: NSIndexPath(forRow: indexToGoTo, inSection: 0))
+                    //self.reloadData()
+                    }, completion: { (finished:Bool) in
+                        cell?.hidden=false
+                })
             }
         }
-            if (indexPath.row<previousIndexPath!.row){
-                let indexToMove = totalItems-1//indexOffset
-                let indexToGoTo=0
-                /*if (self.cellForItemAtIndexPath(NSIndexPath(forRow: SLIndex, inSection: 0)) != nil){
-                indexOffset++
-                self.moveItemAtIndexPath(NSIndexPath(forRow: SLIndex, inSection: 0), toIndexPath: NSIndexPath(forRow: totalItems+1, inSection: 0))
-                }*/
-                indexOffset++
-                if (self.cellForItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0)) != nil){
-                    self.moveItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0), toIndexPath: NSIndexPath(forRow: indexToGoTo, inSection: 0))
-                    //self.deleteItemsAtIndexPaths([NSIndexPath(forRow: indexToMove, inSection: 0)])
-                    //self.insertItemsAtIndexPaths([NSIndexPath(forRow: indexToGoTo, inSection: 0)])
+        else if (indexPath.row<previousIndexPath!.row){
+            let indexToMove = totalItems-1//indexOffset
+            let indexToGoTo = 0
+            let cell=self.cellForItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0))
+            indexOffset--
+            //if (self.cellForItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0)) != nil){
+                cell?.hidden=true
+                self.performBatchUpdates({
                     
-                }
-            }
+                    self.moveItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0), toIndexPath: NSIndexPath(forRow: indexToGoTo, inSection: 0))
+                    //self.reloadData()
+                    }, completion: { (finished:Bool) in
+                        cell?.hidden=false
+                })
+                
+            //}
         }
         }
         
@@ -251,8 +259,19 @@ class SlideShow: SuperCollectionView {
         }
         
         let layoutAttribute=withPreLayout
-        layoutAttribute.frame=CGRectMake((self.contentInset.left)+((layoutAttribute.frame.size.width)*(self.collectionViewLayout as! CollectionViewHorizontalFlowLayout).spacingPercentile)*CGFloat(positionIndex-1), ((self.frame.size.height)-(layoutAttribute.frame.size.height))/2, (layoutAttribute.frame.size.width), (layoutAttribute.frame.size.height))
+        layoutAttribute.frame=CGRectMake((self.contentInset.left)+((layoutAttribute.frame.size.width)*(self.collectionViewLayout as! CollectionViewHorizontalFlowLayout).spacingPercentile)*CGFloat(positionIndex), ((self.frame.size.height)-(layoutAttribute.frame.size.height))/2, (layoutAttribute.frame.size.width), (layoutAttribute.frame.size.height))
         
         return layoutAttribute
+    }
+    
+    override func centerPointForCellAtIndex(proposedContentOffset: CGPoint) -> CGPoint{
+        
+        
+        //let cellWidth=(self.delegate as! HomeController).collectionView(self, layout: self, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*(self.collectionViewLayout as! CollectionViewHorizontalFlowLayout).spacingPercentile
+        let cellWidth=(self.delegate as! HomeController).collectionView(self, layout: self.collectionViewLayout, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*(self.collectionViewLayout as! CollectionViewHorizontalFlowLayout).spacingPercentile
+        
+        let itemIndex=round((proposedContentOffset.x+((self.frame.size.width)-cellWidth)/2)/cellWidth)+1
+        return CGPoint(x: itemIndex*(cellWidth)-((self.frame.size.width)-cellWidth)/2
+            , y: 0)
     }
 }
