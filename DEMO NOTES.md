@@ -14,32 +14,35 @@ DEMO NOTES
 - JW Broadcast app can play content in 78 differnet langauges, using the same localized strings and content hosted on tv.jw.org
 - NOTE: 
 - For maximum performance 'JW Broadcasing' app is entirely in Swift. 
-- Although it's functional, this app is still a work in progress. Priority was given to making the app look clean and polished. Lots of code clean up and comments remain to be done.
+- Although it's functional, this app is still a work in progress. Lots of code clean up and comments remain to be done.
 
 
 
 DEMO TIPS
 - Place the JW Broadcasting app in the Top Shelf in the Apple TV home screen. The JW Broadcasting Top Shelf logo should appear when the app is in focus.
 - Select one of the Featured Presentations. After playing for awhile, push the Siri button and say "Fast Forward 5 minutes" or "Rewind 5 minutes"
-- Try changing to other languages (e.g. Chinese, ASL, Russian, Arabic, etc.)
+- Change langauge to American Sign Language. Play a Sing to Jehovah Audio song and watch video.
+
 
 HOME
 
 Featured Items
-- Top row displays Featured Presentations, and rotates through each ever 10 seconds.
+- Top row displays Featured Presentations, and auto rotates ever 10 seconds.
 - You can swipe left or right infinitely in the Featured Items. (Swiping left is a little jumpy.)
-- Text overlays the image in the language selected by the user.
+- Text overlays the image, in the users selected language.
+- Selecting any Featured Presentation changes the background image visual.
 
 Streaming
 - The 12 streaming channels are displayed. 
+- Focusing on a Streaming channel displays a preview of what's currently playing on that channel (audio off). Select to play.
 - You can swipe left or right infinitely. (Swiping left is a little jumpy.)
-- Selecting a streaming channel puts the image into focus and cahnges text from dark gray to white.
+- Selecting a streaming channel puts the image into focus and changes text from dark gray to white.
 - NOTE: Siri voice commands are disabled in Streaming channels.
 
 Latest Videos
 - The latest videos are automatically highlighted.
-- Selecting a video puts the image into focus and cahnges text from dark gray to white.
-- Long titles are truncated with "..." Plan to implement scrolling text when time allows
+- Selecting a video puts the image into focus and changes text from dark gray to white.
+- Long titles are truncated with "..." Plan to implement scrolling text when time allows.
 
 
 STREAMING
@@ -61,9 +64,9 @@ AUDIO
 LANGUAGE
 - Select from amoung 78 differnet supported language types, including English, Danish, ASL, Chinese and Arabic.
 - Languages are displayed in the local vernacular so you can always tell what language is your language.
-- NOTE: Experimental code is in place to keep you on the page while new content in the selected language is loaded. Code should present a loading wheel, disable Tab bar, then auto display Tab bar once new language has been loaded.
-- Apple TV does not incldue a font for Myanmar, so we included an open source font called Myanmar3.
-- ISSUE: Language selection is not saved across restarts.
+- NOTE: Code is in place to keep you on the page while new content in the selected language is loaded.
+- Apple TV does not incldue a font for Myanmar, so JW Broadcast app included an open source font called Myanmar3.
+- DEMO TIP: Try changing to other languages (e.g. Chinese, ASL, Russian, Arabic, etc.)
 
 
 FUTURE ENHANCEMENTS & INVESTIGATINS
@@ -71,3 +74,5 @@ FUTURE ENHANCEMENTS & INVESTIGATINS
 - Siri support
 - Interstitial screen to display  video detail (length, langauges, etc.) pressing Play.
 - Abiltiy to resume videos where you left off.
+- INVESTIGATE: Add JW.org logo to Tab Bar.
+- INVESTIGATE: New layout for Video on Demand screen. 
