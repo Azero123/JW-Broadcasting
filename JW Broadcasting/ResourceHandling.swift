@@ -99,7 +99,7 @@ func unfold(instruction:String)-> AnyObject?{
 func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
     var source:AnyObject?=nil
     if (testLogSteps){
-        print("\(from) \(instructions)")
+        //print("\(from) \(instructions)")
     }
     
     if (from?.isKindOfClass(NSDictionary.self) == true){
@@ -137,10 +137,14 @@ func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
                 
                 do {
                     
+                    if (testLogSteps){
+                        print(sourceURL)
+                    }
+                    let attributedOptions=[NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,NSCharacterEncodingDocumentAttribute:NSUTF8StringEncoding]
+                    print("attributes fine")
+                    let sourceAttributedString=try NSMutableAttributedString(data:sourceData!, options:attributedOptions as! [String : AnyObject] ,documentAttributes:nil)
                     
-                    let sourceString=try NSMutableAttributedString(data:sourceData!,
-                        options:[NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,NSCharacterEncodingDocumentAttribute:NSUTF8StringEncoding],
-                        documentAttributes:nil).string
+                    let sourceString=sourceAttributedString.string
                     
                     sourceData=sourceString.dataUsingEncoding(NSUTF8StringEncoding)
                     
@@ -241,8 +245,14 @@ func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?, usingCache:B
                         fileDownloadedClosures.removeAll()
                     }
                     checkBranchesFor(fileURL)
+                    if ((downloaded) != nil){
+                        downloaded!()
+                    }
                     
                     return
+                }
+                else {
+                    print("[Fetcher] Failed to recover file \(fileURL)")
                 }
             }
         }
@@ -259,8 +269,8 @@ func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?, usingCache:B
                 if (data != nil && simulateOffline == false){ //File successfully downloaded
                     if (offlineStorageSaving){
                         do {
-                            //try data?.writeToFile(storedPath, atomically: true) //Save file locally for use later
-                           try  NSString(data: data!, encoding: NSUTF8StringEncoding)?.writeToFile(storedPath, atomically: true, encoding: NSUTF8StringEncoding)
+                            //try  NSString(data: data!, encoding: NSUTF8StringEncoding)?.writeToFile(storedPath, atomically: true, encoding: NSUTF8StringEncoding)
+                            data?.writeToFile(storedPath, atomically: true) //Save file locally for use later
                         }
                         catch {
                             print(error)
@@ -273,6 +283,9 @@ func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?, usingCache:B
                         closure()
                         }
                         checkBranchesFor(fileURL)
+                    }
+                    if ((downloaded) != nil){
+                        downloaded!()
                     }
                     
                     return
@@ -317,7 +330,7 @@ func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
     
     Attempt online fetch of fileURL.
     
-    The file is repeatedly requested up to 10 (maxAttempts) times just in cases of poor connection.
+    The file is repeatedly requested up to 100 (maxAttempts) times just in cases of poor connection.
     
     If failed nil is returned
     
@@ -349,15 +362,19 @@ func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
         }
     }
     
+    if ((data) != nil){
+        return data
+    }
+    
     //STEP 3
     
     
     var attempts=0 //Amount of attempts to download the file
-    let maxAttempts=10//Amount of possible attempts
+    let maxAttempts=100//Amount of possible attempts
     var badConnection=false
     
     while (data == nil){ //If the file is not downloaded download it
-        if (attempts>maxAttempts){ //But if we have tried 10 times then give up
+        if (attempts>maxAttempts){ //But if we have tried 100 times then give up
             print("Failed to download \(fileURL)")
             return nil //give up
         }
@@ -366,11 +383,9 @@ func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
                 let downloadedData=try NSData(contentsOfURL: trueURL, options: .UncachedRead) //Download
                 if (simulateOffline == false){ //File successfully downloaded
                     if (offlineStorageSaving){
-                        print("[dataUsingCache] write to file...")
+                        print("[dataUsingCache] write to file... \(storedPath)")
                         //downloadedData.writeToFile(storedPath, atomically: true) //Save file locally for use later
-                        let fileSaved:Bool = NSFileManager.defaultManager().createFileAtPath(storedPath,contents:downloadedData, attributes:nil)
-                        if (fileSaved){
-                        }
+                        data?.writeToFile(storedPath, atomically: true) //Save file locally for use later
                     }
                     cachedFiles[fileURL]=downloadedData //Save file to memory
                     data=cachedFiles[fileURL]! //Use as local variable

@@ -18,7 +18,7 @@ class SlideShow: SuperCollectionView {
     
     override func prepare(){
         
-        self.hidden=true
+        (self.delegate as? HomeController)?.addActivity()
         
         self.contentInset=UIEdgeInsetsMake(0, 60, 0, 60)
         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
@@ -26,13 +26,9 @@ class SlideShow: SuperCollectionView {
         print("[SlideShow] loading...")
         fetchDataUsingCache(pathForSliderData, downloaded: {
             dispatch_async(dispatch_get_main_queue()) {
-                print("[SlideShow] Downloaded")
+                print("[SlideShow] Loaded")
                 self.reloadData()
-                self.performBatchUpdates({
-                    }, completion: { (finished:Bool) in
-                        //self.moveToSlide(1)
-                        self.hidden=false
-                })
+                (self.delegate as? HomeController)?.removeActivity()
                 self.performSelector("timesUp", withObject: nil, afterDelay: 2.25)
             }
         })
@@ -142,16 +138,20 @@ class SlideShow: SuperCollectionView {
         var index=indexPath.row
         
         let totalItems=self.totalItemsInSection(0)
-        index=indexPath.row-1+indexOffset
-        while (index>totalItems-1){
-            index = index-(totalItems)
+        if (totalItems>=4){
+            index=indexPath.row-1+indexOffset
+            while (index>totalItems-1){
+                index = index-(totalItems)
+            }
+            while (index < -1){
+                index = index+(totalItems)
+            }
+            if (index == -1){
+                index = totalItems-1
+            }
+
         }
-        while (index < -1){
-            index = index+(totalItems)
-        }
-        if (index == -1){
-            index = 4
-        }
+        
         
         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
         
@@ -163,6 +163,7 @@ class SlideShow: SuperCollectionView {
             (self.delegate as! HomeController).backgroundImageView.image=imageUsingCache(imageURL!)
         }
         
+        if (totalItems>=4){
         let leftIndex = 0
         let rightIndex = totalItems-1
         
@@ -178,12 +179,10 @@ class SlideShow: SuperCollectionView {
                 loopItemFrom(rightIndex, to: leftIndex)
             }
         }
-        print("check if too far left...")
         if (indexPath.row == 0){
-            print("too far left...")
             loopItemFrom(rightIndex, to: leftIndex)
         }
-        
+        }
         SLIndex=indexPath.row
         for subview in (view.subviews.first!.subviews) {
             if (subview.isKindOfClass(UILabel.self)){
@@ -265,14 +264,17 @@ class SlideShow: SuperCollectionView {
         
         let totalItems=self.totalItemsInSection(0)
         index=indexPath.row-1+indexOffset
-        while (index>totalItems-1){
-            index = index-(totalItems)
-        }
-        while (index < -1){
-            index = index+(totalItems)
-        }
-        if (index == -1){
-            index = 4
+        
+        if (totalItems>=4){
+            while (index>totalItems-1){
+                index = index-(totalItems)
+            }
+            while (index < -1){
+                index = index+(totalItems)
+            }
+            if (index == -1){
+                index = totalItems-1
+            }
         }
         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
         

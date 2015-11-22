@@ -550,7 +550,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="rHE-Nq-J19" firstAttribute="centerY" secondItem="TEm-aI-VPe" secondAttribute="centerY" id="I67-Gl-DtX"/>
                                     <constraint firstItem="rHE-Nq-J19" firstAttribute="centerX" secondItem="TEm-aI-VPe" secondAttribute="centerX" id="V0U-cs-nOY"/>
@@ -582,7 +582,7 @@
                                         <rect key="frame" x="470" y="530" width="20" height="20"/>
                                     </activityIndicatorView>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="jgH-Gr-vQl" firstAttribute="height" secondItem="fjs-Yn-hqD" secondAttribute="height" multiplier="0.7" id="1c1-sa-ANU"/>
                                     <constraint firstItem="jgH-Gr-vQl" firstAttribute="centerY" secondItem="fjs-Yn-hqD" secondAttribute="centerY" id="6JT-HH-SxI"/>
@@ -627,7 +627,6 @@
                     </tabBar>
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="CBD-Yh-rI7"/>
-                        <segue destination="8kI-1n-j2v" kind="relationship" relationship="viewControllers" id="rll-L9-hmz"/>
                         <segue destination="dOE-pI-BIe" kind="relationship" relationship="viewControllers" id="JNb-Th-2mR"/>
                         <segue destination="PyG-dy-RMf" kind="relationship" relationship="viewControllers" id="oRV-Ta-G4g"/>
                         <segue destination="uAE-Hn-cy1" kind="relationship" relationship="viewControllers" id="AQz-f3-btc"/>
@@ -641,7 +640,4 @@
     <resources>
         <image name="LaunchScreenEarth.png" width="1920" height="1080"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="rll-L9-hmz"/>
-    </inferredMetricsTieBreakers>
 </document>

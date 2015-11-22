@@ -20,7 +20,7 @@
 		9F5CE48D1BB644C700378D4C /* CollectionViewHorizontalFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5CE48C1BB644C700378D4C /* CollectionViewHorizontalFlowLayout.swift */; };
 		9F72EF451BF738D000680302 /* ChannelSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F72EF441BF738D000680302 /* ChannelSelector.swift */; };
 		9F7872D21BF952DD00EE409B /* ResourceHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7872D11BF952DD00EE409B /* ResourceHandling.swift */; };
-		9F7872E11BFA782D00EE409B /* LaunchScreenEarth.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F7872E01BFA782D00EE409B /* LaunchScreenEarth.png */; };
+		9F7872E11BFA782D00EE409B /* LaunchScreenEarth-old.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F7872E01BFA782D00EE409B /* LaunchScreenEarth-old.png */; };
 		9F79A18A1BA6A3AC00B5E925 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F79A1891BA6A3AC00B5E925 /* AppDelegate.swift */; };
 		9F79A18C1BA6A3AC00B5E925 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F79A18B1BA6A3AC00B5E925 /* HomeController.swift */; };
 		9F79A18F1BA6A3AC00B5E925 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F79A18D1BA6A3AC00B5E925 /* Main.storyboard */; };
@@ -33,6 +33,8 @@
 		9F9333E71C00320100092AED /* LICENSE.md in Sources */ = {isa = PBXBuildFile; fileRef = 9F9333E61C00320100092AED /* LICENSE.md */; };
 		9FC0441C1BF66E4100AB0B4F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FC0441B1BF66E4100AB0B4F /* QuartzCore.framework */; };
 		9FD474651BFDA1CF008C55C6 /* CollectionViewAlignmentFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD474641BFDA1CF008C55C6 /* CollectionViewAlignmentFlowLayout.swift */; };
+		9FE9C17A1C019F0300E189D7 /* LaunchScreenEarth.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FE9C1791C019F0300E189D7 /* LaunchScreenEarth.png */; };
+		9FE9C17C1C019F0C00E189D7 /* TopShelf.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FE9C17B1C019F0C00E189D7 /* TopShelf.png */; };
 		9FFB9DB21BB528820059E5EA /* VideoOnDemandController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFB9DB11BB528820059E5EA /* VideoOnDemandController.swift */; };
 		9FFCDCB91BF7329C00307DA8 /* LatestVideos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFCDCB81BF7329C00307DA8 /* LatestVideos.swift */; };
 		9FFD0D581BB516AA0092CF71 /* jwtv.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9F38D1BC1BB26B1F0081073A /* jwtv.ttf */; };
@@ -70,7 +72,7 @@
 		9F7872D51BF955C800EE409B /* LaunchScreenEarth-Washed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LaunchScreenEarth-Washed.png"; sourceTree = "<group>"; };
 		9F7872D91BF955E100EE409B /* jwbroadcasting_images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = jwbroadcasting_images; sourceTree = "<group>"; };
 		9F7872DE1BFA72EF00EE409B /* LaunchScreenEarth-Dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LaunchScreenEarth-Dark.png"; sourceTree = "<group>"; };
-		9F7872E01BFA782D00EE409B /* LaunchScreenEarth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchScreenEarth.png; sourceTree = "<group>"; };
+		9F7872E01BFA782D00EE409B /* LaunchScreenEarth-old.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LaunchScreenEarth-old.png"; sourceTree = "<group>"; };
 		9F79A1861BA6A3AC00B5E925 /* JW Broadcasting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JW Broadcasting.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F79A1891BA6A3AC00B5E925 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9F79A18B1BA6A3AC00B5E925 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
@@ -89,6 +91,8 @@
 		9F9333EB1C00515A00092AED /* JW Broadcasting.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "JW Broadcasting.entitlements"; sourceTree = "<group>"; };
 		9FC0441B1BF66E4100AB0B4F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		9FD474641BFDA1CF008C55C6 /* CollectionViewAlignmentFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewAlignmentFlowLayout.swift; sourceTree = "<group>"; };
+		9FE9C1791C019F0300E189D7 /* LaunchScreenEarth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchScreenEarth.png; sourceTree = "<group>"; };
+		9FE9C17B1C019F0C00E189D7 /* TopShelf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TopShelf.png; sourceTree = "<group>"; };
 		9FFB9DB11BB528820059E5EA /* VideoOnDemandController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoOnDemandController.swift; sourceTree = "<group>"; };
 		9FFCDCB81BF7329C00307DA8 /* LatestVideos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LatestVideos.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -208,8 +212,10 @@
 				9F7872D41BF955C800EE409B /* LaunchScreenBlue.png */,
 				9F7872D51BF955C800EE409B /* LaunchScreenEarth-Washed.png */,
 				9F7872DE1BFA72EF00EE409B /* LaunchScreenEarth-Dark.png */,
-				9F7872E01BFA782D00EE409B /* LaunchScreenEarth.png */,
+				9F7872E01BFA782D00EE409B /* LaunchScreenEarth-old.png */,
 				9F22B00C1BFBCBCF0041E588 /* JW-White-Background-Blue.png */,
+				9FE9C1791C019F0300E189D7 /* LaunchScreenEarth.png */,
+				9FE9C17B1C019F0C00E189D7 /* TopShelf.png */,
 				9F7872D91BF955E100EE409B /* jwbroadcasting_images */,
 				9F79A1901BA6A3AC00B5E925 /* Assets.xcassets */,
 			);
@@ -381,9 +387,11 @@
 				9F22B00D1BFBCBCF0041E588 /* JW-White-Background-Blue.png in Resources */,
 				9F79A1911BA6A3AC00B5E925 /* Assets.xcassets in Resources */,
 				9F07787F1BD1CD5700476E4C /* keyPhrasesIndex in Resources */,
+				9FE9C17C1C019F0C00E189D7 /* TopShelf.png in Resources */,
 				9F79A18F1BA6A3AC00B5E925 /* Main.storyboard in Resources */,
 				9FFD0D581BB516AA0092CF71 /* jwtv.ttf in Resources */,
-				9F7872E11BFA782D00EE409B /* LaunchScreenEarth.png in Resources */,
+				9F7872E11BFA782D00EE409B /* LaunchScreenEarth-old.png in Resources */,
+				9FE9C17A1C019F0300E189D7 /* LaunchScreenEarth.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

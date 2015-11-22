@@ -135,7 +135,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JW Broadcasting/ChannelSelector.swift"
-            timestampString = "469838534.979108"
+            timestampString = "469857918.529624"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "64"
@@ -167,11 +167,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JW Broadcasting/ResourceHandling.swift"
-            timestampString = "469485026.915416"
+            timestampString = "469866826.710836"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
             landmarkName = "unfold(_:instructions:)"
             landmarkType = "7">
          </BreakpointContent>

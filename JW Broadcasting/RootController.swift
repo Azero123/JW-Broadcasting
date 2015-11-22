@@ -90,6 +90,14 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        /*
+        if (textDirection == .RightToLeft){
+            self.selectedIndex=(self.tabBarController?.viewControllers?.count)!-1
+        }
+        else {
+            self.selectedIndex=0
+        }*/
+        
         let imageView=UIImageView(image: UIImage(contentsOfFile: "LaunchScreenEarth.png"))
         
         
@@ -107,46 +115,49 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState:.Selected)
         
         
-        
-                let download=dictionaryOfPath(base+"/"+version+"/languages/"+languageCode+"/web")
-                languageList=download?.objectForKey("languages") as? Array<NSDictionary>
+        fetchDataUsingCache(base+"/"+version+"/languages/"+languageCode+"/web", downloaded: {
+            let download=dictionaryOfPath(base+"/"+version+"/languages/"+languageCode+"/web")
+            languageList=download?.objectForKey("languages") as? Array<NSDictionary>
             
             
             //dispatch_async(dispatch_get_main_queue()) {
+            
+            
+            if (languageList?.count==0){
+                
+                self.performSelector("displayUnableToConnect", withObject: self, afterDelay: 1.0)
+                
+            }
+            else {
+                
+                
+                let settings=NSUserDefaults.standardUserDefaults()
+                
+                var language:NSDictionary?
+                
+                if ((settings.objectForKey("language")) != nil){
+                    language=languageFromCode(settings.objectForKey("language") as! String) //Attempt using language from settings file
+                }
+                if (language == nil){
+                    language=languageFromLocale(NSLocale.preferredLanguages()[0]) ; print("system language")} //Attempt using system language
+                if (language == nil){
+                    print("unable to find a language")
+                    //Language detection has failed default to english
+                    self.performSelector("displayFailedToFindLanguage", withObject: nil, afterDelay: 1.0); print("default english")
+                    
+                    language=languageFromLocale("en")
+                }
+                if (language == nil){ language=languageList?.first; print("default random") } //English failed use any language
+                
+                if ((language) != nil){
+                    self.setLanguage(language!.objectForKey("code") as! String, newTextDirection: ( language!.objectForKey("isRTL")?.boolValue == true ? UIUserInterfaceLayoutDirection.RightToLeft : UIUserInterfaceLayoutDirection.LeftToRight ))
+                    //textDirection=UIUserInterfaceLayoutDirection.RightToLeft
+                }
+                
+            }
+        })
         
         
-                if (languageList?.count==0){
-                    
-                    self.performSelector("displayUnableToConnect", withObject: self, afterDelay: 1.0)
-                    
-                }
-                else {
-                    
-                    
-                    let settings=NSUserDefaults.standardUserDefaults()
-                    
-                    var language:NSDictionary?
-                    
-                    if ((settings.objectForKey("language")) != nil){
-                        language=languageFromCode(settings.objectForKey("language") as! String) //Attempt using language from settings file
-                    }
-                    if (language == nil){
-                        language=languageFromLocale(NSLocale.preferredLanguages()[0]) ; print("system language")} //Attempt using system language
-                    if (language == nil){
-                        print("unable to find a language")
-                        //Language detection has failed default to english
-                        self.performSelector("displayFailedToFindLanguage", withObject: nil, afterDelay: 1.0); print("default english")
-                        
-                        language=languageFromLocale("en")
-                    }
-                    if (language == nil){ language=languageList?.first; print("default random") } //English failed use any language
-                    
-                    if ((language) != nil){
-                        self.setLanguage(language!.objectForKey("code") as! String, newTextDirection: ( language!.objectForKey("isRTL")?.boolValue == true ? UIUserInterfaceLayoutDirection.RightToLeft : UIUserInterfaceLayoutDirection.LeftToRight ))
-                        //textDirection=UIUserInterfaceLayoutDirection.RightToLeft
-                    }
-
-                }
         
         
         timer=NSTimer.scheduledTimerWithTimeInterval(7.5, target: self, selector: "hide", userInfo: nil, repeats: false)
@@ -272,7 +283,7 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         if (translatedKeyPhrases != nil){ // if the language file was obtained
             /*These keys are what I found correspond to the navigation buttons on tv.jw.org*/
             
-            let keyForButton=["lnkHomeView","homepageStreamingBlockTitle","homepageVODBlockTitle","homepageAudioBlockTitle","lnkLanguage"]
+            let keyForButton=["lnkHomeView","homepageVODBlockTitle","homepageAudioBlockTitle","lnkLanguage"]
             
             let startIndex=0
             let endIndex=keyForButton.count
@@ -296,7 +307,7 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                     newTitle=""
                 case 3:
                     newTitle=""*/
-                case 4:
+                case 3:
                     //newTitle=" "
                     self.tabBar.items?[i].title="    "
                     
@@ -308,6 +319,7 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                     break
                 }
             }
+            
         }
         else {
             self.performSelector("displayUnableToConnect", withObject: self, afterDelay: 1.0)

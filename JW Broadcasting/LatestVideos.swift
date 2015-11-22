@@ -19,8 +19,7 @@ class LatestVideos: SuperCollectionView {
         
         /*fetch information on latest videos then reload the views*/
         
-        self.hidden=true
-        self.label.hidden=true
+        (self.delegate as? HomeController)?.addActivity()
         let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1"
         print("[Latest] loading...")
         addBranchListener(latestVideosPath, serverBonded: {
@@ -32,11 +31,10 @@ class LatestVideos: SuperCollectionView {
                 else {
                     self.label.textAlignment=NSTextAlignment.Left
                 }
-                print("[Latest] downloaded")
+                print("[Latest] Loaded")
                 unfold(latestVideosPath)
                 self.reloadData()
-                self.hidden=false
-                self.label.hidden=false
+                (self.delegate as? HomeController)?.removeActivity()
                 /*well everything is downloaded now so lets hide the spinning wheel and start rendering the views*/
             }
         })
@@ -114,6 +112,20 @@ class LatestVideos: SuperCollectionView {
     override func cellShouldFocus(view:UIView, indexPath:NSIndexPath){
         
         view.subviews.first?.alpha=1
+        
+        
+        let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1"
+        
+        let videosData:NSArray?=unfold("\(latestVideosPath)|category|media") as? NSArray
+        
+        let videoData=videosData![indexPath.row] as? NSDictionary
+        let imageURL=unfold(videoData, instructions: ["images","lsr","md"]) as? String
+        if (imageURL != nil){
+            if ((self.delegate?.isKindOfClass(HomeController.self)) == true){
+                (self.delegate as! HomeController).backgroundImageView.image=imageUsingCache(imageURL!)
+            }
+        }
+        
         
         for subview in (view.subviews.first!.subviews) {
             if (subview.isKindOfClass(UILabel.self)){

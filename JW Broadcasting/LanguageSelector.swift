@@ -86,47 +86,73 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        
         let language=languageList![indexPath.row]
-        disableNavBar=true
-        tableView.hidden=true
-        self.activityIndicator.startAnimating()
-        fetchDataUsingCache(base+"/"+version+"/languages/"+languageCode+"/web", downloaded: {
-            dispatch_async(dispatch_get_main_queue()) {
-                disableNavBar=false
-                tableView.hidden=false
-                self.activityIndicator.stopAnimating()
-                if ((self.tabBarController?.isKindOfClass(rootController.self)) == true){
-                    
-                    (self.tabBarController as! rootController).setLanguage(language.objectForKey("code") as! String, newTextDirection: ( language.objectForKey("isRTL")?.boolValue == true ? UIUserInterfaceLayoutDirection.RightToLeft : UIUserInterfaceLayoutDirection.LeftToRight ))
-                    tableView.reloadData()
-                    (self.tabBarController as? rootController)!.setTabBarVisible(true, animated: true)
-                    
-                    let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
-                    
-                    fetchDataUsingCache(pathForSliderData, downloaded: {
-                        print("[SlideShow] preloaded")
-                    })
-                    let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
-                    fetchDataUsingCache(streamingScheduleURL, downloaded: {
-                        print("[Channels] preloaded")
-                    })
-                    let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1"
-                    fetchDataUsingCache(latestVideosPath, downloaded: {
-                        print("[LatestVideos] preloaded")
-                    })
-                    let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
-                    let VODURL=categoriesDirectory+"/VideoOnDemand?detailed=1"
-                    fetchDataUsingCache(VODURL, downloaded: {
-                        print("[VOD] preloaded")
-                    })
-                    let AudioURL=categoriesDirectory+"/Audio?detailed=1"
-                    fetchDataUsingCache(AudioURL, downloaded: {
-                        print("[Audio] preloaded")
-                    })
-                }
-            }
-        })
+        
+        let alert=UIAlertController(title: (dictionaryOfPath(base+"/"+version+"/translations/"+languageCode)!["translations"]![languageCode]!!["hdgLanguage"] as? String)!+": "+(language["vernacular"] as? String)!, message: "", preferredStyle: .Alert)
+        alert.view.tintColor = UIColor.greenColor()
+        alert.addAction(UIAlertAction(title: "x", style: .Destructive, handler: nil))
+        let action=UIAlertAction(title: "✓", style: .Default, handler: { (action:UIAlertAction) in
+        
             
+            
+            disableNavBar=true
+            tableView.hidden=true
+            self.activityIndicator.startAnimating()
+            fetchDataUsingCache(base+"/"+version+"/languages/"+languageCode+"/web", downloaded: {
+                dispatch_async(dispatch_get_main_queue()) {
+                    disableNavBar=false
+                    tableView.hidden=false
+                    self.activityIndicator.stopAnimating()
+                    if ((self.tabBarController?.isKindOfClass(rootController.self)) == true){
+                        
+                        (self.tabBarController as! rootController).setLanguage(language.objectForKey("code") as! String, newTextDirection: ( language.objectForKey("isRTL")?.boolValue == true ? UIUserInterfaceLayoutDirection.RightToLeft : UIUserInterfaceLayoutDirection.LeftToRight ))
+                        tableView.reloadData()
+                        (self.tabBarController as? rootController)!.setTabBarVisible(true, animated: true)
+                        
+                        let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
+                        
+                        fetchDataUsingCache(pathForSliderData, downloaded: {
+                            print("[SlideShow] preloaded")
+                        })
+                        let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
+                        fetchDataUsingCache(streamingScheduleURL, downloaded: {
+                            print("[Channels] preloaded")
+                        })
+                        let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1"
+                        fetchDataUsingCache(latestVideosPath, downloaded: {
+                            print("[LatestVideos] preloaded")
+                        })
+                        let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
+                        let VODURL=categoriesDirectory+"/VideoOnDemand?detailed=1"
+                        fetchDataUsingCache(VODURL, downloaded: {
+                            print("[VOD] preloaded")
+                        })
+                        let AudioURL=categoriesDirectory+"/Audio?detailed=1"
+                        fetchDataUsingCache(AudioURL, downloaded: {
+                            print("[Audio] preloaded")
+                        })
+                        
+                        
+                        /*if (textDirection == .RightToLeft){
+                            self.tabBarController!.selectedIndex=(self.tabBarController?.viewControllers?.count)!-1
+                        }
+                        else {
+                            self.tabBarController!.selectedIndex=0
+                        }*/
+                    }
+                }
+            })
+
+        
+        
+        })
+        alert.addAction(action)
+        self.presentViewController(alert, animated: true, completion: nil)
+        //lblSave : "Save"
+        
+        
     }
     /*
     // MARK: - Navigation

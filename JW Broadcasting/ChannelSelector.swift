@@ -15,11 +15,11 @@ class ChannelSelector: SuperCollectionView {
 
     override func prepare() {
         
-        self.hidden=true
-        self.label.superview!.hidden=true
+        (self.delegate as? HomeController)?.addActivity()
+        
         self.contentInset=UIEdgeInsetsMake(0, 60, 0, 0)
         let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
-        print("[Channels] loading... \(streamingScheduleURL)")
+        print("[Channels] loading...")
         fetchDataUsingCache(streamingScheduleURL, downloaded: {
             dispatch_async(dispatch_get_main_queue()) {
                 self.label.text=unfold("\(streamingScheduleURL)|category|name")! as? String
@@ -30,10 +30,10 @@ class ChannelSelector: SuperCollectionView {
                     self.label.textAlignment=NSTextAlignment.Left
                 }
                 unfold(streamingScheduleURL)
+                
                 self.reloadData()
-                print("[Channels] Reloaded")
-                self.hidden=false
-                self.label.superview!.hidden=false
+                print("[Channels] Loaded")
+                (self.delegate as? HomeController)?.removeActivity()
             }
         })
 
@@ -116,6 +116,17 @@ class ChannelSelector: SuperCollectionView {
     
     override func cellShouldFocus(view:UIView, indexPath:NSIndexPath){
     
+        let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
+        let channelsMeta=(unfold("\(streamingScheduleURL)|category|subcategories") as? NSArray)
+        
+        let channelMeta=channelsMeta?[indexPath.row] as? NSDictionary
+        if (channelMeta != nil){
+            let imageURL=unfold(channelMeta, instructions: ["images","wss","sm"]) as? String
+            if ((self.delegate?.isKindOfClass(HomeController.self)) == true){
+                (self.delegate as! HomeController).backgroundImageView.image=imageUsingCache(imageURL!)
+            }
+        }
+        
         view.subviews.first?.alpha=1
         timerForPreview?.invalidate()
         timerForPreview=nil
@@ -144,6 +155,7 @@ class ChannelSelector: SuperCollectionView {
                 let scaleUp=subview.frame.size.width/398
                 playerLayer!.frame=CGRect(x: -29, y: -13, width: subview.frame.size.width*scaleUp, height: subview.frame.size.height*scaleUp)
                 self.playerLayer?.backgroundColor=UIColor.clearColor().CGColor
+                self.player?.replaceCurrentItemWithPlayerItem(nil)
                 subview.layer.addSublayer(self.playerLayer!)
             }
             
@@ -248,6 +260,7 @@ class ChannelSelector: SuperCollectionView {
         if ((self.player) != nil && self.playerItem!.status == AVPlayerItemStatus.ReadyToPlay ){
             //self.playerLayer?.superlayer?.backgroundColor
             //self.playerLayer?.backgroundColor=UIColor.grayColor().CGColor
+            self.player?.play()
             
             let fade=CABasicAnimation(keyPath: "opacity")
             fade.fromValue=0
@@ -262,7 +275,6 @@ class ChannelSelector: SuperCollectionView {
             })
             self.playerLayer?.addAnimation(fade, forKey: nil)
             
-            self.player?.play()
             /*
             CABasicAnimation *fadeInAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
             fadeInAnimation.fromValue = [NSNumber numberWithFloat:0.0];

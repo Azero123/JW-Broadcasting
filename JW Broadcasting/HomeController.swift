@@ -68,8 +68,70 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
         activityIndicator.hidesWhenStopped=true
         activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
         
+        self.slideShowCollectionView.alpha=0
+        
+        self.streamingCollectionView.alpha=0
+        
+        self.streamingCollectionView.label.superview!.alpha=0
+        
+        self.latestVideosCollectionView.alpha=0
+        self.latestVideosCollectionView.label.alpha=0
         renewContent()
         
+        
+        
+        /*
+        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+        dispatch_async(dispatch_get_global_queue(priority, 0)) {
+            for language in languageList! {//code
+                fetchDataUsingCache(base+"/"+version+"/translations/"+(language["code"] as! String), downloaded: {
+                    
+                })
+            }
+        }*/
+        
+    }
+    
+    var activity=0
+    
+    func addActivity(){
+        
+        UIView.animateWithDuration(0.5, animations: {
+            self.slideShowCollectionView.alpha=0
+            self.streamingCollectionView.alpha=0
+            self.streamingCollectionView.label.superview!.alpha=0
+            self.latestVideosCollectionView.alpha=0
+            self.latestVideosCollectionView.label.alpha=0
+        })
+        
+        
+        if (activity==0){
+            print("start loading...")
+        }
+        
+        activity++
+        self.activityIndicator.startAnimating()
+    }
+    
+    func removeActivity(){
+        
+        activity--
+        
+        
+        if (activity==0 || true){
+            
+            
+            UIView.animateWithDuration(0.5, animations: {
+                self.slideShowCollectionView.alpha=1
+                self.streamingCollectionView.alpha=1
+                self.streamingCollectionView.label.superview!.alpha=1
+                self.latestVideosCollectionView.alpha=1
+                self.latestVideosCollectionView.label.alpha=1
+            })
+            
+            self.activityIndicator.stopAnimating()
+            print("finished loading")
+        }
     }
     
     var previousLanguageCode=languageCode
@@ -106,16 +168,11 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
         If the language file is downloaded then update.
         */
         
+        addActivity()
         
-        if (languageList?.count>0){
+        fetchDataUsingCache(base+"/"+version+"/translations/"+languageCode, downloaded: {
             /*
-            The content is being refreshed so indicate that.
-            */
             
-            activityIndicator.startAnimating()
-            
-            /*
-
             After double checking that the collectionview has our custom flow layout (which it should always be but I like double checking) the collectionview then applies horizontal scrolling for the slide show and adjusts the margins between cells.
             */
             
@@ -145,12 +202,142 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
             self.streamingCollectionView.prepare()
             self.latestVideosCollectionView.prepare()
             
-            self.activityIndicator.stopAnimating()
-        }
-        else {
             
-            activityIndicator.startAnimating()
-        }
+            
+            
+            let aggressiveCaching=false
+            
+            let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+        
+            let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
+            let VODURL=categoriesDirectory+"/VideoOnDemand?detailed=1"
+            dispatch_async(dispatch_get_global_queue(priority, 0)) {
+                
+                fetchDataUsingCache(VODURL, downloaded: {
+                    print("[PREDOWNLOAD] Video On Demand")
+                    
+                    if (aggressiveCaching){
+                    let videoOnDemandData=dictionaryOfPath(VODURL, usingCache: false)
+                    
+                    for (var index=0; index<(videoOnDemandData!["category"]!["subcategories"]! as! NSArray).count ; index++){
+                        
+                        let subcat=(((videoOnDemandData!["category"] as! NSDictionary)["subcategories"] as! NSArray)[index] as! NSDictionary)
+                        let subcategoryDirectory=categoriesDirectory+"/"+(subcat["key"] as! String)+"?detailed=1"
+                        
+                        
+                        fetchDataUsingCache(subcategoryDirectory, downloaded: {
+                            
+                            var subsubcats:Array<NSDictionary>=[]
+                            print("[PREDOWNLOAD] \(subcat["key"])")
+                            //let subcategoryData:Array<NSDictionary>=[]
+                            
+                            let downloadedJSON=dictionaryOfPath(subcategoryDirectory, usingCache: false)
+                            if (downloadedJSON?["category"]!["media"] != nil){
+                                subsubcats.append(downloadedJSON!["category"] as! NSDictionary)
+                            }
+                            else if (downloadedJSON!["category"]!["subcategories"] != nil){
+                                subsubcats=downloadedJSON!["category"]!["subcategories"] as! Array<NSDictionary>
+                            }
+                            print("[COMPILED] \(subcat["key"]) \(subcategoryDirectory)")
+                            
+                            let priorityRatios=["pns","pss","wsr","lss","wss"]
+                            for (var index=0; index<(subsubcats).count ; index++){
+                                
+                                
+                                for (var indexB=0; indexB<(subsubcats[index]["subcategories"] as! NSArray).count ; indexB++){
+                                    for (var indexC=0; indexC<(subsubcats[index]["subcategories"]![indexB]["media"] as! NSArray).count ; indexC++){
+                                        //print("subsub: \(index) \(indexB) \(indexC) = \(subsubcats[index]["subcategories"]![indexB]["media"])")
+                                        let imageRatios=(subsubcats[index]["subcategories"]![indexB]["media"] as! NSArray)[indexC]["images"]
+                                        
+                                        var imageURL:String?=""
+                                        
+                                        for ratio in imageRatios!!.allKeys {
+                                            for priorityRatio in priorityRatios.reverse() {
+                                                if (ratio as? String == priorityRatio){
+                                                    
+                                                    if (unfold(imageRatios, instructions: ["\(ratio)","lg"]) != nil){
+                                                        imageURL = unfold(imageRatios, instructions: ["\(ratio)","lg"]) as? String
+                                                    }
+                                                    else if (unfold(imageRatios, instructions: ["\(ratio)","md"]) != nil){
+                                                        imageURL = unfold(imageRatios, instructions: ["\(ratio)","md"]) as? String
+                                                    }
+                                                    else if (unfold(imageRatios, instructions: ["\(ratio)","sm"]) != nil){
+                                                        imageURL = unfold(imageRatios, instructions: ["\(ratio)","sm"]) as? String
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        if (imageURL == ""){
+                                            let sizes=unfold(imageRatios, instructions: [imageRatios!!.allKeys.first!]) as? NSDictionary
+                                            imageURL=unfold(sizes, instructions: [sizes!.allKeys.first!]) as? String
+                                        }
+                                        
+                                        
+                                        //print("[PREDOWNLOAD] \(imageURL)")
+                                        imageUsingCache(imageURL!)
+                                        
+                                    }
+                                }
+                            }
+                            
+                        })
+                    }
+                    }
+                    
+                })
+                print("finished preloading VOD")
+            }
+            /*
+                        if (downloadedJSON?.objectForKey("category")!.objectForKey("media") != nil){//If no subcategories then just make itself the subcategory
+                            self.parentCategory=Array(arrayLiteral: downloadedJSON?.objectForKey("category")! as! NSDictionary)
+                            
+                        }
+                        else if (downloadedJSON?.objectForKey("category")!.objectForKey("subcategories") != nil){//for video on demand pretty much
+                            self.parentCategory=(downloadedJSON?.objectForKey("category")!.objectForKey("subcategories"))! as! NSArray
+                            self.subcategories=true
+                        }
+                
+                
+                
+                let retrievedVideo=parentCategory.objectAtIndex(indexPath.section).objectForKey("media")?.objectAtIndex(indexPath.row)
+                
+                let imageRatios=retrievedVideo!.objectForKey("images")!
+                
+                let priorityRatios=["pns","pss","wsr","lss","wss"]//wsr
+                
+                var imageURL:String?=""
+                
+                for ratio in imageRatios.allKeys {
+                    for priorityRatio in priorityRatios.reverse() {
+                        if (ratio as? String == priorityRatio){
+                            
+                            if (unfold(imageRatios, instructions: ["\(ratio)","lg"]) != nil){
+                                imageURL = unfold(imageRatios, instructions: ["\(ratio)","lg"]) as? String
+                            }
+                            else if (unfold(imageRatios, instructions: ["\(ratio)","md"]) != nil){
+                                imageURL = unfold(imageRatios, instructions: ["\(ratio)","md"]) as? String
+                            }
+                            else if (unfold(imageRatios, instructions: ["\(ratio)","sm"]) != nil){
+                                imageURL = unfold(imageRatios, instructions: ["\(ratio)","sm"]) as? String
+                            }
+                        }
+                    }
+                }
+                if (imageURL == ""){
+                    let sizes=unfold(imageRatios, instructions: [imageRatios.allKeys.first!]) as? NSDictionary
+                    imageURL=unfold(sizes, instructions: [sizes!.allKeys.first!]) as? String
+                }
+                
+            })*/
+            let AudioURL=categoriesDirectory+"/Audio?detailed=1"
+            fetchDataUsingCache(AudioURL, downloaded: {
+                print("[Audio] preloaded")
+            })
+
+            
+            self.removeActivity()
+        })
+        
         
         
     }
