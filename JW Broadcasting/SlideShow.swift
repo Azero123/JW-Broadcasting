@@ -272,10 +272,13 @@ class SlideShow: SuperCollectionView {
             while (index < -1){
                 index = index+(totalItems)
             }
-            if (index == -1){
-                index = totalItems-1
-            }
         }
+        if (index == -1){
+            index = totalItems-1
+        }
+        
+        print("index: \(index)")
+        
         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
         
         let videosData=unfold("\(pathForSliderData)|settings|WebHomeSlider|slides|\(index)")!.objectForKey("item")!.objectForKey("files") as? NSArray

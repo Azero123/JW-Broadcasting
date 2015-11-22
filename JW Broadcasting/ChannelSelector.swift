@@ -29,7 +29,7 @@ class ChannelSelector: SuperCollectionView {
                 else {
                     self.label.textAlignment=NSTextAlignment.Left
                 }
-                unfold(streamingScheduleURL)
+                //unfold(streamingScheduleURL)
                 
                 self.reloadData()
                 print("[Channels] Loaded")

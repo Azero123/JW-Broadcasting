@@ -90,13 +90,13 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        /*
+        
         if (textDirection == .RightToLeft){
-            self.selectedIndex=(self.tabBarController?.viewControllers?.count)!-1
+            self.selectedIndex=(self.viewControllers?.count)!-1
         }
         else {
             self.selectedIndex=0
-        }*/
+        }
         
         let imageView=UIImageView(image: UIImage(contentsOfFile: "LaunchScreenEarth.png"))
         
@@ -283,7 +283,10 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         if (translatedKeyPhrases != nil){ // if the language file was obtained
             /*These keys are what I found correspond to the navigation buttons on tv.jw.org*/
             
-            let keyForButton=["lnkHomeView","homepageVODBlockTitle","homepageAudioBlockTitle","lnkLanguage"]
+            var keyForButton=["lnkHomeView","homepageVODBlockTitle","homepageAudioBlockTitle","lnkLanguage"]
+            if (self.viewControllers?.count==5){
+                keyForButton=["lnkHomeView","homepageVODBlockTitle","homepageAudioBlockTitle","lnkLanguage",""]
+            }
             
             let startIndex=0
             let endIndex=keyForButton.count
