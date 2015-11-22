@@ -143,6 +143,7 @@ class ChannelSelector: SuperCollectionView {
                 subview.clipsToBounds=true
                 let scaleUp=subview.frame.size.width/398
                 playerLayer!.frame=CGRect(x: -29, y: -13, width: subview.frame.size.width*scaleUp, height: subview.frame.size.height*scaleUp)
+                self.playerLayer?.backgroundColor=UIColor.clearColor().CGColor
                 subview.layer.addSublayer(self.playerLayer!)
             }
             
@@ -245,7 +246,34 @@ class ChannelSelector: SuperCollectionView {
             self.player?.replaceCurrentItemWithPlayerItem(self.playerItem)
         }
         if ((self.player) != nil && self.playerItem!.status == AVPlayerItemStatus.ReadyToPlay ){
+            //self.playerLayer?.superlayer?.backgroundColor
+            //self.playerLayer?.backgroundColor=UIColor.grayColor().CGColor
+            
+            let fade=CABasicAnimation(keyPath: "opacity")
+            fade.fromValue=0
+            fade.toValue=1
+            fade.additive=false
+            fade.removedOnCompletion=false
+            fade.duration=1
+            fade.fillMode = kCAFillModeForwards
+            CATransaction.setCompletionBlock({
+            self.playerLayer?.backgroundColor=UIColor.blackColor().CGColor
+            
+            })
+            self.playerLayer?.addAnimation(fade, forKey: nil)
+            
             self.player?.play()
+            /*
+            CABasicAnimation *fadeInAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+            fadeInAnimation.fromValue = [NSNumber numberWithFloat:0.0];
+            fadeInAnimation.toValue = [NSNumber numberWithFloat:1.0];
+            fadeInAnimation.additive = NO;
+            fadeInAnimation.removedOnCompletion = YES;
+            fadeInAnimation.beginTime = 1.0;
+            fadeInAnimation.duration = 1.0;
+            fadeInAnimation.fillMode = kCAFillModeForwards;
+            [titleLayer addAnimation:fadeInAnimation forKey:nil];*/
+            
         }
         else if (self.playerLayer?.superlayer != nil){
             self.readyTimer=NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: Selector("update"), userInfo: nil, repeats: false)
