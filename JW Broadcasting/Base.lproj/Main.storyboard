@@ -22,6 +22,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchScreenEarth.png" translatesAutoresizingMaskIntoConstraints="NO" id="RH6-M4-vU6">
+                                <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
+                            </imageView>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lrK-Mb-DdO">
+                                <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="RUi-64-xW3">
+                                    <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <blurEffect style="extraLight"/>
+                            </visualEffectView>
                             <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="bcI-63-HQl" customClass="SlideShow" customModule="JW_Broadcasting" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="1920" height="550"/>
                                 <constraints>
@@ -82,7 +93,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" red="0.65252357719999998" green="0.66733610629999995" blue="0.66081053020000002" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.65252357719999998" green="0.66733610629999995" blue="0.66081053020000002" alpha="0.27043968023255816" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="Ylw-l7-zqG" firstAttribute="leading" secondItem="c1U-oz-E1L" secondAttribute="leading" constant="115" id="7to-dB-0O4"/>
                                     <constraint firstItem="Ylw-l7-zqG" firstAttribute="top" secondItem="c1U-oz-E1L" secondAttribute="top" constant="10" id="Pxy-L8-iQs"/>
@@ -92,7 +103,7 @@
                             </view>
                             <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Aiz-tC-uQO" customClass="ChannelSelector" customModule="JW_Broadcasting" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="620" width="1920" height="350"/>
-                                <color key="backgroundColor" red="0.65252357719999998" green="0.66733610629999995" blue="0.66081053020000002" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.65098039215686276" green="0.66666666666666663" blue="0.66274509803921566" alpha="0.25" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="350" id="0NF-sI-jSK"/>
                                 </constraints>
@@ -214,21 +225,30 @@
                                 <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
                         </subviews>
+                        <color key="backgroundColor" red="0.30196078430000001" green="0.43529411759999997" blue="0.64313725489999995" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="0FA-Mk-FN8" secondAttribute="trailing" id="0rH-zS-JLq"/>
                             <constraint firstItem="EdW-cC-2hD" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="2nQ-Rf-RQA"/>
+                            <constraint firstItem="RH6-M4-vU6" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="3Zl-7d-hnR"/>
                             <constraint firstItem="wVA-sT-yi4" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="4go-it-KMa"/>
                             <constraint firstItem="Aiz-tC-uQO" firstAttribute="top" secondItem="c1U-oz-E1L" secondAttribute="bottom" id="7xt-k8-5pU"/>
                             <constraint firstItem="0FA-Mk-FN8" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="87G-1C-yan"/>
                             <constraint firstItem="bcI-63-HQl" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="9VZ-MH-ghK"/>
+                            <constraint firstItem="lrK-Mb-DdO" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Crh-5C-VgS"/>
                             <constraint firstItem="EdW-cC-2hD" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="F3z-Gb-ZfD"/>
                             <constraint firstItem="c1U-oz-E1L" firstAttribute="top" secondItem="bcI-63-HQl" secondAttribute="bottom" constant="-20" id="I8v-TJ-AhT"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="RH6-M4-vU6" secondAttribute="bottom" id="Kxt-zp-QNf"/>
+                            <constraint firstAttribute="trailing" secondItem="lrK-Mb-DdO" secondAttribute="trailing" id="M9R-WZ-rml"/>
                             <constraint firstItem="Aiz-tC-uQO" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="QYI-qt-hFO"/>
+                            <constraint firstItem="RH6-M4-vU6" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Thr-8r-jTO"/>
                             <constraint firstAttribute="trailing" secondItem="bcI-63-HQl" secondAttribute="trailing" id="V91-lF-2VQ"/>
                             <constraint firstItem="0FA-Mk-FN8" firstAttribute="top" secondItem="wVA-sT-yi4" secondAttribute="bottom" constant="25" id="WSs-Np-zxc"/>
+                            <constraint firstItem="lrK-Mb-DdO" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="Znd-7j-Qij"/>
                             <constraint firstItem="c1U-oz-E1L" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="ciy-08-3W6"/>
                             <constraint firstAttribute="trailing" secondItem="c1U-oz-E1L" secondAttribute="trailing" id="dML-vV-sIe"/>
+                            <constraint firstAttribute="trailing" secondItem="RH6-M4-vU6" secondAttribute="trailing" id="dMg-kx-DX8"/>
                             <constraint firstItem="wVA-sT-yi4" firstAttribute="top" secondItem="Aiz-tC-uQO" secondAttribute="bottom" id="ezu-ax-MMF"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="lrK-Mb-DdO" secondAttribute="bottom" id="fuU-iL-U9g"/>
                             <constraint firstItem="bcI-63-HQl" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="h8j-56-p3X"/>
                             <constraint firstAttribute="trailing" secondItem="Aiz-tC-uQO" secondAttribute="trailing" id="n7k-pY-Do4"/>
                             <constraint firstAttribute="trailing" secondItem="wVA-sT-yi4" secondAttribute="trailing" id="sOq-pC-PCW"/>
@@ -237,6 +257,7 @@
                     <tabBarItem key="tabBarItem" title="Home" id="gog-J0-hk9"/>
                     <connections>
                         <outlet property="activityIndicator" destination="EdW-cC-2hD" id="BK4-TI-1aO"/>
+                        <outlet property="backgroundImageView" destination="RH6-M4-vU6" id="sQU-cA-08u"/>
                         <outlet property="latestVideosCollectionView" destination="0FA-Mk-FN8" id="TDm-ys-3L0"/>
                         <outlet property="slideShowCollectionView" destination="bcI-63-HQl" id="Sz3-oy-VQm"/>
                         <outlet property="slideShowTopConstraint" destination="h8j-56-p3X" id="1da-bO-atb"/>
@@ -617,6 +638,9 @@
             <point key="canvasLocation" x="-712" y="-85"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="LaunchScreenEarth.png" width="1920" height="1080"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="rll-L9-hmz"/>
     </inferredMetricsTieBreakers>

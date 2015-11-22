@@ -100,6 +100,29 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
                     (self.tabBarController as! rootController).setLanguage(language.objectForKey("code") as! String, newTextDirection: ( language.objectForKey("isRTL")?.boolValue == true ? UIUserInterfaceLayoutDirection.RightToLeft : UIUserInterfaceLayoutDirection.LeftToRight ))
                     tableView.reloadData()
                     (self.tabBarController as? rootController)!.setTabBarVisible(true, animated: true)
+                    
+                    let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
+                    
+                    fetchDataUsingCache(pathForSliderData, downloaded: {
+                        print("[SlideShow] preloaded")
+                    })
+                    let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
+                    fetchDataUsingCache(streamingScheduleURL, downloaded: {
+                        print("[Channels] preloaded")
+                    })
+                    let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1"
+                    fetchDataUsingCache(latestVideosPath, downloaded: {
+                        print("[LatestVideos] preloaded")
+                    })
+                    let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
+                    let VODURL=categoriesDirectory+"/VideoOnDemand?detailed=1"
+                    fetchDataUsingCache(VODURL, downloaded: {
+                        print("[VOD] preloaded")
+                    })
+                    let AudioURL=categoriesDirectory+"/Audio?detailed=1"
+                    fetchDataUsingCache(AudioURL, downloaded: {
+                        print("[Audio] preloaded")
+                    })
                 }
             }
         })

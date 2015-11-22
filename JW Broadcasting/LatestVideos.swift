@@ -19,6 +19,8 @@ class LatestVideos: SuperCollectionView {
         
         /*fetch information on latest videos then reload the views*/
         
+        self.hidden=true
+        self.label.hidden=true
         let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1"
         print("[Latest] loading...")
         addBranchListener(latestVideosPath, serverBonded: {
@@ -33,6 +35,8 @@ class LatestVideos: SuperCollectionView {
                 print("[Latest] downloaded")
                 unfold(latestVideosPath)
                 self.reloadData()
+                self.hidden=false
+                self.label.hidden=false
                 /*well everything is downloaded now so lets hide the spinning wheel and start rendering the views*/
             }
         })

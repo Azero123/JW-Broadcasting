@@ -44,6 +44,7 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var slideShowCollectionView: SlideShow!
     @IBOutlet weak var latestVideosCollectionView: LatestVideos!
     
+    @IBOutlet weak var backgroundImageView: UIImageView!
     var latestVideos=[]
     
     override func viewDidLoad() {

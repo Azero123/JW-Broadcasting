@@ -168,8 +168,8 @@ class StreamingViewController : UIViewController {
     }
     
     func updateStream(){
-        player?.pause()
-        playerLayer?.removeFromSuperlayer()
+        //player?.pause()
+        //playerLayer?.removeFromSuperlayer()
         activityIndicator.startAnimating()
         
         
@@ -205,7 +205,7 @@ class StreamingViewController : UIViewController {
                        // self.player?.currentItem?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.New, context: nil)
                     }
                     if (self.player != nil){
-                        if ((self.player?.currentTime().value)!+10>CMTimeMake(Int64(timeIndex!), 1).value){
+                        if ((self.player?.currentTime().value)!-CMTimeMake(Int64(timeIndex!), 1).value < abs(10)){
                             print("[Channels] too far behind")
                             self.player!.seekToTime(CMTimeMake(Int64(timeIndex!), 1))
                         }
@@ -309,7 +309,7 @@ class StreamingViewController : UIViewController {
                 player?.rate=1.0
             }
         }
-        if ((self.player) != nil && player?.currentItem != nil){
+        if ((self.player) != nil && player?.currentItem != nil && player?.currentItem?.status == AVPlayerItemStatus.ReadyToPlay){
         advancedLabel?.text=" bitrate \(player?.rate) \(floor((player?.currentTime().seconds)!))/\(floor((player?.currentItem?.duration.seconds)!)) \(player?.currentItem?.asset)"
             
             if (self.player!.currentItem!.status == AVPlayerItemStatus.ReadyToPlay) {

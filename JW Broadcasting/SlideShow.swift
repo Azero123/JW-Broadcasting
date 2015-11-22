@@ -18,6 +18,8 @@ class SlideShow: SuperCollectionView {
     
     override func prepare(){
         
+        self.hidden=true
+        
         self.contentInset=UIEdgeInsetsMake(0, 60, 0, 60)
         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
         
@@ -25,10 +27,11 @@ class SlideShow: SuperCollectionView {
         fetchDataUsingCache(pathForSliderData, downloaded: {
             dispatch_async(dispatch_get_main_queue()) {
                 print("[SlideShow] Downloaded")
+                self.reloadData()
                 self.performBatchUpdates({
-                    self.reloadData()
                     }, completion: { (finished:Bool) in
-                    self.moveToSlide(1)
+                        //self.moveToSlide(1)
+                        self.hidden=false
                 })
                 self.performSelector("timesUp", withObject: nil, afterDelay: 2.25)
             }
@@ -58,7 +61,6 @@ class SlideShow: SuperCollectionView {
         var index=indexPath.row
         let totalItems=self.totalItemsInSection(0)
         index=indexPath.row-1+indexOffset
-        print("pre \(index)")
         while (index>totalItems-1){
             index = index-(totalItems)
         }
@@ -66,10 +68,10 @@ class SlideShow: SuperCollectionView {
             index = index+(totalItems)
         }
         if (index == -1){
-            index = 4
+            index = totalItems-1
         }
         
-        print("reloading index \(indexPath.row) as \(index)")
+        //print("reloading index \(indexPath.row) as \(index)")
         
         /*if (index>totalItems-1){
             index=index-totalItems
@@ -134,42 +136,52 @@ class SlideShow: SuperCollectionView {
     var selectedSlideShow=false
 
     override func cellShouldFocus(view: UIView, indexPath: NSIndexPath, previousIndexPath: NSIndexPath?) {
-        let totalItems=self.totalItemsInSection(0)
         
-        let indexToMove = 0//indexOffset
-        let indexToGoTo=totalItems-1
-        let cell=self.cellForItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0))
+        
+        
+        var index=indexPath.row
+        
+        let totalItems=self.totalItemsInSection(0)
+        index=indexPath.row-1+indexOffset
+        while (index>totalItems-1){
+            index = index-(totalItems)
+        }
+        while (index < -1){
+            index = index+(totalItems)
+        }
+        if (index == -1){
+            index = 4
+        }
+        
+        let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
+        
+        
+        let SLSlides=unfold(pathForSliderData+"|settings|WebHomeSlider|slides") as? NSArray
+        let SLSlide=SLSlides![index]
+        let imageURL=unfold(SLSlide, instructions: ["item","images","pnr","lg"]) as? String
+        if ((self.delegate?.isKindOfClass(HomeController.self)) == true){
+            (self.delegate as! HomeController).backgroundImageView.image=imageUsingCache(imageURL!)
+        }
+        
+        let leftIndex = 0
+        let rightIndex = totalItems-1
+        
         if ( previousIndexPath != nil){
-        if (indexPath.row>previousIndexPath!.row){
-            indexOffset++
-            if (self.cellForItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0)) != nil){
-                cell?.hidden=true
-                self.performBatchUpdates({
-                    
-                    self.moveItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0), toIndexPath: NSIndexPath(forRow: indexToGoTo, inSection: 0))
-                    //self.reloadData()
-                    }, completion: { (finished:Bool) in
-                        cell?.hidden=false
-                })
+            
+            if (indexPath.row>previousIndexPath!.row){
+                loopItemFrom(leftIndex, to: rightIndex)
+                if (indexPath.row == totalItems-1){
+                    loopItemFrom(leftIndex, to: rightIndex)
+                }
+            }
+            else if (indexPath.row<previousIndexPath!.row){
+                loopItemFrom(rightIndex, to: leftIndex)
             }
         }
-        else if (indexPath.row<previousIndexPath!.row){
-            let indexToMove = totalItems-1//indexOffset
-            let indexToGoTo = 0
-            let cell=self.cellForItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0))
-            indexOffset--
-            //if (self.cellForItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0)) != nil){
-                cell?.hidden=true
-                self.performBatchUpdates({
-                    
-                    self.moveItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0), toIndexPath: NSIndexPath(forRow: indexToGoTo, inSection: 0))
-                    //self.reloadData()
-                    }, completion: { (finished:Bool) in
-                        cell?.hidden=false
-                })
-                
-            //}
-        }
+        print("check if too far left...")
+        if (indexPath.row == 0){
+            print("too far left...")
+            loopItemFrom(rightIndex, to: leftIndex)
         }
         
         SLIndex=indexPath.row
@@ -180,6 +192,26 @@ class SlideShow: SuperCollectionView {
         }
         selectedSlideShow=true
         
+    }
+    
+    func loopItemFrom(indexToMove:Int, to indexToGoTo:Int){
+        let cell=self.cellForItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0))
+        if (indexToMove<indexToGoTo){
+            indexOffset++
+        }
+        if (indexToMove>indexToGoTo){
+            indexOffset--
+        }
+            //if (self.cellForItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0)) != nil){
+                cell?.hidden=true
+                self.performBatchUpdates({
+                    
+                    self.moveItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0), toIndexPath: NSIndexPath(forRow: indexToGoTo, inSection: 0))
+                    //self.reloadData()
+                    }, completion: { (finished:Bool) in
+                        cell?.hidden=false
+                })
+            //}
     }
     
     override func cellShouldLoseFocus(view:UIView, indexPath:NSIndexPath){
@@ -242,8 +274,8 @@ class SlideShow: SuperCollectionView {
         if (index == -1){
             index = 4
         }
-        
         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
+        
         let videosData=unfold("\(pathForSliderData)|settings|WebHomeSlider|slides|\(index)")!.objectForKey("item")!.objectForKey("files") as? NSArray
         if (videosData != nil){
             let videoData=videosData?.objectAtIndex((videosData?.count)!-1)

@@ -90,6 +90,13 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let imageView=UIImageView(image: UIImage(contentsOfFile: "LaunchScreenEarth.png"))
+        
+        
+        self.view.addSubview(imageView)
+        
+        
+        
         /*self delegating :D*/
         self.delegate=self
         
@@ -267,23 +274,20 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
             
             let keyForButton=["lnkHomeView","homepageStreamingBlockTitle","homepageVODBlockTitle","homepageAudioBlockTitle","lnkLanguage"]
             
-            var startIndex=0
-            var change=1
-            var endIndex=keyForButton.count
+            let startIndex=0
+            let endIndex=keyForButton.count
             
             /* reverse replacement order if right to left */
             
-            if (textDirection==UIUserInterfaceLayoutDirection.RightToLeft){
-                startIndex=keyForButton.count
-                endIndex=0
-                change = -1
-            }
-            
             /* replace titles */
             
-            for var i=startIndex ; i<endIndex ; i+=change {
+            for var i=startIndex ; i<endIndex ; i++ {
                 //var newTitle=translatedKeyPhrases?.objectForKey(keyForButton[i]) as! String
-                switch i {
+                var keyI=i
+                if (textDirection==UIUserInterfaceLayoutDirection.RightToLeft){
+                    keyI=endIndex-1-i
+                }
+                switch keyI {
                 /*case 0:
                     newTitle=""
                 case 1:
@@ -299,7 +303,8 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                     let fontattributes=[NSFontAttributeName:UIFont(name: "jwtv", size: 36)!,NSForegroundColorAttributeName:UIColor.grayColor()] as Dictionary<String,AnyObject>
                     self.tabBar.items?[i].setTitleTextAttributes(fontattributes, forState: .Normal)
                 default:
-                    self.tabBar.items?[i].title=((translatedKeyPhrases?.objectForKey(keyForButton[i]))! as! String)
+                    let newText=keyForButton[keyI]
+                    self.tabBar.items?[i].title=((translatedKeyPhrases?.objectForKey(newText))! as! String)
                     break
                 }
             }
