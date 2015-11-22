@@ -120,9 +120,9 @@ class ChannelSelector: SuperCollectionView {
         view.subviews.first?.alpha=1
         
         
+        player?.muted=true
         if (player == nil){
             player = AVPlayer()
-            player?.muted=true
         }
         if (playerLayer == nil){
             playerLayer=AVPlayerLayer(player: player)
