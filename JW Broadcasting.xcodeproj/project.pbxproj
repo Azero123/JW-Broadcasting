@@ -312,7 +312,6 @@
 			path = "JW BroadcastingTests";
 			sourceTree = "<group>";
 		};
-<<<<<<< HEAD
 		9FD098A31C0279EC002324BF /* Mature code */ = {
 			isa = PBXGroup;
 			children = (
@@ -325,8 +324,6 @@
 			name = "Mature code";
 			sourceTree = "<group>";
 		};
-=======
->>>>>>> origin/master
 		9FE9C17D1C01A80D00E189D7 /* Search */ = {
 			isa = PBXGroup;
 			children = (

@@ -132,6 +132,9 @@ func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
             }
             source=sourceURL
             var sourceData=cachedFiles[instructions[0] as! String]
+            cachedBond[instructions[0] as! String]=source
+            
+            
             if (sourceData != nil){
                 source=sourceData
                 
@@ -143,43 +146,35 @@ func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
                     print("\(sourceURL)")
                     
                     var sourceAttributedString = NSMutableAttributedString(string: NSString(data: sourceData!, encoding: NSUTF8StringEncoding) as! String)
-<<<<<<< HEAD
-                    /*
-                    TryCatch.realTry({
-=======
                     
-                    if (true){
->>>>>>> origin/master
-                        do {
+                    
+                    
+                    if (false){
+                        TryCatch.realTry({
+                            do {
+                                
+                                let attributedOptions=[NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,NSCharacterEncodingDocumentAttribute:NSUTF8StringEncoding]
+                                
+                                sourceAttributedString = try NSMutableAttributedString(data:sourceData!, options:attributedOptions as! [String : AnyObject], documentAttributes:nil)
+                                
+                                
+                                //raises  NSInternalInconsistencyException
+                            }
+                            catch {
+                                print("[ERROR] Could not remove HTML entities. \(error)")
+                            }
                             
-                            let attributedOptions=[NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,NSCharacterEncodingDocumentAttribute:NSUTF8StringEncoding]
-                            
-<<<<<<< HEAD
-                            sourceAttributedString = try NSMutableAttributedString(data:sourceData!, options:attributedOptions as! [String : AnyObject], documentAttributes:nil)
-=======
-                            sourceAttributedString=try NSMutableAttributedString(data:sourceData!, options:attributedOptions as! [String : AnyObject] ,documentAttributes:nil)
-                            print("attributes passed")
->>>>>>> origin/master
-                            
-                            //raises  NSInternalInconsistencyException
-                        }
-                        catch {
-<<<<<<< HEAD
-                            print("[ERROR] Could not remove HTML entities. \(error)")
-                        }
-                        
-                        }, withCatch: {
-                            print("[ERROR] Could not remove HTML entities.")
-                    })*/
-=======
-                            print("[ERROR] Could not remove HTML entities.")
-                        }
+                            }, withCatch: {
+                                print("[ERROR] Could not remove HTML entities.")
+                        })
                     }
->>>>>>> origin/master
+
+                    
+                    
+                    print("[ERROR] Could not remove HTML entities.")
+                    
                     
                     let sourceString=sourceAttributedString.string
-                    
-                    
                     
                     sourceData=sourceString.dataUsingEncoding(NSUTF8StringEncoding)
                     
@@ -205,18 +200,22 @@ func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
                     
                     print(error)
                 }
-                cachedBond[instructions[0] as! String]=source
+            }
+            cachedBond[instructions[0] as! String]=source
+            
+            
+            
+            
             }
             else {
                 return nil
             }
         }
-    }
-    
+
     if (source == nil){
         return nil
     }
-    
+
     instructions.removeFirst()
     if (instructions.count>0){
         return unfold(source, instructions:  instructions)
@@ -502,37 +501,25 @@ func dictionaryOfPath(path: String, usingCache: Bool) -> NSDictionary?{
         }
         
         var sourceAttributedString = NSMutableAttributedString(string: NSString(data: sourceData!, encoding: NSUTF8StringEncoding) as! String)
-        
-<<<<<<< HEAD
         TryCatch.realTry({
-=======
-        if (false){
->>>>>>> origin/master
-            do {
-                
-                let attributedOptions=[NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,NSCharacterEncodingDocumentAttribute:NSUTF8StringEncoding]
-                
-<<<<<<< HEAD
-=======
-                //sourceAttributedString=try NSMutableAttributedString(data:sourceData!, options:attributedOptions as! [String : AnyObject] ,documentAttributes:nil)
-                //print("attributes passed")
-                
->>>>>>> origin/master
-                sourceAttributedString = try NSMutableAttributedString(data:sourceData!, options:attributedOptions as! [String : AnyObject], documentAttributes:nil)
-                
-                //raises  NSInternalInconsistencyException
+            if (false){
+                do {
+                    
+                    let attributedOptions=[NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,NSCharacterEncodingDocumentAttribute:NSUTF8StringEncoding]
+                    //sourceAttributedString=try NSMutableAttributedString(data:sourceData!, options:attributedOptions as! [String : AnyObject] ,documentAttributes:nil)
+                    //print("attributes passed")
+                    sourceAttributedString = try NSMutableAttributedString(data:sourceData!, options:attributedOptions as! [String : AnyObject], documentAttributes:nil)
+                    
+                    //raises  NSInternalInconsistencyException
+                }
+                catch {
+                    print("[ERROR] Could not remove HTML entities. \(error)")
+                }
             }
-            catch {
-                print("[ERROR] Could not remove HTML entities. \(error)")
-            }
-<<<<<<< HEAD
             
             }, withCatch: {
-            print("[ERROR] Could not remove HTML entities.")
+                print("[ERROR] Could not remove HTML entities.")
         })
-=======
-        }
->>>>>>> origin/master
         
         
         let sourceString=sourceAttributedString.string

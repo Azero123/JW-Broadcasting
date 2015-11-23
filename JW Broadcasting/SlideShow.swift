@@ -282,11 +282,8 @@ class SlideShow: SuperCollectionView {
             index = totalItems-1
         }
         
-<<<<<<< HEAD
-=======
         print("index: \(index)")
         
->>>>>>> origin/master
         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
         
         let videosData=unfold("\(pathForSliderData)|settings|WebHomeSlider|slides|\(index)")!.objectForKey("item")!.objectForKey("files") as? NSArray

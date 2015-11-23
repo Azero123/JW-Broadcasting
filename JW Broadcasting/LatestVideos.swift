@@ -76,7 +76,7 @@ class LatestVideos: SuperCollectionView {
         
         let videoData=videosData![indexPath.row] as? NSDictionary
         let imageURL=unfold(videoData, instructions: ["images","lsr","md"]) as? String
-        if (imageURL != nil) {
+        if (imageURL != nil && imageURL != "") {
             
             fetchDataUsingCache(imageURL!, downloaded: {
                 
