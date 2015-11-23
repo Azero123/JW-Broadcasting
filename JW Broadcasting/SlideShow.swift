@@ -16,6 +16,12 @@ class SlideShow: SuperCollectionView {
     var SLIndex=0
     let timeToShow=10
     
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        self.performSelector("timesUp", withObject: nil, afterDelay: 2.25)
+    }
+    
     override func prepare(){
         
         (self.delegate as? HomeController)?.addActivity()
@@ -29,7 +35,6 @@ class SlideShow: SuperCollectionView {
                 print("[SlideShow] Loaded")
                 self.reloadData()
                 (self.delegate as? HomeController)?.removeActivity()
-                self.performSelector("timesUp", withObject: nil, afterDelay: 2.25)
             }
         })
     }
@@ -70,7 +75,7 @@ class SlideShow: SuperCollectionView {
         //print("reloading index \(indexPath.row) as \(index)")
         
         /*if (index>totalItems-1){
-            index=index-totalItems
+        index=index-totalItems
         }*/
         let SLSlides=unfold(pathForSliderData+"|settings|WebHomeSlider|slides") as? NSArray
         let SLSlide=SLSlides![index]
@@ -78,8 +83,8 @@ class SlideShow: SuperCollectionView {
             if (subview.isKindOfClass(UIImageView.self)){
                 let imageView=subview as! UIImageView
                 //addBranchListener(pathForSliderData, serverBonded: {
-                    //unfold("\(pathForSliderData)|settings|WebHomeSlider|slides|\(indexPath.row)")!
-                    
+                //unfold("\(pathForSliderData)|settings|WebHomeSlider|slides|\(indexPath.row)")!
+                
                 //})
                 
                 
@@ -99,7 +104,7 @@ class SlideShow: SuperCollectionView {
                         }
                         
                     })
-
+                    
                     
                 }
                 
@@ -130,7 +135,7 @@ class SlideShow: SuperCollectionView {
     }
     
     var selectedSlideShow=false
-
+    
     override func cellShouldFocus(view: UIView, indexPath: NSIndexPath, previousIndexPath: NSIndexPath?) {
         
         
@@ -149,7 +154,7 @@ class SlideShow: SuperCollectionView {
             if (index == -1){
                 index = totalItems-1
             }
-
+            
         }
         
         
@@ -164,24 +169,24 @@ class SlideShow: SuperCollectionView {
         }
         
         if (totalItems>=4){
-        let leftIndex = 0
-        let rightIndex = totalItems-1
-        
-        if ( previousIndexPath != nil){
+            let leftIndex = 0
+            let rightIndex = totalItems-1
             
-            if (indexPath.row>previousIndexPath!.row){
-                loopItemFrom(leftIndex, to: rightIndex)
-                if (indexPath.row == totalItems-1){
+            if ( previousIndexPath != nil){
+                
+                if (indexPath.row>previousIndexPath!.row){
                     loopItemFrom(leftIndex, to: rightIndex)
+                    if (indexPath.row == totalItems-1){
+                        loopItemFrom(leftIndex, to: rightIndex)
+                    }
+                }
+                else if (indexPath.row<previousIndexPath!.row){
+                    loopItemFrom(rightIndex, to: leftIndex)
                 }
             }
-            else if (indexPath.row<previousIndexPath!.row){
+            if (indexPath.row == 0){
                 loopItemFrom(rightIndex, to: leftIndex)
             }
-        }
-        if (indexPath.row == 0){
-            loopItemFrom(rightIndex, to: leftIndex)
-        }
         }
         SLIndex=indexPath.row
         for subview in (view.subviews.first!.subviews) {
@@ -201,16 +206,16 @@ class SlideShow: SuperCollectionView {
         if (indexToMove>indexToGoTo){
             indexOffset--
         }
-            //if (self.cellForItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0)) != nil){
-                cell?.hidden=true
-                self.performBatchUpdates({
-                    
-                    self.moveItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0), toIndexPath: NSIndexPath(forRow: indexToGoTo, inSection: 0))
-                    //self.reloadData()
-                    }, completion: { (finished:Bool) in
-                        cell?.hidden=false
-                })
-            //}
+        //if (self.cellForItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0)) != nil){
+        cell?.hidden=true
+        self.performBatchUpdates({
+            
+            self.moveItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0), toIndexPath: NSIndexPath(forRow: indexToGoTo, inSection: 0))
+            //self.reloadData()
+            }, completion: { (finished:Bool) in
+                cell?.hidden=false
+        })
+        //}
     }
     
     override func cellShouldLoseFocus(view:UIView, indexPath:NSIndexPath){
@@ -272,10 +277,11 @@ class SlideShow: SuperCollectionView {
             while (index < -1){
                 index = index+(totalItems)
             }
-            if (index == -1){
-                index = totalItems-1
-            }
         }
+        if (index == -1){
+            index = totalItems-1
+        }
+        
         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
         
         let videosData=unfold("\(pathForSliderData)|settings|WebHomeSlider|slides|\(index)")!.objectForKey("item")!.objectForKey("files") as? NSArray
@@ -322,11 +328,11 @@ class SlideShow: SuperCollectionView {
         return CGPoint(x: itemIndex*(cellWidth)-((self.frame.size.width)-cellWidth)/2
             , y: 0)
         
-/*
-let cellWidth=(self.collectionView?.delegate as! HomeController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*spacingPercentile
-
-let itemIndex=round((proposedContentOffset.x+((self.collectionView?.frame.size.width)!-cellWidth)/2)/cellWidth)
-return CGPoint(x: itemIndex*(cellWidth)-((self.collectionView?.frame.size.width)!-cellWidth)/2
-, y: 0)*/
+        /*
+        let cellWidth=(self.collectionView?.delegate as! HomeController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*spacingPercentile
+        
+        let itemIndex=round((proposedContentOffset.x+((self.collectionView?.frame.size.width)!-cellWidth)/2)/cellWidth)
+        return CGPoint(x: itemIndex*(cellWidth)-((self.collectionView?.frame.size.width)!-cellWidth)/2
+        , y: 0)*/
     }
 }

@@ -287,48 +287,6 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
                 })
                 print("finished preloading VOD")
             }
-            /*
-                        if (downloadedJSON?.objectForKey("category")!.objectForKey("media") != nil){//If no subcategories then just make itself the subcategory
-                            self.parentCategory=Array(arrayLiteral: downloadedJSON?.objectForKey("category")! as! NSDictionary)
-                            
-                        }
-                        else if (downloadedJSON?.objectForKey("category")!.objectForKey("subcategories") != nil){//for video on demand pretty much
-                            self.parentCategory=(downloadedJSON?.objectForKey("category")!.objectForKey("subcategories"))! as! NSArray
-                            self.subcategories=true
-                        }
-                
-                
-                
-                let retrievedVideo=parentCategory.objectAtIndex(indexPath.section).objectForKey("media")?.objectAtIndex(indexPath.row)
-                
-                let imageRatios=retrievedVideo!.objectForKey("images")!
-                
-                let priorityRatios=["pns","pss","wsr","lss","wss"]//wsr
-                
-                var imageURL:String?=""
-                
-                for ratio in imageRatios.allKeys {
-                    for priorityRatio in priorityRatios.reverse() {
-                        if (ratio as? String == priorityRatio){
-                            
-                            if (unfold(imageRatios, instructions: ["\(ratio)","lg"]) != nil){
-                                imageURL = unfold(imageRatios, instructions: ["\(ratio)","lg"]) as? String
-                            }
-                            else if (unfold(imageRatios, instructions: ["\(ratio)","md"]) != nil){
-                                imageURL = unfold(imageRatios, instructions: ["\(ratio)","md"]) as? String
-                            }
-                            else if (unfold(imageRatios, instructions: ["\(ratio)","sm"]) != nil){
-                                imageURL = unfold(imageRatios, instructions: ["\(ratio)","sm"]) as? String
-                            }
-                        }
-                    }
-                }
-                if (imageURL == ""){
-                    let sizes=unfold(imageRatios, instructions: [imageRatios.allKeys.first!]) as? NSDictionary
-                    imageURL=unfold(sizes, instructions: [sizes!.allKeys.first!]) as? String
-                }
-                
-            })*/
             let AudioURL=categoriesDirectory+"/Audio?detailed=1"
             fetchDataUsingCache(AudioURL, downloaded: {
                 print("[Audio] preloaded")

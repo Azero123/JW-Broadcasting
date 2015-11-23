@@ -135,12 +135,12 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
                         })
                         
                         
-                        /*if (textDirection == .RightToLeft){
+                        if (textDirection == .RightToLeft){
                             self.tabBarController!.selectedIndex=(self.tabBarController?.viewControllers?.count)!-1
                         }
                         else {
                             self.tabBarController!.selectedIndex=0
-                        }*/
+                        }
                     }
                 }
             })

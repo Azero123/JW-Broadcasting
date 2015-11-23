@@ -140,11 +140,30 @@ func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
                     if (testLogSteps){
                         print(sourceURL)
                     }
-                    let attributedOptions=[NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,NSCharacterEncodingDocumentAttribute:NSUTF8StringEncoding]
-                    print("attributes fine")
-                    let sourceAttributedString=try NSMutableAttributedString(data:sourceData!, options:attributedOptions as! [String : AnyObject] ,documentAttributes:nil)
+                    print("\(sourceURL)")
+                    
+                    var sourceAttributedString = NSMutableAttributedString(string: NSString(data: sourceData!, encoding: NSUTF8StringEncoding) as! String)
+                    /*
+                    TryCatch.realTry({
+                        do {
+                            
+                            let attributedOptions=[NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,NSCharacterEncodingDocumentAttribute:NSUTF8StringEncoding]
+                            
+                            sourceAttributedString = try NSMutableAttributedString(data:sourceData!, options:attributedOptions as! [String : AnyObject], documentAttributes:nil)
+                            
+                            //raises  NSInternalInconsistencyException
+                        }
+                        catch {
+                            print("[ERROR] Could not remove HTML entities. \(error)")
+                        }
+                        
+                        }, withCatch: {
+                            print("[ERROR] Could not remove HTML entities.")
+                    })*/
                     
                     let sourceString=sourceAttributedString.string
+                    
+                    
                     
                     sourceData=sourceString.dataUsingEncoding(NSUTF8StringEncoding)
                     
@@ -245,9 +264,6 @@ func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?, usingCache:B
                         fileDownloadedClosures.removeAll()
                     }
                     checkBranchesFor(fileURL)
-                    if ((downloaded) != nil){
-                        downloaded!()
-                    }
                     
                     return
                 }
@@ -283,9 +299,6 @@ func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?, usingCache:B
                         closure()
                         }
                         checkBranchesFor(fileURL)
-                    }
-                    if ((downloaded) != nil){
-                        downloaded!()
                     }
                     
                     return
@@ -467,16 +480,34 @@ func dictionaryOfPath(path: String, usingCache: Bool) -> NSDictionary?{
     
     
     do {
-        var sliderData=dataUsingCache(path, usingCache: usingCache)
-        if (sliderData == nil){
+        var sourceData=dataUsingCache(path, usingCache: usingCache)
+        if (sourceData == nil){
             return nil
         }
         
-        let sliderString=try NSMutableAttributedString(data:sliderData!,
-            options:[NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,NSCharacterEncodingDocumentAttribute:NSUTF8StringEncoding],
-            documentAttributes:nil).string
+        var sourceAttributedString = NSMutableAttributedString(string: NSString(data: sourceData!, encoding: NSUTF8StringEncoding) as! String)
         
-        sliderData=sliderString.dataUsingEncoding(NSUTF8StringEncoding)
+        TryCatch.realTry({
+            do {
+                
+                let attributedOptions=[NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,NSCharacterEncodingDocumentAttribute:NSUTF8StringEncoding]
+                
+                sourceAttributedString = try NSMutableAttributedString(data:sourceData!, options:attributedOptions as! [String : AnyObject], documentAttributes:nil)
+                
+                //raises  NSInternalInconsistencyException
+            }
+            catch {
+                print("[ERROR] Could not remove HTML entities. \(error)")
+            }
+            
+            }, withCatch: {
+            print("[ERROR] Could not remove HTML entities.")
+        })
+        
+        
+        let sourceString=sourceAttributedString.string
+        
+        sourceData=sourceString.dataUsingEncoding(NSUTF8StringEncoding)
         
         /* Just double check real quick that the class is truly available */
         
@@ -485,7 +516,7 @@ func dictionaryOfPath(path: String, usingCache: Bool) -> NSDictionary?{
             
             /*attempt serialization*/
             
-            let object=try NSJSONSerialization.JSONObjectWithData(sliderData!, options: NSJSONReadingOptions.MutableContainers)
+            let object=try NSJSONSerialization.JSONObjectWithData(sourceData!, options: NSJSONReadingOptions.MutableContainers)
             
             /*if it returned an actual NSDictionary then return it*/
             

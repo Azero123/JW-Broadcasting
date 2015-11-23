@@ -406,12 +406,12 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
         
         let cell: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("video", forIndexPath: indexPath)
         cell.alpha=1
-        cell.layoutIfNeeded()
+        cell.contentView.layoutSubviews()
         let retrievedVideo=parentCategory.objectAtIndex(indexPath.section).objectForKey("media")?.objectAtIndex(indexPath.row)
         
         let imageRatios=retrievedVideo!.objectForKey("images")!
         
-        let priorityRatios=["pns","pss","wsr","lss","wss"]//wsr
+        let priorityRatios=["pns","pss","wsr","lss","cvr","wss"]//wsr
         
         var imageURL:String?=""
         
@@ -433,7 +433,7 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
         }
         if (imageURL == ""){
             let sizes=unfold(imageRatios, instructions: [imageRatios.allKeys.first!]) as? NSDictionary
-            imageURL=unfold(sizes, instructions: [sizes!.allKeys.first!]) as? String
+            imageURL=unfold(sizes, instructions: [sizes!.allKeys.last!]) as? String
         }
         
         for subview in cell.contentView.subviews {
@@ -548,6 +548,8 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
         let retrievedVideo=parentCategory.objectAtIndex(indexPath.section).objectForKey("media")?.objectAtIndex(indexPath.row)
         
         let imageRatios=retrievedVideo!.objectForKey("images")!
+        
+        print("\(imageRatios)")
         
         //let videosData=
         let subcat=parentCategory.objectAtIndex(indexPath.section)

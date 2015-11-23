@@ -254,32 +254,9 @@ class StreamingViewController : UIViewController {
                 
                 /*case .UpArrow:
                 print("Up Arrow")*/
-            case .DownArrow:
-                streamID++
-                updateStream()
-                print("Down arrow")
-                
-                
-                let alert=UIAlertController(title: "Warning!", message: "This is a test zone feature.", preferredStyle: UIAlertControllerStyle.Alert)
-                self.presentViewController(alert, animated: true, completion: {
-                    self.dismissViewControllerAnimated(true, completion: {
-                        self.advancedMode=true
-                    
-                    })
-                    
-                })
-                
-                
-                case .LeftArrow:
-                    streamID--
-                print("Left arrow")
-                updateStream()
-                case .RightArrow:
-                    streamID++
-                print("Right arrow")
-                updateStream()
-                /*case .Menu:
-                print("Menu")*/
+            case .DownArrow: break
+            case .LeftArrow: break
+            case .RightArrow: break
             default:
                 //keepDown()
                 

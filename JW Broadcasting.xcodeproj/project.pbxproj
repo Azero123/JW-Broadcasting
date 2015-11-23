@@ -32,9 +32,13 @@
 		9F9333E31BFFB5CA00092AED /* mm3.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9F9333E21BFFB5CA00092AED /* mm3.ttf */; };
 		9F9333E71C00320100092AED /* LICENSE.md in Sources */ = {isa = PBXBuildFile; fileRef = 9F9333E61C00320100092AED /* LICENSE.md */; };
 		9FC0441C1BF66E4100AB0B4F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FC0441B1BF66E4100AB0B4F /* QuartzCore.framework */; };
+		9FD098A71C027A2A002324BF /* try.c in Sources */ = {isa = PBXBuildFile; fileRef = 9FD098A51C027A2A002324BF /* try.c */; };
+		9FD098A91C027B5A002324BF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD098A81C027B5A002324BF /* Foundation.framework */; };
+		9FD098AC1C027CE4002324BF /* TryCatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD098AB1C027CE4002324BF /* TryCatch.m */; };
 		9FD474651BFDA1CF008C55C6 /* CollectionViewAlignmentFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD474641BFDA1CF008C55C6 /* CollectionViewAlignmentFlowLayout.swift */; };
 		9FE9C17A1C019F0300E189D7 /* LaunchScreenEarth.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FE9C1791C019F0300E189D7 /* LaunchScreenEarth.png */; };
 		9FE9C17C1C019F0C00E189D7 /* TopShelf.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FE9C17B1C019F0C00E189D7 /* TopShelf.png */; };
+		9FE9C17F1C01A83000E189D7 /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE9C17E1C01A83000E189D7 /* SearchController.swift */; };
 		9FFB9DB21BB528820059E5EA /* VideoOnDemandController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFB9DB11BB528820059E5EA /* VideoOnDemandController.swift */; };
 		9FFCDCB91BF7329C00307DA8 /* LatestVideos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFCDCB81BF7329C00307DA8 /* LatestVideos.swift */; };
 		9FFD0D581BB516AA0092CF71 /* jwtv.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9F38D1BC1BB26B1F0081073A /* jwtv.ttf */; };
@@ -90,9 +94,16 @@
 		9F9333E81C00396800092AED /* DEMO NOTES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "DEMO NOTES.md"; sourceTree = SOURCE_ROOT; };
 		9F9333EB1C00515A00092AED /* JW Broadcasting.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "JW Broadcasting.entitlements"; sourceTree = "<group>"; };
 		9FC0441B1BF66E4100AB0B4F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		9FD098A41C027A2A002324BF /* JW Broadcasting-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JW Broadcasting-Bridging-Header.h"; sourceTree = "<group>"; };
+		9FD098A51C027A2A002324BF /* try.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = try.c; sourceTree = "<group>"; };
+		9FD098A61C027A2A002324BF /* try.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = try.h; sourceTree = "<group>"; };
+		9FD098A81C027B5A002324BF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		9FD098AA1C027CE4002324BF /* TryCatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TryCatch.h; sourceTree = "<group>"; };
+		9FD098AB1C027CE4002324BF /* TryCatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TryCatch.m; sourceTree = "<group>"; };
 		9FD474641BFDA1CF008C55C6 /* CollectionViewAlignmentFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewAlignmentFlowLayout.swift; sourceTree = "<group>"; };
 		9FE9C1791C019F0300E189D7 /* LaunchScreenEarth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchScreenEarth.png; sourceTree = "<group>"; };
 		9FE9C17B1C019F0C00E189D7 /* TopShelf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TopShelf.png; sourceTree = "<group>"; };
+		9FE9C17E1C01A83000E189D7 /* SearchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
 		9FFB9DB11BB528820059E5EA /* VideoOnDemandController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoOnDemandController.swift; sourceTree = "<group>"; };
 		9FFCDCB81BF7329C00307DA8 /* LatestVideos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LatestVideos.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -102,6 +113,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FD098A91C027B5A002324BF /* Foundation.framework in Frameworks */,
 				9FC0441C1BF66E4100AB0B4F /* QuartzCore.framework in Frameworks */,
 				9F79A1D61BA91DAE00B5E925 /* MediaToolbox.framework in Frameworks */,
 				9F79A1D41BA91DA900B5E925 /* CoreMedia.framework in Frameworks */,
@@ -128,6 +140,7 @@
 				9F7872C81BF9506B00EE409B /* Video On Demand */,
 				9F7872C91BF950CB00EE409B /* Audio */,
 				9F7872CA1BF950D800EE409B /* Language */,
+				9FE9C17D1C01A80D00E189D7 /* Search */,
 			);
 			name = "Tab Items";
 			sourceTree = "<group>";
@@ -251,6 +264,7 @@
 		9F79A17D1BA6A3AC00B5E925 = {
 			isa = PBXGroup;
 			children = (
+				9FD098A81C027B5A002324BF /* Foundation.framework */,
 				9FC0441B1BF66E4100AB0B4F /* QuartzCore.framework */,
 				9F79A1D51BA91DAE00B5E925 /* MediaToolbox.framework */,
 				9F79A1D31BA91DA900B5E925 /* CoreMedia.framework */,
@@ -280,6 +294,7 @@
 				9F7872DB1BF9571B00EE409B /* Tab Bar */,
 				9F7872C51BF9501F00EE409B /* Tab Items */,
 				9F7872CC1BF9513E00EE409B /* Resources */,
+				9FD098A31C0279EC002324BF /* Mature code */,
 				9F7872CF1BF9516900EE409B /* References */,
 				9F07787C1BD1A99A00476E4C /* ideas */,
 				9F3F7F5B1BF6D9AB0010A789 /* saved code */,
@@ -295,6 +310,26 @@
 				9F79A19D1BA6A3AD00B5E925 /* Info.plist */,
 			);
 			path = "JW BroadcastingTests";
+			sourceTree = "<group>";
+		};
+		9FD098A31C0279EC002324BF /* Mature code */ = {
+			isa = PBXGroup;
+			children = (
+				9FD098A51C027A2A002324BF /* try.c */,
+				9FD098A61C027A2A002324BF /* try.h */,
+				9FD098AA1C027CE4002324BF /* TryCatch.h */,
+				9FD098AB1C027CE4002324BF /* TryCatch.m */,
+				9FD098A41C027A2A002324BF /* JW Broadcasting-Bridging-Header.h */,
+			);
+			name = "Mature code";
+			sourceTree = "<group>";
+		};
+		9FE9C17D1C01A80D00E189D7 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				9FE9C17E1C01A83000E189D7 /* SearchController.swift */,
+			);
+			name = Search;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -341,6 +376,7 @@
 		9F79A17E1BA6A3AC00B5E925 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0720;
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = xquared;
 				TargetAttributes = {
@@ -416,8 +452,10 @@
 				9F79A18A1BA6A3AC00B5E925 /* AppDelegate.swift in Sources */,
 				9F5CE48D1BB644C700378D4C /* CollectionViewHorizontalFlowLayout.swift in Sources */,
 				9F27BB051BA9341500C6DAFF /* StreamingViewController.swift in Sources */,
+				9FE9C17F1C01A83000E189D7 /* SearchController.swift in Sources */,
 				9F3F7F5A1BF6D7FA0010A789 /* SlideShow.swift in Sources */,
 				9F161E9A1BED216F0011F16A /* AudioController.swift in Sources */,
+				9FD098A71C027A2A002324BF /* try.c in Sources */,
 				9F7872D21BF952DD00EE409B /* ResourceHandling.swift in Sources */,
 				9F72EF451BF738D000680302 /* ChannelSelector.swift in Sources */,
 				9F38D1B91BB23C980081073A /* RootController.swift in Sources */,
@@ -426,6 +464,7 @@
 				9F9333E71C00320100092AED /* LICENSE.md in Sources */,
 				9FD474651BFDA1CF008C55C6 /* CollectionViewAlignmentFlowLayout.swift in Sources */,
 				9FFCDCB91BF7329C00307DA8 /* LatestVideos.swift in Sources */,
+				9FD098AC1C027CE4002324BF /* TryCatch.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -545,6 +584,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "JW Broadcasting/JW Broadcasting.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
@@ -553,6 +593,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xquared.JW-Broadcasting";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "JW Broadcasting/JW Broadcasting-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -561,6 +603,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "JW Broadcasting/JW Broadcasting.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
@@ -569,6 +612,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xquared.JW-Broadcasting";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "JW Broadcasting/JW Broadcasting-Bridging-Header.h";
 			};
 			name = Release;
 		};

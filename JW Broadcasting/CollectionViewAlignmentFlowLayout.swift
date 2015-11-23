@@ -62,10 +62,14 @@ class CollectionViewAlignmentFlowLayout: UICollectionViewFlowLayout {
         for attrs in attributes {
             
             if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
-                attrs.frame=CGRect(x: (self.collectionView?.superview!.frame.size.width)!-attrs.frame.origin.x-((self.collectionView?.superview!.frame.size.width)!*0.7)+90, y: attrs.frame.origin.y, width: attrs.frame.size.width, height: attrs.frame.height)
+                attrs.frame=CGRect(
+                    x: self.collectionView!.frame.size.width-attrs.frame.origin.x-attrs.frame.size.width,
+                    y: attrs.frame.origin.y,
+                    width: attrs.frame.size.width,
+                    height: attrs.frame.height)
             }
             
-            attrs.frame=CGRect(x: (attrs.frame.origin.x), y: attrs.frame.origin.y*spacingPercentile+CGFloat(headerSpace*CGFloat(attrs.indexPath.section+1)), width: attrs.frame.size.width, height: attrs.frame.height)
+            attrs.frame=CGRect(x: (attrs.frame.origin.x), y: attrs.frame.origin.y*spacingPercentile+CGFloat(headerSpace*CGFloat(attrs.indexPath.section+1))-25, width: attrs.frame.size.width, height: attrs.frame.height)
             
             if attrs.indexPath.row == 0 {
                 sections.append(attrs.indexPath.section)

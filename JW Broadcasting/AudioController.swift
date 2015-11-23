@@ -28,7 +28,7 @@ class AudioController: CategoryController {
     override func viewDidLoad() {
         self.category="Audio"
         super.viewDidLoad()
-        (self.videoCollection.collectionViewLayout as! CollectionViewAlignmentFlowLayout).spacingPercentile=1.3
+        (self.videoCollection.collectionViewLayout as! CollectionViewAlignmentFlowLayout).spacingPercentile=1.2
         (self.videoCollection.collectionViewLayout as! CollectionViewAlignmentFlowLayout).headerSpace=100
     }
     
@@ -39,12 +39,12 @@ class AudioController: CategoryController {
     */
     
     override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        if (self.parentCategory.count == 1){
+        /*if (self.parentCategory.count == 1){
             if (self.parentCategory[0]["name"] as! String == "Dramatic Bible Readings" || self.parentCategory[0]["name"] as! String == "Dramas"){
                 return CGSizeMake(525, 525)
             }
-        }
-        return CGSizeMake(300, 300)
+        }*/
+        return CGSizeMake(350, 350)
     }
     
 }
