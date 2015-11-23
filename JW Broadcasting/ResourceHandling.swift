@@ -522,7 +522,8 @@ func dictionaryOfPath(path: String, usingCache: Bool) -> NSDictionary?{
         })
         
         
-        let sourceString=sourceAttributedString.string
+        
+        let sourceString=sourceAttributedString.string.stringByReplacingOccurrencesOfString("&amp;", withString: "&")
         
         sourceData=sourceString.dataUsingEncoding(NSUTF8StringEncoding)
         
