@@ -135,12 +135,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JW Broadcasting/ChannelSelector.swift"
-            timestampString = "469857918.529624"
+            timestampString = "470045431.703287"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
-            landmarkName = "cellAtIndex(_:)"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "sizeOfItemAtIndex(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -151,11 +151,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JW Broadcasting/CategoryController.swift"
-            timestampString = "469758831.124204"
+            timestampString = "469950678.526837"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "437"
-            endingLineNumber = "437"
+            startingLineNumber = "436"
+            endingLineNumber = "436"
             landmarkName = "collectionView(_:cellForItemAtIndexPath:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -173,6 +173,22 @@
             startingLineNumber = "43"
             endingLineNumber = "43"
             landmarkName = "collectionView(_:layout:sizeForItemAtIndexPath:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JW Broadcasting/RootController.swift"
+            timestampString = "470040081.395082"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "238"
+            endingLineNumber = "238"
+            landmarkName = "shouldUpdateFocusInContext(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

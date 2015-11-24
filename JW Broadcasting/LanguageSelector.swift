@@ -37,6 +37,11 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if (languageList == nil){
+            print("[ERROR] Language file not downloaded!")
+            return 0
+        }
+        
         return languageList!.count
     }
 
@@ -51,11 +56,6 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
             languageText.appendAttributedString(NSAttributedString(string: "", attributes: NSDictionary(object: UIFont(name: "jwtv", size: 36)!, forKey: NSFontAttributeName) as? [String : AnyObject]))
             //NSFontAttributeName
         }
-        cell.selectionStyle = .Default
-        let selectedBackgroundView=UIView()
-        //selectedBackgroundView.backgroundColor=UIColor(colorLiteralRed: 0.3, green: 0.44, blue: 0.64, alpha: 1.0)
-
-        cell.selectedBackgroundView=selectedBackgroundView
         if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
             cell.textLabel?.textAlignment=NSTextAlignment.Right
         }
@@ -96,7 +96,6 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
         let action=UIAlertAction(title: "✓", style: .Default, handler: { (action:UIAlertAction) in
         
             
-            
             disableNavBar=true
             tableView.hidden=true
             self.activityIndicator.startAnimating()
@@ -111,19 +110,6 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
                         tableView.reloadData()
                         (self.tabBarController as? rootController)!.setTabBarVisible(true, animated: true)
                         
-                        let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
-                        
-                        fetchDataUsingCache(pathForSliderData, downloaded: {
-                            print("[SlideShow] preloaded")
-                        })
-                        let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
-                        fetchDataUsingCache(streamingScheduleURL, downloaded: {
-                            print("[Channels] preloaded")
-                        })
-                        let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1"
-                        fetchDataUsingCache(latestVideosPath, downloaded: {
-                            print("[LatestVideos] preloaded")
-                        })
                         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
                         let VODURL=categoriesDirectory+"/VideoOnDemand?detailed=1"
                         fetchDataUsingCache(VODURL, downloaded: {
@@ -135,12 +121,27 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
                         })
                         
                         
-                        if (textDirection == .RightToLeft){
-                            self.tabBarController!.selectedIndex=(self.tabBarController?.viewControllers?.count)!-1
-                        }
-                        else {
-                            self.tabBarController!.selectedIndex=0
-                        }
+                        let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
+                        
+                        fetchDataUsingCache(pathForSliderData, downloaded: {
+                            let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
+                            fetchDataUsingCache(streamingScheduleURL, downloaded: {
+                                let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1"
+                                fetchDataUsingCache(latestVideosPath, downloaded: {
+                                    if (ReturnToHome){
+                                        if (textDirection == .RightToLeft){
+                                            self.tabBarController!.selectedIndex=(self.tabBarController?.viewControllers?.count)!-1
+                                        }
+                                        else {
+                                            self.tabBarController!.selectedIndex=0
+                                        }
+                                        tableView.reloadData()
+                                    }
+                                    
+                                })
+                            })
+                        })
+                        
                     }
                 }
             })

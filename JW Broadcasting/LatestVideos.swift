@@ -22,20 +22,22 @@ class LatestVideos: SuperCollectionView {
         (self.delegate as? HomeController)?.addActivity()
         let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1"
         print("[Latest] loading...")
-        addBranchListener(latestVideosPath, serverBonded: {
+        fetchDataUsingCache(latestVideosPath, downloaded: {
             dispatch_async(dispatch_get_main_queue()) {
+            if (unfold("\(latestVideosPath)|category|name") != nil){
                 self.label.text=unfold("\(latestVideosPath)|category|name")! as? String
-                if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
-                    self.label.textAlignment=NSTextAlignment.Right
-                }
-                else {
-                    self.label.textAlignment=NSTextAlignment.Left
-                }
-                print("[Latest] Loaded")
-                unfold(latestVideosPath)
-                self.reloadData()
-                (self.delegate as? HomeController)?.removeActivity()
-                /*well everything is downloaded now so lets hide the spinning wheel and start rendering the views*/
+            }
+            if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
+                self.label.textAlignment=NSTextAlignment.Right
+            }
+            else {
+                self.label.textAlignment=NSTextAlignment.Left
+            }
+            print("[Latest] Loaded")
+            //unfold(latestVideosPath)
+            self.reloadData()
+            (self.delegate as? HomeController)?.removeActivity()
+            /*well everything is downloaded now so lets hide the spinning wheel and start rendering the views*/
             }
         })
         
@@ -45,6 +47,7 @@ class LatestVideos: SuperCollectionView {
         let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1|category|media"
         let videos:AnyObject?=unfold(latestVideosPath)
         if ((videos?.isKindOfClass(NSArray.self)) == true){
+            print("[INCOMPLETION] no latest videos")
             return videos!.count
         }
         return 0

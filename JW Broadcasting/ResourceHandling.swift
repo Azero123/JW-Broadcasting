@@ -12,16 +12,11 @@ import UIKit
 
 var cachedFiles:Dictionary<String,NSData>=[:]
 var cachedBond:Dictionary<String,AnyObject?>=[:]
-
-let simulateOffline=false
-let offlineStorage=true
-let offlineStorageSaving=true
-
 var branchListeners:Dictionary<String, Array< () -> Any >>=[:]
 
-var testLogSteps=false
-
 func addBranchListener(instruction:String, serverBonded: () -> Void){
+    
+    let sourceURL=NSURL(string: (instruction.componentsSeparatedByString("|").first!) )
     if (branchListeners[instruction] == nil){
         branchListeners.updateValue([], forKey: instruction)
     }
@@ -31,7 +26,7 @@ func addBranchListener(instruction:String, serverBonded: () -> Void){
         print("[Bonding] using cache... \(instruction.componentsSeparatedByString("|").first!)")
         serverBonded()
     }
-    else {
+    else if (sourceURL != nil && sourceURL?.scheme != nil && sourceURL?.host != nil){
         fetchDataUsingCache(instruction, downloaded: nil, usingCache: true)
         
         print("[Bonding] using download... \(instruction.componentsSeparatedByString("|").first!)")
@@ -122,13 +117,20 @@ func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
         let sourceURL=NSURL(string: (instructions[0]) as! String)
         if (cachedBond[instructions[0] as! String] != nil){
             if (testLogSteps){
-                print("cachedbond...")
+                print("cachedbond... \(instructions[0] as! String) \(cachedBond[instructions[0] as! String].dynamicType)")
+                
             }
             source=cachedBond[instructions[0] as! String]!
         }
-        else if (sourceURL != nil && sourceURL?.scheme != nil && sourceURL?.host != nil){
+        if (sourceURL != nil && sourceURL?.scheme != nil && sourceURL?.host != nil && (source?.isKindOfClass(NSURL.self) == true || source == nil)){
             if (testLogSteps){
-                print("url is real")
+                print("URL is real \(sourceURL) \(instructions[0] as! String)")
+                /*print("current onhand resources:")
+                for key in cachedFiles.keys {
+                    print("\(key.dynamicType) \(key)")
+                    print("\(instructions[0] as! String)==\(key)=\(instructions[0] as! String==key)")
+                }*/
+                //print("unarchiving: \(instructions[0].dynamicType) \(cachedFiles[instructions[0] as! String])")
             }
             source=sourceURL
             var sourceData=cachedFiles[instructions[0] as! String]
@@ -136,20 +138,21 @@ func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
             
             
             if (sourceData != nil){
+                if (testLogSteps){
+                    print("data returned as it should")
+                }
                 source=sourceData
-                
                 do {
                     
                     if (testLogSteps){
                         print(sourceURL)
                     }
-                    print("\(sourceURL)")
                     
                     var sourceAttributedString = NSMutableAttributedString(string: NSString(data: sourceData!, encoding: NSUTF8StringEncoding) as! String)
                     
                     
                     
-                    if (false){
+                    if (removeEntitiesSystemLevel){
                         TryCatch.realTry({
                             do {
                                 
@@ -190,6 +193,7 @@ func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
                         
                         if (object.isKindOfClass(NSDictionary.self)){
                             source=object as? NSDictionary
+                            cachedBond[instructions[0] as! String]=source
                         }
                     }
                     
@@ -201,14 +205,8 @@ func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
                     print(error)
                 }
             }
-            cachedBond[instructions[0] as! String]=source
             
             
-            
-            
-            }
-            else {
-                return nil
             }
         }
 
@@ -248,12 +246,33 @@ func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?){
 
 func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?, usingCache:Bool){
     
+    
+    let retrievedAction={ (data:NSData?) in
+        if (data != nil){
+            if (fileDownloadedClosures[fileURL] != nil){
+                for closure in fileDownloadedClosures[fileURL]! {
+                    closure()
+                }
+                fileDownloadedClosures[fileURL]?.removeAll()
+                fileDownloadedClosures.removeValueForKey(fileURL)
+            }
+            checkBranchesFor(fileURL)
+        }
+        else {
+            print("[ERROR] data is nil")
+        }
+    }
+    
     if (fileURL != ""){
-        if (fileDownloadedClosures[fileURL] == nil ){
+        if (logConnections){
+            print("[Fetcher] \(fileURL)")
+        }
+        fileDownloadedClosures.updateValue([], forKey: fileURL)
+        if (fileDownloadedClosures[fileURL] == nil && downloaded != nil){
             fileDownloadedClosures.updateValue([], forKey: fileURL)
         }
         if (downloaded != nil){
-            fileDownloadedClosures[fileURL]?.append(downloaded!)//.insert(downloaded, atIndex: fileDownloadedClosures.count)
+            fileDownloadedClosures[fileURL]?.append(downloaded!)
         }
         
         var data:NSData? = nil
@@ -264,23 +283,21 @@ func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?, usingCache:B
         
         
         if (usingCache){
+            if (logConnections){
+                print("[Fetcher] Using cache")
+            }
             if ((cachedFiles[fileURL]) != nil){ //STEP 1
                 data=cachedFiles[fileURL]!
+                retrievedAction(data)
             }
             else if (offlineStorage){ //STEP 2
                 let stored=NSData(contentsOfFile: storedPath)
                 if (stored != nil){
+                    print("setting cache for file \(fileURL)")
                     cachedFiles[fileURL]=stored
                     data=stored
-                    if (fileDownloadedClosures[fileURL] != nil){
-                        for closure in fileDownloadedClosures[fileURL]! {
-                            closure()
-                        }
-                        fileDownloadedClosures.removeAll()
-                    }
-                    checkBranchesFor(fileURL)
                     
-                    return
+                    retrievedAction(data)
                 }
                 else {
                     print("[Fetcher] Failed to recover file \(fileURL)")
@@ -290,6 +307,9 @@ func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?, usingCache:B
         //STEP 3
         if (data == nil){
             
+            if (logConnections){
+                print("[Fetcher] Attempt request")
+            }
             var cachePolicy=NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData
             if (usingCache){
                 cachePolicy=NSURLRequestCachePolicy.ReloadRevalidatingCacheData
@@ -297,6 +317,10 @@ func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?, usingCache:B
             
             let request=NSURLRequest(URL: trueURL, cachePolicy: cachePolicy, timeoutInterval: 20)
             let task=NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: { (data:NSData?, padawan: NSURLResponse?, error:NSError?) -> Void in
+                
+                if (logConnections){
+                    print("[Fetcher] Successful request")
+                }
                 if (data != nil && simulateOffline == false){ //File successfully downloaded
                     if (offlineStorageSaving){
                         do {
@@ -308,13 +332,8 @@ func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?, usingCache:B
                         }
                     }
                     cachedFiles[fileURL]=data //Save file to memory
-                    // data=cachedFiles[fileURL!]! //Use as local variable
-                    if (fileDownloadedClosures[fileURL] != nil){
-                        for closure in fileDownloadedClosures[fileURL]! {
-                        closure()
-                        }
-                        checkBranchesFor(fileURL)
-                    }
+                    cachedBond[fileURL]=nil
+                    retrievedAction(data)
                     
                     return
                 }
@@ -323,12 +342,6 @@ func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?, usingCache:B
                 }
             })
             task.resume()
-        }
-        else {
-            
-            if (downloaded != nil){
-                downloaded!()
-            }
         }
     }
 }
@@ -343,6 +356,11 @@ func dataUsingCache(fileURL:String) -> NSData?{
 }
 
 func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
+    
+    if (logConnections){
+        print("[Fetcher-inline] \(fileURL)")
+    }
+    
     /*
     This method is used to speed up reopening the same file using caching if usingCache is true.
     
@@ -370,6 +388,9 @@ func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
     let storedPath=cacheDirectory!+"/"+trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-")
     
     if (usingCache){
+        if (logConnections){
+            print("[Fetcher-inline] attempt using cache")
+        }
         if ((cachedFiles[fileURL]) != nil){ //STEP 1
             data=cachedFiles[fileURL]!
         }
@@ -408,6 +429,10 @@ func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
         }
         else {
             do {
+                
+                if (logConnections){
+                    print("[Fetcher-inline] attempt request")
+                }
                 let downloadedData=try NSData(contentsOfURL: trueURL, options: .UncachedRead) //Download
                 if (simulateOffline == false){ //File successfully downloaded
                     if (offlineStorageSaving){
@@ -416,6 +441,7 @@ func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
                         data?.writeToFile(storedPath, atomically: true) //Save file locally for use later
                     }
                     cachedFiles[fileURL]=downloadedData //Save file to memory
+                    cachedBond[fileURL]=nil
                     data=cachedFiles[fileURL]! //Use as local variable
                     
                     let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
@@ -502,7 +528,7 @@ func dictionaryOfPath(path: String, usingCache: Bool) -> NSDictionary?{
         
         var sourceAttributedString = NSMutableAttributedString(string: NSString(data: sourceData!, encoding: NSUTF8StringEncoding) as! String)
         TryCatch.realTry({
-            if (false){
+            if (removeEntitiesSystemLevel){
                 do {
                     
                     let attributedOptions=[NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,NSCharacterEncodingDocumentAttribute:NSUTF8StringEncoding]
@@ -520,7 +546,6 @@ func dictionaryOfPath(path: String, usingCache: Bool) -> NSDictionary?{
             }, withCatch: {
                 print("[ERROR] Could not remove HTML entities.")
         })
-        
         
         
         let sourceString=sourceAttributedString.string.stringByReplacingOccurrencesOfString("&amp;", withString: "&")

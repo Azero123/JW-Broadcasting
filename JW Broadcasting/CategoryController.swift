@@ -164,7 +164,6 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
         })
         
         if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
-            print("constraints")
             let newTableConstraint =
             NSLayoutConstraint(item: tableSideConstraint.firstItem, attribute: .Right, relatedBy: tableSideConstraint.relation, toItem: tableSideConstraint.secondItem, attribute: .Right, multiplier: tableSideConstraint.multiplier, constant: -abs(tableSideConstraint.constant))
             self.view.removeConstraint(tableSideConstraint)
@@ -499,6 +498,7 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
                 
             }
             if (subview.isKindOfClass(UIActivityIndicatorView.self)){
+                (subview as! UIActivityIndicatorView).startAnimating()
                 subview.transform = CGAffineTransformMakeScale(2.0, 2.0)
             }
         }

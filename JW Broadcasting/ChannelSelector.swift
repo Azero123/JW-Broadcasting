@@ -22,7 +22,9 @@ class ChannelSelector: SuperCollectionView {
         print("[Channels] loading...")
         fetchDataUsingCache(streamingScheduleURL, downloaded: {
             dispatch_async(dispatch_get_main_queue()) {
-                self.label.text=unfold("\(streamingScheduleURL)|category|name")! as? String
+                if (unfold("\(streamingScheduleURL)|category|name") != nil){
+                    self.label.text=unfold("\(streamingScheduleURL)|category|name")! as? String
+                }
                 if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
                     self.label.textAlignment=NSTextAlignment.Right
                 }
@@ -30,8 +32,17 @@ class ChannelSelector: SuperCollectionView {
                     self.label.textAlignment=NSTextAlignment.Left
                 }
                 //unfold(streamingScheduleURL)
-                
                 self.reloadData()
+                /*
+                
+                Code experiementation for RTL.
+                
+                if (textDirection == .RightToLeft){
+                    self.scrollToItemAtIndexPath(NSIndexPath(forRow: self.totalItemsInSection(0)-1, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
+                }
+                else {
+                    //self.tabBarController!.selectedIndex=0
+                }*/
                 print("[Channels] Loaded")
                 (self.delegate as? HomeController)?.removeActivity()
             }
@@ -44,9 +55,9 @@ class ChannelSelector: SuperCollectionView {
         let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
         let channels:AnyObject?=unfold("\(streamingScheduleURL)|category|subcategories")
         if ((channels?.isKindOfClass(NSArray.self)) == true){
+            print("[INCOMPLETION] no channels")
             return channels!.count
         }
-        
         return 0
     }
     
@@ -181,34 +192,33 @@ class ChannelSelector: SuperCollectionView {
         
         let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
         fetchDataUsingCache(streamingScheduleURL, downloaded: {
+            dispatch_async(dispatch_get_main_queue()) {
             
             let streamMeta=unfold(streamingScheduleURL)//dictionaryOfPath(streamingScheduleURL, usingCache: true)
-            
-                
-                let subcategory=streamMeta?.objectForKey("category")?.objectForKey("subcategories")!.objectAtIndex(indexPath.row)
-                let playlist=subcategory!["media"] as! NSArray
-                let newVidData=playlist[0]["files"]
-                let videoURL=newVidData!![0]["progressiveDownloadURL"]
-                let timeIndex=subcategory!["position"]?!["time"]?!.floatValue
-                if (videoURL as? String != self.currentURL){
-                    self.currentURL=videoURL as? String
-                    //self.player?.replaceCurrentItemWithPlayerItem()
-                    self.playerItem=AVPlayerItem(URL: NSURL(string: videoURL as! String)!)
-                    //NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerItemDidReachEnd:", name: AVPlayerItemDidPlayToEndTimeNotification, object: self.player?.currentItem)
-                    // self.player?.currentItem?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.New, context: nil)
-                }
-                if (self.player != nil){
-                    if ((self.player?.currentTime().value)!-CMTimeMake(Int64(timeIndex!), 1).value < abs(10)){
-                        self.playerItem?.seekToTime(CMTimeMake(Int64(timeIndex!), 1))
+                if (streamMeta != nil){
+                    let subcategory=streamMeta?.objectForKey("category")?.objectForKey("subcategories")!.objectAtIndex(indexPath.row)
+                    let playlist=subcategory!["media"] as! NSArray
+                    let newVidData=playlist[0]["files"]
+                    let videoURL=newVidData!![0]["progressiveDownloadURL"]
+                    let timeIndex=subcategory!["position"]?!["time"]?!.floatValue
+                    if (videoURL as? String != self.currentURL){
+                        self.currentURL=videoURL as? String
+                        //self.player?.replaceCurrentItemWithPlayerItem()
+                        self.playerItem=AVPlayerItem(URL: NSURL(string: videoURL as! String)!)
                     }
-                    else {
-                        
+                    if (self.player != nil){
+                        if ((self.player?.currentTime().value)!-CMTimeMake(Int64(timeIndex!), 1).value < abs(10)){
+                            self.playerItem?.seekToTime(CMTimeMake(Int64(timeIndex!), 1))
+                        }
+                        else {
+                            
+                        }
                     }
+                    self.update()
                 }
-                self.update()
+            }
             
-            
-            }, usingCache: false)
+        }, usingCache: false)
     }
     
     var readyTimer:NSTimer?=nil

@@ -19,7 +19,7 @@ class SlideShow: SuperCollectionView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
-        self.performSelector("timesUp", withObject: nil, afterDelay: 2.25)
+        //self.performSelector("timesUp", withObject: nil, afterDelay: 2.25)
     }
     
     override func prepare(){
@@ -42,6 +42,7 @@ class SlideShow: SuperCollectionView {
         
         let slides=unfold(base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider|settings|WebHomeSlider|slides") as? NSArray//unfold(base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider|settings|WebHomeSlider|slides") as? NSArray
         if (slides == nil){
+            print("[SlideShow][INCOMPLETION] no slides \(unfold(base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"))")
             return 0
         }
         return slides!.count
@@ -78,6 +79,7 @@ class SlideShow: SuperCollectionView {
         index=index-totalItems
         }*/
         let SLSlides=unfold(pathForSliderData+"|settings|WebHomeSlider|slides") as? NSArray
+        if (SLSlides != nil){
         let SLSlide=SLSlides![index]
         for subview in slide.contentView.subviews {
             if (subview.isKindOfClass(UIImageView.self)){
@@ -93,6 +95,7 @@ class SlideShow: SuperCollectionView {
                     fetchDataUsingCache(imageURL!, downloaded: {
                         
                         dispatch_async(dispatch_get_main_queue()) {
+                            
                             let image=imageUsingCache(imageURL!)
                             imageView.image=image
                             imageView.userInteractionEnabled = true
@@ -119,7 +122,9 @@ class SlideShow: SuperCollectionView {
                 
             }
         }
-        
+        }
+
+
         let gradient: CAGradientLayer = CAGradientLayer()
         gradient.frame = slide.bounds
         gradient.colors = [UIColor.clearColor().CGColor, UIColor.clearColor().CGColor, UIColor.clearColor().CGColor, UIColor(red: 0, green: 0, blue: 0, alpha: 0.5).CGColor]

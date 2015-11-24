@@ -76,9 +76,17 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
         
         self.latestVideosCollectionView.alpha=0
         self.latestVideosCollectionView.label.alpha=0
-        renewContent()
         
-        
+        addBranchListener("language", serverBonded: {
+            dispatch_async(dispatch_get_main_queue()) {
+                if (self.view.hidden == false){
+                    print("[Home] update language")
+                    self.renewContent()
+                    self.previousLanguageCode=languageCode
+                }
+            }
+        })
+        checkBranchesFor("language")
         
         /*
         let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
@@ -106,7 +114,7 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
         
         
         if (activity==0){
-            print("start loading...")
+            print("[HOME] Start loading...")
         }
         
         activity++
@@ -130,7 +138,7 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
             })
             
             self.activityIndicator.stopAnimating()
-            print("finished loading")
+            print("[Home] Finished loading")
         }
     }
     
@@ -144,8 +152,8 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
         
         if (previousLanguageCode != languageCode){
             renewContent()
+            previousLanguageCode=languageCode
         }
-        previousLanguageCode=languageCode
         
         /*
         self.view.hidden=true makes sure the view is visible after hding in viewWillDisappear(...)
@@ -168,7 +176,14 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
         If the language file is downloaded then update.
         */
         
-        addActivity()
+        
+        /*
+        Calls prepare methods in SuperCollectionViews so that they can downloaded any files necissary to display content.
+        */
+        
+        self.slideShowCollectionView.prepare()
+        self.streamingCollectionView.prepare()
+        self.latestVideosCollectionView.prepare()
         
         fetchDataUsingCache(base+"/"+version+"/translations/"+languageCode, downloaded: {
             /*
@@ -194,13 +209,6 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
             }
             
             
-            /*
-            Calls prepare methods in SuperCollectionViews so that they can downloaded any files necissary to display content.
-            */
-            
-            self.slideShowCollectionView.prepare()
-            self.streamingCollectionView.prepare()
-            self.latestVideosCollectionView.prepare()
             
             
             
@@ -288,9 +296,9 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
                 print("finished preloading VOD")
             }
             let AudioURL=categoriesDirectory+"/Audio?detailed=1"
-            fetchDataUsingCache(AudioURL, downloaded: {
+            /*fetchDataUsingCache(AudioURL, downloaded: {
                 print("[Audio] preloaded")
-            })
+            })*/
 
             
             self.removeActivity()
@@ -461,32 +469,6 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
             }
         }
         return true
-    }
-    
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        if (scrollView == self.slideShowCollectionView){
-            print("did move to new item")
-            /*if (scrollView.contentOffset.x == contentOffsetWhenFullyScrolledRight) {
-                
-                // user is scrolling to the right from the last item to the 'fake' item 1.
-                // reposition offset to show the 'real' item 1 at the left-hand end of the collection view
-                
-                NSIndexPath *newIndexPath = [NSIndexPath indexPathForItem:1 inSection:0];
-                
-                [self.collectionView scrollToItemAtIndexPath:newIndexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
-                
-            } else if (scrollView.contentOffset.x == 0)  {
-                
-                // user is scrolling to the left from the first item to the fake 'item N'.
-                // reposition offset to show the 'real' item N at the right end end of the collection view
-                
-                NSIndexPath *newIndexPath = [NSIndexPath indexPathForItem:([self.dataArray count] -2) inSection:0];
-                
-                [self.collectionView scrollToItemAtIndexPath:newIndexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
-                
-            }*/
-            
-        }
     }
 }
 

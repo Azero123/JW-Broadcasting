@@ -90,6 +90,48 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if (Home==false){
+            for viewController in self.viewControllers! {
+                if (viewController.isKindOfClass(HomeController.self)){
+                    self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
+                }
+            }
+        }
+        if (VOD==false){
+            for viewController in self.viewControllers! {
+                if (viewController.isKindOfClass(VideoOnDemandController.self)){
+                    self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
+                }
+            }
+        }
+        if (Audio==false){
+            for viewController in self.viewControllers! {
+                if (viewController.isKindOfClass(AudioController.self)){
+                    self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
+                }
+            }
+        }
+        if (Language==false){
+            for viewController in self.viewControllers! {
+                if (viewController.isKindOfClass(LanguageSelector.self)){
+                    self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
+                }
+            }
+        }
+        if (Search==false){
+            for viewController in self.viewControllers! {
+                if (viewController.isKindOfClass(SearchController.self)){
+                    self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
+                }
+            }
+        }
+        if (BETAMedia==false){
+            for viewController in self.viewControllers! {
+                if (viewController.isKindOfClass(MediaOnDemandController.self)){
+                    self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
+                }
+            }
+        }
         
         if (textDirection == .RightToLeft){
             self.selectedIndex=(self.viewControllers?.count)!-1
@@ -116,6 +158,7 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         
         
         fetchDataUsingCache(base+"/"+version+"/languages/"+languageCode+"/web", downloaded: {
+            dispatch_async(dispatch_get_main_queue()) {
             let download=dictionaryOfPath(base+"/"+version+"/languages/"+languageCode+"/web")
             languageList=download?.objectForKey("languages") as? Array<NSDictionary>
             
@@ -155,6 +198,7 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                 }
                 
             }
+            }
         })
         
         
@@ -174,6 +218,7 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
     
     func displayFailedToFindLanguage(){
         let alert=UIAlertController(title: "Language Unknown", message: "Unable to find a language for you.", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Okay", style: .Default , handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
@@ -185,8 +230,14 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         }
         else {
             let alert=UIAlertController(title: "Cannot connect to JW Broadcasting", message: "Make sure you're connected to the internet then try again.", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .Default , handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
         }
+    }
+    
+    override func shouldUpdateFocusInContext(context: UIFocusUpdateContext) -> Bool {
+        keepDown()
+        return super.shouldUpdateFocusInContext(context)
     }
 
     func tapped(tap:UIGestureRecognizer){
@@ -260,7 +311,10 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
     */
     
     func setLanguage(newLanguageCode:String, newTextDirection:UIUserInterfaceLayoutDirection){
-        print("setting new language \(newLanguageCode)")
+        if (newLanguageCode != languageCode){
+            print("[Translation] Setting new language \(newLanguageCode)")
+        
+        fileDownloadedClosures.removeAll()
         languageCode=newLanguageCode
         /*
         Save settings language settings to settings.plist file in library folder.
@@ -283,9 +337,25 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         if (translatedKeyPhrases != nil){ // if the language file was obtained
             /*These keys are what I found correspond to the navigation buttons on tv.jw.org*/
             
-            var keyForButton=["lnkHomeView","homepageVODBlockTitle","homepageAudioBlockTitle","lnkLanguage"]
-            if (self.viewControllers?.count==5){
-                keyForButton=["lnkHomeView","homepageVODBlockTitle","homepageAudioBlockTitle","lnkLanguage",""]
+            var keyForButton:Array<String>=[]
+            
+            if (Home){
+                keyForButton.append("lnkHomeView")
+            }
+            if (VOD){
+                keyForButton.append("homepageVODBlockTitle")
+            }
+            if (Audio){
+                keyForButton.append("homepageAudioBlockTitle")
+            }
+            if (Language){
+                keyForButton.append("lnkLanguage")
+            }
+            if (Search){
+                keyForButton.append("Search")
+            }
+            if (Search){
+                keyForButton.append("Media On Demand")
             }
             
             let startIndex=0
@@ -294,12 +364,11 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
             /* reverse replacement order if right to left */
             
             /* replace titles */
-            
             for var i=startIndex ; i<endIndex ; i++ {
                 //var newTitle=translatedKeyPhrases?.objectForKey(keyForButton[i]) as! String
                 var keyI=i
                 if (textDirection==UIUserInterfaceLayoutDirection.RightToLeft){
-                    keyI=endIndex-1-i
+                    keyI=endIndex-1
                 }
                 switch keyI {
                 /*case 0:
@@ -317,8 +386,13 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                     let fontattributes=[NSFontAttributeName:UIFont(name: "jwtv", size: 36)!,NSForegroundColorAttributeName:UIColor.grayColor()] as Dictionary<String,AnyObject>
                     self.tabBar.items?[i].setTitleTextAttributes(fontattributes, forState: .Normal)
                 default:
-                    let newText=keyForButton[keyI]
-                    self.tabBar.items?[i].title=((translatedKeyPhrases?.objectForKey(newText))! as! String)
+                    let newText=translatedKeyPhrases?.objectForKey(keyForButton[keyI]) as? String
+                    if (newText != nil){
+                        self.tabBar.items?[i].title=newText
+                    }
+                    else {
+                        self.tabBar.items?[i].title=keyForButton[keyI]
+                    }
                     break
                 }
             }
@@ -327,8 +401,9 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         else {
             self.performSelector("displayUnableToConnect", withObject: self, afterDelay: 1.0)
         }
-        
-        
+        print("completed")
+            checkBranchesFor("language")
+        }
     }
 
     override func didReceiveMemoryWarning() {
