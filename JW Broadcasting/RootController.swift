@@ -361,8 +361,6 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
             let startIndex=0
             let endIndex=keyForButton.count
             
-            /* reverse replacement order if right to left */
-            
             /* replace titles */
             for var i=startIndex ; i<endIndex ; i++ {
                 //var newTitle=translatedKeyPhrases?.objectForKey(keyForButton[i]) as! String
@@ -393,6 +391,10 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                     else {
                         self.tabBar.items?[i].title=keyForButton[keyI]
                     }
+                    
+                    let fontattributes=[NSForegroundColorAttributeName:UIColor.grayColor()] as Dictionary<String,AnyObject>
+                    self.tabBar.items?[i].setTitleTextAttributes(fontattributes, forState: .Normal)
+                    
                     break
                 }
             }

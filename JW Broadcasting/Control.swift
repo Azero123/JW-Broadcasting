@@ -16,6 +16,8 @@ let simulateOffline=false
 let offlineStorage=true
 let offlineStorageSaving=true
 
+let requestTimeout=NSTimeInterval(20)
+
 var testLogSteps=false
 
 let removeEntitiesSystemLevel = true //Incase other critical bugs arrise from this.
@@ -42,6 +44,7 @@ let BETAMedia = false //unimplemented
 /*Settings for home page control*/
 
 let HomeFeatured = true //unimplemented
+let HomeFeaturedSlide=false
 let HomeChannels = true //unimplemented
 let HomeLastestVideos = true //unimplemented
 

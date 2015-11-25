@@ -19,7 +19,9 @@ class SlideShow: SuperCollectionView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
-        //self.performSelector("timesUp", withObject: nil, afterDelay: 2.25)
+        if (HomeFeaturedSlide){
+            self.performSelector("timesUp", withObject: nil, afterDelay: 2.25)
+        }
     }
     
     override func prepare(){
