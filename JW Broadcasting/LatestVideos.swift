@@ -34,8 +34,18 @@ class LatestVideos: SuperCollectionView {
                 self.label.textAlignment=NSTextAlignment.Left
             }
             print("[Latest] Loaded")
-            //unfold(latestVideosPath)
-            self.reloadData()
+                //unfold(latestVideosPath)
+                self.reloadData()
+                self.performBatchUpdates({
+                    
+                    }, completion: { (finished:Bool) in
+                        if (finished){
+                            if (self.cellForItemAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) != nil){
+                                self.scrollToItemAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: false)
+                            }
+                        }
+                        
+                })
             (self.delegate as? HomeController)?.removeActivity()
             /*well everything is downloaded now so lets hide the spinning wheel and start rendering the views*/
             }

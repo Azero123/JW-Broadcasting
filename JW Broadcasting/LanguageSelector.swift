@@ -113,9 +113,6 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
             self.activityIndicator.startAnimating()
             fetchDataUsingCache(base+"/"+version+"/languages/"+languageCode+"/web", downloaded: {
                 dispatch_async(dispatch_get_main_queue()) {
-                    disableNavBar=false
-                    tableView.hidden=false
-                    self.activityIndicator.stopAnimating()
                     if ((self.tabBarController?.isKindOfClass(rootController.self)) == true){
                         
                         (self.tabBarController as! rootController).setLanguage(language.objectForKey("code") as! String, newTextDirection: ( language.objectForKey("isRTL")?.boolValue == true ? UIUserInterfaceLayoutDirection.RightToLeft : UIUserInterfaceLayoutDirection.LeftToRight ))
@@ -140,6 +137,10 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
                             fetchDataUsingCache(streamingScheduleURL, downloaded: {
                                 let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1"
                                 fetchDataUsingCache(latestVideosPath, downloaded: {
+                                    dispatch_async(dispatch_get_main_queue()) {
+                                    disableNavBar=false
+                                    tableView.hidden=false
+                                    self.activityIndicator.stopAnimating()
                                     if (ReturnToHome){
                                         if (textDirection == .RightToLeft){
                                             self.tabBarController!.selectedIndex=(self.tabBarController?.viewControllers?.count)!-1
@@ -149,7 +150,7 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
                                         }
                                         tableView.reloadData()
                                     }
-                                    
+                                    }
                                 })
                             })
                         })

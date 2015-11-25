@@ -33,6 +33,17 @@ class ChannelSelector: SuperCollectionView {
                 }
                 //unfold(streamingScheduleURL)
                 self.reloadData()
+                self.performBatchUpdates({
+                    
+                    }, completion: { (finished:Bool) in
+                        if (finished){
+                            if (self.cellForItemAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) != nil){
+                                self.scrollToItemAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: false)
+                            }
+                        }
+                        
+                })
+                //self.scrollToItemAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: false)
                 /*
                 
                 Code experiementation for RTL.

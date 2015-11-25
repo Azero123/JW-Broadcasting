@@ -36,6 +36,17 @@ class SlideShow: SuperCollectionView {
             dispatch_async(dispatch_get_main_queue()) {
                 print("[SlideShow] Loaded")
                 self.reloadData()
+                self.performBatchUpdates({
+                    
+                    }, completion: { (finished:Bool) in
+                        if (finished){
+                            if (self.cellForItemAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) != nil){
+                                self.scrollToItemAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: false)
+                            }
+                        }
+                
+                })
+                
                 (self.delegate as? HomeController)?.removeActivity()
             }
         })
