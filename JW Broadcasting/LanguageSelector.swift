@@ -6,6 +6,20 @@
 //  Copyright © 2015 Austin Zelenka. All rights reserved.
 //
 
+/*
+
+We needed some way to switch languages right now all we can come up with is having a large list.
+To load in this list we will just use an actual variable defined in the AppDelegate.swift file languageList.
+languageList is an array of the downloaded information from jw.org.
+The Array is ordered alphebetically (unicode alphebetically?) and all we need is a UITableView to display all these languages.
+When selected the UITableView then brings up a prompt to confirm the switch. To make this universal we are using "x" and "✓".
+
+
+
+*/
+
+
+
 import UIKit
 
 class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -15,48 +29,46 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
         super.viewDidLoad()
         self.activityIndicator.hidesWhenStopped=true
         self.activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
-        // Do any additional setup after loading the view.
+        // Loading indicator though there should be none
     }
     
     
     override func viewWillAppear(animated: Bool) {
-        self.view.hidden=false
+        self.view.hidden=false // For some bugs I noticed in switching UIViewControllers to quickly (not our code) displaying multiple UIViewControllers simultaneously
     }
     
     override func viewDidDisappear(animated: Bool) {
-        self.view.hidden=true
+        self.view.hidden=true // For some bugs I noticed in switching UIViewControllers to quickly (not our code) displaying multiple UIViewControllers simultaneously
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        return 1 // Only one list of languages
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (languageList == nil){
             print("[ERROR] Language file not downloaded!")
-            return 0
+            return 0 // There is an issue if this ever happens but let's not break the app anyway
         }
         
-        return languageList!.count
+        return languageList!.count // How many rows do we need? the same amount as there are languages
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let language=languageList![indexPath.row]
+        let language=languageList![indexPath.row] //Get language data ready to use
         
-        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
-        //cell.textLabel?.textColor=UIColor.whiteColor()
-        let languageText=NSMutableAttributedString(string: (language.objectForKey("vernacular") as? String)!)
-        if (language.objectForKey("isSignLanguage")?.boolValue == true){
-            languageText.appendAttributedString(NSAttributedString(string: "", attributes: NSDictionary(object: UIFont(name: "jwtv", size: 36)!, forKey: NSFontAttributeName) as? [String : AnyObject]))
+        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) // Bring up a new cell for displaying the language
+        let languageText=NSMutableAttributedString(string: (language.objectForKey("vernacular") as? String)!) // Get the language in how it appears locally, so the user can understand what is going on
+        if (language.objectForKey("isSignLanguage")?.boolValue == true){ // If the language is a sign language let's show them just to be nice (:
+            languageText.appendAttributedString(NSAttributedString(string: "", attributes: NSDictionary(object: UIFont(name: "jwtv", size: 36)!, forKey: NSFontAttributeName) as? [String : AnyObject])) // Append the icon inside the font to the visible string
             //NSFontAttributeName
         }
-        if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
+        if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){ //Handle right to left language alignment
             cell.textLabel?.textAlignment=NSTextAlignment.Right
         }
         else {
@@ -65,7 +77,7 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
         }
         
         
-        cell.textLabel?.attributedText=languageText
+        cell.textLabel?.attributedText=languageText // Now we can finally set the text so the user can see
         
         return cell
     }

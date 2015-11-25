@@ -185,14 +185,10 @@ class SuperCollectionView: UICollectionView {
     }
     
     func centerPointForCellAtIndex(proposedContentOffset: CGPoint) -> CGPoint{
+
+        /* optional method for subclasses (check SlideShow.swift)*/
         
-        
-        //let cellWidth=(self.delegate as! HomeController).collectionView(self, layout: self, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*(self.collectionViewLayout as! CollectionViewHorizontalFlowLayout).spacingPercentile
-        /*let cellWidth=(self.delegate as! HomeController).collectionView(self, layout: self.collectionViewLayout, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*(self.collectionViewLayout as! CollectionViewHorizontalFlowLayout).spacingPercentile
-        
-        let itemIndex=round((proposedContentOffset.x+((self.frame.size.width)-cellWidth)/2)/cellWidth)
-        return CGPoint(x: itemIndex*(cellWidth)-((self.frame.size.width)-cellWidth)/2
-            , y: 0)*/
         return proposedContentOffset
     }
+    
 }

@@ -192,8 +192,8 @@ class ChannelSelector: SuperCollectionView {
         
         let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
         fetchDataUsingCache(streamingScheduleURL, downloaded: {
-            dispatch_async(dispatch_get_main_queue()) {
-            
+            let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+            dispatch_async(dispatch_get_global_queue(priority, 0)) {
             let streamMeta=unfold(streamingScheduleURL)//dictionaryOfPath(streamingScheduleURL, usingCache: true)
                 if (streamMeta != nil){
                     let subcategory=streamMeta?.objectForKey("category")?.objectForKey("subcategories")!.objectAtIndex(indexPath.row)
@@ -217,13 +217,14 @@ class ChannelSelector: SuperCollectionView {
                     self.update()
                 }
             }
-            
         }, usingCache: false)
     }
     
     var readyTimer:NSTimer?=nil
     
     override func cellShouldLoseFocus(view:UIView, indexPath:NSIndexPath){
+        
+        self.player?.pause()
         
         for subview in (view.subviews.first!.subviews) {
             if (subview.isKindOfClass(UILabel.self)){
@@ -239,7 +240,6 @@ class ChannelSelector: SuperCollectionView {
         }
         player?.replaceCurrentItemWithPlayerItem(nil)
         self.playerLayer?.removeFromSuperlayer()
-        self.player?.pause()
         
         UIView.animateWithDuration(0.2, animations: {
             
@@ -264,10 +264,10 @@ class ChannelSelector: SuperCollectionView {
         
         dispatch_async(dispatch_get_main_queue()) {
             self.player?.muted=true
-        if ((self.playerItem!.asset as! AVURLAsset).URL.absoluteString == self.currentURL){
+        if (self.playerItem != nil && (self.playerItem!.asset as! AVURLAsset).URL.absoluteString == self.currentURL){
             self.player?.replaceCurrentItemWithPlayerItem(self.playerItem)
         }
-        if ((self.player) != nil && self.playerItem!.status == AVPlayerItemStatus.ReadyToPlay ){
+        if ((self.player) != nil && self.playerItem != nil && self.playerItem!.status == AVPlayerItemStatus.ReadyToPlay ){
             //self.playerLayer?.superlayer?.backgroundColor
             //self.playerLayer?.backgroundColor=UIColor.grayColor().CGColor
             self.player?.play()

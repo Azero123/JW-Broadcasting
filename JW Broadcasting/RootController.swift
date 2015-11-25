@@ -234,11 +234,11 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
             self.presentViewController(alert, animated: true, completion: nil)
         }
     }
-    
+    /*
     override func shouldUpdateFocusInContext(context: UIFocusUpdateContext) -> Bool {
         keepDown()
         return super.shouldUpdateFocusInContext(context)
-    }
+    }*/
 
     func tapped(tap:UIGestureRecognizer){
         keepDown()

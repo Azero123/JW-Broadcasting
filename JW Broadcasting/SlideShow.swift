@@ -59,7 +59,6 @@ class SlideShow: SuperCollectionView {
     
     override func cellAtIndex(indexPath:NSIndexPath) -> UICollectionViewCell{
         let slide: UICollectionViewCell = self.dequeueReusableCellWithReuseIdentifier("slide", forIndexPath: indexPath)
-        
         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
         
         var index=indexPath.row
@@ -97,6 +96,7 @@ class SlideShow: SuperCollectionView {
                     fetchDataUsingCache(imageURL!, downloaded: {
                         
                         dispatch_async(dispatch_get_main_queue()) {
+                            //slide.layoutSubviews()
                             
                             let image=imageUsingCache(imageURL!)
                             imageView.image=image
@@ -145,7 +145,7 @@ class SlideShow: SuperCollectionView {
     
     override func cellShouldFocus(view: UIView, indexPath: NSIndexPath, previousIndexPath: NSIndexPath?) {
         
-        
+        SLIndex=indexPath.row
         
         var index=indexPath.row
         

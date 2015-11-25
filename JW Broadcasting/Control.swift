@@ -20,7 +20,7 @@ let requestTimeout=NSTimeInterval(20)
 
 var testLogSteps=false
 
-let removeEntitiesSystemLevel = true //Incase other critical bugs arrise from this.
+let removeEntitiesSystemLevel = false //Incase other critical bugs arrise from this.
 
 /*Logging*/
 let logConnections = false

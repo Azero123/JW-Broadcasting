@@ -437,6 +437,14 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
         
         Lastly if he LatestVideos or SlideShow collection view are focused move everything up so you can see them.
         */
+        print("ehh")
+        if (collectionView.isKindOfClass(SlideShow.self) && context.previouslyFocusedView?.superview == self.tabBarController?.tabBar){
+            
+            print("should select \((collectionView as! SlideShow).SLIndex) vs \(context.nextFocusedIndexPath!.row) \(context.previouslyFocusedView?.superview)")
+            if (context.nextFocusedIndexPath!.row != (collectionView as! SlideShow).SLIndex){
+            return false
+            }
+        }
         
         if (context.previouslyFocusedView?.superview!.isKindOfClass(SuperCollectionView.self) == true && context.previouslyFocusedIndexPath != nil){
             (context.previouslyFocusedView?.superview as! SuperCollectionView).cellShouldLoseFocus(context.previouslyFocusedView!, indexPath: context.previouslyFocusedIndexPath!)
