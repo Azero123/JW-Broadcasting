@@ -50,7 +50,7 @@ let HomeLastestVideos = true //unimplemented
 
 /*Settings for language page control*/
 
-let ReturnToHome = false //This has cause a lot of issues and is still being resolved.
+let ReturnToHome = true //This has cause a lot of issues and is still being resolved.
 
 
 
