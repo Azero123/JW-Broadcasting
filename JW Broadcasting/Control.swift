@@ -38,7 +38,7 @@ let Language = true
 
 let Search = false
 
-let BETAMedia = false //unimplemented
+let BETAMedia = false
 
 
 /*Settings for home page control*/

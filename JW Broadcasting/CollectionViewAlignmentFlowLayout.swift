@@ -26,26 +26,10 @@ class CollectionViewAlignmentFlowLayout: UICollectionViewFlowLayout {
         }
         
         
-        //layoutAttribute?.frame=CGRectMake((self.collectionView?.contentInset.left)!+((layoutAttribute?.frame.size.width)!*spacingPercentile)*CGFloat(positionIndex), ((self.collectionView?.frame.size.height)!-(layoutAttribute?.frame.size.height)!)/2, (layoutAttribute?.frame.size.width)!, (layoutAttribute?.frame.size.height)!)
-        
         return layoutAttribute
     }
-    
-    /*
-    - (UICollectionViewLayoutAttributes *)layoutAttributesForSupplementaryViewOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
-    {
-    UICollectionViewLayoutAttributes *attributes = [super layoutAttributesForSupplementaryViewOfKind:kind atIndexPath:indexPath];
-    if (!attributes && [kind isEqualToString:CSStickyHeaderParallaxHeader]) {
-    attributes = [CSStickyHeaderFlowLayoutAttributes layoutAttributesForSupplementaryViewOfKind:kind withIndexPath:indexPath];
-    }
-    return attributes;
-    }
-*/
     override func layoutAttributesForSupplementaryViewOfKind(elementKind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
-        let attributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: elementKind, withIndexPath: indexPath)//super.layoutAttributesForSupplementaryViewOfKind(elementKind, atIndexPath: indexPath)
-        /*if (attributes != nil && elementKind == UICollectionElementKindSectionHeader){
-            attributes
-        }*/
+        let attributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: elementKind, withIndexPath: indexPath)//
         attributes.frame = CGRect(x: 0, y: 0, width: (self.collectionView?.frame.size.width)!, height: 50)
         
         return attributes

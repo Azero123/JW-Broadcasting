@@ -36,12 +36,12 @@ v1 appears to be a version number
 */
 
 
-let base="http://mediator.jw.org"
-let version="v1"
-var languageCode="E"
+let base="http://mediator.jw.org" // Current content distribution domain name
+let version="v1" // Version folder?
+var languageCode="E" // Initial language is English
 
-var languageList:Array<NSDictionary>?=nil
-var textDirection=UIUserInterfaceLayoutDirection.LeftToRight
+var languageList:Array<NSDictionary>?=nil // Languages variable, if this doesn't recieve content then the app doesn't work
+var textDirection=UIUserInterfaceLayoutDirection.LeftToRight // This specifies whether the current language direction is right to left or left to right
 
 
 @UIApplicationMain

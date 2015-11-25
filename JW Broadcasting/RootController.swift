@@ -354,7 +354,7 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
             if (Search){
                 keyForButton.append("Search")
             }
-            if (Search){
+            if (BETAMedia){
                 keyForButton.append("Media On Demand")
             }
             
@@ -366,7 +366,7 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                 //var newTitle=translatedKeyPhrases?.objectForKey(keyForButton[i]) as! String
                 var keyI=i
                 if (textDirection==UIUserInterfaceLayoutDirection.RightToLeft){
-                    keyI=endIndex-1
+                    keyI=endIndex-1-i
                 }
                 switch keyI {
                 /*case 0:
@@ -383,6 +383,7 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                     
                     let fontattributes=[NSFontAttributeName:UIFont(name: "jwtv", size: 36)!,NSForegroundColorAttributeName:UIColor.grayColor()] as Dictionary<String,AnyObject>
                     self.tabBar.items?[i].setTitleTextAttributes(fontattributes, forState: .Normal)
+                    
                 default:
                     let newText=translatedKeyPhrases?.objectForKey(keyForButton[keyI]) as? String
                     if (newText != nil){

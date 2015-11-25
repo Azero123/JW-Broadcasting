@@ -79,6 +79,14 @@ class CollectionViewHorizontalFlowLayout: UICollectionViewFlowLayout {
     
     override func collectionViewContentSize() -> CGSize {
         
+        /*
+        content size calculation from Apple does not support our needs.
+        
+        This takes the space the cells ACTUALLY take up with our code ( cell width (normal size * spacingPercentile) * total items + 90 for right side padding) 
+        
+        */
+        
+        
         let cellWidth=(self.collectionView?.delegate as! HomeController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*spacingPercentile
         
         return CGSize(width: CGFloat((self.collectionView?.numberOfItemsInSection(0))!)*cellWidth+90, height: super.collectionViewContentSize().height)
