@@ -36,15 +36,15 @@ let Audio = true
 
 let Language = true
 
-let Search = false
+let Search = true
 
 let BETAMedia = false
 
 
 /*Settings for home page control*/
 
-let HomeFeatured = true //unimplemented
-let HomeFeaturedSlide=false
+let HomeFeatured = true
+let HomeFeaturedSlide=true
 let HomeChannels = true //unimplemented
 let HomeLastestVideos = true //unimplemented
 

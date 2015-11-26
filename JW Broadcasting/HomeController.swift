@@ -181,7 +181,13 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
         Calls prepare methods in SuperCollectionViews so that they can downloaded any files necissary to display content.
         */
         
-        self.slideShowCollectionView.prepare()
+        if (HomeFeatured){
+            self.slideShowCollectionView.prepare()
+        }
+        else {
+            self.slideShowTopConstraint.constant = -self.slideShowCollectionView.frame.size.height
+            self.view.layoutIfNeeded()
+        }
         self.streamingCollectionView.prepare()
         self.latestVideosCollectionView.prepare()
         
