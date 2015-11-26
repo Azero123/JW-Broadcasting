@@ -128,11 +128,21 @@ class SlideShow: SuperCollectionView {
             if (subview.isKindOfClass(UILabel.self)){
                 let titleLabel = subview as! UILabel
                 titleLabel.frame=CGRectMake(50, slide.bounds.height-75, slide.bounds.width-100, 75)
-                titleLabel.text=SLSlide.objectForKey("item")!.objectForKey("title")! as? String
+                titleLabel.text=(SLSlide.objectForKey("item")!.objectForKey("title")! as? String)! + "adsafdsadsfadfsadfsadfafadsfsdasd"
                 titleLabel.layer.shadowColor=UIColor.blackColor().CGColor
                 titleLabel.layer.shadowRadius=5
                 titleLabel.textColor=UIColor.whiteColor()
                 
+            }
+            if (subview.isKindOfClass(MarqueeLabel.self)){
+                (subview as! MarqueeLabel).type = .Continuous
+                (subview as! MarqueeLabel).textAlignment = .Center
+                (subview as! MarqueeLabel).lineBreakMode = .ByTruncatingHead
+                (subview as! MarqueeLabel).scrollDuration = ((subview as! MarqueeLabel).intrinsicContentSize().width)/50
+                (subview as! MarqueeLabel).fadeLength = 15.0
+                (subview as! MarqueeLabel).leadingBuffer = 40.0
+                (subview as! MarqueeLabel).animationDelay = 0
+                (subview as! MarqueeLabel).pauseLabel()
             }
         }
         }
@@ -211,6 +221,9 @@ class SlideShow: SuperCollectionView {
             if (subview.isKindOfClass(UILabel.self)){
                 subview.alpha=1
             }
+            if (subview.isKindOfClass(MarqueeLabel.self)){
+                (subview as! MarqueeLabel).unpauseLabel()
+            }
         }
         selectedSlideShow=true
         
@@ -244,6 +257,9 @@ class SlideShow: SuperCollectionView {
             }
             if (subview.isKindOfClass(UILabel.self)){
                 subview.alpha=0
+            }
+            if (subview.isKindOfClass(MarqueeLabel.self)){
+                (subview as! MarqueeLabel).pauseLabel()
             }
         }
         selectedSlideShow=false

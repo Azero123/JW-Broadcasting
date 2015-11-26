@@ -50,7 +50,7 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nJd-Dk-Mmp">
                                                     <rect key="frame" x="0.0" y="0.0" width="381" height="200"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RgZ-ro-IOk">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RgZ-ro-IOk" customClass="MarqueeLabel" customModule="JW_Broadcasting" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="100" width="381" height="100"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="100" id="o7i-JC-LH7"/>
@@ -118,7 +118,7 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DDr-2q-tPH">
                                                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Ca-0Y-y26" customClass="marqueeLabel" customModule="JW_Broadcasting" customModuleProvider="target">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Ca-0Y-y26" customClass="MarqueeLabel" customModule="JW_Broadcasting" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="128" width="240" height="60"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="60" id="gcP-kI-mgA"/>
@@ -185,7 +185,7 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fBX-Cn-15n">
                                                     <rect key="frame" x="0.0" y="0.0" width="560" height="280"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TtB-am-IBw" customClass="marqueeLabel" customModule="JW_Broadcasting" customModuleProvider="target">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TtB-am-IBw" customClass="MarqueeLabel" customModule="JW_Broadcasting" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="290" width="560" height="60"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="60" id="4dF-2T-E7J"/>

@@ -102,15 +102,24 @@ class LatestVideos: SuperCollectionView {
                             subview.userInteractionEnabled = true
                             (subview as! UIImageView).adjustsImageWhenAncestorFocused = true
                         }
-                        if (subview.isKindOfClass(marqueeLabel.self)){
+                        if (subview.isKindOfClass(UILabel.self)){
                             
                             
-                            let titleLabel=(subview as! marqueeLabel)
-                            //titleLabel.frame=CGRectMake(50, 150, 600, 100)
+                            let titleLabel=(subview as! UILabel)
                             titleLabel.text=(videoData!.objectForKey("title") as? String)!
                             titleLabel.layer.shadowColor=UIColor.blackColor().CGColor
                             titleLabel.layer.shadowRadius=5
                             
+                        }
+                        if (subview.isKindOfClass(MarqueeLabel.self)){
+                            (subview as! MarqueeLabel).type = .Continuous
+                            (subview as! MarqueeLabel).textAlignment = .Center
+                            (subview as! MarqueeLabel).lineBreakMode = .ByTruncatingHead
+                            (subview as! MarqueeLabel).scrollDuration = ((subview as! MarqueeLabel).intrinsicContentSize().width)/50
+                            (subview as! MarqueeLabel).fadeLength = 15.0
+                            (subview as! MarqueeLabel).leadingBuffer = 40.0
+                            (subview as! MarqueeLabel).animationDelay = 0
+                            (subview as! MarqueeLabel).pauseLabel()
                         }
                     }
                 }
@@ -146,14 +155,9 @@ class LatestVideos: SuperCollectionView {
                 (subview as! UILabel).shadowColor=UIColor.darkGrayColor()
                 subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y+5, width: subview.frame.size.width, height: subview.frame.size.height)
             }
-            /*
-            
-            This is code for marquee effect on labels. Currently this does not work.
-            
-            if (subview.isKindOfClass(marqueeLabel.self)){
-                let titleLabel=(subview as! marqueeLabel)
-                //titleLabel.unpauseLabel()
-            }*/
+            if (subview.isKindOfClass(MarqueeLabel.self)){
+                (subview as! MarqueeLabel).unpauseLabel()
+            }
         }
     }
     
@@ -165,15 +169,9 @@ class LatestVideos: SuperCollectionView {
                 (subview as! UILabel).textColor=UIColor.darkGrayColor()
                 subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y-5, width: subview.frame.size.width, height: subview.frame.size.height)
             }
-            /*
-            
-            This is code for marquee effect on labels. Currently this does not work.
-            
-            if (subview.isKindOfClass(marqueeLabel.self)){
-                let titleLabel=(subview as! marqueeLabel)
-                //titleLabel.shutdownLabel()
-                //titleLabel.pauseLabel()
-            }*/
+            if (subview.isKindOfClass(MarqueeLabel.self)){
+                (subview as! MarqueeLabel).pauseLabel()
+            }
         }
     }
     

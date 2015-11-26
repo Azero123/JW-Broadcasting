@@ -116,11 +116,17 @@ class ChannelSelector: SuperCollectionView {
                 if (subview.isKindOfClass(UILabel.self)){
                     let titleLabel=subview as! UILabel
                     titleLabel.layer.zPosition=100000
-                }
-                if (subview.isKindOfClass(marqueeLabel.self)){
-                    let titleLabel=subview as! marqueeLabel
                     titleLabel.text=channelMeta!.objectForKey("name") as? String
-                    
+                }
+                if (subview.isKindOfClass(MarqueeLabel.self)){
+                    (subview as! MarqueeLabel).type = .Continuous
+                    (subview as! MarqueeLabel).textAlignment = .Center
+                    (subview as! MarqueeLabel).lineBreakMode = .ByTruncatingHead
+                    (subview as! MarqueeLabel).scrollDuration = ((subview as! MarqueeLabel).intrinsicContentSize().width)/50
+                    (subview as! MarqueeLabel).fadeLength = 15.0
+                    (subview as! MarqueeLabel).leadingBuffer = 40.0
+                    (subview as! MarqueeLabel).animationDelay = 0
+                    (subview as! MarqueeLabel).pauseLabel()
                 }
             }
 
@@ -180,7 +186,9 @@ class ChannelSelector: SuperCollectionView {
                 self.player?.replaceCurrentItemWithPlayerItem(nil)
                 subview.layer.addSublayer(self.playerLayer!)
             }
-            
+            if (subview.isKindOfClass(MarqueeLabel.self)){
+                (subview as! MarqueeLabel).unpauseLabel()
+            }
         }
         
         UIView.animateWithDuration(0.2, animations: {
@@ -242,12 +250,9 @@ class ChannelSelector: SuperCollectionView {
                 (subview as! UILabel).textColor=UIColor.darkGrayColor()
                 subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y-5, width: subview.frame.size.width, height: subview.frame.size.height)
             }
-            /*
-            if (subview.isKindOfClass(marqueeLabel.self)){
-            let titleLabel=(subview as! marqueeLabel)
-            //titleLabel.shutdownLabel()
-            //titleLabel.pauseLabel()
-            }*/
+            if (subview.isKindOfClass(MarqueeLabel.self)){
+                (subview as! MarqueeLabel).pauseLabel()
+            }
         }
         player?.replaceCurrentItemWithPlayerItem(nil)
         self.playerLayer?.removeFromSuperlayer()
