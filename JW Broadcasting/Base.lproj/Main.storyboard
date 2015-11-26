@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder.AppleTV.Storyboard" version="3.0" toolsVersion="9060" systemVersion="15A279b" targetRuntime="AppleTV" propertyAccessControl="none" useAutolayout="YES" initialViewController="sS3-3w-g48">
+<document type="com.apple.InterfaceBuilder.AppleTV.Storyboard" version="3.0" toolsVersion="9531" systemVersion="15A279b" targetRuntime="AppleTV" propertyAccessControl="none" useAutolayout="YES" initialViewController="sS3-3w-g48">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -22,23 +22,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="LaunchScreenEarth.png" translatesAutoresizingMaskIntoConstraints="NO" id="RH6-M4-vU6">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchScreenEarth.png" translatesAutoresizingMaskIntoConstraints="NO" id="RH6-M4-vU6">
                                 <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
-                                <animations/>
                             </imageView>
-                            <visualEffectView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lrK-Mb-DdO">
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lrK-Mb-DdO">
                                 <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="RUi-64-xW3">
                                     <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <animations/>
                                 </view>
-                                <animations/>
                                 <blurEffect style="extraLight"/>
                             </visualEffectView>
-                            <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="bcI-63-HQl" customClass="SlideShow" customModule="JW_Broadcasting" customModuleProvider="target">
+                            <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="bcI-63-HQl" customClass="SlideShow" customModule="JW_Broadcasting" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="1920" height="550"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="550" id="9ov-hr-ZCW"/>
                                 </constraints>
@@ -53,11 +49,9 @@
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nJd-Dk-Mmp">
                                                     <rect key="frame" x="0.0" y="0.0" width="381" height="200"/>
-                                                    <animations/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RgZ-ro-IOk">
                                                     <rect key="frame" x="0.0" y="100" width="381" height="100"/>
-                                                    <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="100" id="o7i-JC-LH7"/>
                                                     </constraints>
@@ -66,10 +60,8 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <animations/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <animations/>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="nJd-Dk-Mmp" secondAttribute="bottom" id="DiS-Yv-Ayv"/>
                                             <constraint firstItem="nJd-Dk-Mmp" firstAttribute="leading" secondItem="Zap-qt-HvD" secondAttribute="leading" id="DsM-M7-XB9"/>
@@ -87,12 +79,11 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="hQZ-MM-nDg"/>
                                 </connections>
                             </collectionView>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="c1U-oz-E1L">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c1U-oz-E1L">
                                 <rect key="frame" x="0.0" y="530" width="1920" height="90"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Streaming" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ylw-l7-zqG">
                                         <rect key="frame" x="115" y="10" width="1690" height="58"/>
-                                        <animations/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="58" id="ied-AQ-Upg"/>
                                         </constraints>
@@ -101,7 +92,6 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <animations/>
                                 <color key="backgroundColor" red="0.65252357719999998" green="0.66733610629999995" blue="0.66081053020000002" alpha="0.27043968023255816" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="Ylw-l7-zqG" firstAttribute="leading" secondItem="c1U-oz-E1L" secondAttribute="leading" constant="115" id="7to-dB-0O4"/>
@@ -110,9 +100,8 @@
                                     <constraint firstAttribute="height" constant="90" id="sND-My-Eqd"/>
                                 </constraints>
                             </view>
-                            <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Aiz-tC-uQO" customClass="ChannelSelector" customModule="JW_Broadcasting" customModuleProvider="target">
+                            <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Aiz-tC-uQO" customClass="ChannelSelector" customModule="JW_Broadcasting" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="620" width="1920" height="350"/>
-                                <animations/>
                                 <color key="backgroundColor" red="0.65098039215686276" green="0.66666666666666663" blue="0.66274509803921566" alpha="0.25" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="350" id="0NF-sI-jSK"/>
@@ -128,11 +117,9 @@
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DDr-2q-tPH">
                                                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                                    <animations/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Ca-0Y-y26" customClass="marqueeLabel" customModule="JW_Broadcasting" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="128" width="240" height="60"/>
-                                                    <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="60" id="gcP-kI-mgA"/>
                                                     </constraints>
@@ -141,10 +128,8 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <animations/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <animations/>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="8Ca-0Y-y26" secondAttribute="bottom" constant="16" id="6hE-93-7eE"/>
                                             <constraint firstItem="8Ca-0Y-y26" firstAttribute="top" secondItem="DDr-2q-tPH" secondAttribute="bottom" id="8WM-Mw-ykw"/>
@@ -163,12 +148,11 @@
                                     <outlet property="label" destination="Ylw-l7-zqG" id="TJu-wX-7Sv"/>
                                 </connections>
                             </collectionView>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wVA-sT-yi4">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wVA-sT-yi4">
                                 <rect key="frame" x="0.0" y="970" width="1920" height="90"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Latest Videos" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zb4-44-uCv">
                                         <rect key="frame" x="115" y="10" width="1690" height="58"/>
-                                        <animations/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="58" id="OJY-GA-7cR"/>
                                         </constraints>
@@ -177,7 +161,6 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <animations/>
                                 <constraints>
                                     <constraint firstItem="Zb4-44-uCv" firstAttribute="leading" secondItem="wVA-sT-yi4" secondAttribute="leading" constant="115" id="DzB-fQ-8ub"/>
                                     <constraint firstAttribute="height" constant="90" id="FgE-YH-vUg"/>
@@ -185,9 +168,8 @@
                                     <constraint firstAttribute="trailing" secondItem="Zb4-44-uCv" secondAttribute="trailing" constant="115" id="ovt-sP-TY3"/>
                                 </constraints>
                             </view>
-                            <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" layoutMarginsFollowReadableWidth="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0FA-Mk-FN8" customClass="LatestVideos" customModule="JW_Broadcasting" customModuleProvider="target">
+                            <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0FA-Mk-FN8" customClass="LatestVideos" customModule="JW_Broadcasting" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="1085" width="1920" height="350"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="350" id="V1N-d9-yVc"/>
                                 </constraints>
@@ -202,11 +184,9 @@
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fBX-Cn-15n">
                                                     <rect key="frame" x="0.0" y="0.0" width="560" height="280"/>
-                                                    <animations/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TtB-am-IBw" customClass="marqueeLabel" customModule="JW_Broadcasting" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="290" width="560" height="60"/>
-                                                    <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="60" id="4dF-2T-E7J"/>
                                                     </constraints>
@@ -215,10 +195,8 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <animations/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <animations/>
                                         <constraints>
                                             <constraint firstItem="fBX-Cn-15n" firstAttribute="top" secondItem="8y7-72-MSc" secondAttribute="top" id="4Fk-0F-SB9"/>
                                             <constraint firstItem="fBX-Cn-15n" firstAttribute="leading" secondItem="8y7-72-MSc" secondAttribute="leading" id="5kM-zV-sdw"/>
@@ -239,7 +217,6 @@
                             </collectionView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="200" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="EdW-cC-2hD">
                                 <rect key="frame" x="860" y="440" width="200" height="200"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="8eR-9w-AWA"/>
                                     <constraint firstAttribute="height" constant="200" id="K01-Rb-Pah"/>
@@ -247,7 +224,6 @@
                                 <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" red="0.30196078430000001" green="0.43529411759999997" blue="0.64313725489999995" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="0FA-Mk-FN8" secondAttribute="trailing" id="0rH-zS-JLq"/>
@@ -306,10 +282,8 @@
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="200" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="U3j-ZR-zh4">
                                 <rect key="frame" x="860" y="440" width="200" height="200"/>
-                                <animations/>
                             </activityIndicatorView>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="U3j-ZR-zh4" firstAttribute="centerY" secondItem="6Ui-v5-MMk" secondAttribute="centerY" id="hOg-Gp-j2o"/>
@@ -339,12 +313,10 @@
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="200" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="HHD-tl-bQR">
                                 <rect key="frame" x="860" y="440" width="200" height="200"/>
-                                <animations/>
                                 <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="40" sectionFooterHeight="40" translatesAutoresizingMaskIntoConstraints="NO" id="XO0-SC-oGS">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="40" sectionFooterHeight="40" translatesAutoresizingMaskIntoConstraints="NO" id="XO0-SC-oGS">
                                 <rect key="frame" x="90" y="60" width="516" height="960"/>
-                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="category" id="fIv-5i-Rit">
@@ -353,9 +325,7 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fIv-5i-Rit" id="CRB-L6-WTa">
                                             <rect key="frame" x="0.0" y="0.0" width="500" height="66"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <animations/>
                                         </tableViewCellContentView>
-                                        <animations/>
                                         <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableViewCell>
                                 </prototypes>
@@ -364,9 +334,8 @@
                                     <outlet property="delegate" destination="dOE-pI-BIe" id="29H-dg-fhp"/>
                                 </connections>
                             </tableView>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cn4-LG-RGh">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cn4-LG-RGh">
                                 <rect key="frame" x="636" y="60" width="1194" height="990"/>
-                                <animations/>
                                 <collectionViewLayout key="collectionViewLayout" id="jKm-uz-lBV" customClass="CollectionViewAlignmentFlowLayout" customModule="JW_Broadcasting" customModuleProvider="target"/>
                                 <cells>
                                     <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="video" id="PgU-Zq-C6y">
@@ -378,11 +347,9 @@
                                             <subviews>
                                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="EW8-6i-NKt">
                                                     <rect key="frame" x="165" y="110" width="20" height="20"/>
-                                                    <animations/>
                                                 </activityIndicatorView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TCs-sf-Kug">
                                                     <rect key="frame" x="0.0" y="0.0" width="350" height="240"/>
-                                                    <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="350" id="UY7-yg-oyL"/>
                                                         <constraint firstAttribute="height" constant="240" id="Zzi-cw-ZLk"/>
@@ -390,7 +357,6 @@
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8JH-Vm-t9y">
                                                     <rect key="frame" x="0.0" y="340" width="350" height="120"/>
-                                                    <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="120" id="4az-6M-vmD"/>
                                                     </constraints>
@@ -399,10 +365,8 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <animations/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <animations/>
                                         <constraints>
                                             <constraint firstItem="8JH-Vm-t9y" firstAttribute="top" secondItem="TCs-sf-Kug" secondAttribute="bottom" constant="100" id="OxD-Bg-EXC"/>
                                             <constraint firstItem="8JH-Vm-t9y" firstAttribute="leading" secondItem="PgU-Zq-C6y" secondAttribute="leading" id="QRh-9x-Aao"/>
@@ -421,7 +385,6 @@
                                 </connections>
                             </collectionView>
                         </subviews>
-                        <animations/>
                         <constraints>
                             <constraint firstItem="HHD-tl-bQR" firstAttribute="centerY" secondItem="5qh-Q0-axF" secondAttribute="centerY" id="1nC-I2-6ah"/>
                             <constraint firstItem="xZd-08-Dpv" firstAttribute="top" secondItem="cn4-LG-RGh" secondAttribute="bottom" constant="30" id="34h-HU-AkJ"/>
@@ -462,12 +425,10 @@
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="200" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="ar1-CW-i4t">
                                 <rect key="frame" x="860" y="440" width="200" height="200"/>
-                                <animations/>
                                 <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="40" sectionFooterHeight="40" translatesAutoresizingMaskIntoConstraints="NO" id="Zkv-m2-1K3">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="40" sectionFooterHeight="40" translatesAutoresizingMaskIntoConstraints="NO" id="Zkv-m2-1K3">
                                 <rect key="frame" x="90" y="60" width="516" height="960"/>
-                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="category" id="KcG-nC-eoB">
@@ -476,9 +437,7 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KcG-nC-eoB" id="hco-9B-5UQ">
                                             <rect key="frame" x="0.0" y="0.0" width="500" height="66"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <animations/>
                                         </tableViewCellContentView>
-                                        <animations/>
                                         <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableViewCell>
                                 </prototypes>
@@ -487,9 +446,8 @@
                                     <outlet property="delegate" destination="PyG-dy-RMf" id="cln-jb-JoT"/>
                                 </connections>
                             </tableView>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ABj-KH-P78">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ABj-KH-P78">
                                 <rect key="frame" x="636" y="60" width="1194" height="990"/>
-                                <animations/>
                                 <collectionViewLayout key="collectionViewLayout" id="QrZ-tf-Did" customClass="CollectionViewAlignmentFlowLayout" customModule="JW_Broadcasting" customModuleProvider="target"/>
                                 <cells>
                                     <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="video" id="6zl-lO-I1S">
@@ -501,11 +459,9 @@
                                             <subviews>
                                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="otI-lM-znK">
                                                     <rect key="frame" x="140" y="140" width="20" height="20"/>
-                                                    <animations/>
                                                 </activityIndicatorView>
                                                 <imageView userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="R8i-gF-Gqf">
                                                     <rect key="frame" x="-30" y="0.0" width="360" height="300"/>
-                                                    <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="360" id="Gtn-af-mN9"/>
                                                         <constraint firstAttribute="height" constant="300" id="NcK-gR-MNH"/>
@@ -513,7 +469,6 @@
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oqo-E3-83b">
                                                     <rect key="frame" x="0.0" y="350" width="300" height="60"/>
-                                                    <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="60" id="PZ0-yH-Tld"/>
                                                     </constraints>
@@ -522,10 +477,8 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <animations/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <animations/>
                                         <constraints>
                                             <constraint firstItem="otI-lM-znK" firstAttribute="centerY" secondItem="6zl-lO-I1S" secondAttribute="centerY" id="CkI-8d-cZp"/>
                                             <constraint firstItem="R8i-gF-Gqf" firstAttribute="top" secondItem="6zl-lO-I1S" secondAttribute="top" id="J5Y-dL-Ikj"/>
@@ -544,7 +497,6 @@
                                 </connections>
                             </collectionView>
                         </subviews>
-                        <animations/>
                         <constraints>
                             <constraint firstItem="ar1-CW-i4t" firstAttribute="centerY" secondItem="j8O-ht-tGm" secondAttribute="centerY" id="0Di-fy-3AO"/>
                             <constraint firstItem="ABj-KH-P78" firstAttribute="top" secondItem="ukR-42-zzP" secondAttribute="bottom" constant="60" id="H7H-tX-S1P"/>
@@ -583,12 +535,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TEm-aI-VPe">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TEm-aI-VPe">
                                 <rect key="frame" x="0.0" y="0.0" width="960" height="1080"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rHE-Nq-J19">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rHE-Nq-J19">
                                         <rect key="frame" x="230" y="290" width="500" height="500"/>
-                                        <animations/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="500" id="bZE-Pg-eKb"/>
                                             <constraint firstAttribute="height" constant="500" id="faP-dY-sux"/>
@@ -598,19 +549,17 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="rHE-Nq-J19" firstAttribute="centerY" secondItem="TEm-aI-VPe" secondAttribute="centerY" id="I67-Gl-DtX"/>
                                     <constraint firstItem="rHE-Nq-J19" firstAttribute="centerX" secondItem="TEm-aI-VPe" secondAttribute="centerX" id="V0U-cs-nOY"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fjs-Yn-hqD">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fjs-Yn-hqD">
                                 <rect key="frame" x="960" y="0.0" width="960" height="1080"/>
                                 <subviews>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="40" sectionFooterHeight="40" translatesAutoresizingMaskIntoConstraints="NO" id="jgH-Gr-vQl">
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="40" sectionFooterHeight="40" translatesAutoresizingMaskIntoConstraints="NO" id="jgH-Gr-vQl">
                                         <rect key="frame" x="192" y="162" width="576" height="756"/>
-                                        <animations/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="sectionIndexColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <prototypes>
@@ -620,9 +569,7 @@
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qc5-CV-pSh" id="eXl-91-Izh">
                                                     <rect key="frame" x="0.0" y="0.0" width="560" height="66"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <animations/>
                                                 </tableViewCellContentView>
-                                                <animations/>
                                             </tableViewCell>
                                         </prototypes>
                                         <connections>
@@ -630,12 +577,10 @@
                                             <outlet property="delegate" destination="uAE-Hn-cy1" id="Om1-Rf-HZg"/>
                                         </connections>
                                     </tableView>
-                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="dyS-gb-iCM">
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="dyS-gb-iCM">
                                         <rect key="frame" x="470" y="530" width="20" height="20"/>
-                                        <animations/>
                                     </activityIndicatorView>
                                 </subviews>
-                                <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="jgH-Gr-vQl" firstAttribute="height" secondItem="fjs-Yn-hqD" secondAttribute="height" multiplier="0.7" id="1c1-sa-ANU"/>
@@ -647,7 +592,6 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <animations/>
                         <constraints>
                             <constraint firstItem="fjs-Yn-hqD" firstAttribute="top" secondItem="z9r-7S-wJM" secondAttribute="bottom" id="1vy-6b-ANn"/>
                             <constraint firstItem="JSM-6Y-woD" firstAttribute="top" secondItem="fjs-Yn-hqD" secondAttribute="bottom" id="Axl-gt-rgf"/>
@@ -680,9 +624,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bNz-Uq-bXY">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bNz-Uq-bXY">
                                 <rect key="frame" x="0.0" y="100" width="1920" height="128"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="128" id="50s-zz-sJn"/>
                                 </constraints>
@@ -690,9 +633,8 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="3bk-O2-X9l">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="3bk-O2-X9l">
                                 <rect key="frame" x="0.0" y="250" width="1920" height="128"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="128" id="JLz-eL-Qso"/>
                                 </constraints>
@@ -712,15 +654,12 @@
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t3S-zq-R9O">
                                                     <rect key="frame" x="0.0" y="0.0" width="75" height="100"/>
-                                                    <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <animations/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <animations/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="t3S-zq-R9O" firstAttribute="top" secondItem="RM0-7g-czs" secondAttribute="top" id="9u4-Eh-PqE"/>
@@ -735,16 +674,14 @@
                                     <outlet property="delegate" destination="9Xv-my-4S3" id="URT-YM-SXO"/>
                                 </connections>
                             </collectionView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="40" sectionFooterHeight="40" translatesAutoresizingMaskIntoConstraints="NO" id="IRe-Sc-QIK">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="40" sectionFooterHeight="40" translatesAutoresizingMaskIntoConstraints="NO" id="IRe-Sc-QIK">
                                 <rect key="frame" x="560" y="378" width="800" height="702"/>
-                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="800" id="wq6-is-zoL"/>
                                 </constraints>
                             </tableView>
                         </subviews>
-                        <animations/>
                         <constraints>
                             <constraint firstItem="3bk-O2-X9l" firstAttribute="leading" secondItem="1LW-99-fzC" secondAttribute="leading" id="dO1-Zp-7c3"/>
                             <constraint firstItem="bNz-Uq-bXY" firstAttribute="top" secondItem="dm0-Fo-Ah5" secondAttribute="bottom" constant="100" id="dp8-dC-nJR"/>
@@ -777,7 +714,6 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="AKW-6K-ITa">
                                 <rect key="frame" x="0.0" y="0.0" width="1960" height="1080"/>
-                                <animations/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="rOx-IU-xPP">
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -786,15 +722,13 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" id="LTG-9E-Qey">
-                                        <rect key="frame" x="0.0" y="140" width="50" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <animations/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <animations/>
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
@@ -803,7 +737,6 @@
                                 </connections>
                             </collectionView>
                         </subviews>
-                        <animations/>
                         <constraints>
                             <constraint firstItem="AKW-6K-ITa" firstAttribute="leading" secondItem="wWC-cJ-vh5" secondAttribute="leading" id="8fw-Dy-hg2"/>
                             <constraint firstItem="g3X-HJ-r6M" firstAttribute="top" secondItem="AKW-6K-ITa" secondAttribute="bottom" id="MTe-st-sXA"/>
@@ -831,7 +764,6 @@
                     <view key="view" contentMode="scaleToFill" id="iVy-kQ-FCo">
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <animations/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jAQ-i3-D5O" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -847,7 +779,6 @@
                     <tabBar key="tabBar" contentMode="scaleToFill" id="aXR-M3-p8c">
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="120"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
                     </tabBar>

@@ -90,6 +90,11 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let logoImageView=UIImageView(image: UIImage(named: "JW-White-Background-Blue.png"))
+        logoImageView.frame=CGRect(x: 90, y: 50, width: 50, height: 50)
+        self.tabBar.addSubview(logoImageView)
+        
+        
         if (Home==false){
             for viewController in self.viewControllers! {
                 if (viewController.isKindOfClass(HomeController.self)){

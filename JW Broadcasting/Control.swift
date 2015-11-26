@@ -22,6 +22,8 @@ var testLogSteps=false
 
 let removeEntitiesSystemLevel = true //Incase other critical bugs arrise from this.
 
+let JWLogo = true
+
 /*Logging*/
 let logConnections = false
 let logFolding = testLogSteps
@@ -36,7 +38,7 @@ let Audio = true
 
 let Language = true
 
-let Search = true
+let Search = false
 
 let BETAMedia = false
 
@@ -51,8 +53,6 @@ let HomeLastestVideos = true //unimplemented
 /*Settings for language page control*/
 
 let ReturnToHome = true //This has cause a lot of issues and is still being resolved.
-
-
 
 
 
