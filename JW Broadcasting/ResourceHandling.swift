@@ -483,6 +483,7 @@ func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
                     
                     
                     if (removeEntitiesSystemLevel){ // Control level toggle incase this appears to keep breaking
+                        if (sourceAttributedString.string.containsString("&")){
                         TryCatch.realTry({ // The contained code can fail and swift can't catch it so we need an Objective-C try/catch implementation ontop of our swift try/catch
                             do {
                                 
@@ -500,6 +501,7 @@ func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
                             }, withCatch: { // System level HTML entity removal failed
                                 print("[ERROR] Could not remove HTML entities.")
                         })
+                        }
                     }
                     
                     
