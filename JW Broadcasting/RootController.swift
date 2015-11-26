@@ -84,15 +84,19 @@ func languageFromCode(code:String) -> NSDictionary?{
 }
 
 var translatedKeyPhrases:NSDictionary?
+let logoImageView=UIImageView(image: UIImage(named: "JW-White-Background-Blue.png"))
 
 class rootController: UITabBarController, UITabBarControllerDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let logoImageView=UIImageView(image: UIImage(named: "JW-White-Background-Blue.png"))
-        logoImageView.frame=CGRect(x: 90, y: 50, width: 50, height: 50)
-        self.tabBar.addSubview(logoImageView)
+        if (JWLogo){
+        
+            logoImageView.frame=CGRect(x: 90, y: 50, width: 50, height: 50)
+            self.tabBar.addSubview(logoImageView)
+        
+        }
         
         
         if (Home==false){
@@ -335,6 +339,14 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         if (newTextDirection != textDirection){
             textDirection=newTextDirection
             self.setViewControllers(self.viewControllers?.reverse(), animated: true)
+            if (JWLogo){
+                if (textDirection == .RightToLeft){
+                    logoImageView.frame=CGRect(x: self.tabBar.frame.size.width-90-50, y: 50, width: 50, height: 50)
+                }
+                else {
+                    logoImageView.frame=CGRect(x: 90, y: 50, width: 50, height: 50)
+                }
+            }
         }
         
         /* download new translation */
