@@ -128,7 +128,7 @@ class SlideShow: SuperCollectionView {
             if (subview.isKindOfClass(UILabel.self)){
                 let titleLabel = subview as! UILabel
                 titleLabel.frame=CGRectMake(50, slide.bounds.height-75, slide.bounds.width-100, 75)
-                titleLabel.text=(SLSlide.objectForKey("item")!.objectForKey("title")! as? String)! + "adsafdsadsfadfsadfsadfafadsfsdasd"
+                titleLabel.text=(SLSlide.objectForKey("item")!.objectForKey("title")! as? String)!
                 titleLabel.layer.shadowColor=UIColor.blackColor().CGColor
                 titleLabel.layer.shadowRadius=5
                 titleLabel.textColor=UIColor.whiteColor()

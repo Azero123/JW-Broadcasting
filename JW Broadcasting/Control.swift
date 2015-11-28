@@ -11,7 +11,7 @@ import Foundation
 /*Settings for overall control*/
 
 let preloading = false //unimplemented
-let aggressivePreload = false //unimplemented
+let aggressivePreload = false
 let simulateOffline=false
 let offlineStorage=true
 let offlineStorageSaving=true
@@ -23,6 +23,8 @@ var testLogSteps=false
 let removeEntitiesSystemLevel = true //Incase other critical bugs arrise from this.
 
 let JWLogo = true
+
+let useLibraryDirectoryInSimulator=true
 
 /*Logging*/
 let logConnections = false

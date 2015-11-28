@@ -219,7 +219,6 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
             
             
             
-            let aggressiveCaching=false
             
             let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
         
@@ -230,81 +229,84 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
                 fetchDataUsingCache(VODURL, downloaded: {
                     print("[PREDOWNLOAD] Video On Demand")
                     
-                    if (aggressiveCaching){
+                    if (aggressivePreload){
                     let videoOnDemandData=dictionaryOfPath(VODURL, usingCache: false)
-                    
-                    for (var index=0; index<(videoOnDemandData!["category"]!["subcategories"]! as! NSArray).count ; index++){
-                        
-                        let subcat=(((videoOnDemandData!["category"] as! NSDictionary)["subcategories"] as! NSArray)[index] as! NSDictionary)
-                        let subcategoryDirectory=categoriesDirectory+"/"+(subcat["key"] as! String)+"?detailed=1"
-                        
-                        
-                        fetchDataUsingCache(subcategoryDirectory, downloaded: {
-                            
-                            var subsubcats:Array<NSDictionary>=[]
-                            print("[PREDOWNLOAD] \(subcat["key"])")
-                            //let subcategoryData:Array<NSDictionary>=[]
-                            
-                            let downloadedJSON=dictionaryOfPath(subcategoryDirectory, usingCache: false)
-                            if (downloadedJSON?["category"]!["media"] != nil){
-                                subsubcats.append(downloadedJSON!["category"] as! NSDictionary)
-                            }
-                            else if (downloadedJSON!["category"]!["subcategories"] != nil){
-                                subsubcats=downloadedJSON!["category"]!["subcategories"] as! Array<NSDictionary>
-                            }
-                            print("[COMPILED] \(subcat["key"]) \(subcategoryDirectory)")
-                            
-                            let priorityRatios=["pns","pss","wsr","lss","wss"]
-                            for (var index=0; index<(subsubcats).count ; index++){
+                        if (videoOnDemandData != nil){
+                            for (var index=0; index<(videoOnDemandData!["category"]!["subcategories"]! as! NSArray).count ; index++){
+                                
+                                let subcat=(((videoOnDemandData!["category"] as! NSDictionary)["subcategories"] as! NSArray)[index] as! NSDictionary)
+                                let subcategoryDirectory=categoriesDirectory+"/"+(subcat["key"] as! String)+"?detailed=1"
                                 
                                 
-                                for (var indexB=0; indexB<(subsubcats[index]["subcategories"] as! NSArray).count ; indexB++){
-                                    for (var indexC=0; indexC<(subsubcats[index]["subcategories"]![indexB]["media"] as! NSArray).count ; indexC++){
-                                        //print("subsub: \(index) \(indexB) \(indexC) = \(subsubcats[index]["subcategories"]![indexB]["media"])")
-                                        let imageRatios=(subsubcats[index]["subcategories"]![indexB]["media"] as! NSArray)[indexC]["images"]
+                                fetchDataUsingCache(subcategoryDirectory, downloaded: {
+                                    
+                                    var subsubcats:Array<NSDictionary>=[]
+                                    print("[PREDOWNLOAD] \(subcat["key"])")
+                                    //let subcategoryData:Array<NSDictionary>=[]
+                                    
+                                    let downloadedJSON=dictionaryOfPath(subcategoryDirectory, usingCache: false)
+                                    if (downloadedJSON?["category"]!["media"] != nil){
+                                        subsubcats.append(downloadedJSON!["category"] as! NSDictionary)
+                                    }
+                                    else if (downloadedJSON!["category"]!["subcategories"] != nil){
+                                        subsubcats=downloadedJSON!["category"]!["subcategories"] as! Array<NSDictionary>
+                                    }
+                                    print("[COMPILED] \(subcat["key"]) \(subcategoryDirectory)")
+                                    
+                                    let priorityRatios=["pns","pss","wsr","lss","wss"]
+                                    for (var index=0; index<(subsubcats).count ; index++){
                                         
-                                        var imageURL:String?=""
                                         
-                                        for ratio in imageRatios!!.allKeys {
-                                            for priorityRatio in priorityRatios.reverse() {
-                                                if (ratio as? String == priorityRatio){
-                                                    
-                                                    if (unfold(imageRatios, instructions: ["\(ratio)","lg"]) != nil){
-                                                        imageURL = unfold(imageRatios, instructions: ["\(ratio)","lg"]) as? String
-                                                    }
-                                                    else if (unfold(imageRatios, instructions: ["\(ratio)","md"]) != nil){
-                                                        imageURL = unfold(imageRatios, instructions: ["\(ratio)","md"]) as? String
-                                                    }
-                                                    else if (unfold(imageRatios, instructions: ["\(ratio)","sm"]) != nil){
-                                                        imageURL = unfold(imageRatios, instructions: ["\(ratio)","sm"]) as? String
+                                        for (var indexB=0; indexB<(subsubcats[index]["subcategories"] as! NSArray).count ; indexB++){
+                                            for (var indexC=0; indexC<(subsubcats[index]["subcategories"]![indexB]["media"] as! NSArray).count ; indexC++){
+                                                //print("subsub: \(index) \(indexB) \(indexC) = \(subsubcats[index]["subcategories"]![indexB]["media"])")
+                                                let imageRatios=(subsubcats[index]["subcategories"]![indexB]["media"] as! NSArray)[indexC]["images"]
+                                                
+                                                var imageURL:String?=""
+                                                
+                                                for ratio in imageRatios!!.allKeys {
+                                                    for priorityRatio in priorityRatios.reverse() {
+                                                        if (ratio as? String == priorityRatio){
+                                                            
+                                                            if (unfold(imageRatios, instructions: ["\(ratio)","lg"]) != nil){
+                                                                imageURL = unfold(imageRatios, instructions: ["\(ratio)","lg"]) as? String
+                                                            }
+                                                            else if (unfold(imageRatios, instructions: ["\(ratio)","md"]) != nil){
+                                                                imageURL = unfold(imageRatios, instructions: ["\(ratio)","md"]) as? String
+                                                            }
+                                                            else if (unfold(imageRatios, instructions: ["\(ratio)","sm"]) != nil){
+                                                                imageURL = unfold(imageRatios, instructions: ["\(ratio)","sm"]) as? String
+                                                            }
+                                                        }
                                                     }
                                                 }
+                                                if (imageURL == ""){
+                                                    let sizes=unfold(imageRatios, instructions: [imageRatios!!.allKeys.first!]) as? NSDictionary
+                                                    imageURL=unfold(sizes, instructions: [sizes!.allKeys.first!]) as? String
+                                                }
+                                                
+                                                
+                                                //print("[PREDOWNLOAD] \(imageURL)")
+                                                imageUsingCache(imageURL!)
+                                                
                                             }
                                         }
-                                        if (imageURL == ""){
-                                            let sizes=unfold(imageRatios, instructions: [imageRatios!!.allKeys.first!]) as? NSDictionary
-                                            imageURL=unfold(sizes, instructions: [sizes!.allKeys.first!]) as? String
-                                        }
-                                        
-                                        
-                                        //print("[PREDOWNLOAD] \(imageURL)")
-                                        imageUsingCache(imageURL!)
-                                        
                                     }
-                                }
+                                    
+                                })
                             }
-                            
-                        })
+                        }
+                    
                     }
-                    }
+                    print("[VOD] preload")
                     
                 })
-                print("finished preloading VOD")
-            }
-            let AudioURL=categoriesDirectory+"/Audio?detailed=1"
-            /*fetchDataUsingCache(AudioURL, downloaded: {
+                let AudioURL=categoriesDirectory+"/Audio?detailed=1"
+                fetchDataUsingCache(AudioURL, downloaded: {
                 print("[Audio] preloaded")
-            })*/
+                })
+            }
+            
 
             
             self.removeActivity()

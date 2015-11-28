@@ -208,7 +208,6 @@ func refreshFileIfNeeded(trueURL:NSURL){
     
     */
     
-    let cacheDirectory=NSSearchPathForDirectoriesInDomains(.CachesDirectory , .UserDomainMask, true).first // folder that we have read/write privileges
     let storedPath=cacheDirectory!+"/"+trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-") // the desired stored file path
     
     if (NSFileManager.defaultManager().fileExistsAtPath(storedPath) == false){ // there is no file here
@@ -219,7 +218,7 @@ func refreshFileIfNeeded(trueURL:NSURL){
         modificationDateRequest.HTTPMethod="HEAD" // make a request for only the header information to get the modification date
         let task=NSURLSession.sharedSession().dataTaskWithRequest(modificationDateRequest, completionHandler: { (data:NSData?, response: NSURLResponse?, error:NSError?) -> Void in
             // return response closure
-            if ((response as! NSHTTPURLResponse).allHeaderFields["Last-Modified"] != nil){ // YES! we have a modification date!
+            if (response != nil && (response as! NSHTTPURLResponse).allHeaderFields["Last-Modified"] != nil){ // YES! we have a modification date!
                 do {
                     let offlineDate=try NSFileManager.defaultManager().attributesOfItemAtPath(storedPath)[NSFileModificationDate] as! NSDate
                     //The date that we got the file last, let's hope that we don't have any issues here
@@ -320,7 +319,6 @@ func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?, usingCache:B
         var data:NSData? = nil // data of file
         
         let trueURL=NSURL(string: fileURL)! // NSURL version of url
-        let cacheDirectory=NSSearchPathForDirectoriesInDomains(.CachesDirectory , .UserDomainMask, true).first // cache directory which is the only thing we really have read and write permissions too
         let storedPath=cacheDirectory!+"/"+trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-") // make this a writable file path
         
         
@@ -581,7 +579,7 @@ func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
     
     STEP 2
     
-    Check if file has been stored in library directory. If so save it to active memory and return data.
+    Check if file has been stored in cached (Library in simulator) directory. If so save it to active memory and return data.
     
     STEP 3
     
@@ -595,7 +593,6 @@ func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
     var data:NSData? = nil
     
     let trueURL=NSURL(string: fileURL)!
-    let cacheDirectory=NSSearchPathForDirectoriesInDomains(.CachesDirectory , .UserDomainMask, true).first
     let storedPath=cacheDirectory!+"/"+trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-")
     
     if (usingCache){

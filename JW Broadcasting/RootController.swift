@@ -85,6 +85,7 @@ func languageFromCode(code:String) -> NSDictionary?{
 
 var translatedKeyPhrases:NSDictionary?
 let logoImageView=UIImageView(image: UIImage(named: "JW-White-Background-Blue.png"))
+let logoLabelView=UILabel()
 
 class rootController: UITabBarController, UITabBarControllerDelegate{
     
@@ -92,9 +93,12 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         super.viewDidLoad()
         
         if (JWLogo){
-        
-            logoImageView.frame=CGRect(x: 90, y: 50, width: 50, height: 50)
-            self.tabBar.addSubview(logoImageView)
+            
+            logoLabelView.frame=CGRect(x: 90, y: 10, width: self.tabBar.frame.size.height+60, height: self.tabBar.frame.size.height+60)
+            logoLabelView.text=""
+            logoLabelView.font=UIFont(name: "jwtv", size: self.tabBar.frame.size.height+60)
+            self.tabBar.addSubview(logoLabelView)
+            //self.tabBar.addSubview(logoImageView)
         
         }
         
@@ -341,10 +345,10 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
             self.setViewControllers(self.viewControllers?.reverse(), animated: true)
             if (JWLogo){
                 if (textDirection == .RightToLeft){
-                    logoImageView.frame=CGRect(x: self.tabBar.frame.size.width-90-50, y: 50, width: 50, height: 50)
+                    logoLabelView.frame=CGRect(x: self.tabBar.frame.size.width-90-50, y: 50, width: 50, height: 50)
                 }
                 else {
-                    logoImageView.frame=CGRect(x: 90, y: 50, width: 50, height: 50)
+                    logoLabelView.frame=CGRect(x: 90, y: 50, width: 50, height: 50)
                 }
             }
         }
