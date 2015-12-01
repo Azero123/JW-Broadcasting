@@ -61,22 +61,27 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.grayColor()], forState:.Normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState:.Selected)
         
+        /* Activity variables */
+        
         /*
+        We don't need to see the activity indicator when it is not active.
         Expand activity indicator to make it TV sized and set other variables.
         */
         
         activityIndicator.hidesWhenStopped=true
         activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
         
+        /*Hide all of the previews until they are done loading*/
+        
         self.slideShowCollectionView.alpha=0
         
         self.streamingCollectionView.alpha=0
-        
         self.streamingCollectionView.label.superview!.alpha=0
         
         self.latestVideosCollectionView.alpha=0
         self.latestVideosCollectionView.label.alpha=0
         
+        /*Listens for language changes and updates*/
         addBranchListener("language", serverBonded: {
             dispatch_async(dispatch_get_main_queue()) {
                 if (self.view.hidden == false){
@@ -86,6 +91,7 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
                 }
             }
         })
+        /*Call initial update because local variables and files are not yet implmented*/
         checkBranchesFor("language")
         
     }
@@ -93,6 +99,10 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
     var activity=0
     
     func addActivity(){
+        
+        /*When the page is loading we want interaction to be disabled and to show that cleanly*/
+        
+        /*Hide all of the previews until they are done loading*/
         
         UIView.animateWithDuration(0.5, animations: {
             self.slideShowCollectionView.alpha=0
@@ -102,10 +112,13 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
             self.latestVideosCollectionView.label.alpha=0
         })
         
+        /*Let logs know we are loading*/
         
         if (activity==0){
             print("[HOME] Start loading...")
         }
+        
+        /*Show the spinning wheel and add a tick to the counter*/
         
         activity++
         self.activityIndicator.startAnimating()
@@ -113,11 +126,18 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
     
     func removeActivity(){
         
+        /*
+        Remove an activity tick and if we reach 0 then allow the user to interact.
+        
+        
+        */
+        
         activity--
         
         
         if (activity==0 || true){
             
+            /*Bring back the previews*/
             
             UIView.animateWithDuration(0.5, animations: {
                 self.slideShowCollectionView.alpha=1
@@ -126,6 +146,8 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
                 self.latestVideosCollectionView.alpha=1
                 self.latestVideosCollectionView.label.alpha=1
             })
+            
+            /*Turn off the spinning wheel*/
             
             self.activityIndicator.stopAnimating()
             print("[Home] Finished loading")
@@ -207,7 +229,10 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
             
             
             
-            
+            /*
+            code for caching every file in VOD
+            This is togglable in control.swift
+            */
             
             
             let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT

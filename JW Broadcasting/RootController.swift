@@ -92,76 +92,82 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        /*
+        Create a JW.org logo on the left side of the tab bar.
+        */
+        
         if (JWLogo){
             
-            logoLabelView.font=UIFont(name: "jwtv", size: self.tabBar.frame.size.height+60)
-            logoLabelView.frame=CGRect(x: 110, y: 10, width: self.tabBar.frame.size.height+60, height: self.tabBar.frame.size.height+60)
-            logoLabelView.text=""
+            logoLabelView.font=UIFont(name: "jwtv", size: self.tabBar.frame.size.height+60) // Use the font from jw.org to display the jw logo
+            logoLabelView.frame=CGRect(x: 110, y: 10, width: self.tabBar.frame.size.height+60, height: self.tabBar.frame.size.height+60)//initial logo position and size
+            logoLabelView.text=""//The unique key code for the JW.org logo
             logoLabelView.textAlignment = .Left
             logoLabelView.lineBreakMode = .ByClipping
             
-            logoLabelView.frame=CGRect(x: 110, y: 10, width: logoLabelView.intrinsicContentSize().width+200, height: self.tabBar.frame.size.height+60)
+            logoLabelView.frame=CGRect(x: 110, y: 10, width: logoLabelView.intrinsicContentSize().width+200, height: self.tabBar.frame.size.height+60)//corrected position
             
-            logoLabelView.textColor=UIColor(colorLiteralRed: 0.3, green: 0.44, blue: 0.64, alpha: 1.0)
+            logoLabelView.textColor=UIColor(colorLiteralRed: 0.3, green: 0.44, blue: 0.64, alpha: 1.0) // JW blue color
             self.tabBar.addSubview(logoLabelView)
-            //self.tabBar.addSubview(logoImageView)
         
         }
         
+        
+        /*
+        This loop cycles through all the view controllers and their corresponding tab bar items.
+        All the tab bar items are set to grey text.
+        If the view controller is disabled in the control file then it is removed.
+        The Language view controllers text is made to be the language icon found in the jwtv.tff font file.
+        
+        */
         for viewController in self.viewControllers! {
             let fontattributes=[NSForegroundColorAttributeName:UIColor.grayColor()] as Dictionary<String,AnyObject>
             let tabBarItem=self.tabBar.items?[(self.viewControllers?.indexOf(viewController))!]
             if (tabBarItem != nil){
                 tabBarItem!.setTitleTextAttributes(fontattributes, forState: .Normal)
             }
-            if (viewController.isKindOfClass(HomeController.self)){
+            if (viewController.isKindOfClass(HomeController.self)){//Remove home page if disabled
                 if (Home==false){
                     self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
                 }
             }
-            else if (viewController.isKindOfClass(VideoOnDemandController.self)){
+            else if (viewController.isKindOfClass(VideoOnDemandController.self)){//Remove VOD page if disabled
                 if (VOD==false){
                     self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
                 }
             }
-            else if (viewController.isKindOfClass(AudioController.self)){
+            else if (viewController.isKindOfClass(AudioController.self)){//Remove Audio page if disabled
                 if (Audio==false){
                     self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
                 }
             }
-            else if (viewController.isKindOfClass(LanguageSelector.self)){
+            else if (viewController.isKindOfClass(LanguageSelector.self)){//Remove Language page if disabled
                 if (Language==false){
                     self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
                 }
-                else {
+                else {//Set language page to language icon
                     self.tabBar.items?[(self.viewControllers?.indexOf(viewController))!].title="    "
                     let fontattributes=[NSFontAttributeName:UIFont(name: "jwtv", size: 36)!,NSForegroundColorAttributeName:UIColor.grayColor()] as Dictionary<String,AnyObject>
                     self.tabBar.items?[(self.viewControllers?.indexOf(viewController))!].setTitleTextAttributes(fontattributes, forState: .Normal)
                 }
             }
-            else if (viewController.isKindOfClass(SearchController.self)){
+            else if (viewController.isKindOfClass(SearchController.self)){//Remove Search page if disabled
                 if (Search==false){
                     self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
                 }
             }
-            else if (viewController.isKindOfClass(MediaOnDemandController.self)){
+            else if (viewController.isKindOfClass(MediaOnDemandController.self)){//Remove MOD page if disabled
                 if (BETAMedia==false){
                     self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
                 }
             }
         }
         
-        if (textDirection == .RightToLeft){
+        if (textDirection == .RightToLeft){ // select the far right page if language is right to left
             self.selectedIndex=(self.viewControllers?.count)!-1
         }
         else {
             self.selectedIndex=0
         }
-        
-        let imageView=UIImageView(image: UIImage(contentsOfFile: "LaunchScreenEarth.png"))
-        
-        
-        self.view.addSubview(imageView)
         
         
         
@@ -235,76 +241,64 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         }
     
     func displayFailedToFindLanguage(){
+        //Alert the user that we do not know what language they are using
         let alert=UIAlertController(title: "Language Unknown", message: "Unable to find a language for you.", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Okay", style: .Default , handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
     func displayUnableToConnect(){
-        //msgAPIFailureErrorTitle
+        
+        //Let the user know that we were not able to connect to JW.org
         if (translatedKeyPhrases != nil){
+            //alert the user translated text that connection failed
             let alert=UIAlertController(title: translatedKeyPhrases?.objectForKey("msgAPIFailureErrorTitle") as? String, message: translatedKeyPhrases?.objectForKey("msgAPIFailureErrorBody")as? String, preferredStyle: UIAlertControllerStyle.Alert)
             self.presentViewController(alert, animated: true, completion: nil)
         }
         else {
+            //alert the user without translated text that the connection failed.
             let alert=UIAlertController(title: "Cannot connect to JW Broadcasting", message: "Make sure you're connected to the internet then try again.", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "Okay", style: .Default , handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
         }
     }
-    /*
-    override func shouldUpdateFocusInContext(context: UIFocusUpdateContext) -> Bool {
-        keepDown()
-        return super.shouldUpdateFocusInContext(context)
-    }*/
 
     func tapped(tap:UIGestureRecognizer){
+        //upon tap of the remote we bring the tab bar down
         keepDown()
     }
     
     func swipe(recognizer:UIGestureRecognizer){
+        //upon swipe of the remote we bring the tab bar down
         keepDown()
     }
     
     func swiped(sender:UISwipeGestureRecognizer){
-        
-       /* switch sender.direction {
-         
-        case UISwipeGestureRecognizerDirection.Right:
-            timer?.invalidate()
-            
-        case UISwipeGestureRecognizerDirection.Left:
-            timer?.invalidate()
-            
-        default:
-            break
-            
-        }*/
-        
+        //upon swipe of the remote we bring the tab bar down
         keepDown()
-        
-        //if (sender.direction == UISwipeGestureRecognizerDirection.Right){
-            
-        //}
     }
     
     override func pressesBegan(presses: Set<UIPress>, withEvent event: UIPressesEvent?){
-        
+        //upon press of the remote we bring the tab bar down
         keepDown()
         
         super.pressesBegan(presses, withEvent: event)
         
     }
+    var timer:NSTimer?=nil
     
     func keepDown(){
+        /*
+        This method restarts thte timer for how long the tab bar can be seen.
+        */
+        
         timer?.invalidate()
         timer=NSTimer.scheduledTimerWithTimeInterval(7.5, target: self, selector: "hide", userInfo: nil, repeats: false)
         self.setTabBarVisible(true, animated: true)
     }
     
-    var timer:NSTimer?=nil
-    
     func hide(){
+        //Hides tab bar
         self.setTabBarVisible(false, animated: true)
     }
         
@@ -373,16 +367,16 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
             var keyForButton:Array<String>=[]
             
             if (Home){
-                keyForButton.append("lnkHomeView")
+                keyForButton.append("lnkHomeView")//
             }
             if (VOD){
-                keyForButton.append("homepageVODBlockTitle")
+                keyForButton.append("homepageVODBlockTitle")//
             }
             if (Audio){
-                keyForButton.append("homepageAudioBlockTitle")
+                keyForButton.append("homepageAudioBlockTitle")//
             }
             if (Language){
-                keyForButton.append("lnkLanguage")
+                keyForButton.append("lnkLanguage")//
             }
             if (Search){
                 keyForButton.append("Search")
@@ -402,16 +396,7 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                     keyI=endIndex-1-i
                 }
                 switch keyI {
-                /*case 0:
-                    newTitle=""
-                case 1:
-                    newTitle=""
-                case 2:
-                    newTitle=""
                 case 3:
-                    newTitle=""*/
-                case 3:
-                    //newTitle=" "
                     
                     self.tabBar.items?[i].title="    "
                     
@@ -448,15 +433,5 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

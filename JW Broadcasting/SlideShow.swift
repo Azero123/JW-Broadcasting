@@ -18,17 +18,25 @@ class SlideShow: SuperCollectionView {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
+        /*
+        Initial call for moving featured videos.
+        */
         if (HomeFeaturedSlide){
             self.performSelector("timesUp", withObject: nil, afterDelay: 2.25)
         }
     }
     
     override func prepare(){
+        /*
+        Sets edge margins to meet Apple's requirements.
+        Downloads information on Featured videos.
+        Aligns items properly for LTR or RTL.
+        Ler's Home page know that this section is done loading.
         
-        (self.delegate as? HomeController)?.addActivity()
+        */
+        (self.delegate as? HomeController)?.addActivity()//Tells home to prevent interaction
         
-        self.contentInset=UIEdgeInsetsMake(0, 60, 0, 60)
+        self.contentInset=UIEdgeInsetsMake(0, 60, 0, 60)//Edge insets
         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
         
         print("[SlideShow] loading...")
@@ -38,25 +46,25 @@ class SlideShow: SuperCollectionView {
                 
                 
                 
-                if (textDirection == .RightToLeft){
+                if (textDirection == .RightToLeft){//RTL alignment
                     self.contentOffset=self.centerPointFor(CGPointMake(self.contentSize.width-self.frame.size.width+self.contentInset.right, 0))
                 }
-                else {
+                else {//LTR alignment
                     self.contentOffset=CGPointMake(-self.contentInset.left, 0)
                 }
 
-                
+                //reload content
                 self.reloadData()
                 
-                
+                //Enable interaction
                 (self.delegate as? HomeController)?.removeActivity()
             }
         })
     }
     override func totalItemsInSection(section: Int) -> Int {
-        
-        let slides=unfold(base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider|settings|WebHomeSlider|slides") as? NSArray//unfold(base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider|settings|WebHomeSlider|slides") as? NSArray
-        if (slides == nil){
+        //sets the number of items based on how many featured videos are available.
+        let slides=unfold(base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider|settings|WebHomeSlider|slides") as? NSArray
+        if (slides == nil){//If the file isn't downloaded yet
             print("[SlideShow][INCOMPLETION] no slides \(unfold(base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"))")
             return 0
         }
@@ -172,6 +180,16 @@ class SlideShow: SuperCollectionView {
     
     override func cellShouldFocus(view: UIView, indexPath: NSIndexPath, previousIndexPath: NSIndexPath?) {
         
+        /*
+        Detects what direction the user is scrolling and calls code to move the cells.
+        Code for background effects based on image.
+        Code for focus effects and blocking automatic sliding.
+        */
+        
+        
+        /*
+        Some math to calculate the actual video ID
+        */
         SLIndex=indexPath.row
         
         var index=indexPath.row
@@ -192,8 +210,11 @@ class SlideShow: SuperCollectionView {
         }
         
         
-        let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
         
+        /*
+        Grabs the image url and then sets the background to that image to show the nice effect.
+        */
+        let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
         
         let SLSlides=unfold(pathForSliderData+"|settings|WebHomeSlider|slides") as? NSArray
         let SLSlide=SLSlides![index]
@@ -202,6 +223,12 @@ class SlideShow: SuperCollectionView {
             (self.delegate as! HomeController).backgroundImageView.image=imageUsingCache(imageURL!)
         }
         
+        
+        
+        
+        /*
+        Loops items from front to back or back to front for infinite looping.
+        */
         if (totalItems>=4){
             let leftIndex = 0
             let rightIndex = totalItems-1
@@ -223,6 +250,12 @@ class SlideShow: SuperCollectionView {
             }
         }
         SLIndex=indexPath.row
+        
+        
+        /*
+        Effects for text and focusing
+        */
+        
         for subview in (view.subviews.first!.subviews) {
             if (subview.isKindOfClass(UILabel.self)){
                 subview.alpha=1
@@ -239,6 +272,10 @@ class SlideShow: SuperCollectionView {
     }
     
     func loopItemFrom(indexToMove:Int, to indexToGoTo:Int){
+        /*
+        Infinite scrolling code
+        Code for moving last or first item to opposite side side.
+        */
         let cell=self.cellForItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0))
         if (indexToMove<indexToGoTo){
             indexOffset++
@@ -257,6 +294,10 @@ class SlideShow: SuperCollectionView {
     }
     
     override func cellShouldLoseFocus(view:UIView, indexPath:NSIndexPath){
+        /*
+        Code for unfocus effects and unblocking automatic sliding.
+        */
+        
         
         for subview in (view.subviews.first!.subviews) {
             if (subview.isKindOfClass(UIImageView.self)){
@@ -276,6 +317,10 @@ class SlideShow: SuperCollectionView {
     }
     
     func moveToSlide(atIndex:Int){
+        /*
+        Code for moving the slides after checking to make sure the cell it's going to is loaded.
+        */
+        
         if (unfold(base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider") != nil ){
             
             if (self.cellForItemAtIndexPath(NSIndexPath(forRow: atIndex, inSection: 0)) != nil){
@@ -288,6 +333,12 @@ class SlideShow: SuperCollectionView {
     
     
     func timesUp(){
+        
+        /*
+        Code for clocking slide show and only calling it if set on by control.swift.
+        Also resets index to scroll to after the last slide.
+        */
+        
         if (selectedSlideShow == false){
             
             moveToSlide(SLIndex)
@@ -298,7 +349,7 @@ class SlideShow: SuperCollectionView {
         
         if (selectedSlideShow == false){
             
-            SLIndex++;
+            SLIndex++
             
             if (unfold(base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider|settings|WebHomeSlider|slides") == nil){
                 SLIndex=0
@@ -311,7 +362,13 @@ class SlideShow: SuperCollectionView {
     }
     
     override func cellSelect(indexPath:NSIndexPath){
+        /*
+        This cell was chosen so play the video.
+        */
         
+        /*
+        Some math to calculate the actual video ID
+        */
         var index=indexPath.row
         
         let totalItems=self.totalItemsInSection(0)
@@ -330,6 +387,13 @@ class SlideShow: SuperCollectionView {
         }
         
         print("index: \(index)")
+        
+        /*
+        Grab the video url
+        make sure it is real
+        create avplayerviewcontroller.
+        Play video.
+        */
         
         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
         
@@ -368,7 +432,9 @@ class SlideShow: SuperCollectionView {
     }
     
     override func centerPointFor(proposedContentOffset: CGPoint) -> CGPoint{
-        
+        /*
+        Sets teh point to scroll to for this collection view.
+        */
         
         let cellWidth=(self.delegate as! HomeController).collectionView(self, layout: self.collectionViewLayout, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*(self.collectionViewLayout as! CollectionViewHorizontalFlowLayout).spacingPercentile
         
