@@ -108,45 +108,44 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         
         }
         
-        
-        if (Home==false){
-            for viewController in self.viewControllers! {
-                if (viewController.isKindOfClass(HomeController.self)){
+        for viewController in self.viewControllers! {
+            let fontattributes=[NSForegroundColorAttributeName:UIColor.grayColor()] as Dictionary<String,AnyObject>
+            let tabBarItem=self.tabBar.items?[(self.viewControllers?.indexOf(viewController))!]
+            if (tabBarItem != nil){
+                tabBarItem!.setTitleTextAttributes(fontattributes, forState: .Normal)
+            }
+            if (viewController.isKindOfClass(HomeController.self)){
+                if (Home==false){
                     self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
                 }
             }
-        }
-        if (VOD==false){
-            for viewController in self.viewControllers! {
-                if (viewController.isKindOfClass(VideoOnDemandController.self)){
+            else if (viewController.isKindOfClass(VideoOnDemandController.self)){
+                if (VOD==false){
                     self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
                 }
             }
-        }
-        if (Audio==false){
-            for viewController in self.viewControllers! {
-                if (viewController.isKindOfClass(AudioController.self)){
+            else if (viewController.isKindOfClass(AudioController.self)){
+                if (Audio==false){
                     self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
                 }
             }
-        }
-        if (Language==false){
-            for viewController in self.viewControllers! {
-                if (viewController.isKindOfClass(LanguageSelector.self)){
+            else if (viewController.isKindOfClass(LanguageSelector.self)){
+                if (Language==false){
+                    self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
+                }
+                else {
+                    self.tabBar.items?[(self.viewControllers?.indexOf(viewController))!].title="    "
+                    let fontattributes=[NSFontAttributeName:UIFont(name: "jwtv", size: 36)!,NSForegroundColorAttributeName:UIColor.grayColor()] as Dictionary<String,AnyObject>
+                    self.tabBar.items?[(self.viewControllers?.indexOf(viewController))!].setTitleTextAttributes(fontattributes, forState: .Normal)
+                }
+            }
+            else if (viewController.isKindOfClass(SearchController.self)){
+                if (Search==false){
                     self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
                 }
             }
-        }
-        if (Search==false){
-            for viewController in self.viewControllers! {
-                if (viewController.isKindOfClass(SearchController.self)){
-                    self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
-                }
-            }
-        }
-        if (BETAMedia==false){
-            for viewController in self.viewControllers! {
-                if (viewController.isKindOfClass(MediaOnDemandController.self)){
+            else if (viewController.isKindOfClass(MediaOnDemandController.self)){
+                if (BETAMedia==false){
                     self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
                 }
             }
@@ -368,8 +367,6 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         /* download new translation */
         translatedKeyPhrases=dictionaryOfPath(base+"/"+version+"/translations/"+languageCode)?.objectForKey("translations")?.objectForKey(languageCode) as? NSDictionary
             
-            print(translatedKeyPhrases)
-            
         if (translatedKeyPhrases != nil){ // if the language file was obtained
             /*These keys are what I found correspond to the navigation buttons on tv.jw.org*/
             
@@ -404,7 +401,6 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                 if (textDirection==UIUserInterfaceLayoutDirection.RightToLeft){
                     keyI=endIndex-1-i
                 }
-                print(keyI)
                 switch keyI {
                 /*case 0:
                     newTitle=""
@@ -416,7 +412,6 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                     newTitle=""*/
                 case 3:
                     //newTitle=" "
-                    print("should be jw font")
                     
                     self.tabBar.items?[i].title="    "
                     
