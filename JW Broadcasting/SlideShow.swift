@@ -246,17 +246,14 @@ class SlideShow: SuperCollectionView {
         if (indexToMove>indexToGoTo){
             indexOffset--
         }
-        //if (self.cellForItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0)) != nil){
         cell?.hidden=true
         
         self.moveItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0), toIndexPath: NSIndexPath(forRow: indexToGoTo, inSection: 0))
         self.performBatchUpdates({
             
-            //self.reloadData()
             }, completion: { (finished:Bool) in
                 cell?.hidden=false
         })
-        //}
     }
     
     override func cellShouldLoseFocus(view:UIView, indexPath:NSIndexPath){
@@ -373,18 +370,11 @@ class SlideShow: SuperCollectionView {
     override func centerPointFor(proposedContentOffset: CGPoint) -> CGPoint{
         
         
-        //let cellWidth=(self.delegate as! HomeController).collectionView(self, layout: self, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*(self.collectionViewLayout as! CollectionViewHorizontalFlowLayout).spacingPercentile
         let cellWidth=(self.delegate as! HomeController).collectionView(self, layout: self.collectionViewLayout, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*(self.collectionViewLayout as! CollectionViewHorizontalFlowLayout).spacingPercentile
         
         let itemIndex=round((proposedContentOffset.x+((self.frame.size.width)-cellWidth)/2)/cellWidth)
         return CGPoint(x: itemIndex*(cellWidth)-((self.frame.size.width)-cellWidth)/2
             , y: 0)
         
-        /*
-        let cellWidth=(self.collectionView?.delegate as! HomeController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*spacingPercentile
-        
-        let itemIndex=round((proposedContentOffset.x+((self.collectionView?.frame.size.width)!-cellWidth)/2)/cellWidth)
-        return CGPoint(x: itemIndex*(cellWidth)-((self.collectionView?.frame.size.width)!-cellWidth)/2
-        , y: 0)*/
     }
 }

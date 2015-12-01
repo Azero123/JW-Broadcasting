@@ -349,7 +349,9 @@ func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?, usingCache:B
                     refreshFileIfNeeded(trueURL) //Check for any updates on the file
                 }
                 else {
-                    print("[Fetcher] Failed to recover file \(fileURL)")
+                    if (logConnections){
+                        print("[Fetcher] Failed to recover file \(fileURL)")
+                    }
                 }
             }
         }

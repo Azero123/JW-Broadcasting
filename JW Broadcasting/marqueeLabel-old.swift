@@ -7,26 +7,19 @@
 //
 
 
-
-
 /*
+Code for making UILabels that scroll when focused on and are their contents are too large for their display space.
+
+MAJOR WARNING
+
+This code appears to be broken (but still funcitonal if careful) with UICollectionViews, this appears to be an internal system issue but this is unclear.
+When a CAGradientLayer has its bounds changed while in a UICollectionView that is not YET on screen a crash occures claiming an object of __NSCFType attempted to call doubleValue but this is not a valid selector.
+Unkown how to fix this yet.
 
 
-WARNING
 
 
-This code is not working and not finished. Ideally we want to make the text inside UICollectionViewCells scroll after a small delay of focus. However producing this effect with UIView.animation(...) seems to produce a lot of problems with the text jumping.
-We also tried some code from cbpowell on Github (MarqueeLabel.swift) however this code seems to have some issues with side fade out effects not cooperating inside UICollectionViews and causing the app to crash.
-https://github.com/cbpowell/MarqueeLabel
 */
-
-
-
-
-
-
-
-
 
 
 import Foundation
@@ -47,19 +40,21 @@ class marqueeLabel : UILabel  {
         super.init(coder: aDecoder)
         self.clipsToBounds=true
         self.backgroundColor=UIColor.clearColor()
-        
+        //We do not want text in this label ever
         super.text=""
-        
+        //These are the sublabels used for marquee effects that will have text
         labels=[UILabel(),UILabel()]
-        //self.updateSublabels()
-        
-        //self.performSelector("blurSides", withObject: nil, afterDelay: 1.0)
     }
     
     var _darkBackground:Bool = false
     var darkBackground:Bool{
         set {
+            /*
+            If this variable is set to true then we bring up the dark background to see the text. This has to be tested as it also enables the side blur effect (can be changed by removing blurSlides()) and the blur effect is unstable currently.
+            */
+            
             if (newValue == true){
+                // defines the color of the background shadow effect
                 let innerColor = UIColor(colorLiteralRed: 0, green: 0, blue: 0, alpha: 0.15).CGColor
                 let outerColor = UIColor(colorLiteralRed: 0, green: 0, blue: 0, alpha: 0).CGColor
                 
@@ -75,12 +70,15 @@ class marqueeLabel : UILabel  {
                 vMaskLayer.anchorPoint = CGPointZero
                 
                 self.layer.addSublayer(vMaskLayer)
+                // begin side blur effect
                 blurSides()
             }
             else {
+                // If we no longer are using the background darkness and side blur effect
                 vMaskLayer.removeFromSuperlayer()
                 gradientMask?.removeFromSuperlayer()
             }
+            // Save this so we can check it later.
             _darkBackground=newValue
         }
         get {
@@ -90,9 +88,9 @@ class marqueeLabel : UILabel  {
     
     
     override func layoutSubviews(){
+        //Call update to correct UILabels because the frame could have changed
         updateSublabels()
         super.layoutSubviews()
-        //labels[0]!.frame=labelDemensionsAtScrollPoint(0)
     }
     
     var _frame:CGRect=CGRect(x: 0, y: 0, width: 0, height: 0)
@@ -101,6 +99,7 @@ class marqueeLabel : UILabel  {
             return super.frame
         }
         set (newValue){
+            //Call update to correct UILabels because the frame could have changed
             super.frame=newValue
             updateSublabels()
         }
@@ -109,29 +108,40 @@ class marqueeLabel : UILabel  {
     var focus=false
     
     func beginFocus(){
+        /*
+        We recieved noticiation that the view is in focus however we want to give the user a second to recognize that before the animation begins. This fires a checker after delay to see if we need to animate once the time is up.
+        */
         if (focus==false){
-        focus=true
-        self.performSelector("checkStillFocused", withObject: nil, afterDelay: 1.5)
-        //self.labels[0]!.textColor=UIColor.whiteColor()
+            focus=true
+            self.performSelector("checkStillFocused", withObject: nil, afterDelay: 1.5)
         
         }
     }
     
     func checkStillFocused(){
+        /*
+        The label has been focused on for a little bit now so lets scroll so the user can read the rest.
+        */
         if (focus==true){
-            /*self.labels[0]!.frame=labelDemensionsAtScrollPoint(0)
-            self.performSelector("marquee", withObject: nil, afterDelay: 0.2)*/
             self.marquee()
         }
     }
     
     func endFocus(){
+        /*
+        If we lose focus remove the animations and reset the labels. WARNING because we are removing the labels through a CALayer the next time we go to animate it will throw the labels back to their last place in animation. Right now this method calls UIView.animationDuration(...) to set the text back, clearing the animation data, however this is unnecissary. (unless we want to leave this for a nice return animation)
+        
+        
+        */
+        
         if (focus==true){
             focus=false
+            //stop UIView.animateWithDuration(...)
             labels[0]?.layer.removeAllAnimations()
             labels[1]?.layer.removeAllAnimations()
             self.layer.removeAllAnimations()
             UIView.animateWithDuration(0.1, animations: {
+                //The normal positions of the labels
                 self.labels[0]?.frame=CGRectMake(0, (self.labels[0]?.frame.origin.y)!, (self.labels[0]?.frame.size.width)!, (self.labels[0]?.frame.size.height)!)
                 self.labels[1]?.frame=CGRect(x: (self.labels[1]?.frame.size.width)!+self.padding, y: 0, width: (self.labels[1]?.frame.size.width)!, height: self.frame.size.height)
             })
@@ -139,16 +149,26 @@ class marqueeLabel : UILabel  {
     }
     
     func marquee(){
+        /*
+        Code for the marquee effect.
+        First we check if we have enough content to scroll.
+        The length of time to animate is based on the size of the text so that it is not too fast when the contents are larger.
+        The animation is linear so as to not give a pausing/slowing effect.
+        Second we don't scroll if RTL because this is not finished yet.
+        When this all completes the labels are reset (in a way the users can not notice) and the loop is called again.
+        */
+        
+        
         if (self.frame.size.width<self.labels[0]?.intrinsicContentSize().width){
             let width=labels[0]!.frame.size.width
             UIView.animateWithDuration( NSTimeInterval(width / CGFloat(50)), delay: 0, options: UIViewAnimationOptions.CurveLinear , animations: {
-                //self.blurSides()
                 for label in self.labels {
                     
                     if (textDirection == .RightToLeft){
                         
                     }
                     else {
+                        //move text the space the text takes up plus the padding between labels.
                         label?.frame=CGRectMake((label?.frame.origin.x)!-(label?.frame.size.width)!-self.padding, (label?.frame.origin.y)!, (label?.frame.size.width)!, (label?.frame.size.height)!)
                     }
                     
@@ -156,8 +176,10 @@ class marqueeLabel : UILabel  {
                 
                 }, completion: { (finished:Bool) in
                     if (finished){
+                        //reset label positions
                         self.labels[0]?.frame=CGRectMake(0, (self.labels[0]?.frame.origin.y)!, (self.labels[0]?.frame.size.width)!, (self.labels[0]?.frame.size.height)!)
                         self.labels[1]?.frame=CGRect(x: (self.labels[1]?.frame.size.width)!+self.padding, y: 0, width: (self.labels[1]?.frame.size.width)!, height: self.frame.size.height)
+                        //loop text again
                         self.marquee()
                     }
             })
@@ -183,15 +205,21 @@ class marqueeLabel : UILabel  {
         }
         
         set {
+            /*
+            Passes the new text to the sublabels.
+            Our text has changed for the label so we need to correct its sizing so that it can scroll if it needs too.
+            Also this stops the text from being displayed in this label iteself.
+            */
+            
             if labels[0]!.text == newValue {
                 return
             }
-            let newChangedValue=newValue!
             for label in labels {
-                label!.text = newChangedValue
+                //change the indivigual text of labels
+                label!.text = newValue
             }
+            //Tell the sublabels to update
             updateSublabels()
-            //super.text = text
         }
     }
     
@@ -201,6 +229,13 @@ class marqueeLabel : UILabel  {
         }
         
         set {
+            
+            /*
+            Passes the new text to the sublabels.
+            Our text has changed for the label so we need to correct its sizing so that it can scroll if it needs too.
+            Also this stops the text from being displayed in this label iteself.
+            */
+            
             if labels[0]!.attributedText == newValue {
                 return
             }
@@ -208,7 +243,6 @@ class marqueeLabel : UILabel  {
                 label!.attributedText = newValue
             }
             updateSublabels()
-            //super.attributedText = attributedText
         }
     }
     
@@ -218,6 +252,12 @@ class marqueeLabel : UILabel  {
         }
         
         set {
+            
+            /*
+            Passes the new font to the sublabels.
+            Our font size has changed for the label so we need to correct its sizing so that it can scroll if it needs too.
+            */
+            
             if labels[0]!.font == newValue {
                 return
             }
@@ -225,7 +265,6 @@ class marqueeLabel : UILabel  {
             for label in labels {
                 label!.font = newValue
             }
-            super.font = newValue
             self.updateSublabels()
             
         }
@@ -237,22 +276,30 @@ class marqueeLabel : UILabel  {
         }
         
         set {
+            /*
+            Passes the new text color to the sublabels.
+            Applies a nice grey "shadow" effect to the back but we are not using it as a shadow but a highlighting tool to clearly read the text since the images can make it hard to see.
+            */
+            
             for label in labels {
                 label!.textColor = newValue
                 label?.shadowColor=UIColor.grayColor()
                 label?.shadowOffset=CGSize(width: 0.5, height: 0.5)
-                //label.shado
             }
-            super.textColor = newValue
             updateSublabels()
         }
     }
     
     func updateSublabels(){
+        /*
+        This code is called whenever the real labels are needed to be corrected.
+        Often this occures when an attribute is changed such as frame size, font size or text contents.
+        */
         
+        //do a double check that this object has finished initializing.
         if (labels.count == 2){
         
-            
+            //Update special gradient effects
             vMaskLayer.bounds = self.bounds
             let blurLeftDistance:CGFloat=(self.frame.size.width-(labels[0]?.intrinsicContentSize().width)!)/2-20
             let blurWidth:CGFloat=(labels[0]?.intrinsicContentSize().width)!+10
@@ -261,9 +308,11 @@ class marqueeLabel : UILabel  {
                 gradientMask!.position = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds))
             }
             
+            //The font does not get set to the labels because this occures on init before the labels are available. This needs corrected (remove this for loop when done so) in some way so that we can set the font size externally.
             for label in labels {
                 label!.font = UIFont.systemFontOfSize(30)
             }
+            //properly size the labels so that they take up as much space as they need and if they take up more space than we have to display build a second label for the scrolling positioning it after the first view with some padding space
             labels[0]?.frame=self.bounds
             self.addSubview(labels[0]!)
             if (labels[1]?.intrinsicContentSize().width>self.frame.size.width){
@@ -273,6 +322,7 @@ class marqueeLabel : UILabel  {
                 
             }
             else {
+                //This is needed to have centered text inside the label and removes the second label if the text has changed.
                 if (self.textAlignment == .Center){
                     labels[0]?.frame=self.bounds
                     labels[0]?.textAlignment = .Center
@@ -283,11 +333,18 @@ class marqueeLabel : UILabel  {
     }
     
     func blurSides(){
+        /*
+        Code borrowed from Charles Powell MarqueeLabel.swift
+        Remake this code and then remove it so we don't need any acknowledgements and because it is causing crashes with UICollectionViews.
+        This code makes the sides fade out so that we don't have chopped off text.
+        */
+        
+        
         // Check for zero-length fade
-        /*if (fadeLength <= 0.0) {
-            removeGradientMask()
+        if (fadeLength <= 0.0) {
+            gradientMask?.removeFromSuperlayer()
             return
-        }*/
+        }
         
         
         // Remove any in flight animations
@@ -318,17 +375,6 @@ class marqueeLabel : UILabel  {
         
         // Determine colors for non-scrolling label (i.e. at home)
         let adjustedColors: [CGColorRef] = [transparent, opaque, opaque, transparent]
-        /*let trailingFadeNeeded = (!self.labelize || self.labelShouldScroll())
-        
-        switch (type) {
-        case .ContinuousReverse, .RightLeft:
-            adjustedColors = [(trailingFadeNeeded ? transparent : opaque), opaque, opaque, opaque]
-            
-            // .MLContinuous, .MLLeftRight
-        default:
-            adjustedColors = [opaque, opaque, opaque, (trailingFadeNeeded ? transparent : opaque)]
-            break
-        }*/
         
         if (true) {
             // Create animation for location change

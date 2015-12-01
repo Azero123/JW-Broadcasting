@@ -150,22 +150,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "JW Broadcasting/CategoryController.swift"
-            timestampString = "470638518.101609"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "442"
-            endingLineNumber = "442"
-            landmarkName = "collectionView(_:cellForItemAtIndexPath:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "JW Broadcasting/VideoOnDemandController.swift"
             timestampString = "469781061.520464"
             startingColumnNumber = "9223372036854775807"
@@ -215,11 +199,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JW Broadcasting/marqueeLabel-old.swift"
-            timestampString = "470634217.420303"
+            timestampString = "470640034.389115"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "198"
-            endingLineNumber = "198"
+            startingLineNumber = "188"
+            endingLineNumber = "188"
             landmarkName = "marqueeLabel"
             landmarkType = "3">
          </BreakpointContent>
