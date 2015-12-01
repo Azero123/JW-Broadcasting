@@ -37,8 +37,6 @@ import AVKit
 
 class StreamingViewController : UIViewController {
     
-    //http://mediator.jw.org/v1/schedules/E/Streaming?utcOffset=-420
-    
     
     var currentURL:String?
     var playlist=[]
@@ -222,23 +220,6 @@ class StreamingViewController : UIViewController {
         /*might try using set rate to speed the video up until it catches up to the current time that way users can watch the video uninterrupted. Currently having some bugs with this however*/
 
     }
-    
-    /*override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        print("observing...")
-        if (object as? AVPlayerItem == self.player!.currentItem && keyPath! == "status"){
-        
-            if (self.player!.currentItem!.status == AVPlayerItemStatus.ReadyToPlay) {
-                activityIndicator.stopAnimating()
-                if (self.view.hidden==false){
-                    self.view.layer.addSublayer(playerLayer!)
-                }
-                if (thisControllerIsVisible){
-                    player?.play()
-                }
-            }
-            
-        }
-    }*/
     
     override func pressesBegan(presses: Set<UIPress>, withEvent event: UIPressesEvent?){
         for press in presses {

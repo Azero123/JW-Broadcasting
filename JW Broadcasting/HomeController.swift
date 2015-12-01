@@ -88,16 +88,6 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
         })
         checkBranchesFor("language")
         
-        /*
-        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
-        dispatch_async(dispatch_get_global_queue(priority, 0)) {
-            for language in languageList! {//code
-                fetchDataUsingCache(base+"/"+version+"/translations/"+(language["code"] as! String), downloaded: {
-                    
-                })
-            }
-        }*/
-        
     }
     
     var activity=0
@@ -423,16 +413,6 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
         */
         return CGSizeMake(0, 0)
     }
-    /*
-    func indexPathForPreferredFocusedViewInCollectionView(collectionView: UICollectionView) -> NSIndexPath? {
-        print("prefered focus")
-        if (collectionView.isKindOfClass(SuperCollectionView.self)){
-            return (collectionView as! SuperCollectionView).perferedFocus()
-        }
-        print("oops")
-        return NSIndexPath(forRow: 0, inSection: 0)
-    }
-    */
     var selectedSlideShow=false
     
     func collectionView(collectionView: UICollectionView, shouldUpdateFocusInContext context: UICollectionViewFocusUpdateContext) -> Bool {
@@ -445,14 +425,6 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
         
         Lastly if he LatestVideos or SlideShow collection view are focused move everything up so you can see them.
         */
-        /*print("ehh")
-        if (collectionView.isKindOfClass(SlideShow.self) && context.previouslyFocusedView?.superview == self.tabBarController?.tabBar){
-            
-            print("should select \((collectionView as! SlideShow).SLIndex) vs \(context.nextFocusedIndexPath!.row) \(context.previouslyFocusedView?.superview)")
-            if (context.nextFocusedIndexPath!.row != (collectionView as! SlideShow).SLIndex){
-            return false
-            }
-        }*/
         
         if (context.previouslyFocusedView?.superview!.isKindOfClass(SuperCollectionView.self) == true && context.previouslyFocusedIndexPath != nil){
             (context.previouslyFocusedView?.superview as! SuperCollectionView).cellShouldLoseFocus(context.previouslyFocusedView!, indexPath: context.previouslyFocusedIndexPath!)

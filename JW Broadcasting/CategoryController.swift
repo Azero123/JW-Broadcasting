@@ -300,6 +300,7 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func chooseSubcategory(index:Int){
+        self.videoCollection.contentOffset=CGPoint(x: 0, y: 0)
         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
         let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
         
@@ -437,8 +438,17 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
             imageURL=unfold(sizes, instructions: [sizes!.allKeys.last!]) as? String
         }
         
+        let size=CGSize(width: 1,height: 1)
+        UIGraphicsBeginImageContextWithOptions(size, true, 0)
+        UIColor.whiteColor().setFill()
+        UIRectFill(CGRectMake(0, 0, size.width, size.height))
+        let image=UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
         for subview in cell.contentView.subviews {
             if (subview.isKindOfClass(UIImageView.self)){
+                
+                (subview as! UIImageView).image=image
                 
                 fetchDataUsingCache(imageURL!, downloaded: {
                     

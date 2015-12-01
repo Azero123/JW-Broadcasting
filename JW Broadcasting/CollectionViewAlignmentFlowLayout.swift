@@ -49,7 +49,16 @@ class CollectionViewAlignmentFlowLayout: UICollectionViewFlowLayout {
     
     
     override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        var attributes = super.layoutAttributesForElementsInRect(rect)! // gets the normal attributes for use in calculation
+        /*
+        Because previously layoutAttributesForItemAtIndexPath(...) was not being called for our needs consistently. Now all elements are laid out so that we don't have errors with users panning/scrolling through cells too quickly for the items to cells.*/
+
+        var attributes:Array<UICollectionViewLayoutAttributes>=super.layoutAttributesForElementsInRect(rect)!
+        if (self.collectionView?.numberOfSections()>0){
+            for (var i=0;i<self.collectionView?.numberOfItemsInSection(0);i++){
+                attributes.append(self.layoutAttributesForItemAtIndexPath(NSIndexPath(forRow: i, inSection: 0))!)
+            }
+        }
+        
         
         for attrs in attributes {
             /*
