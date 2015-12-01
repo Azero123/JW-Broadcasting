@@ -31,18 +31,20 @@ Featured Items
 - You can swipe left or right infinitely in the Featured Items. (Swiping left is a little jumpy.)
 - Text overlays the image, in the users selected language.
 - Selecting any Featured Presentation changes the background image visual.
+- Custom Marquee code scrolls through the text so you can read it all even in languages like German with long text. (Does not support RTL Languages)
 
 Streaming
 - The 12 streaming channels are displayed. 
 - Focusing on a Streaming channel displays a preview of what's currently playing on that channel (audio off). Select to play.
-- You can swipe left or right infinitely. (Swiping left is a little jumpy.)
 - Selecting a streaming channel puts the image into focus and changes text from dark gray to white.
 - NOTE: Siri voice commands are disabled in Streaming channels.
+- Custom Marquee code scrolls through the text so you can read it all even in languages like German with long text. (Does not support RTL Languages)
 
 Latest Videos
 - The latest videos are automatically highlighted.
 - Selecting a video puts the image into focus and changes text from dark gray to white.
 - Long titles are truncated with "..." Plan to implement scrolling text when time allows.
+- Custom Marquee code scrolls through the text so you can read it all even in languages like German with long text. (Does not support RTL Languages)
 
 
 STREAMING
@@ -53,7 +55,7 @@ STREAMING
 VIDEO ON DEMAND
 - Content is automatically organzied. First items displayed are Featured followed by other custom categorizations. 
 - 'From Our Studio' uses custom code to remove 'JW Broadcasting—" and add "Braodcast" to the end of the title name for easier reading. This is hardcoded and only works in English but other languages can easily be added.
-- Not all images displayed are ideally sized, so an ordered list is used to select correct size, starting with images types of 'wss', 'lss', 'wsr', 'pss', and psn'
+- Not all images displayed are ideally sized, so an ordered list is used to select correct size, starting with images types of 'wss', 'cvr', 'lss', 'wsr', 'pss', and psn'
 
 
 AUDIO
@@ -74,5 +76,4 @@ FUTURE ENHANCEMENTS & INVESTIGATINS
 - Siri support
 - Interstitial screen to display  video detail (length, langauges, etc.) pressing Play.
 - Abiltiy to resume videos where you left off.
-- INVESTIGATE: Add JW.org logo to Tab Bar.
 - INVESTIGATE: New layout for Video on Demand screen. 
