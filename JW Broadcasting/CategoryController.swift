@@ -285,7 +285,6 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
     var previouslyLoaded=false
     
     func tableView(tableView: UITableView, didHighlightRowAtIndexPath indexPath: NSIndexPath) {
-        
         if (categoryTimer != nil){
             categoryTimer?.invalidate()
         }
@@ -301,51 +300,54 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func chooseSubcategory(index:Int){
+        let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
+        let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
         
+        let subcat=unfold(categoryDataURL+"|category|subcategories|\(index)")//videoOnDemandData["category"]["subcategories"][index]
         
-        let subcat=videoOnDemandData!.objectForKey("category")!.objectForKey("subcategories")!.objectAtIndex(index)
-        
-        let directory=base+"/"+version+"/categories/"+languageCode
-        let subcategoryDirectory=directory+"/"+(subcat.objectForKey("key") as! String)+"?detailed=1"
-        
-        UIView.animateWithDuration(0.15, animations: {
-            self.videoCollection.alpha=0
-        })
-        
-        fetchDataUsingCache(subcategoryDirectory, downloaded: {
-            dispatch_async(dispatch_get_main_queue()) {
-                
-                
-                
-                let downloadedJSON=dictionaryOfPath(subcategoryDirectory, usingCache: false)
-                
-                if (downloadedJSON?.objectForKey("category")!.objectForKey("media") != nil){//If no subcategories then just make itself the subcategory
-                    self.parentCategory=Array(arrayLiteral: downloadedJSON?.objectForKey("category")! as! NSDictionary)
+        if (subcat != nil){
+            
+            let directory=base+"/"+version+"/categories/"+languageCode
+            let subcategoryDirectory=directory+"/"+(subcat!.objectForKey("key") as! String)+"?detailed=1"
+            
+            UIView.animateWithDuration(0.15, animations: {
+                self.videoCollection.alpha=0
+            })
+            
+            fetchDataUsingCache(subcategoryDirectory, downloaded: {
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    
+                    let downloadedJSON=dictionaryOfPath(subcategoryDirectory, usingCache: false)
+                    
+                    if (downloadedJSON?.objectForKey("category")!.objectForKey("media") != nil){//If no subcategories then just make itself the subcategory
+                        self.parentCategory=Array(arrayLiteral: downloadedJSON?.objectForKey("category")! as! NSDictionary)
+                        
+                    }
+                    else if (downloadedJSON?.objectForKey("category")!.objectForKey("subcategories") != nil){//for video on demand pretty much
+                        self.parentCategory=(downloadedJSON?.objectForKey("category")!.objectForKey("subcategories"))! as! NSArray
+                        self.subcategories=true
+                    }
+                    
+                    
+                    self.videoCollection.reloadData()
+                    self.videoCollection.performBatchUpdates({
+                        //self.videoCollection.reloadData()
+                        }, completion: { (finished:Bool) in
+                            if (finished){
+                                UIView.animateWithDuration(0.15, animations: {
+                                    self.videoCollection.alpha=1
+                                })
+                                
+                            }
+                        }
+                    )
+                    
                     
                 }
-                else if (downloadedJSON?.objectForKey("category")!.objectForKey("subcategories") != nil){//for video on demand pretty much
-                    self.parentCategory=(downloadedJSON?.objectForKey("category")!.objectForKey("subcategories"))! as! NSArray
-                    self.subcategories=true
-                }
-                
-                
-                self.videoCollection.reloadData()
-                self.videoCollection.performBatchUpdates({
-                    //self.videoCollection.reloadData()
-                    }, completion: { (finished:Bool) in
-                        if (finished){
-                            UIView.animateWithDuration(0.15, animations: {
-                                self.videoCollection.alpha=1
-                            })
-                            
-                        }
-                    }
-                )
-                
-                
-            }
-        })
-        
+            })
+
+        }
     }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {

@@ -184,7 +184,7 @@ class SuperCollectionView: UICollectionView {
         return layoutAttribute
     }
     
-    func centerPointForCellAtIndex(proposedContentOffset: CGPoint) -> CGPoint{
+    func centerPointFor(proposedContentOffset: CGPoint) -> CGPoint{
 
         /* optional method for subclasses (check SlideShow.swift)*/
         

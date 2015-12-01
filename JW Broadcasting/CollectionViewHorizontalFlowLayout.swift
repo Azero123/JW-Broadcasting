@@ -72,9 +72,9 @@ class CollectionViewHorizontalFlowLayout: UICollectionViewFlowLayout {
         
         
         if (collectionView!.isKindOfClass(SuperCollectionView.self)){
-            return (collectionView as! SuperCollectionView).centerPointForCellAtIndex(proposedContentOffset)
+            return (collectionView as! SuperCollectionView).centerPointFor(proposedContentOffset)
         }
-        return CGPoint(x: 0  , y: 0)
+        return CGPoint(x: 0, y: 0)
     }
     
     override func collectionViewContentSize() -> CGSize {

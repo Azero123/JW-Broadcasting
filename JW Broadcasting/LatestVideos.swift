@@ -36,16 +36,21 @@ class LatestVideos: SuperCollectionView {
             print("[Latest] Loaded")
                 //unfold(latestVideosPath)
                 self.reloadData()
+                
+                
                 self.performBatchUpdates({
-                    
                     }, completion: { (finished:Bool) in
                         if (finished){
-                            if (self.cellForItemAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) != nil){
-                                self.scrollToItemAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: false)
+                            
+                            if (textDirection == .RightToLeft){
+                                self.contentOffset=self.centerPointFor(CGPointMake(self.contentSize.width-self.frame.size.width+self.contentInset.right, 0))
+                            }
+                            else {
+                                self.contentOffset=CGPointMake(-self.contentInset.left, 0)
                             }
                         }
-                        
                 })
+                
             (self.delegate as? HomeController)?.removeActivity()
             /*well everything is downloaded now so lets hide the spinning wheel and start rendering the views*/
             }
@@ -155,6 +160,9 @@ class LatestVideos: SuperCollectionView {
                 (subview as! UILabel).shadowColor=UIColor.darkGrayColor()
                 subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y+5, width: subview.frame.size.width, height: subview.frame.size.height)
             }
+            if (subview.isKindOfClass(marqueeLabel.self)){
+                (subview as! marqueeLabel).beginFocus()
+            }
             if (subview.isKindOfClass(MarqueeLabel.self)){
                 (subview as! MarqueeLabel).unpauseLabel()
             }
@@ -168,6 +176,9 @@ class LatestVideos: SuperCollectionView {
             if (subview.isKindOfClass(UILabel.self)){
                 (subview as! UILabel).textColor=UIColor.darkGrayColor()
                 subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y-5, width: subview.frame.size.width, height: subview.frame.size.height)
+            }
+            if (subview.isKindOfClass(marqueeLabel.self)){
+                (subview as! marqueeLabel).endFocus()
             }
             if (subview.isKindOfClass(MarqueeLabel.self)){
                 (subview as! MarqueeLabel).pauseLabel()

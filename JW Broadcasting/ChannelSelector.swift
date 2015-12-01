@@ -17,7 +17,7 @@ class ChannelSelector: SuperCollectionView {
         
         (self.delegate as? HomeController)?.addActivity()
         
-        self.contentInset=UIEdgeInsetsMake(0, 60, 0, 0)
+        self.contentInset=UIEdgeInsetsMake(0, 60, 0, 60)
         let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
         print("[Channels] loading...")
         fetchDataUsingCache(streamingScheduleURL, downloaded: {
@@ -33,16 +33,20 @@ class ChannelSelector: SuperCollectionView {
                 }
                 //unfold(streamingScheduleURL)
                 self.reloadData()
+                
                 self.performBatchUpdates({
-                    
                     }, completion: { (finished:Bool) in
                         if (finished){
-                            if (self.cellForItemAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) != nil){
-                                self.scrollToItemAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: false)
+                            
+                            if (textDirection == .RightToLeft){
+                                self.contentOffset=self.centerPointFor(CGPointMake(self.contentSize.width-self.frame.size.width+self.contentInset.right, 0))
+                            }
+                            else {
+                                self.contentOffset=CGPointMake(-self.contentInset.left, 0)
                             }
                         }
-                        
                 })
+                
                 //self.scrollToItemAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: false)
                 /*
                 
@@ -60,6 +64,16 @@ class ChannelSelector: SuperCollectionView {
         })
 
     }
+    /*
+    
+    func properAlignment(){
+    print("proper alignment")
+    
+    var itemPoint=self.collectionViewLayout.layoutAttributesForItemAtIndexPath(NSIndexPath(forRow: 0, inSection: 0))?.center
+    itemPoint=self.centerPointFor(CGPoint(x: itemPoint!.x, y: itemPoint!.y))
+    self.contentOffset=CGPointMake(itemPoint!.x, itemPoint!.y)
+    }
+    */
     
     override func totalItemsInSection(section: Int) -> Int {
         
@@ -186,6 +200,9 @@ class ChannelSelector: SuperCollectionView {
                 self.player?.replaceCurrentItemWithPlayerItem(nil)
                 subview.layer.addSublayer(self.playerLayer!)
             }
+            if (subview.isKindOfClass(marqueeLabel.self)){
+                (subview as! marqueeLabel).beginFocus()
+            }
             if (subview.isKindOfClass(MarqueeLabel.self)){
                 (subview as! MarqueeLabel).unpauseLabel()
             }
@@ -249,6 +266,9 @@ class ChannelSelector: SuperCollectionView {
             if (subview.isKindOfClass(UILabel.self)){
                 (subview as! UILabel).textColor=UIColor.darkGrayColor()
                 subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y-5, width: subview.frame.size.width, height: subview.frame.size.height)
+            }
+            if (subview.isKindOfClass(marqueeLabel.self)){
+                (subview as! marqueeLabel).endFocus()
             }
             if (subview.isKindOfClass(MarqueeLabel.self)){
                 (subview as! MarqueeLabel).pauseLabel()

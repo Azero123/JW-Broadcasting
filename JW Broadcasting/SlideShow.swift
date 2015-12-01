@@ -35,17 +35,19 @@ class SlideShow: SuperCollectionView {
         fetchDataUsingCache(pathForSliderData, downloaded: {
             dispatch_async(dispatch_get_main_queue()) {
                 print("[SlideShow] Loaded")
-                self.reloadData()
-                self.performBatchUpdates({
-                    
-                    }, completion: { (finished:Bool) in
-                        if (finished){
-                            if (self.cellForItemAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) != nil){
-                                self.scrollToItemAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: false)
-                            }
-                        }
                 
-                })
+                
+                
+                if (textDirection == .RightToLeft){
+                    self.contentOffset=self.centerPointFor(CGPointMake(self.contentSize.width-self.frame.size.width+self.contentInset.right, 0))
+                }
+                else {
+                    self.contentOffset=CGPointMake(-self.contentInset.left, 0)
+                }
+
+                
+                self.reloadData()
+                
                 
                 (self.delegate as? HomeController)?.removeActivity()
             }
@@ -130,9 +132,13 @@ class SlideShow: SuperCollectionView {
                 titleLabel.frame=CGRectMake(50, slide.bounds.height-75, slide.bounds.width-100, 75)
                 titleLabel.text=(SLSlide.objectForKey("item")!.objectForKey("title")! as? String)!
                 titleLabel.layer.shadowColor=UIColor.blackColor().CGColor
-                titleLabel.layer.shadowRadius=5
+                titleLabel.layer.shadowRadius=10
+                titleLabel.layer.shadowOpacity=1
                 titleLabel.textColor=UIColor.whiteColor()
                 
+            }
+            if (subview.isKindOfClass(marqueeLabel.self)){
+                (subview as! marqueeLabel).darkBackground=true
             }
             if (subview.isKindOfClass(MarqueeLabel.self)){
                 (subview as! MarqueeLabel).type = .Continuous
@@ -221,6 +227,9 @@ class SlideShow: SuperCollectionView {
             if (subview.isKindOfClass(UILabel.self)){
                 subview.alpha=1
             }
+            if (subview.isKindOfClass(marqueeLabel.self)){
+                (subview as! marqueeLabel).beginFocus()
+            }
             if (subview.isKindOfClass(MarqueeLabel.self)){
                 (subview as! MarqueeLabel).unpauseLabel()
             }
@@ -239,9 +248,10 @@ class SlideShow: SuperCollectionView {
         }
         //if (self.cellForItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0)) != nil){
         cell?.hidden=true
+        
+        self.moveItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0), toIndexPath: NSIndexPath(forRow: indexToGoTo, inSection: 0))
         self.performBatchUpdates({
             
-            self.moveItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0), toIndexPath: NSIndexPath(forRow: indexToGoTo, inSection: 0))
             //self.reloadData()
             }, completion: { (finished:Bool) in
                 cell?.hidden=false
@@ -257,6 +267,9 @@ class SlideShow: SuperCollectionView {
             }
             if (subview.isKindOfClass(UILabel.self)){
                 subview.alpha=0
+            }
+            if (subview.isKindOfClass(marqueeLabel.self)){
+                (subview as! marqueeLabel).endFocus()
             }
             if (subview.isKindOfClass(MarqueeLabel.self)){
                 (subview as! MarqueeLabel).pauseLabel()
@@ -357,7 +370,7 @@ class SlideShow: SuperCollectionView {
         return layoutAttribute
     }
     
-    override func centerPointForCellAtIndex(proposedContentOffset: CGPoint) -> CGPoint{
+    override func centerPointFor(proposedContentOffset: CGPoint) -> CGPoint{
         
         
         //let cellWidth=(self.delegate as! HomeController).collectionView(self, layout: self, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*(self.collectionViewLayout as! CollectionViewHorizontalFlowLayout).spacingPercentile

@@ -13,6 +13,7 @@ import Foundation
 let preloading = false //unimplemented
 let aggressivePreload = false
 let simulateOffline=false
+let simulatedPoorConnection=false //fails 1/2 of all connections
 let offlineStorage=true
 let offlineStorageSaving=true
 

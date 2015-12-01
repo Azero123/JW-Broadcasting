@@ -94,9 +94,15 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         
         if (JWLogo){
             
-            logoLabelView.frame=CGRect(x: 90, y: 10, width: self.tabBar.frame.size.height+60, height: self.tabBar.frame.size.height+60)
-            logoLabelView.text=""
             logoLabelView.font=UIFont(name: "jwtv", size: self.tabBar.frame.size.height+60)
+            logoLabelView.frame=CGRect(x: 110, y: 10, width: self.tabBar.frame.size.height+60, height: self.tabBar.frame.size.height+60)
+            logoLabelView.text=""
+            logoLabelView.textAlignment = .Left
+            logoLabelView.lineBreakMode = .ByClipping
+            
+            logoLabelView.frame=CGRect(x: 110, y: 10, width: logoLabelView.intrinsicContentSize().width+200, height: self.tabBar.frame.size.height+60)
+            
+            logoLabelView.textColor=UIColor(colorLiteralRed: 0.3, green: 0.44, blue: 0.64, alpha: 1.0)
             self.tabBar.addSubview(logoLabelView)
             //self.tabBar.addSubview(logoImageView)
         
@@ -345,16 +351,25 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
             self.setViewControllers(self.viewControllers?.reverse(), animated: true)
             if (JWLogo){
                 if (textDirection == .RightToLeft){
-                    logoLabelView.frame=CGRect(x: self.tabBar.frame.size.width-90-50, y: 50, width: 50, height: 50)
+                    logoLabelView.textAlignment = .Right
+                    logoLabelView.frame=CGRect(x: self.tabBar.frame.size.width-logoLabelView.frame.size.width, y: -40, width: self.tabBar.frame.size.height+60, height: self.tabBar.frame.size.height+60)
+                    
+                    //logoLabelView.frame=CGRect(x: self.tabBar.frame.size.width-110-logoLabelView.frame.size.width, y: 10, width: logoLabelView.intrinsicContentSize().width+200, height: self.tabBar.frame.size.height+60)
                 }
                 else {
-                    logoLabelView.frame=CGRect(x: 90, y: 50, width: 50, height: 50)
+                    logoLabelView.textAlignment = .Left
+                    
+                    logoLabelView.frame=CGRect(x: 110, y: logoLabelView.frame.origin.y, width: logoLabelView.intrinsicContentSize().width+200, height: self.tabBar.frame.size.height+60)
+                    //logoLabelView.frame=CGRect(x: 110, y: 10, width: self.tabBar.frame.size.height+60, height: self.tabBar.frame.size.height+60)
                 }
             }
         }
         
         /* download new translation */
         translatedKeyPhrases=dictionaryOfPath(base+"/"+version+"/translations/"+languageCode)?.objectForKey("translations")?.objectForKey(languageCode) as? NSDictionary
+            
+            print(translatedKeyPhrases)
+            
         if (translatedKeyPhrases != nil){ // if the language file was obtained
             /*These keys are what I found correspond to the navigation buttons on tv.jw.org*/
             
@@ -389,6 +404,7 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                 if (textDirection==UIUserInterfaceLayoutDirection.RightToLeft){
                     keyI=endIndex-1-i
                 }
+                print(keyI)
                 switch keyI {
                 /*case 0:
                     newTitle=""
@@ -400,6 +416,8 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                     newTitle=""*/
                 case 3:
                     //newTitle=" "
+                    print("should be jw font")
+                    
                     self.tabBar.items?[i].title="    "
                     
                     let fontattributes=[NSFontAttributeName:UIFont(name: "jwtv", size: 36)!,NSForegroundColorAttributeName:UIColor.grayColor()] as Dictionary<String,AnyObject>

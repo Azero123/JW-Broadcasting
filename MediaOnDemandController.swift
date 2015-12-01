@@ -13,8 +13,7 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        renewContent()
     }
     
     var previousLanguageCode=languageCode
@@ -40,13 +39,26 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
     func renewContent(){
         
         //http://mediator.jw.org/v1/categories/E/Audio?detailed=1
-        let category="VideoOnDemand"
         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
-        let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
+        let VODDataURL=categoriesDirectory+"/VideoOnDemand?detailed=1"
+        let AudioDataURL=categoriesDirectory+"/Audio?detailed=1"
         
-        fetchDataUsingCache(categoryDataURL, downloaded: {
+        var finishCount=0
+        
+        fetchDataUsingCache(VODDataURL, downloaded: {
             dispatch_async(dispatch_get_main_queue()) {
-                self.MediaCollectionView.reloadData()
+                finishCount++
+                if (finishCount == 2){
+                    self.MediaCollectionView.reloadData()
+                }
+            }
+        })
+        fetchDataUsingCache(AudioDataURL, downloaded: {
+            dispatch_async(dispatch_get_main_queue()) {
+                finishCount++
+                if (finishCount == 2){
+                    self.MediaCollectionView.reloadData()
+                }
             }
         })
     }
@@ -55,11 +67,19 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         
-        return 0
+        return 1
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 0
+        
+        let category="VideoOnDemand"
+        let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
+        let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
+        let response=unfold(categoryDataURL+"|category|subcategories|count") as? Int
+        if (response == nil){
+            return 0
+        }
+        return response!
     }
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
@@ -81,8 +101,41 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         
-        let cell: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("video", forIndexPath: indexPath)
+        print("[Media On Demand] test")
+        
+        let cell: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("category", forIndexPath: indexPath)
         cell.alpha=1
+        cell.backgroundColor=UIColor.redColor()
+        
+        let category="VideoOnDemand"
+        let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
+        let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
+        
+        for subview in cell.contentView.subviews {
+            if (subview.isKindOfClass(UIActivityIndicatorView.self)){
+                subview.transform = CGAffineTransformMakeScale(2.0, 2.0)
+                (subview as! UIActivityIndicatorView).startAnimating()
+            }
+            if (subview.isKindOfClass(UIImageView.self)){
+                
+                let imageURL=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|images|wss|lg") as? String
+                
+                
+                
+                print(imageURL)
+                if (imageURL != nil && imageURL != ""){
+                    
+                    fetchDataUsingCache(imageURL!, downloaded: {
+                        
+                        dispatch_async(dispatch_get_main_queue()) {
+                            print("[Media On Demand] test 2")
+                            let image=imageUsingCache(imageURL!)
+                            (subview as! UIImageView).image=image
+                        }
+                    })
+                }
+            }
+        }
         /*
         
         if (imageURL == ""){
@@ -175,6 +228,13 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    let multiplier:CGFloat=1.5
+        let ratio:CGFloat=1.875
+        let width:CGFloat=320/2
+        return CGSize(width: width*ratio*multiplier, height: width*multiplier+60)//450,300
     }
 
     

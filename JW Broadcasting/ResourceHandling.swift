@@ -257,6 +257,15 @@ func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?){
     fetchDataUsingCache(fileURL, downloaded: downloaded, usingCache: true)
 }
 func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?, usingCache:Bool){
+    
+    if (simulatedPoorConnection){
+        if (rand()%2<1){
+            downloaded!()
+            return
+        }
+    }
+    
+    
     /*
     
     This is the current primary method for collective updating.
@@ -441,7 +450,18 @@ func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
             print("from if NSArray")
         }
         let stringval=instructions[0] as! String
-        source=(from as! NSArray).objectAtIndex(Int((stringval as NSString).intValue)) // Unfold the NSArray
+        if (stringval.lowercaseString == "last"){
+            source=(from as! NSArray).objectAtIndex((from as! NSArray).count)
+        }
+        else if (stringval.lowercaseString == "first"){
+            source=(from as! NSArray).objectAtIndex(0)
+        }
+        else if (stringval.lowercaseString == "count"){
+            source=(from as! NSArray).count
+        }
+        else {
+            source=(from as! NSArray).objectAtIndex(Int((stringval as NSString).intValue)) // Unfold the NSArray
+        }
     }
     else if (from==nil){ // The item to process is empty and we need to discover what the first instruction is and use that as the item for the next unfold
         if (testLogSteps){
@@ -568,6 +588,12 @@ func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
     
     if (logConnections){
         print("[Fetcher-inline] \(fileURL)")
+    }
+    
+    if (simulatedPoorConnection){
+        if (rand()%2<1){
+            return nil
+        }
     }
     
     /*

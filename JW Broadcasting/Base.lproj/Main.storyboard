@@ -50,7 +50,7 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nJd-Dk-Mmp">
                                                     <rect key="frame" x="0.0" y="0.0" width="381" height="200"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RgZ-ro-IOk">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RgZ-ro-IOk" customClass="marqueeLabel" customModule="JW_Broadcasting" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="100" width="381" height="100"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="100" id="o7i-JC-LH7"/>
@@ -118,7 +118,7 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DDr-2q-tPH">
                                                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Ca-0Y-y26">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Ca-0Y-y26" customClass="marqueeLabel" customModule="JW_Broadcasting" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="128" width="240" height="60"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="60" id="gcP-kI-mgA"/>
@@ -185,7 +185,7 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fBX-Cn-15n">
                                                     <rect key="frame" x="0.0" y="0.0" width="560" height="280"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TtB-am-IBw">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TtB-am-IBw" customClass="marqueeLabel" customModule="JW_Broadcasting" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="290" width="560" height="60"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="60" id="4dF-2T-E7J"/>
@@ -715,20 +715,36 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="AKW-6K-ITa">
                                 <rect key="frame" x="0.0" y="0.0" width="1960" height="1080"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="rOx-IU-xPP">
-                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="itemSize" width="400" height="400"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" id="LTG-9E-Qey">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="category" id="LTG-9E-Qey">
+                                        <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="2vZ-zC-DAX">
+                                                    <rect key="frame" x="190" y="190" width="20" height="20"/>
+                                                </activityIndicatorView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pbm-xw-a9t">
+                                                    <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
+                                                </imageView>
+                                            </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <constraints>
+                                            <constraint firstItem="2vZ-zC-DAX" firstAttribute="centerX" secondItem="LTG-9E-Qey" secondAttribute="centerX" id="7EH-tr-nqt"/>
+                                            <constraint firstItem="2vZ-zC-DAX" firstAttribute="centerY" secondItem="LTG-9E-Qey" secondAttribute="centerY" id="9cW-ny-cwX"/>
+                                            <constraint firstAttribute="bottom" secondItem="pbm-xw-a9t" secondAttribute="bottom" id="AVG-9d-cWe"/>
+                                            <constraint firstItem="pbm-xw-a9t" firstAttribute="top" secondItem="LTG-9E-Qey" secondAttribute="top" id="j7f-Sm-fQA"/>
+                                            <constraint firstItem="pbm-xw-a9t" firstAttribute="leading" secondItem="LTG-9E-Qey" secondAttribute="leading" id="jAf-dU-4lm"/>
+                                            <constraint firstAttribute="trailing" secondItem="pbm-xw-a9t" secondAttribute="trailing" id="qc8-xn-XhC"/>
+                                        </constraints>
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
