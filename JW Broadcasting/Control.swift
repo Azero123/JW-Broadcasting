@@ -27,6 +27,7 @@ let JWLogo = true
 
 let useLibraryDirectoryInSimulator=true
 
+
 /*Logging*/
 let logConnections = false
 let logFolding = testLogSteps
@@ -57,7 +58,9 @@ let HomeLastestVideos = true //unimplemented
 
 let ReturnToHome = true //This has cause a lot of issues and is still being resolved.
 
+/*Settings for Streaming*/
 
-
-
+let StreamingLowestQuality=false
+var StreamingAdvancedMode=true //This is for testing and shows details about the video currently playing such as url duration current time etc
+var StreamingHTTPStitching=false //Not started
 

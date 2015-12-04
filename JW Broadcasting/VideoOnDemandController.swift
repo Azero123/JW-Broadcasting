@@ -26,6 +26,12 @@ class VideoOnDemandController: CategoryController {
     */
 
     override func viewDidLoad() {
+        
+        /*
+        
+        All the code for this section is in CategoryController. However we can change some properties. For instance we need to specify the category file name in this case VideoOnDemand. Also we need to appropriately space the items based on the size of the previews so that they are not on top of each other.
+        
+        */
         self.category="VideoOnDemand"
         super.viewDidLoad()
         (self.videoCollection.collectionViewLayout as! CollectionViewAlignmentFlowLayout).headerSpace=50
@@ -39,7 +45,15 @@ class VideoOnDemandController: CategoryController {
     
     override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         let multiplier:CGFloat=1.5
-        //908,512
+        
+        /*The size of each preview item*/
+        
+        /*
+        Typically we are going to try to use the "ws" image ratio as the preview item because it fits properly.
+        The typical size of the image is 320x180 but we provide more space for other image items that are not in that ratio.
+        
+        */
+        
         return CGSizeMake(CGFloat(350)*multiplier, CGFloat(240)*multiplier+60)//640,360//ws320,180
     }
     

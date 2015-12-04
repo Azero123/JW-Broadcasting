@@ -67,7 +67,7 @@ The contents of $RESPONSE contains a %category% pattern:
         ...
     } (dictionary containing all available image urls)
 
-    subcategories [
+    subcategories = [
     %category%,
     %category%,
     ...

@@ -132,16 +132,6 @@ class ChannelSelector: SuperCollectionView {
                     titleLabel.layer.zPosition=100000
                     titleLabel.text=channelMeta!.objectForKey("name") as? String
                 }
-                if (subview.isKindOfClass(MarqueeLabel.self)){
-                    (subview as! MarqueeLabel).type = .Continuous
-                    (subview as! MarqueeLabel).textAlignment = .Center
-                    (subview as! MarqueeLabel).lineBreakMode = .ByTruncatingHead
-                    (subview as! MarqueeLabel).scrollDuration = ((subview as! MarqueeLabel).intrinsicContentSize().width)/50
-                    (subview as! MarqueeLabel).fadeLength = 15.0
-                    (subview as! MarqueeLabel).leadingBuffer = 40.0
-                    (subview as! MarqueeLabel).animationDelay = 0
-                    (subview as! MarqueeLabel).pauseLabel()
-                }
             }
 
         }
@@ -202,9 +192,6 @@ class ChannelSelector: SuperCollectionView {
             }
             if (subview.isKindOfClass(marqueeLabel.self)){
                 (subview as! marqueeLabel).beginFocus()
-            }
-            if (subview.isKindOfClass(MarqueeLabel.self)){
-                (subview as! MarqueeLabel).unpauseLabel()
             }
         }
         
@@ -269,9 +256,6 @@ class ChannelSelector: SuperCollectionView {
             }
             if (subview.isKindOfClass(marqueeLabel.self)){
                 (subview as! marqueeLabel).endFocus()
-            }
-            if (subview.isKindOfClass(MarqueeLabel.self)){
-                (subview as! MarqueeLabel).pauseLabel()
             }
         }
         player?.replaceCurrentItemWithPlayerItem(nil)

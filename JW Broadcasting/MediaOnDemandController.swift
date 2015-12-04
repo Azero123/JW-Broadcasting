@@ -6,6 +6,14 @@
 //  Copyright © 2015 xquared. All rights reserved.
 //
 
+/*
+The is an uncompleted combination of Video on Demand and Audio.
+The goal here is to merge the 2 sections and make it as understandable to the user as possible.
+
+
+*/
+
+
 import UIKit
 
 class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {

@@ -443,27 +443,51 @@ func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
     
     if (from?.isKindOfClass(NSDictionary.self) == true){ //The item to process is known already as an NSDictionary
         if (testLogSteps){
-            print("from if NSDictionary")
+            print("NSDictionary.objectForKey(\(instructions[0]))")
         }
         source=(from as! NSDictionary).objectForKey(instructions[0]) // Unfold the NSDictionary
     }
     else if (from?.isKindOfClass(NSArray.self) == true){ //The item to process is known already as an NSArray
         if (testLogSteps){
-            print("from if NSArray")
+            print("NSArray.objectAtIndex(\(instructions[0]))")
         }
         let stringval=instructions[0] as! String
         if (stringval.lowercaseString == "last"){
-            source=(from as! NSArray).objectAtIndex((from as! NSArray).count)
+            if ((from as! NSArray).count>0){
+                source=(from as! NSArray).objectAtIndex((from as! NSArray).count-1)
+            }
+            else {
+                source=nil
+            }
         }
         else if (stringval.lowercaseString == "first"){
-            source=(from as! NSArray).objectAtIndex(0)
+            if ((from as! NSArray).count>0){
+                source=(from as! NSArray).objectAtIndex(0)
+            }
+            else {
+                source=nil
+            }
         }
         else if (stringval.lowercaseString == "count"){
             source=(from as! NSArray).count
         }
         else {
-            source=(from as! NSArray).objectAtIndex(Int((stringval as NSString).intValue)) // Unfold the NSArray
+            if ((from as! NSArray).count>Int((stringval as NSString).intValue)){
+                source=(from as! NSArray).objectAtIndex(Int((stringval as NSString).intValue)) // Unfold the NSArray
+            }
         }
+    }
+    else if (from?.isKindOfClass(NSString.self) == true){
+        if (testLogSteps){
+            print("from \(instructions[0]) is NSString")
+        }
+        source=(from as! NSString)
+    }
+    else if (from?.isKindOfClass(NSNumber.self) == true){
+        if (testLogSteps){
+            print("from \(instructions[0]) is NSNumber")
+        }
+        source=(from as! NSNumber)
     }
     else if (from==nil){ // The item to process is empty and we need to discover what the first instruction is and use that as the item for the next unfold
         if (testLogSteps){
@@ -565,6 +589,11 @@ func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
     /* This method failed to return an NSObject but we have to return something and hopefully not cause an error. */
     
     if (source == nil){
+        
+        if (testLogSteps){
+            print("source is nil")
+        }
+        
         return nil
     }
     

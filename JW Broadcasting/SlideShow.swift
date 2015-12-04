@@ -148,16 +148,6 @@ class SlideShow: SuperCollectionView {
             if (subview.isKindOfClass(marqueeLabel.self)){
                 (subview as! marqueeLabel).darkBackground=true
             }
-            if (subview.isKindOfClass(MarqueeLabel.self)){
-                (subview as! MarqueeLabel).type = .Continuous
-                (subview as! MarqueeLabel).textAlignment = .Center
-                (subview as! MarqueeLabel).lineBreakMode = .ByTruncatingHead
-                (subview as! MarqueeLabel).scrollDuration = ((subview as! MarqueeLabel).intrinsicContentSize().width)/50
-                (subview as! MarqueeLabel).fadeLength = 15.0
-                (subview as! MarqueeLabel).leadingBuffer = 40.0
-                (subview as! MarqueeLabel).animationDelay = 0
-                (subview as! MarqueeLabel).pauseLabel()
-            }
         }
         }
 
@@ -263,9 +253,6 @@ class SlideShow: SuperCollectionView {
             if (subview.isKindOfClass(marqueeLabel.self)){
                 (subview as! marqueeLabel).beginFocus()
             }
-            if (subview.isKindOfClass(MarqueeLabel.self)){
-                (subview as! MarqueeLabel).unpauseLabel()
-            }
         }
         selectedSlideShow=true
         
@@ -308,9 +295,6 @@ class SlideShow: SuperCollectionView {
             }
             if (subview.isKindOfClass(marqueeLabel.self)){
                 (subview as! marqueeLabel).endFocus()
-            }
-            if (subview.isKindOfClass(MarqueeLabel.self)){
-                (subview as! MarqueeLabel).pauseLabel()
             }
         }
         selectedSlideShow=false
