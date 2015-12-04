@@ -47,16 +47,22 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var backgroundImageView: UIImageView!
     var latestVideos=[]
     
+    @IBOutlet weak var BackgroundEffectView: UIVisualEffectView!
+    @IBOutlet weak var JWBroadcastingLogo: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.userInteractionEnabled=true
+        
+        backgroundImageView.alpha=0.75
+        BackgroundEffectView.alpha=0.99
         
         /*
         
         Set colors of tab bar. Selected is white not is gray.
         
         */
+        
         
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.grayColor()], forState:.Normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState:.Selected)
@@ -198,6 +204,7 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
         }
         else {
             self.slideShowTopConstraint.constant = -self.slideShowCollectionView.frame.size.height
+            self.JWBroadcastingLogoTopConstraint.constant = 40
             self.view.layoutIfNeeded()
         }
         self.streamingCollectionView.prepare()
@@ -423,6 +430,7 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     @IBOutlet weak var slideShowTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var JWBroadcastingLogoTopConstraint: NSLayoutConstraint!
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
@@ -466,7 +474,8 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
                 
                 UIView.animateWithDuration(0.5, animations: {
                     
-                    self.slideShowTopConstraint.constant = -self.slideShowCollectionView.frame.size.height+100//880 1080
+                    self.slideShowTopConstraint.constant = -self.slideShowCollectionView.frame.size.height+150//880 1080
+                    self.JWBroadcastingLogoTopConstraint.constant = -140
                     self.slideShowCollectionView.alpha=0.001
                     self.view.layoutIfNeeded()
                 })
@@ -475,7 +484,8 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
                 
                 UIView.animateWithDuration(0.5, animations: {
                     
-                    self.slideShowTopConstraint.constant = 0
+                    self.slideShowTopConstraint.constant = -30
+                    self.JWBroadcastingLogoTopConstraint.constant = 40
                     self.slideShowCollectionView.alpha=1
                     self.view.layoutIfNeeded()
                 })

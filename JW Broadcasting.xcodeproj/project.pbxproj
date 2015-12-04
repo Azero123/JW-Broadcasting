@@ -17,6 +17,7 @@
 		9F3E37021BF32438009C7847 /* MarqueeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E37011BF32438009C7847 /* MarqueeLabel.swift */; };
 		9F3F7F5A1BF6D7FA0010A789 /* SlideShow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3F7F591BF6D7FA0010A789 /* SlideShow.swift */; };
 		9F3F7F5E1BF6D9FD0010A789 /* SuperCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3F7F5D1BF6D9FD0010A789 /* SuperCollectionView.swift */; };
+		9F536CCA1C116D230070BB12 /* jw-broadcasting-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F536CC91C116D230070BB12 /* jw-broadcasting-logo.png */; };
 		9F5CE48D1BB644C700378D4C /* CollectionViewHorizontalFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5CE48C1BB644C700378D4C /* CollectionViewHorizontalFlowLayout.swift */; };
 		9F72EF451BF738D000680302 /* ChannelSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F72EF441BF738D000680302 /* ChannelSelector.swift */; };
 		9F7872D21BF952DD00EE409B /* ResourceHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7872D11BF952DD00EE409B /* ResourceHandling.swift */; };
@@ -70,6 +71,7 @@
 		9F3F7F591BF6D7FA0010A789 /* SlideShow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideShow.swift; sourceTree = "<group>"; };
 		9F3F7F5B1BF6D9AB0010A789 /* saved code */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "saved code"; sourceTree = "<group>"; };
 		9F3F7F5D1BF6D9FD0010A789 /* SuperCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuperCollectionView.swift; sourceTree = "<group>"; };
+		9F536CC91C116D230070BB12 /* jw-broadcasting-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jw-broadcasting-logo.png"; sourceTree = "<group>"; };
 		9F5CE48C1BB644C700378D4C /* CollectionViewHorizontalFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewHorizontalFlowLayout.swift; sourceTree = "<group>"; };
 		9F72EF441BF738D000680302 /* ChannelSelector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelSelector.swift; sourceTree = "<group>"; };
 		9F7872D11BF952DD00EE409B /* ResourceHandling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceHandling.swift; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 		9F7872CE1BF9515800EE409B /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				9F536CC91C116D230070BB12 /* jw-broadcasting-logo.png */,
 				9F7872D31BF955C800EE409B /* LaunchScreen.png */,
 				9F7872D41BF955C800EE409B /* LaunchScreenBlue.png */,
 				9F7872D51BF955C800EE409B /* LaunchScreenEarth-Washed.png */,
@@ -433,6 +436,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F536CCA1C116D230070BB12 /* jw-broadcasting-logo.png in Resources */,
 				9F9333E31BFFB5CA00092AED /* mm3.ttf in Resources */,
 				9F22B00D1BFBCBCF0041E588 /* JW-White-Background-Blue.png in Resources */,
 				9F79A1911BA6A3AC00B5E925 /* Assets.xcassets in Resources */,

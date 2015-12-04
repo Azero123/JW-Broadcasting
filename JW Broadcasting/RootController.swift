@@ -285,11 +285,6 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         super.pressesBegan(presses, withEvent: event)
         
     }
-    
-    func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool {
-        print("test")
-        return true
-    }
     var timer:NSTimer?=nil
     
     func keepDown(){
@@ -298,7 +293,7 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         */
         
         timer?.invalidate()
-        timer=NSTimer.scheduledTimerWithTimeInterval(7.5, target: self, selector: "hide", userInfo: nil, repeats: false)
+        timer=NSTimer.scheduledTimerWithTimeInterval(12, target: self, selector: "hide", userInfo: nil, repeats: false)
         self.setTabBarVisible(true, animated: true)
     }
     

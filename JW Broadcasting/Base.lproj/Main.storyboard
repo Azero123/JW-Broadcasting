@@ -31,11 +31,17 @@
                                     <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </view>
-                                <color key="tintColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
-                                <blurEffect style="extraLight"/>
+                                <blurEffect style="light"/>
                             </visualEffectView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="jw-broadcasting-logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="G1p-ST-rl8">
+                                <rect key="frame" x="752" y="40" width="417" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="1jm-ac-wqv"/>
+                                    <constraint firstAttribute="width" constant="417" id="qWN-Z3-qa2"/>
+                                </constraints>
+                            </imageView>
                             <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="bcI-63-HQl" customClass="SlideShow" customModule="JW_Broadcasting" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="1920" height="550"/>
+                                <rect key="frame" x="0.0" y="110" width="1920" height="550"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="550" id="9ov-hr-ZCW"/>
                                 </constraints>
@@ -81,7 +87,7 @@
                                 </connections>
                             </collectionView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c1U-oz-E1L">
-                                <rect key="frame" x="0.0" y="530" width="1920" height="90"/>
+                                <rect key="frame" x="0.0" y="640" width="1920" height="90"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Streaming" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ylw-l7-zqG">
                                         <rect key="frame" x="115" y="10" width="1690" height="58"/>
@@ -102,7 +108,7 @@
                                 </constraints>
                             </view>
                             <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Aiz-tC-uQO" customClass="ChannelSelector" customModule="JW_Broadcasting" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="620" width="1920" height="350"/>
+                                <rect key="frame" x="0.0" y="730" width="1920" height="350"/>
                                 <color key="backgroundColor" red="0.65098039215686276" green="0.66666666666666663" blue="0.66274509803921566" alpha="0.25" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="350" id="0NF-sI-jSK"/>
@@ -150,7 +156,7 @@
                                 </connections>
                             </collectionView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wVA-sT-yi4">
-                                <rect key="frame" x="0.0" y="970" width="1920" height="90"/>
+                                <rect key="frame" x="0.0" y="1080" width="1920" height="90"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Latest Videos" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zb4-44-uCv">
                                         <rect key="frame" x="115" y="10" width="1690" height="58"/>
@@ -170,7 +176,7 @@
                                 </constraints>
                             </view>
                             <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0FA-Mk-FN8" customClass="LatestVideos" customModule="JW_Broadcasting" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="1085" width="1920" height="350"/>
+                                <rect key="frame" x="0.0" y="1195" width="1920" height="350"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="350" id="V1N-d9-yVc"/>
                                 </constraints>
@@ -225,7 +231,7 @@
                                 <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
                         </subviews>
-                        <color key="backgroundColor" red="0.30196078430000001" green="0.43529411759999997" blue="0.64313725489999995" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="0FA-Mk-FN8" secondAttribute="trailing" id="0rH-zS-JLq"/>
                             <constraint firstItem="EdW-cC-2hD" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="2nQ-Rf-RQA"/>
@@ -235,6 +241,7 @@
                             <constraint firstItem="0FA-Mk-FN8" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="87G-1C-yan"/>
                             <constraint firstItem="bcI-63-HQl" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="9VZ-MH-ghK"/>
                             <constraint firstItem="lrK-Mb-DdO" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Crh-5C-VgS"/>
+                            <constraint firstItem="bcI-63-HQl" firstAttribute="top" secondItem="G1p-ST-rl8" secondAttribute="bottom" constant="-30" id="DT1-EX-5q8"/>
                             <constraint firstItem="EdW-cC-2hD" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="F3z-Gb-ZfD"/>
                             <constraint firstItem="c1U-oz-E1L" firstAttribute="top" secondItem="bcI-63-HQl" secondAttribute="bottom" constant="-20" id="I8v-TJ-AhT"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="RH6-M4-vU6" secondAttribute="bottom" id="Kxt-zp-QNf"/>
@@ -249,18 +256,22 @@
                             <constraint firstAttribute="trailing" secondItem="RH6-M4-vU6" secondAttribute="trailing" id="dMg-kx-DX8"/>
                             <constraint firstItem="wVA-sT-yi4" firstAttribute="top" secondItem="Aiz-tC-uQO" secondAttribute="bottom" id="ezu-ax-MMF"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="lrK-Mb-DdO" secondAttribute="bottom" id="fuU-iL-U9g"/>
-                            <constraint firstItem="bcI-63-HQl" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="h8j-56-p3X"/>
                             <constraint firstAttribute="trailing" secondItem="Aiz-tC-uQO" secondAttribute="trailing" id="n7k-pY-Do4"/>
+                            <constraint firstItem="G1p-ST-rl8" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="opz-NP-9oA"/>
                             <constraint firstAttribute="trailing" secondItem="wVA-sT-yi4" secondAttribute="trailing" id="sOq-pC-PCW"/>
+                            <constraint firstItem="G1p-ST-rl8" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="40" id="xn7-HM-OGF"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Home" id="gog-J0-hk9"/>
                     <connections>
+                        <outlet property="BackgroundEffectView" destination="lrK-Mb-DdO" id="kuR-Fr-YHp"/>
+                        <outlet property="JWBroadcastingLogo" destination="G1p-ST-rl8" id="bgL-tQ-W0r"/>
+                        <outlet property="JWBroadcastingLogoTopConstraint" destination="xn7-HM-OGF" id="69i-le-wJe"/>
                         <outlet property="activityIndicator" destination="EdW-cC-2hD" id="BK4-TI-1aO"/>
                         <outlet property="backgroundImageView" destination="RH6-M4-vU6" id="sQU-cA-08u"/>
                         <outlet property="latestVideosCollectionView" destination="0FA-Mk-FN8" id="TDm-ys-3L0"/>
                         <outlet property="slideShowCollectionView" destination="bcI-63-HQl" id="Sz3-oy-VQm"/>
-                        <outlet property="slideShowTopConstraint" destination="h8j-56-p3X" id="1da-bO-atb"/>
+                        <outlet property="slideShowTopConstraint" destination="DT1-EX-5q8" id="GUT-S4-PHy"/>
                         <outlet property="streamingCollectionView" destination="Aiz-tC-uQO" id="bjL-Z4-N1f"/>
                         <segue destination="8kI-1n-j2v" kind="show" identifier="presentStreaming" id="eOq-gS-Wby"/>
                     </connections>
@@ -815,5 +826,6 @@
     </scenes>
     <resources>
         <image name="LaunchScreenEarth.png" width="1920" height="1080"/>
+        <image name="jw-broadcasting-logo.png" width="250" height="65"/>
     </resources>
 </document>
