@@ -47,6 +47,8 @@ class marqueeLabel : UILabel  {
         super.text=""
         //These are the sublabels used for marquee effects that will have text
         labels=[UILabel(),UILabel()]
+        self.font=super.font
+        self.textColor=super.textColor
         // begin side blur effect
         blurSides()
     }
@@ -248,9 +250,10 @@ class marqueeLabel : UILabel  {
         }
     }
     
+    var _font:UIFont = UIFont.systemFontOfSize(12)
     internal override var font: UIFont! {
         get {
-            return labels[0]!.font
+            return _font
         }
         
         set {
@@ -259,7 +262,7 @@ class marqueeLabel : UILabel  {
             Passes the new font to the sublabels.
             Our font size has changed for the label so we need to correct its sizing so that it can scroll if it needs too.
             */
-            
+            _font=newValue
             if labels[0]!.font == newValue {
                 return
             }
@@ -322,7 +325,7 @@ class marqueeLabel : UILabel  {
             
             //The font does not get set to the labels because this occures on init before the labels are available. This needs corrected (remove this for loop when done so) in some way so that we can set the font size externally.
             for label in labels {
-                label!.font = UIFont.systemFontOfSize(30)
+                label!.font = _font
             }
             //properly size the labels so that they take up as much space as they need and if they take up more space than we have to display build a second label for the scrolling positioning it after the first view with some padding space
             labels[0]?.frame=self.bounds

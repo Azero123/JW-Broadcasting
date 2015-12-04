@@ -44,7 +44,7 @@ let Language = true
 
 let Search = false
 
-let BETAMedia = false
+let BETAMedia = true
 
 
 /*Settings for home page control*/

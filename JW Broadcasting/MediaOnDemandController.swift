@@ -21,6 +21,10 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.MediaCollectionView.clipsToBounds=false
+        self.MediaCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
+        self.MediaCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "footer")
+        (self.MediaCollectionView.collectionViewLayout as! CollectionViewAlignmentFlowLayout).spacingPercentile=1.275
         renewContent()
     }
     
@@ -95,8 +99,7 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
         var header:UICollectionReusableView?=nil
         
         if (kind == UICollectionElementKindSectionHeader){
-            
-            
+            header=collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "header", forIndexPath: indexPath)
         }
         if (kind == UICollectionElementKindSectionFooter) {
             header=collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionFooter, withReuseIdentifier: "footer", forIndexPath: indexPath)
@@ -113,7 +116,6 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
         
         let cell: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("category", forIndexPath: indexPath)
         cell.alpha=1
-        cell.backgroundColor=UIColor.redColor()
         
         let category="VideoOnDemand"
         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
@@ -126,11 +128,12 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
             }
             if (subview.isKindOfClass(UIImageView.self)){
                 
+                let imageView=subview as! UIImageView
+                
                 let imageURL=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|images|wss|lg") as? String
                 
-                
-                
-                print(imageURL)
+                imageView.userInteractionEnabled = true
+                imageView.adjustsImageWhenAncestorFocused = true
                 if (imageURL != nil && imageURL != ""){
                     
                     fetchDataUsingCache(imageURL!, downloaded: {
@@ -143,31 +146,85 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
                     })
                 }
             }
+            if (subview.isKindOfClass(UILabel.self)){
+                (subview as! UILabel).text=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|name") as! NSString as String
+            }
         }        
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, shouldUpdateFocusInContext context: UICollectionViewFocusUpdateContext) -> Bool {
+    
+    func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
         
-        /*
-        This method provides the blue highlighting to the cells and sets variable selectedSlideShow:Bool.
-        If selectedSlideShow==true (AKA the user is interacting with the slideshow) then the slide show will not roll to next slide.
-        
-        */
+        let category="VideoOnDemand"
+        let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
+        let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
+        categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|key") as! String
+        print("category to go to \(categoryToGoTo)")
         return true
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    var categoryToGoTo=""
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (segue.destinationViewController.isKindOfClass(MediaOnDemandCategory.self)){
+            (segue.destinationViewController as! MediaOnDemandCategory).category=categoryToGoTo
+            print(categoryToGoTo)
+        }
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-    let multiplier:CGFloat=1.5
-        let ratio:CGFloat=1.875
-        let width:CGFloat=320/2
-        return CGSize(width: width*ratio*multiplier, height: width*multiplier+60)//450,300
+    let multiplier:CGFloat=0.80
+        let ratio:CGFloat=1.77777777777778
+        let width:CGFloat=360
+        return CGSize(width: width*ratio*multiplier, height: width*multiplier)//640,360
     }
 
-    
+    func collectionView(collectionView: UICollectionView, shouldUpdateFocusInContext context: UICollectionViewFocusUpdateContext) -> Bool {
+        
+        /*
+        
+        This method handles when the user moves focus over a UICollectionViewCell and/or UICollectionView.
+        */
+        
+        if (context.previouslyFocusedView?.isKindOfClass(UICollectionViewCell.self) == true && context.previouslyFocusedIndexPath != nil){
+            //(context.previouslyFocusedView?.superview as! SuperCollectionView).cellShouldLoseFocus(context.previouslyFocusedView!, indexPath: context.previouslyFocusedIndexPath!)
+            for subview in (context.previouslyFocusedView?.subviews.first!.subviews)! {
+                
+                if (subview.isKindOfClass(UILabel.self) == true){
+                    (subview as! UILabel).textColor=UIColor.darkGrayColor()
+                    
+                    UIView.animateWithDuration(0.1, animations: {
+                        subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y-20, width: subview.frame.size.width, height: subview.frame.size.height)
+                    })
+                    
+                }
+                if (subview.isKindOfClass(marqueeLabel.self) == true){
+                    (subview as! marqueeLabel).beginFocus()
+                }
+            }
+        }
+        if (context.nextFocusedView?.isKindOfClass(UICollectionViewCell.self) == true && context.nextFocusedIndexPath != nil){
+            for subview in (context.nextFocusedView!.subviews.first!.subviews) {
+                print("subview white! \(subview.dynamicType)")
+                if (subview.isKindOfClass(UILabel.self) == true){
+                    print("UILabel")
+                    (subview as! UILabel).textColor=UIColor.whiteColor()
+                    
+                    UIView.animateWithDuration(0.1, animations: {
+                        subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y+20, width: subview.frame.size.width, height: subview.frame.size.height)
+                    })
+                    
+                }
+                if (subview.isKindOfClass(marqueeLabel.self) == true){
+                    print("marquee")
+                    (subview as! marqueeLabel).endFocus()
+                }
+            }
+        }
+        return true
+
+    }
 
     
 }

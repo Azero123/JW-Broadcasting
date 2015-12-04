@@ -107,12 +107,20 @@ class CollectionViewAlignmentFlowLayout: UICollectionViewFlowLayout {
         */
         
         
-        let layout=(self.collectionView?.delegate as! CategoryController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forRow: 0, inSection: 0))
+        var layout=CGSize(width: 0,height: 0)
+        if ((self.collectionView?.delegate?.isKindOfClass(CategoryController.self)) == true){
+            layout=(self.collectionView!.delegate as! CategoryController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forRow: 0, inSection: 0))
+        }
+        else {
+            layout=(self.collectionView!.delegate as! MediaOnDemandController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forRow: 0, inSection: 0))
+        }
         let verticalRowCount=ceil(super.collectionViewContentSize().height/(layout.height))
         
         let headerHeight=layoutAttributesForSupplementaryViewOfKind( UICollectionElementKindSectionHeader , atIndexPath: NSIndexPath(forRow: 0, inSection: 0))?.frame.size.height
         let accumulativeHeaderHeight=CGFloat((self.collectionView?.numberOfSections())!)*headerHeight!
         
-        return CGSize(width: super.collectionViewContentSize().width, height: (layout.height)*spacingPercentile*verticalRowCount+accumulativeHeaderHeight)
+        let completedContentSize=CGSize(width: super.collectionViewContentSize().width, height: (layout.height)*spacingPercentile*verticalRowCount+accumulativeHeaderHeight)
+        
+        return completedContentSize
     }
 }
