@@ -30,7 +30,10 @@ class marqueeLabel : UILabel  {
     
     var i:CGFloat=0
     let padding:CGFloat=30
-    let fadeLength:CGFloat=15
+    var fadeLength:CGFloat=15
+    var fadePadding:CGFloat = 20
+    var fadePaddingWhenFull:CGFloat = 20
+    var textSideOffset:CGFloat=10
     var labels:Array<UILabel?>=[UILabel()]
     var vMaskLayer:CAGradientLayer = CAGradientLayer()
     var gradientMask:CAGradientLayer? = CAGradientLayer()
@@ -38,7 +41,7 @@ class marqueeLabel : UILabel  {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        self.clipsToBounds=true
+        self.clipsToBounds=false
         self.backgroundColor=UIColor.clearColor()
         //We do not want text in this label ever
         super.text=""
@@ -57,12 +60,12 @@ class marqueeLabel : UILabel  {
             
             if (newValue == true){
                 // defines the color of the background shadow effect
-                let innerColor = UIColor(colorLiteralRed: 0, green: 0, blue: 0, alpha: 0.15).CGColor
+                let innerColor = UIColor(colorLiteralRed: 0, green: 0, blue: 0, alpha: 0.20).CGColor
                 let outerColor = UIColor(colorLiteralRed: 0, green: 0, blue: 0, alpha: 0).CGColor
                 
                 // define a vertical gradient (up/bottom edges)
-                let colors = [outerColor,outerColor, innerColor,innerColor,outerColor]
-                let locations = [0.0,0.05, 0.25,0.75,1.0]
+                let colors = [outerColor, innerColor ,outerColor]
+                let locations = [0.0, 0.5,1.0]
                 
                 // without specifying startPoint and endPoint, we get a vertical gradient
                 vMaskLayer.opacity = 0.7
@@ -141,8 +144,8 @@ class marqueeLabel : UILabel  {
             self.layer.removeAllAnimations()
             UIView.animateWithDuration(0.1, animations: {
                 //The normal positions of the labels
-                self.labels[0]?.frame=CGRectMake(0, (self.labels[0]?.frame.origin.y)!, (self.labels[0]?.frame.size.width)!, (self.labels[0]?.frame.size.height)!)
-                self.labels[1]?.frame=CGRect(x: (self.labels[1]?.frame.size.width)!+self.padding, y: 0, width: (self.labels[1]?.frame.size.width)!, height: self.frame.size.height)
+                self.labels[0]?.frame=CGRectMake(self.textSideOffset, (self.labels[0]?.frame.origin.y)!, (self.labels[0]?.frame.size.width)!, (self.labels[0]?.frame.size.height)!)
+                self.labels[1]?.frame=CGRect(x: (self.labels[1]?.frame.size.width)!+self.padding+self.textSideOffset, y: 0, width: (self.labels[1]?.frame.size.width)!, height: self.frame.size.height)
             })
         }
     }
@@ -168,7 +171,7 @@ class marqueeLabel : UILabel  {
                     }
                     else {
                         //move text the space the text takes up plus the padding between labels.
-                        label?.frame=CGRectMake((label?.frame.origin.x)!-(label?.frame.size.width)!-self.padding, (label?.frame.origin.y)!, (label?.frame.size.width)!, (label?.frame.size.height)!)
+                        label?.frame=CGRectMake((label?.frame.origin.x)!-(label?.frame.size.width)!-self.padding+self.textSideOffset, (label?.frame.origin.y)!, (label?.frame.size.width)!, (label?.frame.size.height)!)
                     }
                     
                 }
@@ -176,8 +179,8 @@ class marqueeLabel : UILabel  {
                 }, completion: { (finished:Bool) in
                     if (finished){
                         //reset label positions
-                        self.labels[0]?.frame=CGRectMake(0, (self.labels[0]?.frame.origin.y)!, (self.labels[0]?.frame.size.width)!, (self.labels[0]?.frame.size.height)!)
-                        self.labels[1]?.frame=CGRect(x: (self.labels[1]?.frame.size.width)!+self.padding, y: 0, width: (self.labels[1]?.frame.size.width)!, height: self.frame.size.height)
+                        self.labels[0]?.frame=CGRectMake(self.textSideOffset, (self.labels[0]?.frame.origin.y)!, (self.labels[0]?.frame.size.width)!, (self.labels[0]?.frame.size.height)!)
+                        self.labels[1]?.frame=CGRect(x: (self.labels[1]?.frame.size.width)!+self.padding+self.textSideOffset, y: 0, width: (self.labels[1]?.frame.size.width)!, height: self.frame.size.height)
                         //loop text again
                         self.marquee()
                     }
@@ -300,10 +303,20 @@ class marqueeLabel : UILabel  {
         
             //Update special gradient effects
             vMaskLayer.bounds = self.bounds
-            let blurLeftDistance:CGFloat=(self.frame.size.width-(labels[0]?.intrinsicContentSize().width)!)/2-20
-            let blurWidth:CGFloat=(labels[0]?.intrinsicContentSize().width)!+10
+            
+            var fadePaddingToUse=fadePaddingWhenFull
+            
+            var widthToUse=self.frame.size.width
+            if (widthToUse>(labels[0]?.intrinsicContentSize().width)!){
+                widthToUse=(labels[0]?.intrinsicContentSize().width)!
+                fadePaddingToUse=fadePadding
+            }
+            
+            let blurLeftDistance:CGFloat=(widthToUse)/2-fadePaddingToUse
+            let blurWidth:CGFloat=(widthToUse)+fadePaddingToUse*2
             if (gradientMask != nil){
                 gradientMask!.bounds = CGRectMake(blurLeftDistance, CGFloat(0), blurWidth, CGFloat(self.bounds.size.height))
+                //gradientMask!.bounds=CGRectMake(-fadePadding, 0, self.bounds.size.width+fadePadding, self.bounds.size.height)
                 gradientMask!.position = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds))
             }
             
@@ -315,9 +328,9 @@ class marqueeLabel : UILabel  {
             labels[0]?.frame=self.bounds
             self.addSubview(labels[0]!)
             if (labels[1]?.intrinsicContentSize().width>self.frame.size.width){
-                labels[0]?.frame=CGRect(x: 0, y: 0, width: (labels[0]?.intrinsicContentSize().width)!, height: self.frame.size.height)
+                labels[0]?.frame=CGRect(x: self.textSideOffset, y: 0, width: (labels[0]?.intrinsicContentSize().width)!, height: self.frame.size.height)
                 self.addSubview(labels[1]!)
-                labels[1]?.frame=CGRect(x: (labels[1]?.intrinsicContentSize().width)!+padding, y: 0, width: (labels[1]?.intrinsicContentSize().width)!, height: self.frame.size.height)
+                labels[1]?.frame=CGRect(x: (labels[1]?.intrinsicContentSize().width)!+padding+self.textSideOffset, y: 0, width: (labels[1]?.intrinsicContentSize().width)!, height: self.frame.size.height)
                 
             }
             else {
@@ -341,7 +354,6 @@ class marqueeLabel : UILabel  {
         let colors=[UIColor.clearColor().CGColor,UIColor.whiteColor().CGColor,UIColor.whiteColor().CGColor,UIColor.clearColor().CGColor]
         //Start on the far left
         
-        //The blur effect takes up the entire area of the view
         gradientMask!.bounds=self.bounds
         //Set the middle of the blur effect to the middle of the view
         gradientMask!.position = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds))

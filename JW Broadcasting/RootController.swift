@@ -228,7 +228,7 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         
         
         
-        timer=NSTimer.scheduledTimerWithTimeInterval(7.5, target: self, selector: "hide", userInfo: nil, repeats: false)
+        timer=NSTimer.scheduledTimerWithTimeInterval(12, target: self, selector: "hide", userInfo: nil, repeats: false)
         
         let swipeRecognizer = UISwipeGestureRecognizer(target: self, action: "swiped:")
         swipeRecognizer.direction = .Right //|| .Up || .Left || .Right
@@ -284,6 +284,11 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         
         super.pressesBegan(presses, withEvent: event)
         
+    }
+    
+    func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool {
+        print("test")
+        return true
     }
     var timer:NSTimer?=nil
     

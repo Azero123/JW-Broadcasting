@@ -114,7 +114,14 @@ class LatestVideos: SuperCollectionView {
                             titleLabel.text=(videoData!.objectForKey("title") as? String)!
                             titleLabel.layer.shadowColor=UIColor.blackColor().CGColor
                             titleLabel.layer.shadowRadius=5
+                            titleLabel.frame=CGRectMake(titleLabel.frame.origin.x, titleLabel.frame.origin.y, titleLabel.frame.size.width, titleLabel.frame.size.height)
+                        }
+                        if (subview.isKindOfClass(marqueeLabel.self)){
                             
+                            (subview as! marqueeLabel).fadeLength=15
+                            (subview as! marqueeLabel).fadePadding = 30
+                            (subview as! marqueeLabel).fadePaddingWhenFull = -5
+                            (subview as! marqueeLabel).textSideOffset=15
                         }
                     }
                 }

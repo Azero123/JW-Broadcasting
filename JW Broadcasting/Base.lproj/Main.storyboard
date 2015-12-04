@@ -31,6 +31,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </view>
+                                <color key="tintColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
                                 <blurEffect style="extraLight"/>
                             </visualEffectView>
                             <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="bcI-63-HQl" customClass="SlideShow" customModule="JW_Broadcasting" customModuleProvider="target">
@@ -55,7 +56,7 @@
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="100" id="o7i-JC-LH7"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
