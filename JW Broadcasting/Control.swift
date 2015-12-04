@@ -61,6 +61,6 @@ let ReturnToHome = true //This has cause a lot of issues and is still being reso
 /*Settings for Streaming*/
 
 let StreamingLowestQuality=false
-var StreamingAdvancedMode=true //This is for testing and shows details about the video currently playing such as url duration current time etc
+var StreamingAdvancedMode=false //This is for testing and shows details about the video currently playing such as url duration current time etc
 var StreamingHTTPStitching=false //Not started
 
