@@ -224,6 +224,7 @@ class SlideShow: SuperCollectionView {
             let rightIndex = totalItems-1
             
             if ( previousIndexPath != nil){
+                print("previous!=nil")
                 
                 if (indexPath.row>previousIndexPath!.row){
                     loopItemFrom(leftIndex, to: rightIndex)
@@ -236,9 +237,12 @@ class SlideShow: SuperCollectionView {
                 }
             }
             if (indexPath.row == 0){
+                print("indexPath.row == 0")
                 loopItemFrom(rightIndex, to: leftIndex)
             }
         }
+        
+        
         SLIndex=indexPath.row
         
         
@@ -300,7 +304,7 @@ class SlideShow: SuperCollectionView {
         selectedSlideShow=false
     }
     
-    func moveToSlide(atIndex:Int){
+    func moveToSlide(var atIndex:Int){
         /*
         Code for moving the slides after checking to make sure the cell it's going to is loaded.
         */
@@ -308,7 +312,30 @@ class SlideShow: SuperCollectionView {
         if (unfold(base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider") != nil ){
             
             if (self.cellForItemAtIndexPath(NSIndexPath(forRow: atIndex, inSection: 0)) != nil){
+                
+                
+                
+                
+                let totalItems=self.totalItemsInSection(0)
+                let leftIndex = 0
+                let rightIndex = totalItems-1
+                
+                /*Infinite loop auto scrolling*/
+                
+                if (totalItems>3){
+                    
+                    while (atIndex>totalItems-3){
+                        atIndex--
+                        loopItemFrom(leftIndex, to: rightIndex)
+                    }
+                    while (atIndex<2){
+                        atIndex++
+                        loopItemFrom(rightIndex, to: leftIndex)
+                    }
+                }
+                
                 self.scrollToItemAtIndexPath(NSIndexPath(forRow: atIndex, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
+                
                 SLIndex=atIndex
             }
         }
