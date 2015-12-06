@@ -236,7 +236,6 @@ class SlideShow: SuperCollectionView {
             let rightIndex = totalItems-1
             
             if ( previousIndexPath != nil){
-                print("previous!=nil")
                 
                 if (indexPath.row>previousIndexPath!.row){
                     loopItemFrom(leftIndex, to: rightIndex)
@@ -246,24 +245,7 @@ class SlideShow: SuperCollectionView {
                 }
                 else if (indexPath.row<previousIndexPath!.row){
                     loopItemFrom(rightIndex, to: leftIndex)
-                    print("\(indexPath.row)")
-                    /*if (indexPath.row == 0 || indexPath.row == -1){
-                        loopItemFrom(rightIndex, to: leftIndex)
-                    }*/
-                    /*if (indexPath.row == 0 || indexPath.row == -1){
-                        loopItemFrom(rightIndex, to: leftIndex)
-                    }*/
                 }
-                /*var atIndex=indexPath.row
-                
-                while (atIndex>totalItems-3){
-                    atIndex--
-                    loopItemFrom(leftIndex, to: rightIndex)
-                }
-                while (atIndex<2){
-                    atIndex++
-                    loopItemFrom(rightIndex, to: leftIndex)
-                }*/
             }
         }
         

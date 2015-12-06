@@ -426,6 +426,22 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         print("completed")
             checkBranchesFor("language")
         }
+        
+        var subviews:Array<UIView>=self.tabBar.subviews
+        
+        
+        logoLabelView.hidden=false
+        while subviews.first != nil {
+            let subview = subviews.first
+            subviews.removeFirst()
+            subviews.appendContentsOf(subview!.subviews)
+            if (subview!.isKindOfClass(NSClassFromString("UITabBarButton")!)){
+                if (CGRectIntersectsRect((subview?.frame)!, logoLabelView.frame)){
+                    logoLabelView.hidden=true
+                }
+            }
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {
