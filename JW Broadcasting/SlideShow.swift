@@ -21,8 +21,9 @@ class SlideShow: SuperCollectionView {
         /*
         Initial call for moving featured videos.
         */
+        
         if (HomeFeaturedSlide){
-            self.performSelector("timesUp", withObject: nil, afterDelay: 2.25)
+            self.performSelector("timesUp", withObject: nil, afterDelay: 10)
         }
     }
     
@@ -46,12 +47,26 @@ class SlideShow: SuperCollectionView {
                 
                 
                 
+                //self.moveToSlide(1)
+                
                 if (textDirection == .RightToLeft){//RTL alignment
                     self.contentOffset=self.centerPointFor(CGPointMake(self.contentSize.width-self.frame.size.width+self.contentInset.right, 0))
                 }
                 else {//LTR alignment
-                    self.contentOffset=CGPointMake(-self.contentInset.left, 0)
+                    //self.contentOffset=CGPointMake(-self.contentInset.left, 0)
+                    let size=self.sizeOfItemAtIndex(NSIndexPath(forRow: 0, inSection: 0))
+                    self.contentOffset=self.centerPointFor(CGPoint(x: size.width , y: size.height))
                 }
+                
+                self.performBatchUpdates({
+                    self.reloadSections(NSIndexSet(index: 0))
+                    }, completion: { (finished:Bool) in
+                        if (finished){
+                            //self.moveToSlide(1)
+                            self.reloadItemsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)])
+                        }
+                
+                })
 
                 //reload content
                 self.reloadData()
@@ -142,6 +157,7 @@ class SlideShow: SuperCollectionView {
                 titleLabel.layer.shadowColor=UIColor.blackColor().CGColor
                 titleLabel.layer.shadowRadius=10
                 titleLabel.layer.shadowOpacity=1
+                titleLabel.alpha=0
                 titleLabel.textColor=UIColor.whiteColor()
                 
             }
@@ -267,21 +283,20 @@ class SlideShow: SuperCollectionView {
         Infinite scrolling code
         Code for moving last or first item to opposite side side.
         */
-        let cell=self.cellForItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0))
         if (indexToMove<indexToGoTo){
             indexOffset++
         }
         if (indexToMove>indexToGoTo){
             indexOffset--
         }
-        cell?.hidden=true
         
-        self.moveItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0), toIndexPath: NSIndexPath(forRow: indexToGoTo, inSection: 0))
         self.performBatchUpdates({
             
-            }, completion: { (finished:Bool) in
-                cell?.hidden=false
-        })
+            self.layer.speed=0
+            
+            self.moveItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0), toIndexPath: NSIndexPath(forRow: indexToGoTo, inSection: 0))
+            self.layer.speed=1
+            }, completion: nil)
     }
     
     override func cellShouldLoseFocus(view:UIView, indexPath:NSIndexPath){
