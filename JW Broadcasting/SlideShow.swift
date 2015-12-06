@@ -55,7 +55,7 @@ class SlideShow: SuperCollectionView {
                 else {//LTR alignment
                     //self.contentOffset=CGPointMake(-self.contentInset.left, 0)
                     let size=self.sizeOfItemAtIndex(NSIndexPath(forRow: 0, inSection: 0))
-                    self.contentOffset=self.centerPointFor(CGPoint(x: size.width , y: size.height))
+                    self.contentOffset=self.centerPointFor(CGPoint(x: size.width*(self.totalItemsInSection(0)>4 ? 2 : 1) , y: size.height))
                 }
                 
                 self.performBatchUpdates({
@@ -99,17 +99,13 @@ class SlideShow: SuperCollectionView {
         
         var index=indexPath.row
         let totalItems=self.totalItemsInSection(0)
-        index=indexPath.row-1+indexOffset
+        index=indexPath.row-2+indexOffset
         while (index>totalItems-1){
             index = index-(totalItems)
         }
-        while (index < -1){
+        while (index < 0){
             index = index+(totalItems)
         }
-        if (index == -1){
-            index = totalItems-1
-        }
-        
         //print("reloading index \(indexPath.row) as \(index)")
         
         /*if (index>totalItems-1){
@@ -250,11 +246,24 @@ class SlideShow: SuperCollectionView {
                 }
                 else if (indexPath.row<previousIndexPath!.row){
                     loopItemFrom(rightIndex, to: leftIndex)
+                    print("\(indexPath.row)")
+                    /*if (indexPath.row == 0 || indexPath.row == -1){
+                        loopItemFrom(rightIndex, to: leftIndex)
+                    }*/
+                    /*if (indexPath.row == 0 || indexPath.row == -1){
+                        loopItemFrom(rightIndex, to: leftIndex)
+                    }*/
                 }
-            }
-            if (indexPath.row == 0){
-                print("indexPath.row == 0")
-                loopItemFrom(rightIndex, to: leftIndex)
+                /*var atIndex=indexPath.row
+                
+                while (atIndex>totalItems-3){
+                    atIndex--
+                    loopItemFrom(leftIndex, to: rightIndex)
+                }
+                while (atIndex<2){
+                    atIndex++
+                    loopItemFrom(rightIndex, to: leftIndex)
+                }*/
             }
         }
         
