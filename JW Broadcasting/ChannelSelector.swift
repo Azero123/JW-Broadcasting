@@ -270,13 +270,13 @@ class ChannelSelector: SuperCollectionView {
     }
     
     override func cellSelect(indexPath:NSIndexPath){
+        self.playerLayer?.removeFromSuperlayer()
+        self.player?.pause()
         if ((self.delegate?.isKindOfClass(HomeController)) == true){
             (self.delegate as! HomeController).goToStreamID=indexPath.row
             (self.delegate as! HomeController).performSegueWithIdentifier("presentStreaming", sender: self)
         }
 
-        self.playerLayer?.removeFromSuperlayer()
-        self.player?.pause()
     }
     
     

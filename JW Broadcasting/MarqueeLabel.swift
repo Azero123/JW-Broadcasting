@@ -39,6 +39,21 @@ class marqueeLabel : UILabel  {
     var gradientMask:CAGradientLayer? = CAGradientLayer()
     
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        self.clipsToBounds=false
+        self.backgroundColor=UIColor.clearColor()
+        //We do not want text in this label ever
+        super.text=""
+        //These are the sublabels used for marquee effects that will have text
+        labels=[UILabel(),UILabel()]
+        self.font=super.font
+        self.textColor=super.textColor
+        // begin side blur effect
+        blurSides()
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.clipsToBounds=false

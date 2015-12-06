@@ -49,8 +49,11 @@ class CollectionViewHorizontalFlowLayout: UICollectionViewFlowLayout {
         */
         var attributes:Array<UICollectionViewLayoutAttributes>=[]
         
-        for (var i=0;i<self.collectionView?.numberOfItemsInSection(0);i++){
-            attributes.append(self.layoutAttributesForItemAtIndexPath(NSIndexPath(forRow: i, inSection: 0))!)
+        if (self.collectionView?.numberOfSections()>0){
+        
+            for (var i=0;i<self.collectionView?.numberOfItemsInSection(0);i++){
+                attributes.append(self.layoutAttributesForItemAtIndexPath(NSIndexPath(forRow: i, inSection: 0))!)
+            }
         }
         
         return attributes
@@ -85,11 +88,24 @@ class CollectionViewHorizontalFlowLayout: UICollectionViewFlowLayout {
         This takes the space the cells ACTUALLY take up with our code ( cell width (normal size * spacingPercentile) * total items + 90 for right side padding) 
         
         */
+        var cellWidth:CGFloat=100
+        if ((self.collectionView?.delegate?.isKindOfClass(HomeController.self)) == true){
+            cellWidth=(self.collectionView?.delegate as! HomeController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*spacingPercentile
+        
+        }
+        
+        if ((self.collectionView?.delegate?.isKindOfClass(MediaOnDemandCategory.self)) == true){
+            cellWidth=(self.collectionView?.delegate as! MediaOnDemandCategory).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*spacingPercentile
+            
+        }
         
         
-        let cellWidth=(self.collectionView?.delegate as! HomeController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*spacingPercentile
+        if (self.collectionView?.numberOfSections()>0){
+            
+            return CGSize(width: CGFloat((self.collectionView?.numberOfItemsInSection(0))!)*cellWidth+90, height: super.collectionViewContentSize().height)
+        }
         
-        return CGSize(width: CGFloat((self.collectionView?.numberOfItemsInSection(0))!)*cellWidth+90, height: super.collectionViewContentSize().height)
+        return CGSize(width: 0, height: super.collectionViewContentSize().height)
     }
     
 }

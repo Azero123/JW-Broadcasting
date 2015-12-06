@@ -460,10 +460,18 @@ class StreamingViewController : UIViewController {
                     player?.play()
                 }
             }
-            player?.play()
             
         }
         self.performSelector("update", withObject: nil, afterDelay: 0.25)
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 }
