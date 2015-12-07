@@ -511,7 +511,12 @@ func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
             cachedBond[instructions[0] as! String]=source // Save this to process bond to not do this again
             
             
+            
+            
+            
+            
             if (sourceData != nil){ // Alright we have some data to process
+                print("try NSKeyUnarchiver")
                 if (testLogSteps){
                     print("data returned as it should")
                 }
@@ -522,29 +527,65 @@ func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
                         print(sourceURL)
                     }
                     
+                    
+                    
+                    let unarchiver=NSKeyedUnarchiver(forReadingWithData: sourceData!)
+                    if #available(iOS 9.0, *) {
+                        let tempDictionary=try unarchiver.decodeTopLevelObject()
+                        unarchiver.finishDecoding()
+                        if (tempDictionary != nil){
+                            source=tempDictionary
+                            cachedBond[instructions[0] as! String]=source // save this to cache so we don't do it again
+                        }
+                    } else {
+                        // Fallback on earlier versions
+                    }
+                    
+                }
+                catch {
+                    
+                    /*log out any errors that might have occured*/
+                    
+                    print(error)
+                }
+            }
+            if (sourceData != nil && source?.isKindOfClass(NSDictionary.self) == false){ // Alright we have some data to process
+                print("try NSJSONSerialization")
+                if (testLogSteps){
+                    print("data returned as it should")
+                }
+                source=sourceData
+                do {
+                    
+                    if (testLogSteps){
+                        print(sourceURL)
+                    }
+                    
+                    
+                    
                     var sourceAttributedString = NSMutableAttributedString(string: NSString(data: sourceData!, encoding: NSUTF8StringEncoding) as! String)
                     // Convert it into the proper string to be processed.
                     
                     
                     if (removeEntitiesSystemLevel){ // Control level toggle incase this appears to keep breaking
                         if (sourceAttributedString.string.containsString("&")){
-                        TryCatch.realTry({ // The contained code can fail and swift can't catch it so we need an Objective-C try/catch implementation ontop of our swift try/catch
-                            do {
+                            TryCatch.realTry({ // The contained code can fail and swift can't catch it so we need an Objective-C try/catch implementation ontop of our swift try/catch
+                                do {
+                                    
+                                    let attributedOptions=[NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,NSCharacterEncodingDocumentAttribute:NSUTF8StringEncoding]
+                                    
+                                    sourceAttributedString = try NSMutableAttributedString(data:sourceData!, options:attributedOptions as! [String : AnyObject], documentAttributes:nil) //The data we get contains strings that are not meant to be seen by the user try removing the HTML entities
+                                    
+                                    
+                                    //raises  NSInternalInconsistencyException
+                                }
+                                catch { // System level HTML entity removal failed
+                                    print("[ERROR] Could not remove HTML entities. \(error)")
+                                }
                                 
-                                let attributedOptions=[NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,NSCharacterEncodingDocumentAttribute:NSUTF8StringEncoding]
-                                
-                                sourceAttributedString = try NSMutableAttributedString(data:sourceData!, options:attributedOptions as! [String : AnyObject], documentAttributes:nil) //The data we get contains strings that are not meant to be seen by the user try removing the HTML entities
-                                
-                                
-                                //raises  NSInternalInconsistencyException
-                            }
-                            catch { // System level HTML entity removal failed
-                                print("[ERROR] Could not remove HTML entities. \(error)")
-                            }
-                            
-                            }, withCatch: { // System level HTML entity removal failed
-                                print("[ERROR] Could not remove HTML entities.")
-                        })
+                                }, withCatch: { // System level HTML entity removal failed
+                                    print("[ERROR] Could not remove HTML entities.")
+                            })
                         }
                     }
                     
@@ -581,7 +622,7 @@ func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
                     print(error)
                 }
             }
-            
+
             
         }
     }
@@ -701,7 +742,9 @@ func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
                 let downloadedData=try NSData(contentsOfURL: trueURL, options: .UncachedRead) //Download
                 if (simulateOffline == false){ //File successfully downloaded
                     if (offlineStorageSaving){
-                        print("[dataUsingCache] write to file... \(storedPath)")
+                        if (logConnections){
+                            print("[dataUsingCache] write to file... \(storedPath)")
+                        }
                         //downloadedData.writeToFile(storedPath, atomically: true) //Save file locally for use later
                         data?.writeToFile(storedPath, atomically: true) //Save file locally for use later
                     }

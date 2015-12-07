@@ -104,7 +104,7 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
             logoLabelView.textAlignment = .Left
             logoLabelView.lineBreakMode = .ByClipping
             
-            logoLabelView.frame=CGRect(x: 110, y: 10, width: logoLabelView.intrinsicContentSize().width+200, height: self.tabBar.frame.size.height+60)//corrected position
+            logoLabelView.frame=CGRect(x: 110, y: 10, width: logoLabelView.intrinsicContentSize().width, height: self.tabBar.frame.size.height+60)//corrected position
             
             logoLabelView.textColor=UIColor(colorLiteralRed: 0.3, green: 0.44, blue: 0.64, alpha: 1.0) // JW blue color
             self.tabBar.addSubview(logoLabelView)
@@ -427,17 +427,18 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
             checkBranchesFor("language")
         }
         
-        var subviews:Array<UIView>=self.tabBar.subviews
         
-        
-        logoLabelView.hidden=false
-        while subviews.first != nil {
-            let subview = subviews.first
-            subviews.removeFirst()
-            subviews.appendContentsOf(subview!.subviews)
-            if (subview!.isKindOfClass(NSClassFromString("UITabBarButton")!)){
-                if (CGRectIntersectsRect((subview?.frame)!, logoLabelView.frame)){
-                    logoLabelView.hidden=true
+        if (false){
+            var subviews:Array<UIView>=self.tabBar.subviews
+            logoLabelView.hidden=false
+            while subviews.first != nil {
+                let subview = subviews.first
+                subviews.removeFirst()
+                subviews.appendContentsOf(subview!.subviews)
+                if (subview!.isKindOfClass(NSClassFromString("UITabBarButton")!)){
+                    if (CGRectIntersectsRect((subview?.frame)!, logoLabelView.frame)){
+                        logoLabelView.hidden=true
+                    }
                 }
             }
         }
@@ -449,5 +450,4 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         // Dispose of any resources that can be recreated.
     }
     
-
 }

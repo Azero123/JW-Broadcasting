@@ -18,9 +18,15 @@ import UIKit
 
 class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     @IBOutlet weak var MediaCollectionView: UICollectionView!
-
+    @IBOutlet weak var backgroundImageView: UIImageView!
+    @IBOutlet weak var BackgroundEffectView: UIVisualEffectView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        backgroundImageView.alpha=0.75
+        BackgroundEffectView.alpha=0.99
+        
         self.MediaCollectionView.clipsToBounds=false
         self.MediaCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
         self.MediaCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "footer")
@@ -112,8 +118,6 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         
-        print("[Media On Demand] test")
-        
         let cell: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("category", forIndexPath: indexPath)
         cell.alpha=1
         
@@ -139,7 +143,6 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
                     fetchDataUsingCache(imageURL!, downloaded: {
                         
                         dispatch_async(dispatch_get_main_queue()) {
-                            print("[Media On Demand] test 2")
                             let image=imageUsingCache(imageURL!)
                             (subview as! UIImageView).image=image
                         }
@@ -189,6 +192,7 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
         
         if (context.previouslyFocusedView?.isKindOfClass(UICollectionViewCell.self) == true && context.previouslyFocusedIndexPath != nil){
             //(context.previouslyFocusedView?.superview as! SuperCollectionView).cellShouldLoseFocus(context.previouslyFocusedView!, indexPath: context.previouslyFocusedIndexPath!)
+            
             for subview in (context.previouslyFocusedView?.subviews.first!.subviews)! {
                 
                 if (subview.isKindOfClass(UILabel.self) == true){
@@ -205,10 +209,16 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
             }
         }
         if (context.nextFocusedView?.isKindOfClass(UICollectionViewCell.self) == true && context.nextFocusedIndexPath != nil){
+            
+            
+            let category="VideoOnDemand"
+            let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
+            let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
+            
+            self.backgroundImageView.image=imageUsingCache((unfold(categoryDataURL+"|category|subcategories|\(context.nextFocusedIndexPath!.row)|images|wss|lg") as? String)!)
+            
             for subview in (context.nextFocusedView!.subviews.first!.subviews) {
-                print("subview white! \(subview.dynamicType)")
                 if (subview.isKindOfClass(UILabel.self) == true){
-                    print("UILabel")
                     (subview as! UILabel).textColor=UIColor.whiteColor()
                     
                     UIView.animateWithDuration(0.1, animations: {
@@ -217,7 +227,6 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
                     
                 }
                 if (subview.isKindOfClass(marqueeLabel.self) == true){
-                    print("marquee")
                     (subview as! marqueeLabel).endFocus()
                 }
             }

@@ -724,6 +724,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchScreenEarth.png" translatesAutoresizingMaskIntoConstraints="NO" id="17j-AV-sfd">
+                                <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
+                            </imageView>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gig-zN-ssf">
+                                <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="435-GR-N5Z">
+                                    <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <blurEffect style="light"/>
+                            </visualEffectView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="AKW-6K-ITa">
                                 <rect key="frame" x="110" y="60" width="1700" height="960"/>
                                 <collectionViewLayout key="collectionViewLayout" id="cyJ-wN-ghf" customClass="CollectionViewAlignmentFlowLayout" customModule="JW_Broadcasting" customModuleProvider="target"/>
@@ -777,16 +788,26 @@
                             </collectionView>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="17j-AV-sfd" firstAttribute="leading" secondItem="wWC-cJ-vh5" secondAttribute="leading" id="2bJ-fD-0tg"/>
+                            <constraint firstItem="g3X-HJ-r6M" firstAttribute="top" secondItem="17j-AV-sfd" secondAttribute="bottom" id="6vk-r1-yRY"/>
                             <constraint firstItem="AKW-6K-ITa" firstAttribute="leading" secondItem="wWC-cJ-vh5" secondAttribute="leading" constant="110" id="8fw-Dy-hg2"/>
+                            <constraint firstItem="Gig-zN-ssf" firstAttribute="top" secondItem="97S-Mr-cnL" secondAttribute="bottom" id="IUR-bw-a8d"/>
+                            <constraint firstItem="g3X-HJ-r6M" firstAttribute="top" secondItem="Gig-zN-ssf" secondAttribute="bottom" id="JT7-Ov-62M"/>
                             <constraint firstItem="g3X-HJ-r6M" firstAttribute="top" secondItem="AKW-6K-ITa" secondAttribute="bottom" constant="60" id="MTe-st-sXA"/>
+                            <constraint firstAttribute="trailing" secondItem="Gig-zN-ssf" secondAttribute="trailing" id="Qt9-JI-0RF"/>
                             <constraint firstAttribute="trailing" secondItem="AKW-6K-ITa" secondAttribute="trailing" constant="110" id="khN-TT-dYd"/>
+                            <constraint firstItem="17j-AV-sfd" firstAttribute="top" secondItem="97S-Mr-cnL" secondAttribute="bottom" id="nMd-sh-DIT"/>
+                            <constraint firstAttribute="trailing" secondItem="17j-AV-sfd" secondAttribute="trailing" id="pJp-kf-qZs"/>
+                            <constraint firstItem="Gig-zN-ssf" firstAttribute="leading" secondItem="wWC-cJ-vh5" secondAttribute="leading" id="sJf-9y-9Th"/>
                             <constraint firstItem="AKW-6K-ITa" firstAttribute="top" secondItem="97S-Mr-cnL" secondAttribute="bottom" constant="60" id="y2j-8X-IML"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="Item" id="nhU-vD-4NE"/>
                     <connections>
+                        <outlet property="BackgroundEffectView" destination="Gig-zN-ssf" id="UAr-9y-okd"/>
                         <outlet property="MediaCollectionView" destination="AKW-6K-ITa" id="lO1-un-ag4"/>
+                        <outlet property="backgroundImageView" destination="17j-AV-sfd" id="mBj-8y-vcJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q5G-fT-939" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -818,23 +839,10 @@
                                             <constraint firstAttribute="width" constant="640" id="xEB-ID-3hr"/>
                                         </constraints>
                                     </imageView>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gqK-EP-c4Z">
-                                        <rect key="frame" x="160" y="836" width="640" height="240"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="640" id="yGe-QZ-2ce"/>
-                                        </constraints>
-                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                    </textView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="VWA-ul-ckk" firstAttribute="top" secondItem="XFY-vt-XoQ" secondAttribute="top" constant="650" id="4cz-zQ-k56"/>
-                                    <constraint firstItem="gqK-EP-c4Z" firstAttribute="top" secondItem="VWA-ul-ckk" secondAttribute="bottom" constant="1" id="PhS-VR-Ry1"/>
-                                    <constraint firstAttribute="bottom" secondItem="gqK-EP-c4Z" secondAttribute="bottom" id="WRa-4Z-2UY"/>
                                     <constraint firstItem="VWA-ul-ckk" firstAttribute="centerX" secondItem="XFY-vt-XoQ" secondAttribute="centerX" id="cJK-zm-FG6"/>
-                                    <constraint firstItem="gqK-EP-c4Z" firstAttribute="centerX" secondItem="XFY-vt-XoQ" secondAttribute="centerX" id="gO7-OP-dSO"/>
                                 </constraints>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7b7-WF-zs0">
@@ -871,14 +879,20 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jUM-8z-Dml">
+                                <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
+                            </scrollView>
                         </subviews>
-                        <color key="backgroundColor" red="0.041135649441340738" green="0.010443858806301326" blue="0.021125594462120877" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="jUM-8z-Dml" firstAttribute="leading" secondItem="iVy-kQ-FCo" secondAttribute="leading" id="80f-8d-Keg"/>
+                            <constraint firstItem="ONo-vx-5TD" firstAttribute="top" secondItem="jUM-8z-Dml" secondAttribute="bottom" id="CZx-Ia-vZL"/>
+                            <constraint firstItem="jUM-8z-Dml" firstAttribute="top" secondItem="ZJS-fc-VtC" secondAttribute="bottom" id="Ezk-Bx-8Ax"/>
                             <constraint firstAttribute="trailing" secondItem="XFY-vt-XoQ" secondAttribute="trailing" id="Mzl-D3-JYj"/>
                             <constraint firstItem="7b7-WF-zs0" firstAttribute="top" secondItem="ZJS-fc-VtC" secondAttribute="bottom" constant="138" id="UTJ-4Z-8vx"/>
                             <constraint firstItem="PER-Eo-rh1" firstAttribute="leading" secondItem="iVy-kQ-FCo" secondAttribute="leading" constant="90" id="YLa-NT-ElW"/>
                             <constraint firstItem="PER-Eo-rh1" firstAttribute="top" secondItem="ZJS-fc-VtC" secondAttribute="bottom" id="bl9-vz-zhH"/>
                             <constraint firstItem="ONo-vx-5TD" firstAttribute="top" secondItem="7b7-WF-zs0" secondAttribute="bottom" id="jfM-pL-fcP"/>
+                            <constraint firstAttribute="trailing" secondItem="jUM-8z-Dml" secondAttribute="trailing" id="kSh-mO-C76"/>
                             <constraint firstItem="7b7-WF-zs0" firstAttribute="width" secondItem="iVy-kQ-FCo" secondAttribute="width" multiplier="0.5" id="lWX-c6-2hz"/>
                             <constraint firstItem="XFY-vt-XoQ" firstAttribute="height" secondItem="iVy-kQ-FCo" secondAttribute="height" id="oij-nT-fki"/>
                             <constraint firstItem="XFY-vt-XoQ" firstAttribute="width" secondItem="iVy-kQ-FCo" secondAttribute="width" multiplier="0.5" id="pNL-AW-afG"/>
@@ -892,8 +906,8 @@
                         <outlet property="TopImage" destination="6fQ-k8-2Bs" id="i7K-Ht-xH8"/>
                         <outlet property="categoryTitle" destination="PER-Eo-rh1" id="sML-XJ-kEG"/>
                         <outlet property="mediaElements" destination="dVX-Lz-SdI" id="ZOz-7t-vDD"/>
-                        <outlet property="previewDescription" destination="gqK-EP-c4Z" id="tZM-Bu-OIF"/>
                         <outlet property="previewImageView" destination="VWA-ul-ckk" id="ucC-3i-2Kr"/>
+                        <outlet property="scrollView" destination="jUM-8z-Dml" id="QQD-Nm-VOm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jAQ-i3-D5O" userLabel="First Responder" sceneMemberID="firstResponder"/>

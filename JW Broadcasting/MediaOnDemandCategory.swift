@@ -33,6 +33,7 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var featuredVideoB: UIImageView!
     @IBOutlet weak var backgroundVisualEffect: UIVisualEffectView!
     @IBOutlet weak var backgroundImage: UIImageView!
+    @IBOutlet weak var scrollView: UIScrollView!
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -108,12 +109,12 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
             }
             
             
-            print("count:\(unfold("\(categoryDataURL)|category|subcategories|count"))")
             
             for var i=0;i<unfold("\(categoryDataURL)|category|subcategories|count") as! Int ; i++ {
                 
                 let layout=CollectionViewHorizontalFlowLayout()
-                layout.spacingPercentile=1.3
+                layout.spacingPercentile=1.075
+                //layout.spacingPercentile=1.3
                 
                 var collectionView=MODSubcategoryCollectionView(frame: CGRect(x: CGFloat(0), y:CGFloat(375*i)+300, width: self.view.frame.size.width, height: CGFloat(400)), collectionViewLayout: layout)
                 collectionView.contentInset=UIEdgeInsetsMake(0, 60, 0, 60)
@@ -132,33 +133,14 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
                     if (i==0){
                         continue
                     }
-                    self.view.addSubview(collectionView)
+                    self.scrollView.addSubview(collectionView)
+                    self.scrollView.scrollEnabled=true
+                    self.scrollView.contentSize=CGSizeMake(self.scrollView.frame.size.width, collectionView.frame.origin.y+collectionView.frame.size.height)
                     
                 }
                 collectionView.reloadData()
             }
             
-            /*
-            let featuredVideoAImageURL=unfold("\(categoryDataURL)|category|subcategories|0|media|0|images|wsr|lg") as? String
-            if (featuredVideoAImageURL != nil){
-                fetchDataUsingCache(featuredVideoAImageURL!, downloaded: {
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.featuredVideoA.image=imageUsingCache(featuredVideoAImageURL!)
-                        self.featuredVideoA.userInteractionEnabled=true
-                        self.featuredVideoA.adjustsImageWhenAncestorFocused = true
-                    }
-                })
-            }
-            let featuredVideoBImageURL=unfold("\(categoryDataURL)|category|subcategories|0|media|1|images|wsr|lg") as? String
-            if (featuredVideoBImageURL != nil){
-                fetchDataUsingCache(featuredVideoBImageURL!, downloaded: {
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.featuredVideoB.image=imageUsingCache(featuredVideoBImageURL!)
-                        self.featuredVideoB.userInteractionEnabled=true
-                        self.featuredVideoB.adjustsImageWhenAncestorFocused = true
-                    }
-                })
-            }*/
             
         })
         
@@ -268,14 +250,12 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        print("\(subcategoryCollectionViews.indexOf(collectionView as! MODSubcategoryCollectionView)!) cell for item at index path \(indexPath.row)")
-        
         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
         let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
         
         
         let cell: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("mediaElement", forIndexPath: indexPath)
-        //cell.backgroundColor=UIColor.greenColor()
+        cell.backgroundColor=UIColor.greenColor()
         cell.alpha=1
         cell.clipsToBounds=false
         cell.contentView.layoutSubviews()
@@ -283,26 +263,36 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
         
         let imageRatios=retrievedVideo!.objectForKey("images")!
         
-        let priorityRatios=["pns","pss","wsr","lss","cvr","wss"]//wsr
+        let priorityRatios=["pns","pss","wsr","lss","cvr","wss","lsr"].reverse()//wsr
+        
+        var usingRatio=""
         
         var imageURL:String?=""
         
         for ratio in imageRatios.allKeys {
-            for priorityRatio in priorityRatios.reverse() {
+            for priorityRatio in priorityRatios {
                 if (ratio as? String == priorityRatio){
                     
-                    if (unfold(imageRatios, instructions: ["\(ratio)","lg"]) != nil){
-                        imageURL = unfold(imageRatios, instructions: ["\(ratio)","lg"]) as? String
+                    if ((priorityRatios.indexOf(ratio as! String)) < (priorityRatios.indexOf(usingRatio)) || usingRatio == ""){
+                        
+                        if (unfold(imageRatios, instructions: ["\(ratio)","lg"]) != nil){
+                            imageURL = unfold(imageRatios, instructions: ["\(ratio)","lg"]) as? String
+                        }
+                        else if (unfold(imageRatios, instructions: ["\(ratio)","md"]) != nil){
+                            imageURL = unfold(imageRatios, instructions: ["\(ratio)","md"]) as? String
+                        }
+                        else if (unfold(imageRatios, instructions: ["\(ratio)","sm"]) != nil){
+                            imageURL = unfold(imageRatios, instructions: ["\(ratio)","sm"]) as? String
+                        }
+                        if (imageURL != nil){
+                            usingRatio=ratio as! String
+                        }
                     }
-                    else if (unfold(imageRatios, instructions: ["\(ratio)","md"]) != nil){
-                        imageURL = unfold(imageRatios, instructions: ["\(ratio)","md"]) as? String
-                    }
-                    else if (unfold(imageRatios, instructions: ["\(ratio)","sm"]) != nil){
-                        imageURL = unfold(imageRatios, instructions: ["\(ratio)","sm"]) as? String
-                    }
+                    
                 }
             }
         }
+        
         if (imageURL == ""){
             let sizes=unfold(imageRatios, instructions: [imageRatios.allKeys.first!]) as? NSDictionary
             imageURL=unfold(sizes, instructions: [sizes!.allKeys.last!]) as? String
@@ -312,17 +302,31 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
         UIGraphicsBeginImageContextWithOptions(size, true, 0)
         UIColor.whiteColor().setFill()
         UIRectFill(CGRectMake(0, 0, size.width, size.height))
-        let image=UIGraphicsGetImageFromCurrentImageContext()
+        var image=UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
+        var hasImageView=false
+        var hasLabelView=false
         
-        cell.contentView.addSubview(UIImageView(frame: cell.bounds))
+        for subview in cell.contentView.subviews {
+            if (subview.isKindOfClass(UIImageView.self)){
+                hasImageView=true
+            }
+            if (subview.isKindOfClass(UILabel.self)){
+                hasLabelView=true
+            }
+        }
+        if (hasImageView == false){
+            cell.contentView.addSubview(UIImageView(frame: cell.bounds))
+        }
         
-        let label=marqueeLabel(frame: CGRect(x: 0, y: 160, width: cell.bounds.size.width, height: cell.bounds.size.height))
-        label.textColor=UIColor.whiteColor()
-        label.textAlignment = .Center
-        //label.text="asdfasdfasdfasdfasdfasfdsdf"
-        cell.contentView.addSubview(label)
+        if (hasLabelView == false){
+            let label=marqueeLabel(frame: CGRect(x: 0, y: 160, width: cell.bounds.size.width, height: cell.bounds.size.height))
+            label.textColor=UIColor.whiteColor()
+            label.textAlignment = .Center
+            //label.text="asdfasdfasdfasdfasdfasfdsdf"
+            cell.contentView.addSubview(label)
+        }
         
         for subview in cell.contentView.subviews {
             if (subview.isKindOfClass(UIImageView.self)){
@@ -332,7 +336,8 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
                 fetchDataUsingCache(imageURL!, downloaded: {
                     
                     dispatch_async(dispatch_get_main_queue()) {
-                        let image=imageUsingCache(imageURL!)
+                        
+                        image=imageUsingCache(imageURL!)
                         
                         var ratio=(image?.size.width)!/(image?.size.height)!
                         (subview as! UIImageView).frame=CGRect(x: (cell.frame.size.width-((cell.frame.size.height-60)*ratio))/2, y: 0, width: (cell.frame.size.height-60)*ratio, height: (cell.frame.size.height-60))
@@ -344,7 +349,6 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
                         
                         (subview as! UIImageView).image=image
                         (subview as! UIImageView).frame=CGRect(x: (cell.frame.size.width-subview.frame.size.width)/2, y: (cell.frame.size.height-subview.frame.size.height)/2, width: subview.frame.size.width, height: subview.frame.size.height)
-                        //(subview as! UIImageView).contentMode = .ScaleToFill
                         UIView.animateWithDuration(0.5, animations: {
                             subview.alpha=1
                         })
@@ -410,7 +414,7 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
         If selectedSlideShow==true (AKA the user is interacting with the slideshow) then the slide show will not roll to next slide.
         
         */
-        if (subcategoryCollectionViews.contains(context.nextFocusedView?.superview as! MODSubcategoryCollectionView)){
+        if (subcategoryCollectionViews.contains(context.previouslyFocusedView?.superview as! MODSubcategoryCollectionView)){
             
             for subview in (context.previouslyFocusedView?.subviews.first!.subviews)! {
                 if (subview.isKindOfClass(UILabel.self)){
@@ -429,7 +433,11 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
                     subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y+5, width: subview.frame.size.width, height: subview.frame.size.height)
                 }
             }
+            self.scrollView.scrollRectToVisible((context.nextFocusedView?.superview?.frame)!, animated: true)
         }
+        
+        
+        
         return true
     }
     
@@ -446,7 +454,7 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
-        return CGSizeMake(550, 400)
+        return CGSize(width: 560/1.05, height: 360/1.05)//588,378
     }
     
 }

@@ -64,16 +64,6 @@ class ChannelSelector: SuperCollectionView {
         })
 
     }
-    /*
-    
-    func properAlignment(){
-    print("proper alignment")
-    
-    var itemPoint=self.collectionViewLayout.layoutAttributesForItemAtIndexPath(NSIndexPath(forRow: 0, inSection: 0))?.center
-    itemPoint=self.centerPointFor(CGPoint(x: itemPoint!.x, y: itemPoint!.y))
-    self.contentOffset=CGPointMake(itemPoint!.x, itemPoint!.y)
-    }
-    */
     
     override func totalItemsInSection(section: Int) -> Int {
         
@@ -100,11 +90,7 @@ class ChannelSelector: SuperCollectionView {
         
         let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
         let channelsMeta=(unfold("\(streamingScheduleURL)|category|subcategories") as? NSArray)
-        
-        /*
-        if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
-            channelsMeta=channelsMeta!.reverse()
-        }*/
+
         
         let channelMeta=channelsMeta?[indexPath.row] as? NSDictionary
         if (channelMeta != nil){

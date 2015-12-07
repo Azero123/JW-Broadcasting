@@ -23,7 +23,7 @@ class SlideShow: SuperCollectionView {
         */
         
         if (HomeFeaturedSlide){
-            self.performSelector("timesUp", withObject: nil, afterDelay: 10)
+            self.performSelector("timesUp", withObject: nil, afterDelay: NSTimeInterval(timeToShow))
         }
     }
     
@@ -153,7 +153,6 @@ class SlideShow: SuperCollectionView {
                 titleLabel.layer.shadowColor=UIColor.blackColor().CGColor
                 titleLabel.layer.shadowRadius=10
                 titleLabel.layer.shadowOpacity=1
-                titleLabel.alpha=0
                 titleLabel.textColor=UIColor.whiteColor()
                 
             }
@@ -198,7 +197,7 @@ class SlideShow: SuperCollectionView {
         
         let totalItems=self.totalItemsInSection(0)
         if (totalItems>=4){
-            index=indexPath.row-1+indexOffset
+            index=indexPath.row-2+indexOffset
             while (index>totalItems-1){
                 index = index-(totalItems)
             }
@@ -258,9 +257,6 @@ class SlideShow: SuperCollectionView {
         */
         
         for subview in (view.subviews.first!.subviews) {
-            if (subview.isKindOfClass(UILabel.self)){
-                subview.alpha=1
-            }
             if (subview.isKindOfClass(marqueeLabel.self)){
                 (subview as! marqueeLabel).beginFocus()
             }
@@ -300,9 +296,6 @@ class SlideShow: SuperCollectionView {
             if (subview.isKindOfClass(UIImageView.self)){
                 subview.frame=view.bounds
             }
-            if (subview.isKindOfClass(UILabel.self)){
-                subview.alpha=0
-            }
             if (subview.isKindOfClass(marqueeLabel.self)){
                 (subview as! marqueeLabel).endFocus()
             }
@@ -318,8 +311,6 @@ class SlideShow: SuperCollectionView {
         if (unfold(base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider") != nil ){
             
             if (self.cellForItemAtIndexPath(NSIndexPath(forRow: atIndex, inSection: 0)) != nil){
-                
-                
                 
                 
                 let totalItems=self.totalItemsInSection(0)
@@ -389,7 +380,7 @@ class SlideShow: SuperCollectionView {
         var index=indexPath.row
         
         let totalItems=self.totalItemsInSection(0)
-        index=indexPath.row-1+indexOffset
+        index=indexPath.row-2+indexOffset
         
         if (totalItems>=4){
             while (index>totalItems-1){
@@ -439,7 +430,7 @@ class SlideShow: SuperCollectionView {
         var positionIndex=indexPath.row
         
         if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
-            positionIndex=(self.numberOfItemsInSection(indexPath.section))-indexPath.row-1
+            positionIndex=(self.numberOfItemsInSection(indexPath.section))-indexPath.row-2
         }
         
         let layoutAttribute=withPreLayout

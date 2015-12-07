@@ -266,6 +266,7 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
         else {
             category.textLabel?.textAlignment=NSTextAlignment.Left
         }
+        
         return category
     }
     
@@ -409,30 +410,50 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
         let cell: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("video", forIndexPath: indexPath)
         cell.alpha=1
         cell.contentView.layoutSubviews()
+        
+        
+        for subview in cell.contentView.subviews {
+            if (subview.isKindOfClass(UIImageView.self)){
+                
+                (subview as! UIImageView).image=nil
+            }
+        }
+        
+        
         let retrievedVideo=parentCategory.objectAtIndex(indexPath.section).objectForKey("media")?.objectAtIndex(indexPath.row)
         
         let imageRatios=retrievedVideo!.objectForKey("images")!
         
-        let priorityRatios=["pns","pss","wsr","lss","cvr","wss"]//wsr
+        let priorityRatios=["pns","pss","wsr","lss","cvr","wss"].reverse()//wsr
+        
+        var usingRatio=""
         
         var imageURL:String?=""
         
         for ratio in imageRatios.allKeys {
-            for priorityRatio in priorityRatios.reverse() {
+            for priorityRatio in priorityRatios {
                 if (ratio as? String == priorityRatio){
                     
-                    if (unfold(imageRatios, instructions: ["\(ratio)","lg"]) != nil){
-                        imageURL = unfold(imageRatios, instructions: ["\(ratio)","lg"]) as? String
+                    if ((priorityRatios.indexOf(ratio as! String)) < (priorityRatios.indexOf(usingRatio)) || usingRatio == ""){
+                        
+                        if (unfold(imageRatios, instructions: ["\(ratio)","lg"]) != nil){
+                            imageURL = unfold(imageRatios, instructions: ["\(ratio)","lg"]) as? String
+                        }
+                        else if (unfold(imageRatios, instructions: ["\(ratio)","md"]) != nil){
+                            imageURL = unfold(imageRatios, instructions: ["\(ratio)","md"]) as? String
+                        }
+                        else if (unfold(imageRatios, instructions: ["\(ratio)","sm"]) != nil){
+                            imageURL = unfold(imageRatios, instructions: ["\(ratio)","sm"]) as? String
+                        }
+                        if (imageURL != nil){
+                            usingRatio=ratio as! String
+                        }
                     }
-                    else if (unfold(imageRatios, instructions: ["\(ratio)","md"]) != nil){
-                        imageURL = unfold(imageRatios, instructions: ["\(ratio)","md"]) as? String
-                    }
-                    else if (unfold(imageRatios, instructions: ["\(ratio)","sm"]) != nil){
-                        imageURL = unfold(imageRatios, instructions: ["\(ratio)","sm"]) as? String
-                    }
+                    
                 }
             }
         }
+
         if (imageURL == ""){
             let sizes=unfold(imageRatios, instructions: [imageRatios.allKeys.first!]) as? NSDictionary
             imageURL=unfold(sizes, instructions: [sizes!.allKeys.last!]) as? String
@@ -560,8 +581,6 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
         let retrievedVideo=parentCategory.objectAtIndex(indexPath.section).objectForKey("media")?.objectAtIndex(indexPath.row)
         
         let imageRatios=retrievedVideo!.objectForKey("images")!
-        
-        print("\(imageRatios)")
         
         //let videosData=
         let subcat=parentCategory.objectAtIndex(indexPath.section)

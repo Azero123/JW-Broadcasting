@@ -112,7 +112,8 @@ class CollectionViewAlignmentFlowLayout: UICollectionViewFlowLayout {
             layout=(self.collectionView!.delegate as! CategoryController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forRow: 0, inSection: 0))
         }
         else {
-            layout=(self.collectionView!.delegate as! MediaOnDemandController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forRow: 0, inSection: 0))
+            return CGSize(width: 1650, height: 1600)
+            //layout=(self.collectionView!.delegate as! MediaOnDemandController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forRow: 0, inSection: 0))
         }
         let verticalRowCount=ceil(super.collectionViewContentSize().height/(layout.height))
         
