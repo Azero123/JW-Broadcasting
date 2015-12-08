@@ -259,36 +259,8 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
         cell.contentView.layoutSubviews()
         let retrievedVideo=unfold("\(categoryDataURL)|category|subcategories|\(subcategoryCollectionViews.indexOf(collectionView as! MODSubcategoryCollectionView)!)|media|\(indexPath.row)")
         
-        let imageRatios=retrievedVideo!.objectForKey("images")!
+        let imageURL:String?=unfold(retrievedVideo, instructions: ["images",["lsr","wss","cvr","lss","wsr","pss","pns",""],["lg","md","sm","xs",""]]) as? String
         
-        let priorityRatios=["pns","pss","wsr","lss","cvr","wss","lsr"].reverse()//wsr
-        
-        var usingRatio=""
-        
-        var imageURL:String?=""
-        
-        for ratio in priorityRatios {
-            if (imageURL == ""){
-                
-                if (unfold(imageRatios, instructions: ["\(ratio)","lg"]) != nil){
-                    imageURL = unfold(imageRatios, instructions: ["\(ratio)","lg"]) as? String
-                }
-                else if (unfold(imageRatios, instructions: ["\(ratio)","md"]) != nil){
-                    imageURL = unfold(imageRatios, instructions: ["\(ratio)","md"]) as? String
-                }
-                else if (unfold(imageRatios, instructions: ["\(ratio)","sm"]) != nil){
-                    imageURL = unfold(imageRatios, instructions: ["\(ratio)","sm"]) as? String
-                }
-                if (imageURL != nil){
-                    usingRatio=ratio 
-                }
-            }
-        }
-        
-        if (imageURL == ""){
-            let sizes=unfold(imageRatios, instructions: [imageRatios.allKeys.first!]) as? NSDictionary
-            imageURL=unfold(sizes, instructions: [sizes!.allKeys.last!]) as? String
-        }
         
         let size=CGSize(width: 1,height: 1)
         UIGraphicsBeginImageContextWithOptions(size, true, 0)

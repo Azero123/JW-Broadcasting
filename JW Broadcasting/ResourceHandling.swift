@@ -476,32 +476,35 @@ func unfoldArray(from:NSArray, instructions:[AnyObject]) -> AnyObject?{
     return source
 }
 
-func unfoldDictionary(from:AnyObject?, instructions:[AnyObject]) -> AnyObject? {
+func unfoldDictionary(from:NSDictionary, instructions:[AnyObject]) -> AnyObject? {
     
     if (testLogSteps){
-        print("NSDictionary.objectForKey(\(instructions[0])) \(from?.allKeys) \(instructions[0].dynamicType)")
+        print("NSDictionary.objectForKey(\(instructions[0])) \(from.allKeys) \(instructions[0].dynamicType)")
     }
     
     
-    return (from as! NSDictionary).objectForKey(instructions[0])
     
-    if ((from as! NSDictionary).objectForKey(instructions[0]) != nil){
-        if ((from as! NSDictionary).objectForKey(instructions[0]) != nil){
-            return (from as! NSDictionary).objectForKey(instructions[0])
-        }
-        else if ((from as! NSDictionary).objectForKey("\(instructions[0])") != nil){
-            return (from as! NSDictionary).objectForKey("\(instructions[0])")
-        }
+    if (from.objectForKey(instructions[0]) != nil){
+        return from.objectForKey(instructions[0])
     }
     else if (instructions[0].isKindOfClass(NSArray.self) == true) {
         for instruction in instructions[0] as! NSArray  {
             
-            let result=(from as! NSDictionary).objectForKey(instruction)
+            let result=from.objectForKey(instruction)
             
             if (result != nil){
-                return (from as! NSDictionary).objectForKey(instruction) // Unfold the NSDictionary
+                if (testLogSteps){
+                    print("NSDictionary.objectForKey(\(instruction)) success")
+                }
+                return from.objectForKey(instruction) // Unfold the NSDictionary
+            }
+            if ((instruction as! String)==""){
+                return from.objectForKey(from.allKeys.first!)
             }
             
+            if (testLogSteps){
+                print("NSDictionary.objectForKey(\(instruction)) failed")
+            }
         }
     }
     return nil
