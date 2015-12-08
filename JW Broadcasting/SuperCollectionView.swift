@@ -69,9 +69,9 @@ class SuperCollectionView: UICollectionView {
         
         */
     
-        self.registerClass(UIView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "defaultHeader")
-        self.registerClass(UIView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "defaultFooter")
-        self.registerClass(UIView.self, forCellWithReuseIdentifier: "defaultCell")
+        self.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "defaultHeader")
+        self.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "defaultFooter")
+        self.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "defaultCell")
     }
     
     func totalSections() -> Int {

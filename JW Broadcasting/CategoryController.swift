@@ -578,19 +578,9 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
         
-        let retrievedVideo=parentCategory.objectAtIndex(indexPath.section).objectForKey("media")?.objectAtIndex(indexPath.row)
-        
-        let imageRatios=retrievedVideo!.objectForKey("images")!
         
         //let videosData=
-        let subcat=parentCategory.objectAtIndex(indexPath.section)
-        let media=subcat.objectForKey("media")
-        let videosection=media!.objectAtIndex(indexPath.row)
-        let files=videosection.objectForKey("files")
-        let file=files!.objectAtIndex((files?.count)!-1)
-        let videoData=file
-        
-        let videoURLString=videoData.objectForKey("progressiveDownloadURL") as! String
+        let videoURLString=(unfold(parentCategory, instructions: ["\(indexPath.section)","media","\(indexPath.row)","files","last","progressiveDownloadURL"]) as! String)
         
         let videoURL = NSURL(string: videoURLString)
         let player = AVPlayer(URL: videoURL!)

@@ -116,8 +116,11 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
                 layout.spacingPercentile=1.075
                 //layout.spacingPercentile=1.3
                 
-                var collectionView=MODSubcategoryCollectionView(frame: CGRect(x: CGFloat(0), y:CGFloat(375*i)+300, width: self.view.frame.size.width, height: CGFloat(400)), collectionViewLayout: layout)
+                var collectionView=MODSubcategoryCollectionView(frame: CGRect(x: CGFloat(0), y:CGFloat(430*i)+200, width: self.view.frame.size.width, height: CGFloat(430)), collectionViewLayout: layout)
+                collectionView.categoryName=unfold("\(categoryDataURL)|category|subcategories|\(i)|name") as! String
+                collectionView.clipsToBounds=false
                 collectionView.contentInset=UIEdgeInsetsMake(0, 60, 0, 60)
+                collectionView.prepare()
                 
                 
                 if (self.subcategoryCollectionViews.count>i){
@@ -237,14 +240,10 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
         let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
         
-        testLogSteps=true
         let subcategories=unfold("\(categoryDataURL)|category|subcategories|\(subcategoryCollectionViews.indexOf(collectionView as! MODSubcategoryCollectionView)!)|media|count") as? Int
-        testLogSteps=false
         if (subcategories != nil){
-            print("subcategories count")
             return subcategories!
         }
-        print("no sub items")
         return 0
     }
     
@@ -255,7 +254,6 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
         
         
         let cell: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("mediaElement", forIndexPath: indexPath)
-        cell.backgroundColor=UIColor.greenColor()
         cell.alpha=1
         cell.clipsToBounds=false
         cell.contentView.layoutSubviews()
@@ -321,9 +319,16 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
         }
         
         if (hasLabelView == false){
-            let label=marqueeLabel(frame: CGRect(x: 0, y: 160, width: cell.bounds.size.width, height: cell.bounds.size.height))
-            label.textColor=UIColor.whiteColor()
+            let label=marqueeLabel(frame: CGRect(x: 0, y: cell.bounds.size.height/2+10, width: cell.bounds.size.width, height: cell.bounds.size.height))
+            
+            label.fadeLength=15
+            label.fadePadding = 30
+            label.fadePaddingWhenFull = -5
+            label.textSideOffset=15
+            
+            label.textColor=UIColor.darkGrayColor()
             label.textAlignment = .Center
+            label.font=UIFont.systemFontOfSize(29)
             //label.text="asdfasdfasdfasdfasdfasfdsdf"
             cell.contentView.addSubview(label)
         }
@@ -421,6 +426,9 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
                     (subview as! UILabel).textColor=UIColor.darkGrayColor()
                     subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y-5, width: subview.frame.size.width, height: subview.frame.size.height)
                 }
+                if (subview.isKindOfClass(marqueeLabel.self)){
+                    (subview as! marqueeLabel).endFocus()
+                }
             }
         }
         if (subcategoryCollectionViews.contains(context.nextFocusedView?.superview as! MODSubcategoryCollectionView)){
@@ -431,6 +439,9 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
                     (subview as! UILabel).textColor=UIColor.whiteColor()
                     //(subview as! UILabel).shadowColor=UIColor.blackColor()
                     subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y+5, width: subview.frame.size.width, height: subview.frame.size.height)
+                }
+                if (subview.isKindOfClass(marqueeLabel.self)){
+                    (subview as! marqueeLabel).beginFocus()
                 }
             }
             self.scrollView.scrollRectToVisible((context.nextFocusedView?.superview?.frame)!, animated: true)
