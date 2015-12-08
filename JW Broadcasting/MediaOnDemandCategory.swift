@@ -81,7 +81,7 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
         vMaskLayer.bounds = self.TopImage.bounds
         vMaskLayer.anchorPoint = CGPointZero
         
-        self.TopImage.layer.mask=vMaskLayer
+        //self.TopImage.layer.mask=vMaskLayer
         
         renewContent()
         
@@ -116,7 +116,7 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
                 layout.spacingPercentile=1.075
                 //layout.spacingPercentile=1.3
                 
-                var collectionView=MODSubcategoryCollectionView(frame: CGRect(x: CGFloat(0), y:CGFloat(450*i)+200, width: self.view.frame.size.width, height: CGFloat(450)), collectionViewLayout: layout)
+                var collectionView=MODSubcategoryCollectionView(frame: CGRect(x: CGFloat(0), y:CGFloat(500*(i-1))+650, width: self.view.frame.size.width, height: CGFloat(450)), collectionViewLayout: layout)
                 collectionView.categoryName=unfold("\(categoryDataURL)|category|subcategories|\(i)|name") as! String
                 collectionView.clipsToBounds=false
                 collectionView.contentInset=UIEdgeInsetsMake(0, 60, 0, 60)
