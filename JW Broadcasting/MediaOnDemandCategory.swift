@@ -61,6 +61,7 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
         self.TopImage.layer.insertSublayer(hMaskLayer, atIndex: 0)
         
         
+        backgroundVisualEffect.alpha=0.99
         
         
         
