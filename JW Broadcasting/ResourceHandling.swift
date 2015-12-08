@@ -411,8 +411,10 @@ func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?, usingCache:B
     }
 }
 
-
 /*Inline data requests.*/
+
+
+
 
 
 func unfold(instruction:String)-> AnyObject?{
@@ -426,6 +428,88 @@ func unfold(instruction:String)-> AnyObject?{
     let instructions=NSString(string: instruction).componentsSeparatedByString("|")
     return unfold(nil, instructions: instructions)
 }
+
+
+
+func unfoldArray(from:NSArray, instructions:[AnyObject]) -> AnyObject?{
+    if (testLogSteps){
+        print("NSArray.objectAtIndex(\(instructions[0]))")
+    }
+    
+    var source:AnyObject?=nil
+    
+    print("WE GOT TO ARRAY")
+    if (instructions[0].isKindOfClass(NSString.self) == true){
+        print("WE GOT TO STRING!")
+        let stringval=instructions[0] as! String
+        if (stringval.lowercaseString == "last"){
+            if (from.count>0){
+                source=from.objectAtIndex(from.count-1)
+            }
+            else {
+                source=nil
+            }
+        }
+        else if (stringval.lowercaseString == "first"){
+            if (from.count>0){
+                source=from.objectAtIndex(0)
+            }
+            else {
+                source=nil
+            }
+        }
+        else if (stringval.lowercaseString == "count"){
+            print("WE GOT TO COUNT!")
+            source=from.count
+        }
+        else {
+            if (from.count>Int((stringval as NSString).intValue)){
+                source=from.objectAtIndex(Int((stringval as NSString).intValue)) // Unfold the NSArray
+            }
+        }
+    }
+    else if (instructions[0].isKindOfClass(NSArray.self) == true) {
+        for instruction in instructions[0] as! NSArray {
+            let result=unfoldArray(from, instructions: [instruction])
+            if (result != nil){
+                return result
+            }
+        }
+    }
+    return source
+}
+
+func unfoldDictionary(from:AnyObject?, instructions:[AnyObject]) -> AnyObject? {
+    
+    if (testLogSteps){
+        print("NSDictionary.objectForKey(\(instructions[0])) \(from?.allKeys) \(instructions[0].dynamicType)")
+    }
+    
+    
+    return (from as! NSDictionary).objectForKey(instructions[0])
+    
+    if ((from as! NSDictionary).objectForKey(instructions[0]) != nil){
+        if ((from as! NSDictionary).objectForKey(instructions[0]) != nil){
+            return (from as! NSDictionary).objectForKey(instructions[0])
+        }
+        else if ((from as! NSDictionary).objectForKey("\(instructions[0])") != nil){
+            return (from as! NSDictionary).objectForKey("\(instructions[0])")
+        }
+    }
+    else if (instructions[0].isKindOfClass(NSArray.self) == true) {
+        for instruction in instructions[0] as! NSArray  {
+            
+            let result=(from as! NSDictionary).objectForKey(instruction)
+            
+            if (result != nil){
+                return (from as! NSDictionary).objectForKey(instruction) // Unfold the NSDictionary
+            }
+            
+        }
+    }
+    return nil
+}
+
 func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
     /*
     This method is designed to make handling multilayered dictionaries, array or other forms of content much easier.
@@ -442,40 +526,12 @@ func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
     var source:AnyObject?=nil
     
     if (from?.isKindOfClass(NSDictionary.self) == true){ //The item to process is known already as an NSDictionary
-        if (testLogSteps){
-            print("NSDictionary.objectForKey(\(instructions[0]))")
-        }
-        source=(from as! NSDictionary).objectForKey(instructions[0]) // Unfold the NSDictionary
+        
+        source=unfoldDictionary(from as! NSDictionary, instructions:  instructions)
+        
     }
-    else if (from?.isKindOfClass(NSArray.self) == true){ //The item to process is known already as an NSArray
-        if (testLogSteps){
-            print("NSArray.objectAtIndex(\(instructions[0]))")
-        }
-        let stringval=instructions[0] as! String
-        if (stringval.lowercaseString == "last"){
-            if ((from as! NSArray).count>0){
-                source=(from as! NSArray).objectAtIndex((from as! NSArray).count-1)
-            }
-            else {
-                source=nil
-            }
-        }
-        else if (stringval.lowercaseString == "first"){
-            if ((from as! NSArray).count>0){
-                source=(from as! NSArray).objectAtIndex(0)
-            }
-            else {
-                source=nil
-            }
-        }
-        else if (stringval.lowercaseString == "count"){
-            source=(from as! NSArray).count
-        }
-        else {
-            if ((from as! NSArray).count>Int((stringval as NSString).intValue)){
-                source=(from as! NSArray).objectAtIndex(Int((stringval as NSString).intValue)) // Unfold the NSArray
-            }
-        }
+    else if (from?.isKindOfClass(NSArray.self) == true) {//The item to process is known already as an NSArray
+        source=unfoldArray(from as! NSArray, instructions: instructions)
     }
     else if (from?.isKindOfClass(NSString.self) == true){
         if (testLogSteps){
@@ -626,13 +682,25 @@ func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
             
         }
     }
-    
     /* This method failed to return an NSObject but we have to return something and hopefully not cause an error. */
     
     if (source == nil){
         
         if (testLogSteps){
             print("source is nil")
+        }
+        
+        if (testLogSteps){
+            print((from as! NSObject).classForCoder)
+            if ((from?.isKindOfClass(NSDictionary.self)) == true){
+                print("from \((from as! NSDictionary).allKeys) unfold \(instructions[0]) \(instructions[0].dynamicType)")
+            }
+            if ((from?.isKindOfClass(NSArray.self)) == true){
+                print("from [\((from as! NSArray).count)] unfold \(instructions[0]) \(instructions[0].dynamicType)")
+            }
+            else {
+                print("from \(from) unfold \(instructions[0]) \(instructions[0].dynamicType)")
+            }
         }
         
         return nil

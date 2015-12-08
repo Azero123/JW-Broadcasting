@@ -47,4 +47,29 @@ class MODSubcategoryCollectionView: SuperCollectionView {
         
     }
     
+    override func cellShouldFocus(view: UIView, indexPath: NSIndexPath) {
+        for subview in (view.subviews.first!.subviews) {
+            if (subview.isKindOfClass(UILabel.self)){
+                (subview as! UILabel).textColor=UIColor.whiteColor()
+                //(subview as! UILabel).shadowColor=UIColor.blackColor()
+                subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y+5, width: subview.frame.size.width, height: subview.frame.size.height)
+            }
+            if (subview.isKindOfClass(marqueeLabel.self)){
+                (subview as! marqueeLabel).beginFocus()
+            }
+        }
+    }
+    
+    override func cellShouldLoseFocus(view: UIView, indexPath: NSIndexPath) {
+        for subview in (view.subviews.first!.subviews) {
+            if (subview.isKindOfClass(UILabel.self)){
+                (subview as! UILabel).textColor=UIColor.darkGrayColor()
+                subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y-5, width: subview.frame.size.width, height: subview.frame.size.height)
+            }
+            if (subview.isKindOfClass(marqueeLabel.self)){
+                (subview as! marqueeLabel).endFocus()
+            }
+        }
+    }
+    
 }

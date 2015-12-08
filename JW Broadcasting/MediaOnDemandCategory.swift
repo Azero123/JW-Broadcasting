@@ -267,26 +267,20 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
         
         var imageURL:String?=""
         
-        for ratio in imageRatios.allKeys {
-            for priorityRatio in priorityRatios {
-                if (ratio as? String == priorityRatio){
-                    
-                    if ((priorityRatios.indexOf(ratio as! String)) < (priorityRatios.indexOf(usingRatio)) || usingRatio == ""){
-                        
-                        if (unfold(imageRatios, instructions: ["\(ratio)","lg"]) != nil){
-                            imageURL = unfold(imageRatios, instructions: ["\(ratio)","lg"]) as? String
-                        }
-                        else if (unfold(imageRatios, instructions: ["\(ratio)","md"]) != nil){
-                            imageURL = unfold(imageRatios, instructions: ["\(ratio)","md"]) as? String
-                        }
-                        else if (unfold(imageRatios, instructions: ["\(ratio)","sm"]) != nil){
-                            imageURL = unfold(imageRatios, instructions: ["\(ratio)","sm"]) as? String
-                        }
-                        if (imageURL != nil){
-                            usingRatio=ratio as! String
-                        }
-                    }
-                    
+        for ratio in priorityRatios {
+            if (imageURL == ""){
+                
+                if (unfold(imageRatios, instructions: ["\(ratio)","lg"]) != nil){
+                    imageURL = unfold(imageRatios, instructions: ["\(ratio)","lg"]) as? String
+                }
+                else if (unfold(imageRatios, instructions: ["\(ratio)","md"]) != nil){
+                    imageURL = unfold(imageRatios, instructions: ["\(ratio)","md"]) as? String
+                }
+                else if (unfold(imageRatios, instructions: ["\(ratio)","sm"]) != nil){
+                    imageURL = unfold(imageRatios, instructions: ["\(ratio)","sm"]) as? String
+                }
+                if (imageURL != nil){
+                    usingRatio=ratio 
                 }
             }
         }
@@ -419,31 +413,15 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
         If selectedSlideShow==true (AKA the user is interacting with the slideshow) then the slide show will not roll to next slide.
         
         */
-        if (subcategoryCollectionViews.contains(context.previouslyFocusedView?.superview as! MODSubcategoryCollectionView)){
+        if (context.previouslyFocusedView?.superview?.isKindOfClass(MODSubcategoryCollectionView.self) == true && subcategoryCollectionViews.contains(context.previouslyFocusedView?.superview as! MODSubcategoryCollectionView) && context.previouslyFocusedIndexPath != nil){
             
-            for subview in (context.previouslyFocusedView?.subviews.first!.subviews)! {
-                if (subview.isKindOfClass(UILabel.self)){
-                    (subview as! UILabel).textColor=UIColor.darkGrayColor()
-                    subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y-5, width: subview.frame.size.width, height: subview.frame.size.height)
-                }
-                if (subview.isKindOfClass(marqueeLabel.self)){
-                    (subview as! marqueeLabel).endFocus()
-                }
-            }
+            (context.previouslyFocusedView?.superview as! MODSubcategoryCollectionView).cellShouldLoseFocus(context.previouslyFocusedView!, indexPath: context.previouslyFocusedIndexPath!)
+            
         }
-        if (subcategoryCollectionViews.contains(context.nextFocusedView?.superview as! MODSubcategoryCollectionView)){
-            context.nextFocusedView?.subviews.first?.alpha=1
+        if (context.nextFocusedView?.superview?.isKindOfClass(MODSubcategoryCollectionView.self) == true && subcategoryCollectionViews.contains(context.nextFocusedView?.superview as! MODSubcategoryCollectionView) && context.nextFocusedIndexPath != nil){
             
-            for subview in (context.nextFocusedView?.subviews.first!.subviews)! {
-                if (subview.isKindOfClass(UILabel.self)){
-                    (subview as! UILabel).textColor=UIColor.whiteColor()
-                    //(subview as! UILabel).shadowColor=UIColor.blackColor()
-                    subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y+5, width: subview.frame.size.width, height: subview.frame.size.height)
-                }
-                if (subview.isKindOfClass(marqueeLabel.self)){
-                    (subview as! marqueeLabel).beginFocus()
-                }
-            }
+            (context.nextFocusedView?.superview as! MODSubcategoryCollectionView).cellShouldFocus(context.nextFocusedView!, indexPath: context.nextFocusedIndexPath!)
+            
             self.scrollView.scrollRectToVisible((context.nextFocusedView?.superview?.frame)!, animated: true)
         }
         
