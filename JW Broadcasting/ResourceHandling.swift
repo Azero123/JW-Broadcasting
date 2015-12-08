@@ -438,9 +438,7 @@ func unfoldArray(from:NSArray, instructions:[AnyObject]) -> AnyObject?{
     
     var source:AnyObject?=nil
     
-    print("WE GOT TO ARRAY")
     if (instructions[0].isKindOfClass(NSString.self) == true){
-        print("WE GOT TO STRING!")
         let stringval=instructions[0] as! String
         if (stringval.lowercaseString == "last"){
             if (from.count>0){
@@ -459,7 +457,6 @@ func unfoldArray(from:NSArray, instructions:[AnyObject]) -> AnyObject?{
             }
         }
         else if (stringval.lowercaseString == "count"){
-            print("WE GOT TO COUNT!")
             source=from.count
         }
         else {
