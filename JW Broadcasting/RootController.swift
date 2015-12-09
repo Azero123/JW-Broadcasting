@@ -364,58 +364,55 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         if (translatedKeyPhrases != nil){ // if the language file was obtained
             /*These keys are what I found correspond to the navigation buttons on tv.jw.org*/
             
-            var keyForButton:Array<String>=[]
-            
-            if (Home){
-                keyForButton.append("lnkHomeView")//
-            }
-            if (VOD){
-                keyForButton.append("homepageVODBlockTitle")//
-            }
-            if (Audio){
-                keyForButton.append("homepageAudioBlockTitle")//
-            }
-            if (Language){
-                keyForButton.append("lnkLanguage")//
-            }
-            if (Search){
-                keyForButton.append("Search")
-            }
-            if (BETAMedia){
-                keyForButton.append("Media On Demand")
-            }
-            
             let startIndex=0
-            let endIndex=keyForButton.count
+            let endIndex=self.viewControllers!.count
             
             /* replace titles */
             for var i=startIndex ; i<endIndex ; i++ {
-                //var newTitle=translatedKeyPhrases?.objectForKey(keyForButton[i]) as! String
-                var keyI=i
-                if (textDirection==UIUserInterfaceLayoutDirection.RightToLeft){
-                    keyI=endIndex-1-i
+                
+                var keyForButton=""
+                
+                let viewController = self.viewControllers![i]
+                
+                if (viewController.isKindOfClass(HomeController.self)){
+                    keyForButton="lnkHomeView"
                 }
-                switch keyI {
-                case 3:
-                    
-                    self.tabBar.items?[i].title="    "
-                    
+                else if (viewController.isKindOfClass(MediaOnDemandController.self)){
+                    keyForButton="homepageVODBlockTitle"//
+                }
+                else if (viewController.isKindOfClass(VideoOnDemandController.self)){
+                    keyForButton="homepageVODBlockTitle"//
+                }
+                else if (viewController.isKindOfClass(AudioController.self)){
+                    keyForButton="homepageAudioBlockTitle"//
+                }
+                else if (viewController.isKindOfClass(LanguageSelector.self)){
+                    //"lnkLanguage"//
+                    keyForButton="    "
+                    /*self.tabBar.items?[(self.viewControllers?.indexOf(viewController))!].title="    "
                     let fontattributes=[NSFontAttributeName:UIFont(name: "jwtv", size: 36)!,NSForegroundColorAttributeName:UIColor.grayColor()] as Dictionary<String,AnyObject>
-                    self.tabBar.items?[i].setTitleTextAttributes(fontattributes, forState: .Normal)
-                    
-                default:
-                    let newText=translatedKeyPhrases?.objectForKey(keyForButton[keyI]) as? String
-                    if (newText != nil){
-                        self.tabBar.items?[i].title=newText
-                    }
-                    else {
-                        self.tabBar.items?[i].title=keyForButton[keyI]
-                    }
-                    
+                    self.tabBar.items?[(self.viewControllers?.indexOf(viewController))!].setTitleTextAttributes(fontattributes, forState: .Normal)*/
+                }
+                else if (viewController.isKindOfClass(SearchController.self)){
+                    keyForButton="Search"
+                }
+                
+                
+                let newText=translatedKeyPhrases?.objectForKey(keyForButton) as? String
+                if (newText != nil){
+                    self.tabBar.items?[i].title=newText
+                }
+                else {
+                    self.tabBar.items?[i].title=keyForButton
+                }
+                
+                if (viewController.isKindOfClass(LanguageSelector.self)){
+                    let fontattributes=[NSFontAttributeName:UIFont(name: "jwtv", size: 36)!,NSForegroundColorAttributeName:UIColor.grayColor()] as Dictionary<String,AnyObject>
+                    self.tabBar.items?[(self.viewControllers?.indexOf(viewController))!].setTitleTextAttributes(fontattributes, forState: .Normal)
+                }
+                else {
                     let fontattributes=[NSForegroundColorAttributeName:UIColor.grayColor()] as Dictionary<String,AnyObject>
                     self.tabBar.items?[i].setTitleTextAttributes(fontattributes, forState: .Normal)
-                    
-                    break
                 }
             }
             

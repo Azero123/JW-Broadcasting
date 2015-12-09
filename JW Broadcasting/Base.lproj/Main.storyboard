@@ -939,11 +939,11 @@
                     </tabBar>
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="CBD-Yh-rI7"/>
-                        <segue destination="dOE-pI-BIe" kind="relationship" relationship="viewControllers" id="JNb-Th-2mR"/>
-                        <segue destination="PyG-dy-RMf" kind="relationship" relationship="viewControllers" id="oRV-Ta-G4g"/>
-                        <segue destination="uAE-Hn-cy1" kind="relationship" relationship="viewControllers" id="AQz-f3-btc"/>
-                        <segue destination="9Xv-my-4S3" kind="relationship" relationship="viewControllers" id="PNS-tE-piy"/>
-                        <segue destination="F6L-52-xGL" kind="relationship" relationship="viewControllers" id="aAk-d6-NQp"/>
+                        <segue destination="F6L-52-xGL" kind="relationship" relationship="viewControllers" id="9wS-7R-LD9"/>
+                        <segue destination="dOE-pI-BIe" kind="relationship" relationship="viewControllers" id="jCh-la-Xlm"/>
+                        <segue destination="PyG-dy-RMf" kind="relationship" relationship="viewControllers" id="af6-Wa-hy4"/>
+                        <segue destination="uAE-Hn-cy1" kind="relationship" relationship="viewControllers" id="YBK-Dn-Vss"/>
+                        <segue destination="9Xv-my-4S3" kind="relationship" relationship="viewControllers" id="mQ3-hf-kzl"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5CA-wG-gSr" sceneMemberID="firstResponder"/>

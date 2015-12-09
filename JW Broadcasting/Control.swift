@@ -36,15 +36,15 @@ let logFolding = testLogSteps
 
 let Home = true
 
-let VOD = true
+let BETAMedia = true
+
+let VOD = false
 
 let Audio = true
 
 let Language = true
 
 let Search = false
-
-let BETAMedia = true
 
 
 /*Settings for home page control*/

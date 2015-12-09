@@ -67,7 +67,7 @@ class CollectionViewAlignmentFlowLayout: UICollectionViewFlowLayout {
             
             if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
                 attrs.frame=CGRect(
-                    x: self.collectionView!.frame.size.width-attrs.frame.origin.x-attrs.frame.size.width,
+                    x: self.collectionView!.frame.size.width-attrs.frame.origin.x,
                     y: attrs.frame.origin.y,
                     width: attrs.frame.size.width,
                     height: attrs.frame.height)

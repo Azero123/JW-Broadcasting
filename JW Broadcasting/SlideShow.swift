@@ -430,7 +430,7 @@ class SlideShow: SuperCollectionView {
         var positionIndex=indexPath.row
         
         if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
-            positionIndex=(self.numberOfItemsInSection(indexPath.section))-indexPath.row-2
+            positionIndex=(self.numberOfItemsInSection(indexPath.section))-indexPath.row-1
         }
         
         let layoutAttribute=withPreLayout
