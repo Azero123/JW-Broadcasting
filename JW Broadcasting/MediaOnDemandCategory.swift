@@ -201,6 +201,15 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
         
         let cell: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("mediaElement", forIndexPath: indexPath)
         
+        for subview in cell.contentView.subviews {
+            subview.removeFromSuperview()
+        }
+        
+        cell.alpha=1
+        cell.clipsToBounds=false
+        cell.contentView.layoutSubviews()
+        
+        
         var indexPathRow=indexPath.row
         if (streamingCell){
             if (subcategoryCollectionViews.indexOf(collectionView as! MODSubcategoryCollectionView)! == 0){
@@ -233,17 +242,63 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
             }
         }
         
+        //lblNowPlaying
         
-        cell.alpha=1
-        cell.clipsToBounds=false
-        cell.contentView.layoutSubviews()
+        
+        
+        let label=marqueeLabel(frame: CGRect(x: 0, y: cell.bounds.size.height/2+10, width: cell.bounds.size.width, height: cell.bounds.size.height))
+        
+        label.fadeLength=15
+        label.fadePadding = 30
+        label.fadePaddingWhenFull = -5
+        label.textSideOffset=15
+        
+        label.textColor=UIColor.darkGrayColor()
+        label.textAlignment = .Center
+        label.font=UIFont.systemFontOfSize(29)
         let retrievedVideo=unfold("\(categoryDataURL)|category|subcategories|\(subcategoryCollectionViews.indexOf(collectionView as! MODSubcategoryCollectionView)!)|media|\(indexPathRow)")
+
+        /*
         
-        if (retrievedVideo == nil){
-            return cell
+        Code for removing the repetitive JW Broadcasting - before all the names of all the monthly broadcasts.
+        */
+        var title:String?=nil
+        if (retrievedVideo != nil){
+            title=(retrievedVideo!.objectForKey("title") as? String)
+        }
+        if (title != nil){
+            let replacementStrings=["JW Broadcasting —","JW Broadcasting—","JW Broadcasting​ —","JW Broadcasting​—"]
+            for replacement in replacementStrings {
+                
+                if (title!.containsString(replacement)){
+                    
+                    title=title!.stringByReplacingOccurrencesOfString(replacement, withString: "")
+                    title=title!.stringByAppendingString(" Broadcast")
+                    /* replace " Broadcast" with a key from:
+                    base+"/"+version+"/languages/"+languageCode+"/web"
+                    so that this works with foreign languages*/
+                }
+                
+            }
+            
+            label.text=title
+            label.layer.shadowColor=UIColor.darkGrayColor().CGColor
+            label.layer.shadowRadius=5
+            label.numberOfLines=3
+        }
+        if (subcategoryCollectionViews.indexOf(collectionView as! MODSubcategoryCollectionView)! == 0 && indexPath.row==0){
+            
+            label.text=unfold("\(base)/\(version)/translations/\(languageCode)|translations|\(languageCode)|lblNowPlaying") as? String
         }
         
-        let imageURL:String?=unfold(retrievedVideo, instructions: ["images",["lsr","wss","cvr","lss","wsr","pss","pns",""],["lg","md","sm","xs",""]]) as? String
+        if (retrievedVideo == nil){
+            //return cell
+        }
+        
+        var imageURL:String?=nil
+        if (retrievedVideo != nil){
+            imageURL=unfold(retrievedVideo, instructions: ["images",["lsr","wss","cvr","lss","wsr","pss","pns",""],["lg","md","sm","xs",""]]) as? String
+        }
         
         
         let size=CGSize(width: 1,height: 1)
@@ -252,105 +307,58 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
         UIRectFill(CGRectMake(0, 0, size.width, size.height))
         var image=UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
+    
         
-        var hasImageView=false
-        var hasLabelView=false
+        let imageView=UIImageView(frame: cell.bounds)
+        cell.contentView.addSubview(imageView)
         
-        for subview in cell.contentView.subviews {
-            if (subview.isKindOfClass(UIImageView.self)){
-                hasImageView=true
-            }
-            if (subview.isKindOfClass(UILabel.self)){
-                hasLabelView=true
-            }
-        }
-        if (hasImageView == false){
-            cell.contentView.addSubview(UIImageView(frame: cell.bounds))
-        }
+        imageView.image=image
         
-        if (hasLabelView == false){
-            let label=marqueeLabel(frame: CGRect(x: 0, y: cell.bounds.size.height/2+10, width: cell.bounds.size.width, height: cell.bounds.size.height))
-            
-            label.fadeLength=15
-            label.fadePadding = 30
-            label.fadePaddingWhenFull = -5
-            label.textSideOffset=15
-            
-            label.textColor=UIColor.darkGrayColor()
-            label.textAlignment = .Center
-            label.font=UIFont.systemFontOfSize(29)
-            //label.text="asdfasdfasdfasdfasdfasfdsdf"
-            cell.contentView.addSubview(label)
-        }
-        
-        for subview in cell.contentView.subviews {
-            if (subview.isKindOfClass(UIImageView.self)){
+        if (imageURL != nil){
+            fetchDataUsingCache(imageURL!, downloaded: {
                 
-                (subview as! UIImageView).image=image
-                
-                fetchDataUsingCache(imageURL!, downloaded: {
+                dispatch_async(dispatch_get_main_queue()) {
                     
-                    dispatch_async(dispatch_get_main_queue()) {
-                        
-                        image=imageUsingCache(imageURL!)
-                        
-                        var ratio=(image?.size.width)!/(image?.size.height)!
-                        (subview as! UIImageView).frame=CGRect(x: (cell.frame.size.width-((cell.frame.size.height-60)*ratio))/2, y: 0, width: (cell.frame.size.height-60)*ratio, height: (cell.frame.size.height-60))
-                        
-                        if (image?.size.width>(image!.size.height)){
-                            ratio=(image?.size.height)!/(image?.size.width)!
-                            (subview as! UIImageView).frame=CGRect(x: 0, y: 0, width: cell.frame.size.width, height: cell.frame.size.width*ratio)
-                        }
-                        
-                        (subview as! UIImageView).image=image
-                        (subview as! UIImageView).frame=CGRect(x: (cell.frame.size.width-subview.frame.size.width)/2, y: (cell.frame.size.height-subview.frame.size.height)/2, width: subview.frame.size.width, height: subview.frame.size.height)
-                        UIView.animateWithDuration(0.5, animations: {
-                            subview.alpha=1
-                        })
-                        
-                    }
-                })
-                
-                subview.alpha=0
-                subview.userInteractionEnabled = true
-                (subview as! UIImageView).adjustsImageWhenAncestorFocused = true
-                subview.layer.cornerRadius=5
-            }
-            if (subview.isKindOfClass(UILabel.self)){
-                
-                /*
-                
-                Code for removing the repetitive JW Broadcasting - before all the names of all the monthly broadcasts.
-                */
-                
-                var title=(retrievedVideo!.objectForKey("title") as? NSString)!
-                let replacementStrings=["JW Broadcasting —","JW Broadcasting—","JW Broadcasting​ —","JW Broadcasting​—"]
-                
-                for replacement in replacementStrings {
+                    image=imageUsingCache(imageURL!)
                     
-                    if (title.containsString(replacement)){
-                        
-                        title=title.stringByReplacingOccurrencesOfString(replacement, withString: "")
-                        title=title.stringByAppendingString(" Broadcast")
-                        /* replace " Broadcast" with a key from:
-                        base+"/"+version+"/languages/"+languageCode+"/web"
-                        so that this works with foreign languages*/
+                    var ratio=(image?.size.width)!/(image?.size.height)!
+                    imageView.frame=CGRect(x: (cell.frame.size.width-((cell.frame.size.height-60)*ratio))/2, y: 0, width: (cell.frame.size.height-60)*ratio, height: (cell.frame.size.height-60))
+                    
+                    if (image?.size.width>(image!.size.height)){
+                        ratio=(image?.size.height)!/(image?.size.width)!
+                        imageView.frame=CGRect(x: 0, y: 0, width: cell.frame.size.width, height: cell.frame.size.width*ratio)
                     }
+                    
+                    imageView.image=image
+                    imageView.frame=CGRect(x: (cell.frame.size.width-imageView.frame.size.width)/2, y: (cell.frame.size.height-imageView.frame.size.height)/2, width: imageView.frame.size.width, height: imageView.frame.size.height)
+                    UIView.animateWithDuration(0.5, animations: {
+                        imageView.alpha=1
+                    })
                     
                 }
-                
-                let titleLabel=(subview as! UILabel)
-                titleLabel.text=title as String
-                titleLabel.layer.shadowColor=UIColor.darkGrayColor().CGColor
-                titleLabel.layer.shadowRadius=5
-                titleLabel.numberOfLines=3
-                
-            }
-            if (subview.isKindOfClass(UIActivityIndicatorView.self)){
-                (subview as! UIActivityIndicatorView).startAnimating()
-                subview.transform = CGAffineTransformMakeScale(2.0, 2.0)
-            }
+            })
         }
+        
+        imageView.alpha=0
+        imageView.userInteractionEnabled = true
+        imageView.adjustsImageWhenAncestorFocused = true
+        imageView.layer.cornerRadius=5
+        
+        
+        cell.contentView.addSubview(label)
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         

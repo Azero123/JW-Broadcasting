@@ -440,29 +440,36 @@ class StreamView: UIImageView {
     }
     
     func focus() {
-            // handle focus appearance changes
-            print("focusing")
-            
-            let hMotionEffect=UIInterpolatingMotionEffect(keyPath: "center.x", type: UIInterpolatingMotionEffectType.TiltAlongHorizontalAxis)
-            hMotionEffect.minimumRelativeValue = -10
-            hMotionEffect.maximumRelativeValue = 10
-            
-            let vMotionEffect=UIInterpolatingMotionEffect(keyPath: "center.y", type: UIInterpolatingMotionEffectType.TiltAlongVerticalAxis)
-            vMotionEffect.minimumRelativeValue = -10
-            vMotionEffect.maximumRelativeValue = 10
-            
-            let group=UIMotionEffectGroup()
-            group.motionEffects=[hMotionEffect,vMotionEffect]
-            self.addMotionEffect(group)
-            
-            self.transform = CGAffineTransformMakeScale(1.135, 1.135)
-            
-        }
+        // handle focus appearance changes
+        print("focusing")
+        
+        let hMotionEffect=UIInterpolatingMotionEffect(keyPath: "center.x", type: UIInterpolatingMotionEffectType.TiltAlongHorizontalAxis)
+        hMotionEffect.minimumRelativeValue = -10
+        hMotionEffect.maximumRelativeValue = 10
+        
+        let vMotionEffect=UIInterpolatingMotionEffect(keyPath: "center.y", type: UIInterpolatingMotionEffectType.TiltAlongVerticalAxis)
+        vMotionEffect.minimumRelativeValue = -10
+        vMotionEffect.maximumRelativeValue = 10
+        
+        let group=UIMotionEffectGroup()
+        group.motionEffects=[hMotionEffect,vMotionEffect]
+        self.addMotionEffect(group)
+        
+        self.backgroundColor=UIColor.blackColor()
+        self.transform = CGAffineTransformMakeScale(1.135, 1.135)
+        self.superview!.layer.shadowColor=UIColor.grayColor().CGColor
+        self.superview!.layer.shadowOpacity=1
+        self.superview!.layer.shadowRadius=30
+        self.superview!.layer.shadowOffset=CGSize(width: 10, height: 50)
+        //self.superview?.backgroundColor=UIColor.blackColor()
+        
+    }
     func unfocus(){
-            print("unfocus")
-            self.motionEffects.removeAll()
-            self.transform = CGAffineTransformMakeScale(1, 1)
-            // handle unfocused appearance changes
+        print("unfocus")
+        self.motionEffects.removeAll()
+        self.transform = CGAffineTransformMakeScale(1, 1)
+        self.superview!.layer.shadowOpacity=0
+        // handle unfocused appearance changes
     }
     
     override func canBecomeFocused() -> Bool {
