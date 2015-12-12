@@ -99,12 +99,12 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         if (JWLogo){
             
             logoLabelView.font=UIFont(name: "jwtv", size: self.tabBar.frame.size.height+60) // Use the font from jw.org to display the jw logo
-            logoLabelView.frame=CGRect(x: 110, y: 10, width: self.tabBar.frame.size.height+60, height: self.tabBar.frame.size.height+60)//initial logo position and size
+            logoLabelView.frame=CGRect(x: 110, y: 10+10, width: self.tabBar.frame.size.height+60, height: self.tabBar.frame.size.height+60)//initial logo position and size
             logoLabelView.text=""//The unique key code for the JW.org logo
             logoLabelView.textAlignment = .Left
             logoLabelView.lineBreakMode = .ByClipping
             
-            logoLabelView.frame=CGRect(x: 110, y: 10, width: logoLabelView.intrinsicContentSize().width, height: self.tabBar.frame.size.height+60)//corrected position
+            logoLabelView.frame=CGRect(x: 110, y: 10+10, width: logoLabelView.intrinsicContentSize().width, height: self.tabBar.frame.size.height+60)//corrected position
             
             logoLabelView.textColor=UIColor(colorLiteralRed: 0.3, green: 0.44, blue: 0.64, alpha: 1.0) // JW blue color
             self.tabBar.addSubview(logoLabelView)
@@ -158,6 +158,9 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
             else if (viewController.isKindOfClass(MediaOnDemandController.self)){//Remove MOD page if disabled
                 if (BETAMedia==false){
                     self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
+                }
+                else {
+                    self.tabBar.items?[(self.viewControllers?.indexOf(viewController))!].title="Video on Demand"
                 }
             }
         }
@@ -345,14 +348,14 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
             if (JWLogo){
                 if (textDirection == .RightToLeft){
                     logoLabelView.textAlignment = .Right
-                    logoLabelView.frame=CGRect(x: self.tabBar.frame.size.width-logoLabelView.frame.size.width, y: -40, width: self.tabBar.frame.size.height+60, height: self.tabBar.frame.size.height+60)
+                    logoLabelView.frame=CGRect(x: self.tabBar.frame.size.width-logoLabelView.frame.size.width, y: -40+10, width: self.tabBar.frame.size.height+60, height: self.tabBar.frame.size.height+60)
                     
                     //logoLabelView.frame=CGRect(x: self.tabBar.frame.size.width-110-logoLabelView.frame.size.width, y: 10, width: logoLabelView.intrinsicContentSize().width+200, height: self.tabBar.frame.size.height+60)
                 }
                 else {
                     logoLabelView.textAlignment = .Left
                     
-                    logoLabelView.frame=CGRect(x: 110, y: logoLabelView.frame.origin.y, width: logoLabelView.intrinsicContentSize().width+200, height: self.tabBar.frame.size.height+60)
+                    logoLabelView.frame=CGRect(x: 110, y: logoLabelView.frame.origin.y+10, width: logoLabelView.intrinsicContentSize().width+200, height: self.tabBar.frame.size.height+60)
                     //logoLabelView.frame=CGRect(x: 110, y: 10, width: self.tabBar.frame.size.height+60, height: self.tabBar.frame.size.height+60)
                 }
             }

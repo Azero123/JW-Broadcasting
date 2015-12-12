@@ -814,10 +814,10 @@
             </objects>
             <point key="canvasLocation" x="2244" y="6390"/>
         </scene>
-        <!--Media On Demand Category-->
+        <!--Media on Demand-->
         <scene sceneID="z88-rF-YnY">
             <objects>
-                <viewController id="acl-p8-nge" customClass="MediaOnDemandCategory" customModule="JW_Broadcasting" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Media on Demand" id="acl-p8-nge" customClass="MediaOnDemandCategory" customModule="JW_Broadcasting" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ZJS-fc-VtC"/>
                         <viewControllerLayoutGuide type="bottom" id="ONo-vx-5TD"/>
@@ -845,40 +845,26 @@
                                     <constraint firstItem="VWA-ul-ckk" firstAttribute="centerX" secondItem="XFY-vt-XoQ" secondAttribute="centerX" id="cJK-zm-FG6"/>
                                 </constraints>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7b7-WF-zs0">
-                                <rect key="frame" x="90" y="138" width="960" height="942"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ikn-na-0NV">
+                                <rect key="frame" x="0.0" y="0.0" width="1920" height="600"/>
                                 <subviews>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="40" sectionFooterHeight="40" translatesAutoresizingMaskIntoConstraints="NO" id="dVX-Lz-SdI">
-                                        <rect key="frame" x="0.0" y="0.0" width="960" height="942"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <prototypes>
-                                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="mediaElement" id="eVy-BN-Gih">
-                                                <rect key="frame" x="0.0" y="54" width="960" height="66"/>
-                                                <autoresizingMask key="autoresizingMask"/>
-                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eVy-BN-Gih" id="hmU-9h-pCQ">
-                                                    <rect key="frame" x="0.0" y="0.0" width="944" height="66"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </tableViewCellContentView>
-                                            </tableViewCell>
-                                        </prototypes>
-                                    </tableView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PER-Eo-rh1">
+                                        <rect key="frame" x="120" y="230" width="1680" height="140"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="140" id="dV7-kt-Gyg"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="dVX-Lz-SdI" firstAttribute="leading" secondItem="7b7-WF-zs0" secondAttribute="leading" id="H52-pN-obf"/>
-                                    <constraint firstItem="dVX-Lz-SdI" firstAttribute="top" secondItem="7b7-WF-zs0" secondAttribute="top" id="VAV-j0-j1S"/>
-                                    <constraint firstAttribute="bottom" secondItem="dVX-Lz-SdI" secondAttribute="bottom" id="wT4-rm-TV6"/>
-                                    <constraint firstAttribute="trailing" secondItem="dVX-Lz-SdI" secondAttribute="trailing" id="xZO-72-P4U"/>
+                                    <constraint firstAttribute="trailing" secondItem="PER-Eo-rh1" secondAttribute="trailing" constant="120" id="Y3j-Wv-by7"/>
+                                    <constraint firstItem="PER-Eo-rh1" firstAttribute="leading" secondItem="Ikn-na-0NV" secondAttribute="leading" constant="120" id="k1F-7c-fbu"/>
+                                    <constraint firstItem="PER-Eo-rh1" firstAttribute="centerY" secondItem="Ikn-na-0NV" secondAttribute="centerY" id="mC4-Kz-3HC"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PER-Eo-rh1">
-                                <rect key="frame" x="90" y="0.0" width="1740" height="140"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="140" id="dV7-kt-Gyg"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jUM-8z-Dml">
                                 <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                                 <subviews>
@@ -894,21 +880,18 @@
                             </scrollView>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="ONo-vx-5TD" firstAttribute="top" secondItem="Ikn-na-0NV" secondAttribute="bottom" constant="480" id="0EI-F3-lcd"/>
+                            <constraint firstItem="Ikn-na-0NV" firstAttribute="top" secondItem="ZJS-fc-VtC" secondAttribute="bottom" id="3S4-Eg-ETc"/>
                             <constraint firstItem="jUM-8z-Dml" firstAttribute="leading" secondItem="iVy-kQ-FCo" secondAttribute="leading" id="80f-8d-Keg"/>
+                            <constraint firstItem="Ikn-na-0NV" firstAttribute="leading" secondItem="iVy-kQ-FCo" secondAttribute="leading" id="8xI-YH-Ecb"/>
                             <constraint firstItem="ONo-vx-5TD" firstAttribute="top" secondItem="jUM-8z-Dml" secondAttribute="bottom" id="CZx-Ia-vZL"/>
+                            <constraint firstAttribute="trailing" secondItem="Ikn-na-0NV" secondAttribute="trailing" id="DEV-iF-1TD"/>
                             <constraint firstItem="jUM-8z-Dml" firstAttribute="top" secondItem="ZJS-fc-VtC" secondAttribute="bottom" id="Ezk-Bx-8Ax"/>
                             <constraint firstAttribute="trailing" secondItem="XFY-vt-XoQ" secondAttribute="trailing" id="Mzl-D3-JYj"/>
-                            <constraint firstItem="7b7-WF-zs0" firstAttribute="top" secondItem="ZJS-fc-VtC" secondAttribute="bottom" constant="138" id="UTJ-4Z-8vx"/>
-                            <constraint firstItem="PER-Eo-rh1" firstAttribute="leading" secondItem="iVy-kQ-FCo" secondAttribute="leading" constant="90" id="YLa-NT-ElW"/>
-                            <constraint firstItem="PER-Eo-rh1" firstAttribute="top" secondItem="ZJS-fc-VtC" secondAttribute="bottom" id="bl9-vz-zhH"/>
-                            <constraint firstItem="ONo-vx-5TD" firstAttribute="top" secondItem="7b7-WF-zs0" secondAttribute="bottom" id="jfM-pL-fcP"/>
                             <constraint firstAttribute="trailing" secondItem="jUM-8z-Dml" secondAttribute="trailing" id="kSh-mO-C76"/>
-                            <constraint firstItem="7b7-WF-zs0" firstAttribute="width" secondItem="iVy-kQ-FCo" secondAttribute="width" multiplier="0.5" id="lWX-c6-2hz"/>
                             <constraint firstItem="XFY-vt-XoQ" firstAttribute="height" secondItem="iVy-kQ-FCo" secondAttribute="height" id="oij-nT-fki"/>
                             <constraint firstItem="XFY-vt-XoQ" firstAttribute="width" secondItem="iVy-kQ-FCo" secondAttribute="width" multiplier="0.5" id="pNL-AW-afG"/>
-                            <constraint firstAttribute="trailing" secondItem="PER-Eo-rh1" secondAttribute="trailing" constant="90" id="ppt-FC-EUk"/>
                             <constraint firstItem="XFY-vt-XoQ" firstAttribute="top" secondItem="ZJS-fc-VtC" secondAttribute="bottom" id="q7S-mp-rkq"/>
-                            <constraint firstItem="7b7-WF-zs0" firstAttribute="leading" secondItem="iVy-kQ-FCo" secondAttribute="leading" constant="90" id="rkD-Ed-DgT"/>
                             <constraint firstItem="ONo-vx-5TD" firstAttribute="top" secondItem="XFY-vt-XoQ" secondAttribute="bottom" id="vym-ZI-8XE"/>
                         </constraints>
                     </view>
@@ -916,9 +899,9 @@
                         <outlet property="TopImage" destination="6fQ-k8-2Bs" id="i7K-Ht-xH8"/>
                         <outlet property="backgroundVisualEffect" destination="oet-0W-KOp" id="mNs-UK-fIZ"/>
                         <outlet property="categoryTitle" destination="PER-Eo-rh1" id="sML-XJ-kEG"/>
-                        <outlet property="mediaElements" destination="dVX-Lz-SdI" id="ZOz-7t-vDD"/>
                         <outlet property="previewImageView" destination="VWA-ul-ckk" id="ucC-3i-2Kr"/>
                         <outlet property="scrollView" destination="jUM-8z-Dml" id="QQD-Nm-VOm"/>
+                        <segue destination="8kI-1n-j2v" kind="show" identifier="presentStreaming" id="RKc-xb-pil"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jAQ-i3-D5O" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -955,4 +938,7 @@
         <image name="LaunchScreenEarth.png" width="1920" height="1080"/>
         <image name="jw-broadcasting-logo.png" width="250" height="65"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="RKc-xb-pil"/>
+    </inferredMetricsTieBreakers>
 </document>

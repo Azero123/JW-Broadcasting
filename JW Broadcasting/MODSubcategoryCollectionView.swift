@@ -26,7 +26,7 @@ class MODSubcategoryCollectionView: SuperCollectionView {
     
     func initSupport(){
         categoryLabel.font=UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
-        categoryLabel.frame=CGRectMake(0, 0, self.frame.size.width, 40)
+        categoryLabel.frame=CGRectMake(self.contentInset.left , 0, self.frame.size.width-self.contentInset.left-self.contentInset.right, 40)
         categoryLabel.text=categoryName
         self.addSubview(categoryLabel)
     }
@@ -34,6 +34,7 @@ class MODSubcategoryCollectionView: SuperCollectionView {
     override func prepare() {
         super.prepare()
         categoryLabel.text=categoryName
+        categoryLabel.frame=CGRectMake(self.contentInset.left , 0, self.frame.size.width-self.contentInset.left-self.contentInset.right, 40)
         
         if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
             self.categoryLabel.textAlignment=NSTextAlignment.Right
@@ -57,6 +58,9 @@ class MODSubcategoryCollectionView: SuperCollectionView {
             if (subview.isKindOfClass(marqueeLabel.self)){
                 (subview as! marqueeLabel).beginFocus()
             }
+            if (subview.isKindOfClass(StreamView.self)){
+                (subview as! StreamView).focus()
+            }
         }
     }
     
@@ -68,6 +72,9 @@ class MODSubcategoryCollectionView: SuperCollectionView {
             }
             if (subview.isKindOfClass(marqueeLabel.self)){
                 (subview as! marqueeLabel).endFocus()
+            }
+            if (subview.isKindOfClass(StreamView.self)){
+                (subview as! StreamView).unfocus()
             }
         }
     }

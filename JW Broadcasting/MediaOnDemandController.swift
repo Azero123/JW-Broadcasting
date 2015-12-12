@@ -163,16 +163,17 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
         let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
         categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|key") as! String
-        print("category to go to \(categoryToGoTo)")
+        categoryIndexToGoTo=indexPath.row
         return true
     }
     
+    var categoryIndexToGoTo:Int=0
     var categoryToGoTo=""
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if (segue.destinationViewController.isKindOfClass(MediaOnDemandCategory.self)){
+            (segue.destinationViewController as! MediaOnDemandCategory).categoryIndex=categoryIndexToGoTo
             (segue.destinationViewController as! MediaOnDemandCategory).category=categoryToGoTo
-            print(categoryToGoTo)
         }
     }
     

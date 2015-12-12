@@ -59,7 +59,7 @@ cellSelect(...) Event called upon cell chosen, same as collectionView(collection
 
 import UIKit
 
-class SuperCollectionView: UICollectionView {
+class SuperCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource{
     func prepare(){
         /*
 
@@ -129,7 +129,7 @@ class SuperCollectionView: UICollectionView {
         Used to create cell elements, same as
         collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell
         */
-        let cell: UICollectionViewCell = self.dequeueReusableCellWithReuseIdentifier("slide", forIndexPath: indexPath)
+        let cell: UICollectionViewCell = self.dequeueReusableCellWithReuseIdentifier("defaultCell", forIndexPath: indexPath)
         return cell
     }
     

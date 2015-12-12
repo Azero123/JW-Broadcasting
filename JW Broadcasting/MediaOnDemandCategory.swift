@@ -9,7 +9,9 @@
 import UIKit
 import AVKit
 
-class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource {
+var streamingCell=true
+
+class MediaOnDemandCategory: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
 
     var _category="VODBible"
     var category:String {
@@ -21,7 +23,20 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
             return _category
         }
     }
-    @IBOutlet weak var mediaElements: UITableView!
+    var _categoryIndex=0
+    var categoryIndex:Int {
+        set (newValue){
+            _categoryIndex=newValue
+        }
+        get {
+            return _categoryIndex
+        }
+    }
+/*
+let category="VideoOnDemand"
+let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
+let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
+categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|key") as! String*/
     //pnr lg 1140,380
     //wsr lg 1280,719
     @IBOutlet weak var TopImage: UIImageView!
@@ -29,8 +44,6 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var previewImageView: UIImageView!
     @IBOutlet weak var previewDescription: UITextView!
     @IBOutlet weak var categoryTitle: UILabel!
-    @IBOutlet weak var featuredVideoA: UIImageView!
-    @IBOutlet weak var featuredVideoB: UIImageView!
     @IBOutlet weak var backgroundVisualEffect: UIVisualEffectView!
     @IBOutlet weak var backgroundImage: UIImageView!
     @IBOutlet weak var scrollView: UIScrollView!
@@ -106,7 +119,6 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
                         }
                     })
                 }
-            self.mediaElements.reloadData()
             }
             
             
@@ -117,7 +129,7 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
                 layout.spacingPercentile=1.075
                 //layout.spacingPercentile=1.3
                 
-                var collectionView=MODSubcategoryCollectionView(frame: CGRect(x: CGFloat(0), y:CGFloat(500*(i-1))+650, width: self.view.frame.size.width, height: CGFloat(450)), collectionViewLayout: layout)
+                var collectionView=MODSubcategoryCollectionView(frame: CGRect(x: CGFloat(0), y:CGFloat(475*(i))+620, width: self.view.frame.size.width, height: CGFloat(425)), collectionViewLayout: layout)
                 collectionView.categoryName=unfold("\(categoryDataURL)|category|subcategories|\(i)|name") as! String
                 collectionView.clipsToBounds=false
                 collectionView.contentInset=UIEdgeInsetsMake(0, 60, 0, 60)
@@ -135,11 +147,11 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
                     self.subcategoryCollectionViews.insert(collectionView, atIndex: i)
                     
                     if (i==0){
-                        continue
+                        //continue
                     }
                     self.scrollView.addSubview(collectionView)
                     self.scrollView.scrollEnabled=true
-                    self.scrollView.contentSize=CGSizeMake(self.scrollView.frame.size.width, collectionView.frame.origin.y+collectionView.frame.size.height)
+                    self.scrollView.contentSize=CGSizeMake(self.scrollView.frame.size.width, collectionView.frame.origin.y+collectionView.frame.size.height+35)
                     
                 }
                 collectionView.reloadData()
@@ -148,79 +160,6 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
             
         })
         
-    }
-    
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        
-        let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
-        let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
-        
-        let subcategories=unfold("\(categoryDataURL)|category|subcategories|count") as! Int?
-        if (subcategories != nil){
-            return subcategories!
-        }
-        return 0
-    }
-    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
-        let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
-        
-        let subcategories=unfold("\(categoryDataURL)|category|subcategories|\(section)|media|count") as? Int
-        if (subcategories != nil){
-            return subcategories!
-        }
-        return 0
-    }
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
-        let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
-        
-        let mediaElement:UITableViewCell=tableView.dequeueReusableCellWithIdentifier("mediaElement", forIndexPath: indexPath)
-        mediaElement.textLabel?.text=unfold("\(categoryDataURL)|category|subcategories|\(indexPath.section)|media|\(indexPath.row)|title") as? String
-        
-        if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
-            mediaElement.textLabel?.textAlignment=NSTextAlignment.Right
-        }
-        else {
-            mediaElement.textLabel?.textAlignment=NSTextAlignment.Left
-        }
-        mediaElement.textLabel?.textColor=UIColor.whiteColor()
-        return mediaElement
-    }
-    
-    func tableView(tableView: UITableView, didUpdateFocusInContext context: UITableViewFocusUpdateContext, withAnimationCoordinator coordinator: UIFocusAnimationCoordinator) {
-        if (context.nextFocusedView?.isKindOfClass(UITableViewCell.self) == true && context.nextFocusedIndexPath != nil){
-            let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
-            let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
-            
-            previewDescription.text=unfold("\(categoryDataURL)|category|subcategories|\(context.nextFocusedIndexPath!.section)|media|\(context.nextFocusedIndexPath!.row)|description") as? String
-            let imageURL=(unfold("\(categoryDataURL)|category|subcategories|\(context.nextFocusedIndexPath!.section)|media|\(context.nextFocusedIndexPath!.row)|images|wsr|lg") as? String)
-            if (imageURL != nil){
-                fetchDataUsingCache(imageURL!, downloaded: {
-                    
-                    dispatch_async(dispatch_get_main_queue()) {
-                    self.previewImageView.image=imageUsingCache(imageURL!)
-                    //self.backgroundImage.image=imageUsingCache(imageURL!)
-                    }
-                })
-            }
-        }
-        
-    }
-    
-    func tableView(tableView: UITableView, didHighlightRowAtIndexPath indexPath: NSIndexPath) {
-        let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
-        let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
-        let videoURLString=unfold("\(categoryDataURL)|category|subcategories|\(indexPath.section)|media|\(indexPath.row)|files|last|progressiveDownloadURL") as? String
-        let videoURL = NSURL(string: videoURLString!)
-        let player = AVPlayer(URL: videoURL!)
-        let playerViewController = AVPlayerViewController()
-        playerViewController.player = player
-        self.presentViewController(playerViewController, animated: true) {
-            playerViewController.player!.play()
-        }
     }
     
 
@@ -243,6 +182,12 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
         
         let subcategories=unfold("\(categoryDataURL)|category|subcategories|\(subcategoryCollectionViews.indexOf(collectionView as! MODSubcategoryCollectionView)!)|media|count") as? Int
         if (subcategories != nil){
+            
+            if (streamingCell){
+                if (subcategoryCollectionViews.indexOf(collectionView as! MODSubcategoryCollectionView)! == 0){
+                    return subcategories!+1
+                }
+            }
             return subcategories!
         }
         return 0
@@ -255,10 +200,48 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
         
         
         let cell: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("mediaElement", forIndexPath: indexPath)
+        
+        var indexPathRow=indexPath.row
+        if (streamingCell){
+            if (subcategoryCollectionViews.indexOf(collectionView as! MODSubcategoryCollectionView)! == 0){
+                indexPathRow--
+                if (indexPath.row==0){
+                    
+                    let streamview=StreamView(frame: cell.bounds)
+                    streamview.streamID=categoryIndex
+                    let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=0"
+                    let streamData=unfold(streamingScheduleURL)
+                    let imageURL:String?=unfold(streamData, instructions: ["category","subcategories","\(streamview.streamID)","media","\(0)","images",["lsr","wss","cvr","lss","wsr","pss","pns",""],["lg","md","sm","xs",""]]) as? String
+                    
+                    if (imageURL != nil){
+                        let image=imageUsingCache(imageURL!)
+                        //streamview.image=imageUsingCache(imageURL!)
+                        var ratio=(image?.size.width)!/(image?.size.height)!
+                        streamview.frame=CGRect(x: (cell.frame.size.width-((cell.frame.size.height-60)*ratio))/2, y: 0, width: (cell.frame.size.height-60)*ratio, height: (cell.frame.size.height-60))
+                        
+                        if (image?.size.width>(image!.size.height)){
+                            ratio=(image?.size.height)!/(image?.size.width)!
+                            streamview.frame=CGRect(x: 0, y: 0, width: cell.frame.size.width, height: cell.frame.size.width*ratio)
+                        }
+                        
+                        streamview.frame=CGRect(x: (cell.frame.size.width-streamview.frame.size.width)/2, y: (cell.frame.size.height-streamview.frame.size.height)/2, width: streamview.frame.size.width, height: streamview.frame.size.height)
+                    }
+                    
+                    
+                    cell.contentView.addSubview(streamview)
+                }
+            }
+        }
+        
+        
         cell.alpha=1
         cell.clipsToBounds=false
         cell.contentView.layoutSubviews()
-        let retrievedVideo=unfold("\(categoryDataURL)|category|subcategories|\(subcategoryCollectionViews.indexOf(collectionView as! MODSubcategoryCollectionView)!)|media|\(indexPath.row)")
+        let retrievedVideo=unfold("\(categoryDataURL)|category|subcategories|\(subcategoryCollectionViews.indexOf(collectionView as! MODSubcategoryCollectionView)!)|media|\(indexPathRow)")
+        
+        if (retrievedVideo == nil){
+            return cell
+        }
         
         let imageURL:String?=unfold(retrievedVideo, instructions: ["images",["lsr","wss","cvr","lss","wsr","pss","pns",""],["lg","md","sm","xs",""]]) as? String
         
@@ -341,8 +324,7 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
                 */
                 
                 var title=(retrievedVideo!.objectForKey("title") as? NSString)!
-                
-                let replacementStrings=["JW Broadcasting —","JW Broadcasting—"]
+                let replacementStrings=["JW Broadcasting —","JW Broadcasting—","JW Broadcasting​ —","JW Broadcasting​—"]
                 
                 for replacement in replacementStrings {
                     
@@ -403,6 +385,7 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
         return true
     }
     
+    var playerViewController:AVPlayerViewController?=nil
     
     func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
         /*
@@ -411,6 +394,29 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
         let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
         categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|key") as! String
         print("category to go to \(categoryToGoTo)")*/
+        var indexPathRow=indexPath.row
+        if (subcategoryCollectionViews.indexOf(collectionView as! MODSubcategoryCollectionView)! == 0){
+            indexPathRow--
+            if (indexPath.row==0){
+                
+                self.performSegueWithIdentifier("presentStreaming", sender: self)
+                
+            }
+        }
+        
+        let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
+        let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
+        
+        let videoURLString=unfold("\(categoryDataURL)|category|subcategories|\(subcategoryCollectionViews.indexOf(collectionView as! MODSubcategoryCollectionView)!)|media|\(indexPathRow)|files|last|progressiveDownloadURL") as? String
+        if (videoURLString != nil){
+            let videoURL = NSURL(string: videoURLString!)
+            let player = AVPlayer(URL: videoURL!)
+            playerViewController = AVPlayerViewController()
+            playerViewController!.player = player
+            self.presentViewController(playerViewController!, animated: true) {
+                self.playerViewController!.player!.play()
+            }
+        }
         return true
     }
     
@@ -418,5 +424,23 @@ class MediaOnDemandCategory: UIViewController, UITableViewDelegate, UITableViewD
         
         return CGSize(width: 560/1.05, height: 360/1.05)//588,378
     }
-    
+        
+        
+        func playerItemDidReachEnd(notification:NSNotification){
+            if (playerViewController != nil){
+                //playerViewController?.player!.currentItem?.removeObserver(self, forKeyPath: "status")
+                playerViewController?.dismissViewControllerAnimated(true, completion: nil)
+            }
+        }
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        /*
+        This method is used to pass data to other ViewControllers that are being presented. Currently the only data needed to be sent is the channel ID selected in ChannelSelector. This passes the information on what channel to watch.
+        */
+        
+        if (segue.destinationViewController.isKindOfClass(StreamingViewController.self)){
+            (segue.destinationViewController as! StreamingViewController).streamID=categoryIndex
+        }
+    }
+
 }

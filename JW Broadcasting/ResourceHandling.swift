@@ -460,8 +460,9 @@ func unfoldArray(from:NSArray, instructions:[AnyObject]) -> AnyObject?{
             source=from.count
         }
         else {
-            if (from.count>Int((stringval as NSString).intValue)){
-                source=from.objectAtIndex(Int((stringval as NSString).intValue)) // Unfold the NSArray
+            let i=Int((stringval as NSString).intValue)
+            if (from.count>i&&i>=0){
+                source=from.objectAtIndex(i) // Unfold the NSArray
             }
         }
     }
