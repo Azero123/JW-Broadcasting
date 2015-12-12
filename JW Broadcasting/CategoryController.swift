@@ -423,42 +423,7 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
         
         let retrievedVideo=parentCategory.objectAtIndex(indexPath.section).objectForKey("media")?.objectAtIndex(indexPath.row)
         
-        let imageRatios=retrievedVideo!.objectForKey("images")!
-        
-        let priorityRatios=["pns","pss","wsr","lss","cvr","wss"].reverse()//wsr
-        
-        var usingRatio=""
-        
-        var imageURL:String?=""
-        
-        for ratio in imageRatios.allKeys {
-            for priorityRatio in priorityRatios {
-                if (ratio as? String == priorityRatio){
-                    
-                    if ((priorityRatios.indexOf(ratio as! String)) < (priorityRatios.indexOf(usingRatio)) || usingRatio == ""){
-                        
-                        if (unfold(imageRatios, instructions: ["\(ratio)","lg"]) != nil){
-                            imageURL = unfold(imageRatios, instructions: ["\(ratio)","lg"]) as? String
-                        }
-                        else if (unfold(imageRatios, instructions: ["\(ratio)","md"]) != nil){
-                            imageURL = unfold(imageRatios, instructions: ["\(ratio)","md"]) as? String
-                        }
-                        else if (unfold(imageRatios, instructions: ["\(ratio)","sm"]) != nil){
-                            imageURL = unfold(imageRatios, instructions: ["\(ratio)","sm"]) as? String
-                        }
-                        if (imageURL != nil){
-                            usingRatio=ratio as! String
-                        }
-                    }
-                    
-                }
-            }
-        }
-
-        if (imageURL == ""){
-            let sizes=unfold(imageRatios, instructions: [imageRatios.allKeys.first!]) as? NSDictionary
-            imageURL=unfold(sizes, instructions: [sizes!.allKeys.last!]) as? String
-        }
+        let imageURL=unfold(parentCategory, instructions: [indexPath.section,"media",indexPath.row,"images",["wss","cvr","lss","wsr","pss","pns",""],["lg","md","sm",""]]) as? String
         
         let size=CGSize(width: 1,height: 1)
         UIGraphicsBeginImageContextWithOptions(size, true, 0)

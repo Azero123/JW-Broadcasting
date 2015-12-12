@@ -220,7 +220,7 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
                     streamview.streamID=categoryIndex
                     let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=0"
                     let streamData=unfold(streamingScheduleURL)
-                    let imageURL:String?=unfold(streamData, instructions: ["category","subcategories","\(streamview.streamID)","media","\(0)","images",["lsr","wss","cvr","lss","wsr","pss","pns",""],["lg","md","sm","xs",""]]) as? String
+                    let imageURL:String?=unfold(streamData, instructions: ["category","subcategories",streamview.streamID,"media",0,"images",["lsr","wss","cvr","lss","wsr","pss","pns",""],["lg","md","sm","xs",""]]) as? String
                     
                     if (imageURL != nil){
                         let image=imageUsingCache(imageURL!)

@@ -187,6 +187,9 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
 
     func collectionView(collectionView: UICollectionView, shouldUpdateFocusInContext context: UICollectionViewFocusUpdateContext) -> Bool {
         
+        
+        print("recieved update event")
+        
         /*
         
         This method handles when the user moves focus over a UICollectionViewCell and/or UICollectionView.

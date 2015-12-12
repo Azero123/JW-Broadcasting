@@ -258,8 +258,7 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         let tapRecognizer = UITapGestureRecognizer(target: self, action: "tapped:")
         tapRecognizer.allowedPressTypes = [NSNumber(integer: UIPressType.PlayPause.rawValue)];
         self.view.addGestureRecognizer(tapRecognizer)
-        
-        }
+    }
     
     func displayFailedToFindLanguage(){
         //Alert the user that we do not know what language they are using

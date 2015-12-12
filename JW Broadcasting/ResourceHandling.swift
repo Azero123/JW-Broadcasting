@@ -466,6 +466,12 @@ func unfoldArray(from:NSArray, instructions:[AnyObject]) -> AnyObject?{
             }
         }
     }
+    else if (instructions[0].isKindOfClass(NSNumber.self) == true){
+        let i=Int((instructions[0] as! NSNumber))
+        if (from.count>i&&i>=0){
+            source=from.objectAtIndex(i) // Unfold the NSArray
+        }
+    }
     else if (instructions[0].isKindOfClass(NSArray.self) == true) {
         for instruction in instructions[0] as! NSArray {
             let result=unfoldArray(from, instructions: [instruction])
@@ -473,6 +479,9 @@ func unfoldArray(from:NSArray, instructions:[AnyObject]) -> AnyObject?{
                 return result
             }
         }
+    }
+    else {
+        print("unknown type for unfolding array:\(instructions[0].dynamicType)")
     }
     return source
 }

@@ -440,7 +440,7 @@
                                 <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="40" sectionFooterHeight="40" translatesAutoresizingMaskIntoConstraints="NO" id="Zkv-m2-1K3">
-                                <rect key="frame" x="90" y="60" width="516" height="960"/>
+                                <rect key="frame" x="90" y="150" width="516" height="870"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="category" id="KcG-nC-eoB">
@@ -513,7 +513,7 @@
                             <constraint firstItem="ar1-CW-i4t" firstAttribute="centerY" secondItem="j8O-ht-tGm" secondAttribute="centerY" id="0Di-fy-3AO"/>
                             <constraint firstItem="ABj-KH-P78" firstAttribute="top" secondItem="ukR-42-zzP" secondAttribute="bottom" constant="60" id="H7H-tX-S1P"/>
                             <constraint firstAttribute="trailing" secondItem="ABj-KH-P78" secondAttribute="trailing" constant="90" id="Hzl-BI-izT"/>
-                            <constraint firstItem="Zkv-m2-1K3" firstAttribute="top" secondItem="ukR-42-zzP" secondAttribute="bottom" constant="60" id="R7i-v2-bJx"/>
+                            <constraint firstItem="Zkv-m2-1K3" firstAttribute="top" secondItem="ukR-42-zzP" secondAttribute="bottom" constant="150" id="R7i-v2-bJx"/>
                             <constraint firstItem="ar1-CW-i4t" firstAttribute="centerX" secondItem="j8O-ht-tGm" secondAttribute="centerX" id="XBW-sQ-Sat"/>
                             <constraint firstItem="hdI-6M-a7K" firstAttribute="top" secondItem="Zkv-m2-1K3" secondAttribute="bottom" constant="60" id="ZCq-hF-59f"/>
                             <constraint firstItem="Zkv-m2-1K3" firstAttribute="leading" secondItem="j8O-ht-tGm" secondAttribute="leading" constant="90" id="ca0-G3-KDr"/>
@@ -720,7 +720,7 @@
                         <viewControllerLayoutGuide type="top" id="97S-Mr-cnL"/>
                         <viewControllerLayoutGuide type="bottom" id="g3X-HJ-r6M"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" misplaced="YES" id="wWC-cJ-vh5">
+                    <view key="view" contentMode="scaleToFill" id="wWC-cJ-vh5">
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
