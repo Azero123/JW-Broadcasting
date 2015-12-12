@@ -23,6 +23,7 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        (self.tabBarController as! rootController).disableNavBarTimeOut=true
         
         backgroundImageView.alpha=0.75
         BackgroundEffectView.alpha=0.99

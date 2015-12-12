@@ -27,6 +27,7 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        (self.tabBarController as! rootController).disableNavBarTimeOut=false
         self.activityIndicator.hidesWhenStopped=true
         self.activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
         // Loading indicator though there should be none

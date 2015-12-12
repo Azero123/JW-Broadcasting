@@ -126,6 +126,7 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        (self.tabBarController as! rootController).disableNavBarTimeOut=false
         self.videoCollection.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "subcategory")
         
         self.videoCollection.clipsToBounds=false

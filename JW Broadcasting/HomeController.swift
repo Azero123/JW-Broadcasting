@@ -52,6 +52,8 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        (self.tabBarController as! rootController).disableNavBarTimeOut=true
+        
         self.view.userInteractionEnabled=true
         
         backgroundImageView.alpha=0.75

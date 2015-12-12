@@ -89,6 +89,23 @@ let logoLabelView=UILabel()
 
 class rootController: UITabBarController, UITabBarControllerDelegate{
     
+    
+    var _disableNavBarTimeOut=false
+    var disableNavBarTimeOut:Bool {
+        set (newValue){
+            _disableNavBarTimeOut=newValue
+            if (newValue == true){
+                timer?.invalidate()
+            }
+            else {
+                timer=NSTimer.scheduledTimerWithTimeInterval(12, target: self, selector: "hide", userInfo: nil, repeats: false)
+            }
+        }
+        get {
+            return _disableNavBarTimeOut
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -230,9 +247,10 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         
         
         
-        
-        timer=NSTimer.scheduledTimerWithTimeInterval(12, target: self, selector: "hide", userInfo: nil, repeats: false)
-        
+        if (disableNavBarTimeOut == false){
+            timer=NSTimer.scheduledTimerWithTimeInterval(12, target: self, selector: "hide", userInfo: nil, repeats: false)
+        }
+            
         let swipeRecognizer = UISwipeGestureRecognizer(target: self, action: "swiped:")
         swipeRecognizer.direction = .Right //|| .Up || .Left || .Right
         self.view.addGestureRecognizer(swipeRecognizer)
@@ -296,7 +314,9 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         */
         
         timer?.invalidate()
-        timer=NSTimer.scheduledTimerWithTimeInterval(12, target: self, selector: "hide", userInfo: nil, repeats: false)
+        if (disableNavBarTimeOut == false){
+            timer=NSTimer.scheduledTimerWithTimeInterval(12, target: self, selector: "hide", userInfo: nil, repeats: false)
+        }
         self.setTabBarVisible(true, animated: true)
     }
     
