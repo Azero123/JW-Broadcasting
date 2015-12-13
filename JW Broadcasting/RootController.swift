@@ -35,6 +35,7 @@ extension UITabBarController : TVApplicationControllerDelegate {
                 self.tabBar.frame=CGRect(x: 0, y: offsetY, width: self.tabBar.frame.size.width, height: self.tabBar.frame.size.height)
             }
         }
+        self.tabBarController?.viewControllers![(self.tabBarController?.selectedIndex)!].updateFocusIfNeeded()
     }
     
     
@@ -258,6 +259,7 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         let tapRecognizer = UITapGestureRecognizer(target: self, action: "tapped:")
         tapRecognizer.allowedPressTypes = [NSNumber(integer: UIPressType.PlayPause.rawValue)];
         self.view.addGestureRecognizer(tapRecognizer)
+        
     }
     
     func displayFailedToFindLanguage(){
@@ -301,7 +303,6 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
     override func pressesBegan(presses: Set<UIPress>, withEvent event: UIPressesEvent?){
         //upon press of the remote we bring the tab bar down
         keepDown()
-        
         super.pressesBegan(presses, withEvent: event)
         
     }

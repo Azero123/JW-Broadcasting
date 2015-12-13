@@ -255,6 +255,21 @@ class SuperCollectionView: UICollectionView, UICollectionViewDelegate, UICollect
         return CGSizeMake(0, 0)
     }
     
+    override func didUpdateFocusInContext(context: UIFocusUpdateContext, withAnimationCoordinator coordinator: UIFocusAnimationCoordinator) {
+        super.didUpdateFocusInContext(context, withAnimationCoordinator: coordinator)
+        
+        if (self.subviews.contains(context.nextFocusedView!) == false ){
+            if (context.previouslyFocusedView != nil && self.subviews.contains(context.previouslyFocusedView!) && self.indexPathForCell(context.previouslyFocusedView as! UICollectionViewCell) != nil){
+                self.cellShouldLoseFocus(context.previouslyFocusedView as! UICollectionViewCell, indexPath: self.indexPathForCell(context.previouslyFocusedView as! UICollectionViewCell)!)
+            }
+        }
+        if (self.subviews.contains(context.previouslyFocusedView!) == false ){
+            if (context.nextFocusedView != nil && self.subviews.contains(context.nextFocusedView!) && self.indexPathForCell(context.nextFocusedView as! UICollectionViewCell) != nil){
+                self.cellShouldFocus(context.nextFocusedView as! UICollectionViewCell, indexPath: self.indexPathForCell(context.nextFocusedView as! UICollectionViewCell)!)
+            }
+        }
+    }
+    
     func collectionView(collectionView: UICollectionView, shouldUpdateFocusInContext context: UICollectionViewFocusUpdateContext) -> Bool {
         
         /*

@@ -188,6 +188,7 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
     func collectionView(collectionView: UICollectionView, shouldUpdateFocusInContext context: UICollectionViewFocusUpdateContext) -> Bool {
         
         
+        
         print("recieved update event")
         
         /*
@@ -215,7 +216,6 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
         }
         if (context.nextFocusedView?.isKindOfClass(UICollectionViewCell.self) == true && context.nextFocusedIndexPath != nil){
             
-            
             let category="VideoOnDemand"
             let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
             let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
@@ -225,7 +225,7 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
             for subview in (context.nextFocusedView!.subviews.first!.subviews) {
                 if (subview.isKindOfClass(UILabel.self) == true){
                     (subview as! UILabel).textColor=UIColor.whiteColor()
-                    
+                    subview.layoutIfNeeded()
                     UIView.animateWithDuration(0.1, animations: {
                         subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y+20, width: subview.frame.size.width, height: subview.frame.size.height)
                     })

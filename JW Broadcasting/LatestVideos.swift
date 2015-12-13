@@ -159,6 +159,7 @@ class LatestVideos: SuperCollectionView {
             }
             if (subview.isKindOfClass(marqueeLabel.self)){
                 (subview as! marqueeLabel).beginFocus()
+                subview.layoutIfNeeded()
             }
         }
     }

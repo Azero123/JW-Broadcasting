@@ -259,6 +259,7 @@ class SlideShow: SuperCollectionView {
         for subview in (view.subviews.first!.subviews) {
             if (subview.isKindOfClass(marqueeLabel.self)){
                 (subview as! marqueeLabel).beginFocus()
+                subview.layoutIfNeeded()
             }
         }
         selectedSlideShow=true
