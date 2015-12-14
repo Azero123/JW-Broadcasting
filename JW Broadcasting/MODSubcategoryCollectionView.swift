@@ -33,19 +33,37 @@ class MODSubcategoryCollectionView: SuperCollectionView {
     
     override func prepare() {
         super.prepare()
-        categoryLabel.text=categoryName
-        categoryLabel.frame=CGRectMake(self.contentInset.left , 0, self.frame.size.width-self.contentInset.left-self.contentInset.right, 40)
+        if (textDirection == .RightToLeft){//RTL alignment
+            self.contentOffset=self.centerPointFor(CGPointMake(self.contentSize.width-self.frame.size.width+self.contentInset.right, 0))
+        }
         
-        if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
-            self.categoryLabel.textAlignment=NSTextAlignment.Right
-        }
-        else {
-            self.categoryLabel.textAlignment=NSTextAlignment.Left
-        }
+        
+        categoryLabel.text=categoryName
         
         self.categoryLabel.text=categoryName
         
+        self.performBatchUpdates({}, completion: { (finished:Bool) in
+            if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
+                let width=self.frame.size.width-self.contentInset.left-self.contentInset.right
+                self.categoryLabel.frame=CGRectMake(self.contentSize.width-width-self.contentInset.right , 0, width, 40)
+                self.categoryLabel.textAlignment=NSTextAlignment.Right
+            }
+            else {
+                self.categoryLabel.frame=CGRectMake(self.contentInset.left , 0, self.frame.size.width-self.contentInset.left-self.contentInset.right, 40)
+                self.categoryLabel.textAlignment=NSTextAlignment.Left
+            }
+            self.rightSide()
+        })
         
+        //self.performSelector("rightSide", withObject: nil, afterDelay: 1.0)
+        
+    }
+    
+    func rightSide(){
+        
+        if (textDirection == .RightToLeft){//RTL alignment
+            self.contentOffset=self.centerPointFor(CGPointMake(self.contentSize.width-self.frame.size.width+self.contentInset.right, 0))
+        }
     }
     
     override func cellShouldFocus(view: UIView, indexPath: NSIndexPath) {
@@ -76,6 +94,12 @@ class MODSubcategoryCollectionView: SuperCollectionView {
             if (subview.isKindOfClass(StreamView.self)){
                 (subview as! StreamView).unfocus()
             }
+        }
+    }
+    
+    override var preferredFocusedView:UIView? {
+        get {
+            return self.cellAtIndex(NSIndexPath(forRow: 0, inSection: 0))
         }
     }
     

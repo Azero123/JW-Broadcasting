@@ -26,7 +26,7 @@ class CollectionViewAlignmentFlowLayout: UICollectionViewFlowLayout {
         */
         
         if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
-            layoutAttribute.frame=CGRect(x: (self.collectionView?.frame.size.width)!-(layoutAttribute.frame.origin.x), y: (layoutAttribute.frame.origin.y), width: (layoutAttribute.frame.size.width), height: (layoutAttribute.frame.size.height))
+            layoutAttribute.frame=CGRect(x: (self.collectionView?.frame.size.width)!-(layoutAttribute.frame.origin.x)-(layoutAttribute.frame.size.width), y: (layoutAttribute.frame.origin.y), width: (layoutAttribute.frame.size.width), height: (layoutAttribute.frame.size.height))
         }
         
         
@@ -64,14 +64,14 @@ class CollectionViewAlignmentFlowLayout: UICollectionViewFlowLayout {
             /*
             Handles right to left placement of items. Does this by reversing the math (Getting the far right distance and moving the attributes back the normal distance plus their width instead of from the left and adding both.)
             */
-            
+            /*
             if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
                 attrs.frame=CGRect(
                     x: self.collectionView!.frame.size.width-attrs.frame.origin.x,
                     y: attrs.frame.origin.y,
                     width: attrs.frame.size.width,
                     height: attrs.frame.height)
-            }
+            }*/
             /*
             Calculates the vertical position of the items using spacgingPercentile and the offset added by section headers.
             */

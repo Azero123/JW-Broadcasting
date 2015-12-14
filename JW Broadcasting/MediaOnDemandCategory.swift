@@ -109,11 +109,32 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
         fetchDataUsingCache(categoryDataURL, downloaded: {
             dispatch_async(dispatch_get_main_queue()) {
                 self.categoryTitle.text=unfold("\(categoryDataURL)|category|name") as? String
+                if (textDirection == .RightToLeft){//RTL alignment
+                    self.categoryTitle.textAlignment = .Right
+                }
+                else {
+                    self.categoryTitle.textAlignment = .Left
+                }
+                if (textDirection == .RightToLeft){//RTL alignment
+                    self.TopImage.transform = CGAffineTransformMakeScale(-1.0, 1.0)
+                }
+                else {
+                    self.TopImage.transform = CGAffineTransformMakeScale(1.0, 1.0)
+                }
+                
             let imageURL=unfold("\(categoryDataURL)|category|images|pnr|lg") as? String
                 if (imageURL != nil){
                     fetchDataUsingCache(imageURL!, downloaded: {
                         dispatch_async(dispatch_get_main_queue()) {
-                            self.TopImage.image=imageUsingCache(imageURL!)
+                            print("image updated")
+                            
+                            /*UIView.animateWithDuration(2.0, animations: {
+                                self.TopImage.image=imageUsingCache(imageURL!)
+                            })*/
+                            UIView.transitionWithView(self.TopImage, duration: 0.25, options: .TransitionCrossDissolve, animations: {
+                                self.TopImage.image=imageUsingCache(imageURL!)
+                                }, completion: nil)
+                            
                             self.previewImageView.userInteractionEnabled=true
                             self.previewImageView.adjustsImageWhenAncestorFocused = true
                         }
@@ -155,6 +176,10 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
                     
                 }
                 collectionView.reloadData()
+                
+                if (textDirection == .RightToLeft){//RTL alignment
+                    collectionView.contentOffset=collectionView.centerPointFor(CGPointMake(collectionView.contentSize.width-collectionView.frame.size.width+collectionView.contentInset.right, 0))
+                }
             }
             
             
