@@ -190,47 +190,18 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
         /*
         
         This method handles when the user moves focus over a UICollectionViewCell and/or UICollectionView.
+        
+        UICollectionView that are SuperCollectionViews manage their own focus events so if UICollectionView is a SuperCollectionView let it handle itself.
+        
+        Lastly if he LatestVideos or SlideShow collection view are focused move everything up so you can see them.
         */
         
-        if (context.previouslyFocusedView?.isKindOfClass(UICollectionViewCell.self) == true && context.previouslyFocusedIndexPath != nil){
-            //(context.previouslyFocusedView?.superview as! SuperCollectionView).cellShouldLoseFocus(context.previouslyFocusedView!, indexPath: context.previouslyFocusedIndexPath!)
-            
-            for subview in (context.previouslyFocusedView?.subviews.first!.subviews)! {
-                
-                if (subview.isKindOfClass(UILabel.self) == true){
-                    (subview as! UILabel).textColor=UIColor.darkGrayColor()
-                    
-                    UIView.animateWithDuration(0.1, animations: {
-                        subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y-20, width: subview.frame.size.width, height: subview.frame.size.height)
-                    })
-                    
-                }
-                if (subview.isKindOfClass(marqueeLabel.self) == true){
-                    (subview as! marqueeLabel).beginFocus()
-                }
-            }
+        if (context.previouslyFocusedView?.superview!.isKindOfClass(SuperCollectionView.self) == true && context.previouslyFocusedIndexPath != nil){
+            (context.previouslyFocusedView?.superview as! SuperCollectionView).cellShouldLoseFocus(context.previouslyFocusedView!, indexPath: context.previouslyFocusedIndexPath!)
         }
-        if (context.nextFocusedView?.isKindOfClass(UICollectionViewCell.self) == true && context.nextFocusedIndexPath != nil){
-            
-            let category="VideoOnDemand"
-            let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
-            let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
-            
-            self.backgroundImageView.image=imageUsingCache((unfold(categoryDataURL+"|category|subcategories|\(context.nextFocusedIndexPath!.row)|images|wss|lg") as? String)!)
-            
-            for subview in (context.nextFocusedView!.subviews.first!.subviews) {
-                if (subview.isKindOfClass(UILabel.self) == true){
-                    (subview as! UILabel).textColor=UIColor.whiteColor()
-                    subview.layoutIfNeeded()
-                    UIView.animateWithDuration(0.1, animations: {
-                        subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y+20, width: subview.frame.size.width, height: subview.frame.size.height)
-                    })
-                    
-                }
-                if (subview.isKindOfClass(marqueeLabel.self) == true){
-                    (subview as! marqueeLabel).endFocus()
-                }
-            }
+        if (context.nextFocusedView?.superview!.isKindOfClass(SuperCollectionView.self) == true && context.nextFocusedIndexPath != nil){
+            (context.nextFocusedView?.superview as! SuperCollectionView).cellShouldFocus(context.nextFocusedView!, indexPath: context.nextFocusedIndexPath!)
+            (context.nextFocusedView?.superview as! SuperCollectionView).cellShouldFocus(context.nextFocusedView!, indexPath: context.nextFocusedIndexPath!, previousIndexPath: context.previouslyFocusedIndexPath)
         }
         return true
 

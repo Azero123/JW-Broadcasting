@@ -720,7 +720,7 @@
                         <viewControllerLayoutGuide type="top" id="97S-Mr-cnL"/>
                         <viewControllerLayoutGuide type="bottom" id="g3X-HJ-r6M"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="wWC-cJ-vh5">
+                    <view key="view" contentMode="scaleToFill" misplaced="YES" id="wWC-cJ-vh5">
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -735,7 +735,7 @@
                                 </view>
                                 <blurEffect style="light"/>
                             </visualEffectView>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="AKW-6K-ITa" customClass="SuperCollectionView" customModule="JW_Broadcasting" customModuleProvider="target">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="AKW-6K-ITa" customClass="MediaOnDemandMainCategories" customModule="JW_Broadcasting" customModuleProvider="target">
                                 <rect key="frame" x="110" y="60" width="1700" height="960"/>
                                 <collectionViewLayout key="collectionViewLayout" id="cyJ-wN-ghf" customClass="CollectionViewAlignmentFlowLayout" customModule="JW_Broadcasting" customModuleProvider="target"/>
                                 <cells>
