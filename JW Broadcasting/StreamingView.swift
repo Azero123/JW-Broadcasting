@@ -344,12 +344,9 @@ class StreamView: UIImageView {
                 }
                 
                 
-                
-                
-                
                 if (self.player != nil){
-                    
-                    if ((self.player?.currentTime().value)!-CMTimeMake(Int64(timeIndex!), 1).value < abs(10)){
+                    print("\((self.player?.currentTime().value)!) \(timeIndex)")
+                    if (abs((self.player?.currentTime().value)!-CMTimeMake(Int64(timeIndex!), 1).value) > abs(10)){
                         print("[Channels] too far behind")
                         self.player!.seekToTime(CMTimeMake(Int64(timeIndex!), 1))
                     }
@@ -425,7 +422,38 @@ class StreamView: UIImageView {
                     self.layer.addSublayer(playerLayer!)
                 }
                 if (thisControllerIsVisible){
-                    player?.play()
+                    
+                    let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480" //The Schedule url for all the streams
+                    
+                    let subcategory=unfold("\(streamingScheduleURL)|category|subcategories|\(self.streamID)")//streamMeta?.objectForKey("category")?.objectForKey("subcategories")!.objectAtIndex(self.streamID)
+                    
+                    var timeIndex=subcategory!.objectForKey("position")?.objectForKey("time")?.floatValue
+                    
+                    
+                    do {
+                        let storedPath=cacheDirectory!+"/"+(NSURL(string: streamingScheduleURL)?.path!.stringByReplacingOccurrencesOfString("/", withString: "-"))! // the desired stored file path
+                        
+                        print("streaming stored path:\(storedPath)")
+                        
+                        let dateDataWasRecieved=try NSFileManager.defaultManager().attributesOfItemAtPath(storedPath)[NSFileModificationDate] as! NSDate
+                        print("We have had this file since:\(dateDataWasRecieved.timeIntervalSinceNow)")
+                        timeIndex=timeIndex!-Float(dateDataWasRecieved.timeIntervalSinceNow)
+                        
+                    }
+                    catch {
+                        print("[ERROR] problem discovering the date streaming schedule was recieved")
+                    }
+                    //The date that we got the file last, let's hope that we don't have any issues here
+                    
+                    
+                    
+                    
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                        print("play")
+                        if (abs((self.player?.currentTime().value)!-CMTimeMake(Int64(timeIndex!), 1).value) < abs(10)){
+                            self.player?.play()
+                        }
+                    }
                 }
             }
             
