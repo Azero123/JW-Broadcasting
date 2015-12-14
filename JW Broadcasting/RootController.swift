@@ -20,9 +20,8 @@ extension UITabBarController : TVApplicationControllerDelegate {
     }
     
     func setTabBarVisible(visible:Bool, animated:Bool) {
-        if (disableNavBar == false || visible == false){
-        /*If the tab bar is already in the right place then we don't need to animate so just exit now. No bugs no glitches (: */
-            if (tabBarIsVisible() == visible) { return }
+        print("show tab bar")
+        if (disableNavBar == false){
             
             /*figure out what the height of the tab bar is*/
             let frame = self.tabBar.frame
@@ -306,6 +305,11 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         super.pressesBegan(presses, withEvent: event)
         
     }
+    override func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem) {
+        keepDown()
+        self.setTabBarVisible(true, animated: true)
+    }
+    
     var timer:NSTimer?=nil
     
     func keepDown(){
