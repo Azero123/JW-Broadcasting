@@ -140,48 +140,45 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
                         }
                     })
                 }
-            }
-            
-            
-            
-            for var i=0;i<unfold("\(categoryDataURL)|category|subcategories|count") as! Int ; i++ {
-                
-                let layout=CollectionViewHorizontalFlowLayout()
-                layout.spacingPercentile=1.075
-                //layout.spacingPercentile=1.3
-                
-                var collectionView=MODSubcategoryCollectionView(frame: CGRect(x: CGFloat(0), y:CGFloat(475*(i))+620, width: self.view.frame.size.width, height: CGFloat(425)), collectionViewLayout: layout)
-                collectionView.categoryName=unfold("\(categoryDataURL)|category|subcategories|\(i)|name") as! String
-                collectionView.clipsToBounds=false
-                collectionView.contentInset=UIEdgeInsetsMake(0, 60, 0, 60)
-                collectionView.prepare()
-                
-                
-                if (self.subcategoryCollectionViews.count>i){
-                    collectionView=self.subcategoryCollectionViews[i]
-                }
-                else {
-                
-                    collectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "mediaElement")
-                    collectionView.dataSource=self
-                    collectionView.delegate=self
-                    self.subcategoryCollectionViews.insert(collectionView, atIndex: i)
+                for var i=0;i<unfold("\(categoryDataURL)|category|subcategories|count") as! Int ; i++ {
                     
-                    if (i==0){
-                        //continue
+                    let layout=CollectionViewHorizontalFlowLayout()
+                    layout.spacingPercentile=1.075
+                    //layout.spacingPercentile=1.3
+                    
+                    var collectionView=MODSubcategoryCollectionView(frame: CGRect(x: CGFloat(0), y:CGFloat(475*(i))+620, width: self.view.frame.size.width, height: CGFloat(425)), collectionViewLayout: layout)
+                    collectionView.categoryName=unfold("\(categoryDataURL)|category|subcategories|\(i)|name") as! String
+                    collectionView.clipsToBounds=false
+                    collectionView.contentInset=UIEdgeInsetsMake(0, 60, 0, 60)
+                    collectionView.prepare()
+                    
+                    
+                    if (self.subcategoryCollectionViews.count>i){
+                        collectionView=self.subcategoryCollectionViews[i]
                     }
-                    self.scrollView.addSubview(collectionView)
-                    self.scrollView.scrollEnabled=true
-                    self.scrollView.contentSize=CGSizeMake(self.scrollView.frame.size.width, collectionView.frame.origin.y+collectionView.frame.size.height+35)
+                    else {
+                        
+                        collectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "mediaElement")
+                        collectionView.dataSource=self
+                        collectionView.delegate=self
+                        self.subcategoryCollectionViews.insert(collectionView, atIndex: i)
+                        
+                        if (i==0){
+                            //continue
+                        }
+                        self.scrollView.addSubview(collectionView)
+                        self.scrollView.scrollEnabled=true
+                        self.scrollView.contentSize=CGSizeMake(self.scrollView.frame.size.width, collectionView.frame.origin.y+collectionView.frame.size.height+35)
+                        
+                    }
+                    collectionView.reloadData()
                     
+                    if (textDirection == .RightToLeft){//RTL alignment
+                        collectionView.contentOffset=collectionView.centerPointFor(CGPointMake(collectionView.contentSize.width-collectionView.frame.size.width+collectionView.contentInset.right, 0))
+                    }
                 }
-                collectionView.reloadData()
                 
-                if (textDirection == .RightToLeft){//RTL alignment
-                    collectionView.contentOffset=collectionView.centerPointFor(CGPointMake(collectionView.contentSize.width-collectionView.frame.size.width+collectionView.contentInset.right, 0))
-                }
             }
-            
             
         })
         
@@ -246,19 +243,24 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
                     let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=0"
                     let streamData=unfold(streamingScheduleURL)
                     let imageURL:String?=unfold(streamData, instructions: ["category","subcategories",streamview.streamID,"media",0,"images",["lsr","wss","cvr","lss","wsr","pss","pns",""],["lg","md","sm","xs",""]]) as? String
-                    
                     if (imageURL != nil){
-                        let image=imageUsingCache(imageURL!)
-                        //streamview.image=imageUsingCache(imageURL!)
-                        var ratio=(image?.size.width)!/(image?.size.height)!
-                        streamview.frame=CGRect(x: (cell.frame.size.width-((cell.frame.size.height-60)*ratio))/2, y: 0, width: (cell.frame.size.height-60)*ratio, height: (cell.frame.size.height-60))
-                        
-                        if (image?.size.width>(image!.size.height)){
-                            ratio=(image?.size.height)!/(image?.size.width)!
-                            streamview.frame=CGRect(x: 0, y: 0, width: cell.frame.size.width, height: cell.frame.size.width*ratio)
-                        }
-                        
-                        streamview.frame=CGRect(x: (cell.frame.size.width-streamview.frame.size.width)/2, y: (cell.frame.size.height-streamview.frame.size.height)/2, width: streamview.frame.size.width, height: streamview.frame.size.height)
+                        fetchDataUsingCache(imageURL!, downloaded: {
+                            
+                            dispatch_async(dispatch_get_main_queue()) {
+                            
+                                let image=imageUsingCache(imageURL!)
+                                //streamview.image=imageUsingCache(imageURL!)
+                                var ratio=(image?.size.width)!/(image?.size.height)!
+                                streamview.frame=CGRect(x: (cell.frame.size.width-((cell.frame.size.height-60)*ratio))/2, y: 0, width: (cell.frame.size.height-60)*ratio, height: (cell.frame.size.height-60))
+                                
+                                if (image?.size.width>(image!.size.height)){
+                                    ratio=(image?.size.height)!/(image?.size.width)!
+                                    streamview.frame=CGRect(x: 0, y: 0, width: cell.frame.size.width, height: cell.frame.size.width*ratio)
+                                }
+                                
+                                streamview.frame=CGRect(x: (cell.frame.size.width-streamview.frame.size.width)/2, y: (cell.frame.size.height-streamview.frame.size.height)/2, width: streamview.frame.size.width, height: streamview.frame.size.height)
+                            }
+                        })
                     }
                     
                     
@@ -330,21 +332,23 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
         UIGraphicsBeginImageContextWithOptions(size, true, 0)
         UIColor.whiteColor().setFill()
         UIRectFill(CGRectMake(0, 0, size.width, size.height))
-        var image=UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
+        //var image=UIGraphicsGetImageFromCurrentImageContext()
+        //UIGraphicsEndImageContext()
     
         
         let imageView=UIImageView(frame: cell.bounds)
         cell.contentView.addSubview(imageView)
         
-        imageView.image=image
+        //imageView.image=image
         
         if (imageURL != nil){
             fetchDataUsingCache(imageURL!, downloaded: {
                 
                 dispatch_async(dispatch_get_main_queue()) {
                     
-                    image=imageUsingCache(imageURL!)
+                    print("image")
+                    
+                    let image=imageUsingCache(imageURL!)
                     
                     var ratio=(image?.size.width)!/(image?.size.height)!
                     imageView.frame=CGRect(x: (cell.frame.size.width-((cell.frame.size.height-60)*ratio))/2, y: 0, width: (cell.frame.size.height-60)*ratio, height: (cell.frame.size.height-60))

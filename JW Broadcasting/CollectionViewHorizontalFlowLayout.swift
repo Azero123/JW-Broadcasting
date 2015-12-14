@@ -131,7 +131,7 @@ class CollectionViewHorizontalFlowLayout: UICollectionViewFlowLayout {
             return CGSize(width: CGFloat((self.collectionView?.numberOfItemsInSection(0))!)*cellWidth+90, height: (super.collectionView?.frame.size.height)!)
         }
         
-        return CGSize(width: 0, height: (super.collectionView?.frame.size.height)!)
+        return CGSize(width: (self.collectionView?.frame.size.width)!, height: (super.collectionView?.frame.size.height)!)
     }
     
 }
