@@ -20,7 +20,6 @@ extension UITabBarController : TVApplicationControllerDelegate {
     }
     
     func setTabBarVisible(visible:Bool, animated:Bool) {
-        print("show tab bar")
         if (disableNavBar == false){
             
             /*figure out what the height of the tab bar is*/

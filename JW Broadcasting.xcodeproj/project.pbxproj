@@ -43,6 +43,7 @@
 		9FD474651BFDA1CF008C55C6 /* CollectionViewAlignmentFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD474641BFDA1CF008C55C6 /* CollectionViewAlignmentFlowLayout.swift */; };
 		9FE49B4F1C1B702D00231E5D /* StreamingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE49B4E1C1B702D00231E5D /* StreamingView.swift */; };
 		9FE5B9A31C1E90ED00B14FA9 /* MediaOnDemandMainCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE5B9A21C1E90ED00B14FA9 /* MediaOnDemandMainCategories.swift */; };
+		9FE5B9A61C1FF55100B14FA9 /* NewAudioController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE5B9A51C1FF55100B14FA9 /* NewAudioController.swift */; };
 		9FE9C17A1C019F0300E189D7 /* LaunchScreenEarth.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FE9C1791C019F0300E189D7 /* LaunchScreenEarth.png */; };
 		9FE9C17F1C01A83000E189D7 /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE9C17E1C01A83000E189D7 /* SearchController.swift */; };
 		9FFA67851C03D35A00ECEF86 /* Control.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFA67841C03D35A00ECEF86 /* Control.swift */; };
@@ -115,6 +116,7 @@
 		9FD474641BFDA1CF008C55C6 /* CollectionViewAlignmentFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewAlignmentFlowLayout.swift; sourceTree = "<group>"; };
 		9FE49B4E1C1B702D00231E5D /* StreamingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamingView.swift; sourceTree = "<group>"; };
 		9FE5B9A21C1E90ED00B14FA9 /* MediaOnDemandMainCategories.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaOnDemandMainCategories.swift; sourceTree = "<group>"; };
+		9FE5B9A51C1FF55100B14FA9 /* NewAudioController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewAudioController.swift; sourceTree = "<group>"; };
 		9FE9C1791C019F0300E189D7 /* LaunchScreenEarth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchScreenEarth.png; sourceTree = "<group>"; };
 		9FE9C17B1C019F0C00E189D7 /* TopShelf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TopShelf.png; sourceTree = "<group>"; };
 		9FE9C17E1C01A83000E189D7 /* SearchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 				9F7872CB1BF950E700EE409B /* Streaming */,
 				9F7872C81BF9506B00EE409B /* Video On Demand */,
 				9F7872C91BF950CB00EE409B /* Audio */,
+				9FE5B9A41C1FF51700B14FA9 /* New Audio */,
 				9F7872CA1BF950D800EE409B /* Language */,
 				9FE9C17D1C01A80D00E189D7 /* Search */,
 				9FFA67861C0411EB00ECEF86 /* BetaMediaOnDemand */,
@@ -344,6 +347,14 @@
 			name = "Mature code";
 			sourceTree = "<group>";
 		};
+		9FE5B9A41C1FF51700B14FA9 /* New Audio */ = {
+			isa = PBXGroup;
+			children = (
+				9FE5B9A51C1FF55100B14FA9 /* NewAudioController.swift */,
+			);
+			name = "New Audio";
+			sourceTree = "<group>";
+		};
 		9FE9C17D1C01A80D00E189D7 /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -479,6 +490,7 @@
 			files = (
 				9FFB9DB21BB528820059E5EA /* VideoOnDemandController.swift in Sources */,
 				9F536D4C1C1235220070BB12 /* MediaOnDemandCategory.swift in Sources */,
+				9FE5B9A61C1FF55100B14FA9 /* NewAudioController.swift in Sources */,
 				9F38D1BB1BB2566B0081073A /* LanguageSelector.swift in Sources */,
 				9FFA67851C03D35A00ECEF86 /* Control.swift in Sources */,
 				9F3F7F5E1BF6D9FD0010A789 /* SuperCollectionView.swift in Sources */,

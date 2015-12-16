@@ -25,7 +25,8 @@ class MediaOnDemandMainCategories: SuperCollectionView {
                 (subview as! UILabel).textColor=UIColor.darkGrayColor()
                 
                 UIView.animateWithDuration(0.1, animations: {
-                    subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y-20, width: subview.frame.size.width, height: subview.frame.size.height)
+                    //subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y-20, width: subview.frame.size.width, height: subview.frame.size.height)
+                    subview.layoutIfNeeded()
                 })
                 
             }

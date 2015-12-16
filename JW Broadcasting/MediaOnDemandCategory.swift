@@ -248,21 +248,27 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
                             
                             dispatch_async(dispatch_get_main_queue()) {
                             
-                                let image=imageUsingCache(imageURL!)
-                                //streamview.image=imageUsingCache(imageURL!)
-                                var ratio=(image?.size.width)!/(image?.size.height)!
-                                streamview.frame=CGRect(x: (cell.frame.size.width-((cell.frame.size.height-60)*ratio))/2, y: 0, width: (cell.frame.size.height-60)*ratio, height: (cell.frame.size.height-60))
-                                
-                                if (image?.size.width>(image!.size.height)){
-                                    ratio=(image?.size.height)!/(image?.size.width)!
-                                    streamview.frame=CGRect(x: 0, y: 0, width: cell.frame.size.width, height: cell.frame.size.width*ratio)
-                                }
-                                
-                                streamview.frame=CGRect(x: (cell.frame.size.width-streamview.frame.size.width)/2, y: (cell.frame.size.height-streamview.frame.size.height)/2, width: streamview.frame.size.width, height: streamview.frame.size.height)
+                                //let image=imageUsingCache(imageURL!)
+                                streamview.image=imageUsingCache(imageURL!)
                             }
                         })
                     }
-                    
+                        streamview.frame=CGRect(x: 0, y: 0, width: 860, height: 430)//(860.0, 430.0
+                        let width:CGFloat=2
+                        let height:CGFloat=1
+                        var ratio:CGFloat=width/height
+                        streamview.frame=CGRect(x: (cell.frame.size.width-((cell.frame.size.height-60)*ratio))/2, y: 0, width: (cell.frame.size.height-60)*ratio, height: (cell.frame.size.height-60))
+                        
+                        if (width>height){
+                            ratio=height/width
+                            streamview.frame=CGRect(x: 0, y: 0, width: cell.frame.size.width, height: cell.frame.size.width*ratio)
+                        }
+                        
+                        
+                        //print("image size: \(image!.size) \(imageURL)")
+                        //let sizeOfStream=CGSize(width: , height: <#T##Double#>)
+                        
+                        streamview.frame=CGRect(x: (cell.frame.size.width-streamview.frame.size.width)/2, y: (cell.frame.size.height-streamview.frame.size.height)/2, width: streamview.frame.size.width, height: streamview.frame.size.height)
                     
                     cell.contentView.addSubview(streamview)
                 }
@@ -346,8 +352,6 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
                 
                 dispatch_async(dispatch_get_main_queue()) {
                     
-                    print("image")
-                    
                     let image=imageUsingCache(imageURL!)
                     
                     var ratio=(image?.size.width)!/(image?.size.height)!
@@ -370,7 +374,7 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
         
         imageView.alpha=0
         imageView.userInteractionEnabled = true
-        imageView.adjustsImageWhenAncestorFocused = true
+        //imageView.adjustsImageWhenAncestorFocused = true
         imageView.layer.cornerRadius=5
         
         

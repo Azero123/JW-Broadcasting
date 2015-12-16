@@ -54,7 +54,7 @@ class StreamView: UIImageView {
     func supportInit(){
         
         self.userInteractionEnabled = true
-        self.adjustsImageWhenAncestorFocused = true
+        //self.adjustsImageWhenAncestorFocused = true
         self.backgroundColor=UIColor.blackColor()
         self.clipsToBounds=true
         /*let guide=UIFocusGuide()
@@ -130,8 +130,11 @@ class StreamView: UIImageView {
         playerLayer!.frame=self.bounds//Sets the video to be the size of the screen
         
         
-        let scaleUp=playerLayer!.frame.size.width/474
-        playerLayer!.frame=CGRect(x: (self.frame.size.width-self.frame.size.width*scaleUp)/2, y: (self.frame.size.height-self.frame.size.height*scaleUp)/2, width: self.frame.size.width*scaleUp, height: self.frame.size.height*scaleUp)
+        let scaleUp:CGFloat=1//playerLayer!.frame.size.width/474
+        print("scale up:\(scaleUp)")
+        if (playerLayer != nil && self.superview != nil){
+            playerLayer!.frame=CGRect(x: ((self.superview?.frame.size.width)!-self.frame.size.width*scaleUp)/2, y: ((self.frame.size.height)-self.frame.size.height*scaleUp)/2, width: self.frame.size.width*scaleUp, height: self.frame.size.height*scaleUp)
+        }
         
         player!.actionAtItemEnd = AVPlayerActionAtItemEnd.None;
         updateStream()//Matches to the current video and to the stream index
@@ -469,7 +472,6 @@ class StreamView: UIImageView {
     
     func focus() {
         // handle focus appearance changes
-        print("focusing")
         
         let hMotionEffect=UIInterpolatingMotionEffect(keyPath: "center.x", type: UIInterpolatingMotionEffectType.TiltAlongHorizontalAxis)
         hMotionEffect.minimumRelativeValue = -10
@@ -493,7 +495,6 @@ class StreamView: UIImageView {
         
     }
     func unfocus(){
-        print("unfocus")
         self.motionEffects.removeAll()
         self.transform = CGAffineTransformMakeScale(1, 1)
         self.superview!.layer.shadowOpacity=0
@@ -514,6 +515,10 @@ class StreamView: UIImageView {
             //Call update to correct UILabels because the frame could have changed
             super.frame=newValue
             activityIndicator.center=CGPointMake(self.bounds.width/2, self.bounds.height/2)
+            /*let scaleUp:CGFloat=1
+            if (playerLayer != nil){
+                playerLayer!.frame=CGRect(x: ((self.superview?.frame.size.width)!-self.frame.size.width*scaleUp)/2, y: ((self.superview?.frame.size.height)!-self.frame.size.height*scaleUp)/2, width: self.frame.size.width*scaleUp, height: self.frame.size.height*scaleUp)
+            }*/
         }
     }
     
