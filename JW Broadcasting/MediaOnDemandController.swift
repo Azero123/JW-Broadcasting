@@ -188,9 +188,8 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
         let width:CGFloat=360
         return CGSize(width: width*ratio*multiplier, height: width*multiplier)//640,360
     }
-
-    func collectionView(collectionView: UICollectionView, shouldUpdateFocusInContext context: UICollectionViewFocusUpdateContext) -> Bool {
-        
+    
+    func collectionView(collectionView: UICollectionView, didUpdateFocusInContext context: UICollectionViewFocusUpdateContext, withAnimationCoordinator coordinator: UIFocusAnimationCoordinator) {
         /*
         
         This method handles when the user moves focus over a UICollectionViewCell and/or UICollectionView.
@@ -200,15 +199,13 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
         Lastly if he LatestVideos or SlideShow collection view are focused move everything up so you can see them.
         */
         
-        if (context.previouslyFocusedView?.superview!.isKindOfClass(SuperCollectionView.self) == true && context.previouslyFocusedIndexPath != nil){
+        if (context.nextFocusedView != nil && context.previouslyFocusedView?.superview!.isKindOfClass(SuperCollectionView.self) == true && context.previouslyFocusedIndexPath != nil){
             (context.previouslyFocusedView?.superview as! SuperCollectionView).cellShouldLoseFocus(context.previouslyFocusedView!, indexPath: context.previouslyFocusedIndexPath!)
         }
         if (context.nextFocusedView?.superview!.isKindOfClass(SuperCollectionView.self) == true && context.nextFocusedIndexPath != nil){
             (context.nextFocusedView?.superview as! SuperCollectionView).cellShouldFocus(context.nextFocusedView!, indexPath: context.nextFocusedIndexPath!)
             (context.nextFocusedView?.superview as! SuperCollectionView).cellShouldFocus(context.nextFocusedView!, indexPath: context.nextFocusedIndexPath!, previousIndexPath: context.previouslyFocusedIndexPath)
         }
-        return true
-
     }
 
     
