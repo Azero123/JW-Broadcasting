@@ -454,6 +454,9 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
             let player = AVPlayer(URL: videoURL!)
             playerViewController = AVPlayerViewController()
             playerViewController!.player = player
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerItemDidReachEnd:", name: AVPlayerItemDidPlayToEndTimeNotification, object: player.currentItem)
+            //player.currentItem!.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.New, context: nil)
+        
             self.presentViewController(playerViewController!, animated: true) {
                 self.playerViewController!.player!.play()
             }

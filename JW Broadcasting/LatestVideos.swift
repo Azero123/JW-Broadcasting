@@ -177,6 +177,7 @@ class LatestVideos: SuperCollectionView {
             }
         }
     }
+    let playerViewController = AVPlayerViewController()
     
     override func cellSelect(indexPath: NSIndexPath) {
         
@@ -192,10 +193,14 @@ class LatestVideos: SuperCollectionView {
         
         let videoURL = NSURL(string: videoURLString)
         let player = AVPlayer(URL: videoURL!)
-        let playerViewController = AVPlayerViewController()
         playerViewController.player = player
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerItemDidReachEnd:", name: AVPlayerItemDidPlayToEndTimeNotification, object: player.currentItem)
         self.window?.rootViewController!.presentViewController(playerViewController, animated: true) {
-            playerViewController.player!.play()
+            self.playerViewController.player!.play()
         }
+    }
+    
+    func playerItemDidReachEnd(notification:NSNotification){
+        playerViewController.dismissViewControllerAnimated(true, completion: nil)
     }
 }

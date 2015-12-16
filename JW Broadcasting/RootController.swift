@@ -300,7 +300,6 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
     
     override func pressesBegan(presses: Set<UIPress>, withEvent event: UIPressesEvent?){
         //upon press of the remote we bring the tab bar down
-        keepDown()
         super.pressesBegan(presses, withEvent: event)
         
     }
