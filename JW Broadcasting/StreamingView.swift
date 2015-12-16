@@ -34,7 +34,7 @@ class StreamView: UIImageView {
         
     }
     
-    var activityIndicator: UIActivityIndicatorView! = UIActivityIndicatorView() // The spinning wheel
+    var activityIndicator: UIActivityIndicatorView! = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge ) // The spinning wheel
     
     convenience init(){
         self.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
@@ -65,15 +65,26 @@ class StreamView: UIImageView {
         focusGuide.preferredFocusedView = [self preferredFocusedView];
         [self.view addLayoutGuide:focusGuide];
         */
-        activityIndicator.center=CGPointMake(self.bounds.width/2, self.bounds.height/2)
-        self.addSubview(activityIndicator)
         
         let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=0"
         /*
         Show the spinning wheel to the user so the user knows that we are downloading data
         */
         
-        self.activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
+        //self.activityIndicator.color=UIColor(colorLiteralRed: 0.3, green: 0.44, blue: 0.64, alpha: 1.0)
+        //self.activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
+        let darkener=CALayer()
+        darkener.frame=self.bounds
+        darkener.backgroundColor=UIColor.blackColor().CGColor
+        darkener.opacity=0.5
+        self.layer.addSublayer(darkener)
+        self.activityIndicator.frame=CGRectMake(0, 0, self.activityIndicator.frame.size.width*4, self.activityIndicator.frame.size.height*4)
+        self.activityIndicator.layer.shadowColor=UIColor.blackColor().CGColor
+        self.activityIndicator.layer.shadowOpacity=1
+        self.activityIndicator.layer.shadowRadius=5
+        
+        activityIndicator.center=CGPointMake(self.bounds.width/2, self.bounds.height/2)
+        self.addSubview(activityIndicator)
         self.activityIndicator.hidesWhenStopped=true
         self.activityIndicator.startAnimating()
         self.userInteractionEnabled=true
