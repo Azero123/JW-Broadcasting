@@ -134,4 +134,11 @@ class CollectionViewHorizontalFlowLayout: UICollectionViewFlowLayout {
         return CGSize(width: (self.collectionView?.frame.size.width)!, height: (super.collectionView?.frame.size.height)!)
     }
     
+    override func initialLayoutAttributesForAppearingItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
+        return self.layoutAttributesForItemAtIndexPath(indexPath)
+    }
+    
+    override func finalLayoutAttributesForDisappearingItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
+        return self.layoutAttributesForItemAtIndexPath(indexPath)
+    }
 }

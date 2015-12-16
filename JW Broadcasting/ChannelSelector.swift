@@ -95,7 +95,6 @@ class ChannelSelector: SuperCollectionView {
         let channelMeta=channelsMeta?[indexPath.row] as? NSDictionary
         if (channelMeta != nil){
             let imageURL=unfold(channelMeta, instructions: ["images","wss",["md","lg","sm"]]) as? String
-            print(imageURL)
             for subview in channel.contentView.subviews {
                 if (subview.isKindOfClass(UIImageView.self)){
                     let imageView=(subview as! UIImageView)
