@@ -11,7 +11,7 @@ import AVKit
 
 var streamingCell=true
 
-class MediaOnDemandCategory: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class MediaOnDemandCategory: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate {
 
     var _category="VODBible"
     var category:String {
@@ -482,6 +482,10 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
         if (segue.destinationViewController.isKindOfClass(StreamingViewController.self)){
             (segue.destinationViewController as! StreamingViewController).streamID=categoryIndex
         }
+    }
+    @IBOutlet weak var topImageTopPosition: NSLayoutConstraint!
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        topImageTopPosition?.constant = min(0, -scrollView.contentOffset.y / 2.0) // only when scrolling down so we never let it be higher than 0
     }
 
 }
