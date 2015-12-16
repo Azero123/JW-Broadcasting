@@ -87,14 +87,15 @@ class ChannelSelector: SuperCollectionView {
     
     override func cellAtIndex(indexPath:NSIndexPath) -> UICollectionViewCell{
         let channel: UICollectionViewCell = self.dequeueReusableCellWithReuseIdentifier("channel", forIndexPath: indexPath)
-        
+        channel.tag=indexPath.row
         let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
         let channelsMeta=(unfold("\(streamingScheduleURL)|category|subcategories") as? NSArray)
 
         
         let channelMeta=channelsMeta?[indexPath.row] as? NSDictionary
         if (channelMeta != nil){
-            let imageURL=unfold(channelMeta, instructions: ["images","wss","sm"]) as? String
+            let imageURL=unfold(channelMeta, instructions: ["images","wss",["md","lg","sm"]]) as? String
+            print(imageURL)
             for subview in channel.contentView.subviews {
                 if (subview.isKindOfClass(UIImageView.self)){
                     let imageView=(subview as! UIImageView)
@@ -105,10 +106,10 @@ class ChannelSelector: SuperCollectionView {
                         fetchDataUsingCache(imageURL!, downloaded: {
                             dispatch_async(dispatch_get_main_queue()) {
                                 
-                                imageView.image=imageUsingCache(imageURL!)
-                                imageView.userInteractionEnabled=true
-                                //imageView.adjustsImageWhenAncestorFocused = true
-                                //channel.contentView.addSubview(imageView)
+                                if (channel.tag==indexPath.row){
+                                    imageView.image=imageUsingCache(imageURL!)
+                                    imageView.userInteractionEnabled=true
+                                }
                             }
                         })
                     }
