@@ -103,4 +103,14 @@ class MODSubcategoryCollectionView: SuperCollectionView {
         }
     }
     
+    override func didScroll() {
+        if (textDirection == .RightToLeft){//RTL alignment
+            let width=self.frame.size.width-self.contentInset.left-self.contentInset.right
+            self.categoryLabel.frame=CGRectMake(-self.contentInset.right+self.contentOffset.x+60 , 0, width, 40)
+        }
+        else {
+            categoryLabel.frame=CGRectMake( self.contentInset.left+self.contentOffset.x+60, 0, self.frame.size.width-self.contentInset.left-self.contentInset.right, 40)
+        }
+    }
+    
 }

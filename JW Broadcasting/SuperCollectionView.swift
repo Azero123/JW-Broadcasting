@@ -191,6 +191,18 @@ class SuperCollectionView: UICollectionView, UICollectionViewDelegate, UICollect
         return proposedContentOffset
     }
     
+    func didScroll(){
+        /*
+        Method to handle scroll events in SuperCollectionView.
+        */
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        /*
+        Event to capture scroll events.
+        */
+        self.didScroll()
+    }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         /*

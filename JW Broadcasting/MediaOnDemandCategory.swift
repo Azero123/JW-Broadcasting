@@ -467,12 +467,13 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
     }
         
         
-        func playerItemDidReachEnd(notification:NSNotification){
-            if (playerViewController != nil){
-                //playerViewController?.player!.currentItem?.removeObserver(self, forKeyPath: "status")
-                playerViewController?.dismissViewControllerAnimated(true, completion: nil)
-            }
+    func playerItemDidReachEnd(notification:NSNotification){
+        if (playerViewController != nil){
+            //playerViewController?.player!.currentItem?.removeObserver(self, forKeyPath: "status")
+            playerViewController?.dismissViewControllerAnimated(true, completion: nil)
         }
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         /*
@@ -486,6 +487,10 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
     @IBOutlet weak var topImageTopPosition: NSLayoutConstraint!
     func scrollViewDidScroll(scrollView: UIScrollView) {
         topImageTopPosition?.constant = min(0, -scrollView.contentOffset.y / 2.0) // only when scrolling down so we never let it be higher than 0
+        
+        if (scrollView.isKindOfClass(SuperCollectionView.self)){
+            (scrollView as! SuperCollectionView).didScroll()
+        }
     }
 
 }
