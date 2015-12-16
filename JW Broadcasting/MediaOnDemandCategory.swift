@@ -368,13 +368,13 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
                         imageView.alpha=1
                     })
                     
+                    imageView.adjustsImageWhenAncestorFocused = true
                 }
             })
         }
         
         imageView.alpha=0
         imageView.userInteractionEnabled = true
-        //imageView.adjustsImageWhenAncestorFocused = true
         imageView.layer.cornerRadius=5
         
         
