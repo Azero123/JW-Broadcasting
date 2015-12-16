@@ -121,7 +121,7 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
         
         let cell: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("category", forIndexPath: indexPath)
         cell.alpha=1
-        
+        cell.tag=indexPath.row
         let category="VideoOnDemand"
         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
         let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
@@ -134,18 +134,22 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
             if (subview.isKindOfClass(UIImageView.self)){
                 
                 let imageView=subview as! UIImageView
-                
+                imageView.image=UIImage()
                 let imageURL=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|images|wss|lg") as? String
                 
                 imageView.userInteractionEnabled = true
                 imageView.adjustsImageWhenAncestorFocused = true
+                imageView.alpha=0.2
                 if (imageURL != nil && imageURL != ""){
                     
                     fetchDataUsingCache(imageURL!, downloaded: {
                         
                         dispatch_async(dispatch_get_main_queue()) {
-                            let image=imageUsingCache(imageURL!)
-                            (subview as! UIImageView).image=image
+                            if (cell.tag==indexPath.row){
+                                imageView.alpha=1
+                                let image=imageUsingCache(imageURL!)
+                                (subview as! UIImageView).image=image
+                            }
                         }
                     })
                 }

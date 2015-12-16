@@ -326,12 +326,12 @@ class StreamView: UIImageView {
                         //The video index is already taken so check it
                         if ((self.player?.items()[i].asset.isKindOfClass(AVURLAsset.self)) == true){
                             //Make sure the url is available
-                            if ((self.player?.items()[i-1].asset as! AVURLAsset).URL.absoluteString != videoURL){
+                            //if ((self.player?.items()[i-1].asset as! AVURLAsset).URL.absoluteString != videoURL){
                                 //Okay so we have a differen't video than what we previously had so remove it and add the new video
                                 
                                 
                                 
-                                print("[Stream] Replace video \(i-1) \((self.player?.items()[i-1].asset as! AVURLAsset).URL.absoluteString) \(videoURL)")
+                                //print("[Stream] Replace video \(i-1) \((self.player?.items()[i-1].asset as! AVURLAsset).URL.absoluteString) \(videoURL)")
                                 
                                 /*self.player?.removeItem((self.player?.items()[i-1])!)//remove
                                 
@@ -340,7 +340,7 @@ class StreamView: UIImageView {
                                 
                                 self.player?.insertItem(playerItem, afterItem: self.player?.items()[i-2])//Insert video to it's proper place
                                 */
-                            }
+                            //}
                         }
                     }
                     else {
