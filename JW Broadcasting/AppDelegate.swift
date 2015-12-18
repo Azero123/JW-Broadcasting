@@ -78,7 +78,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if (unfold("\(streamingScheduleURL)|category|subcategories|count") != nil){
             print("[Preload] Streaming successful")
             for var i=0; i<unfold("\(streamingScheduleURL)|category|subcategories|count") as! Int ; i++ {
-                imageUsingCache(unfold("\(streamingScheduleURL)|category|subcategories|\(i)|images|wss|sm") as! String)
+                imageUsingCache(unfold("\(streamingScheduleURL)|category|subcategories|\(i)|images|wss|lg") as! String)
             }
         }
         

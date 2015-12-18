@@ -31,6 +31,7 @@ extension UITabBarController : TVApplicationControllerDelegate {
             UIView.animateWithDuration(animated ? 0.3 : 0.0) {
                 /*adjust the view to move upward hiding the tab bar and then stretch it to make up for moving it*/
                 self.tabBar.frame=CGRect(x: 0, y: offsetY, width: self.tabBar.frame.size.width, height: self.tabBar.frame.size.height)
+                self.tabBarController?.viewControllers![(self.tabBarController?.selectedIndex)!].view.layoutIfNeeded()
             }
         }
         self.tabBarController?.viewControllers![(self.tabBarController?.selectedIndex)!].updateFocusIfNeeded()

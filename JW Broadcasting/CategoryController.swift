@@ -141,6 +141,7 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
     var previousLanguageCode=languageCode
     
     override func viewWillAppear(animated: Bool) {
+        (self.tabBarController as! rootController).disableNavBarTimeOut=false
         if (previousLanguageCode != languageCode){
             renewContent()
         }

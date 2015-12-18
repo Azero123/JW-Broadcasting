@@ -23,7 +23,6 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        (self.tabBarController as! rootController).disableNavBarTimeOut=true
         
         backgroundImageView.alpha=0.75
         BackgroundEffectView.alpha=0.99
@@ -38,6 +37,7 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
     var previousLanguageCode=languageCode
     
     override func viewWillAppear(animated: Bool) {
+        (self.tabBarController as! rootController).disableNavBarTimeOut=true
         if (previousLanguageCode != languageCode){
             renewContent()
         }
@@ -200,11 +200,33 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
         */
         
         if (context.nextFocusedView != nil && context.previouslyFocusedView?.superview!.isKindOfClass(SuperCollectionView.self) == true && context.previouslyFocusedIndexPath != nil){
-            (context.previouslyFocusedView?.superview as! SuperCollectionView).cellShouldLoseFocus(context.previouslyFocusedView!, indexPath: context.previouslyFocusedIndexPath!)
+            if (self == context.nextFocusedView) {
+                /*[coordinator addCoordinatedAnimations:^{
+                    // focusing animations
+                    } completion:^{
+                    // completion
+                    }];*/
+            } else if (self == context.previouslyFocusedView) {
+                /*[coordinator addCoordinatedAnimations:^{
+                    // unfocusing animations
+                    } completion:^{
+                    // completion
+                    }];*/
+            }
+            coordinator.addCoordinatedAnimations({
+                (context.previouslyFocusedView?.superview as! SuperCollectionView).cellShouldLoseFocus(context.previouslyFocusedView!, indexPath: context.previouslyFocusedIndexPath!)
+                }, completion: nil)
+            
         }
         if (context.nextFocusedView?.superview!.isKindOfClass(SuperCollectionView.self) == true && context.nextFocusedIndexPath != nil){
-            (context.nextFocusedView?.superview as! SuperCollectionView).cellShouldFocus(context.nextFocusedView!, indexPath: context.nextFocusedIndexPath!)
-            (context.nextFocusedView?.superview as! SuperCollectionView).cellShouldFocus(context.nextFocusedView!, indexPath: context.nextFocusedIndexPath!, previousIndexPath: context.previouslyFocusedIndexPath)
+            
+            
+            coordinator.addCoordinatedAnimations({
+                
+                (context.nextFocusedView?.superview as! SuperCollectionView).cellShouldFocus(context.nextFocusedView!, indexPath: context.nextFocusedIndexPath!)
+                (context.nextFocusedView?.superview as! SuperCollectionView).cellShouldFocus(context.nextFocusedView!, indexPath: context.nextFocusedIndexPath!, previousIndexPath: context.previouslyFocusedIndexPath)
+                
+                }, completion: nil)
         }
     }
 

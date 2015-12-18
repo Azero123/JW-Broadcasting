@@ -241,8 +241,7 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
                     let streamview=StreamView(frame: cell.bounds)
                     streamview.streamID=categoryIndex
                     let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=0"
-                    let streamData=unfold(streamingScheduleURL)
-                    let imageURL:String?=unfold(streamData, instructions: ["category","subcategories",streamview.streamID,"media",0,"images",["lsr","wss","cvr","lss","wsr","pss","pns",""],["lg","md","sm","xs",""]]) as? String
+                    let imageURL:String?=unfold(nil, instructions: [streamingScheduleURL,"category","subcategories",streamview.streamID,"media",0,"images",["lsr","wss","cvr","lss","wsr","pss","pns",""],["lg","md","sm","xs",""]]) as? String
                     if (imageURL != nil){
                         fetchDataUsingCache(imageURL!, downloaded: {
                             
@@ -320,8 +319,10 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
             label.numberOfLines=3
         }
         if (subcategoryCollectionViews.indexOf(collectionView as! MODSubcategoryCollectionView)! == 0 && indexPath.row==0){
-            
-            label.text=unfold("\(base)/\(version)/translations/\(languageCode)|translations|\(languageCode)|lblNowPlaying") as? String
+            let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=0"
+            let nowPlayingString=unfold("\(base)/\(version)/translations/\(languageCode)|translations|\(languageCode)|lblNowPlaying") as! String
+            _=unfold(nil, instructions: [streamingScheduleURL,"category","subcategories",self.categoryIndex,"media","title"]) as? String
+            label.text="\(nowPlayingString)"
         }
         
         if (retrievedVideo == nil){
@@ -489,7 +490,10 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
     }
     @IBOutlet weak var topImageTopPosition: NSLayoutConstraint!
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        topImageTopPosition?.constant = min(0, -scrollView.contentOffset.y / 2.0) // only when scrolling down so we never let it be higher than 0
+        print(scrollView.contentOffset.y)
+        UIView.animateWithDuration(0.01, animations: {
+            self.topImageTopPosition?.constant = min(0, -scrollView.contentOffset.y / 2.0)
+        }) // only when scrolling down so we never let it be higher than 0
         
         if (scrollView.isKindOfClass(SuperCollectionView.self)){
             (scrollView as! SuperCollectionView).didScroll()

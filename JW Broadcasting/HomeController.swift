@@ -52,8 +52,6 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        (self.tabBarController as! rootController).disableNavBarTimeOut=true
-        
         self.view.userInteractionEnabled=true
         
         backgroundImageView.alpha=0.75
@@ -165,6 +163,7 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
     
     override func viewWillAppear(animated: Bool) {
         
+        (self.tabBarController as! rootController).disableNavBarTimeOut=true
         /*
         Every time the view goes to reappear this code runs to check if the language was changed by the Language tab. If it was then everything gets refreshed.
         */
@@ -204,7 +203,7 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
             self.slideShowCollectionView.prepare()
         }
         else {
-            self.slideShowTopConstraint.constant = -self.slideShowCollectionView.frame.size.height
+            //self.slideShowTopConstraint.constant = -self.slideShowCollectionView.frame.size.height
             self.JWBroadcastingLogoTopConstraint.constant = 40
             self.view.layoutIfNeeded()
         }
@@ -380,8 +379,8 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
                 
                 UIView.animateWithDuration(0.5, animations: {
                     
-                    self.slideShowTopConstraint.constant = -self.slideShowCollectionView.frame.size.height+150//880 1080
-                    self.JWBroadcastingLogoTopConstraint.constant = -140
+                    //self.slideShowTopConstraint.constant = -self.slideShowCollectionView.frame.size.height+150//880 1080
+                    self.JWBroadcastingLogoTopConstraint.constant = -self.slideShowCollectionView.frame.size.height+30
                     self.slideShowCollectionView.alpha=0.001
                     self.view.layoutIfNeeded()
                 })
@@ -390,7 +389,7 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
                 
                 UIView.animateWithDuration(0.5, animations: {
                     
-                    self.slideShowTopConstraint.constant = -30
+                    //self.slideShowTopConstraint.constant = -30
                     self.JWBroadcastingLogoTopConstraint.constant = 40
                     self.slideShowCollectionView.alpha=1
                     self.view.layoutIfNeeded()

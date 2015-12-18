@@ -41,8 +41,12 @@ class MediaOnDemandMainCategories: SuperCollectionView {
         let category="VideoOnDemand"
         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
         let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
-        
-        //self.backgroundImageView.image=imageUsingCache((unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|images|wss|lg") as? String)!)
+        if ((self.delegate?.isKindOfClass(MediaOnDemandController.self)) == true){
+            UIView.transitionWithView((self.delegate as! MediaOnDemandController).backgroundImageView, duration: 0.25, options: .TransitionCrossDissolve, animations: {
+                (self.delegate as! MediaOnDemandController).backgroundImageView.image=imageUsingCache((unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|images|wss|lg") as? String)!)
+                }, completion: nil)
+            
+        }
         
         for subview in (view.subviews.first!.subviews) {
             if (subview.isKindOfClass(UILabel.self) == true){

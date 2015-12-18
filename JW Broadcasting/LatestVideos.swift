@@ -86,7 +86,6 @@ class LatestVideos: SuperCollectionView {
         let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1"
         
         let videosData:NSArray?=unfold("\(latestVideosPath)|category|media") as? NSArray
-        
         /*
         if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
             videosData=videosData!.reverse()
@@ -181,18 +180,39 @@ class LatestVideos: SuperCollectionView {
     
     override func cellSelect(indexPath: NSIndexPath) {
         
-        let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1|category|media"
-        let videos=unfold(latestVideosPath)! as? NSArray
+        let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1"
+        let videoURLString=unfold("\(latestVideosPath)|category|media|\(indexPath.row)|files|last|progressiveDownloadURL")! as? String
         
-        let videoData:NSArray?=unfold(videos, instructions: ["\(indexPath.row)","files"]) as? NSArray
-        
-        let videoFile=videoData?.objectAtIndex((videoData?.count)!-1)
-        
-        let videoURLString=videoFile?.objectForKey("progressiveDownloadURL") as! String
-        
-        
-        let videoURL = NSURL(string: videoURLString)
+        let videoURL = NSURL(string: videoURLString!)
         let player = AVPlayer(URL: videoURL!)
+        
+        
+        var itunesMetaData:Dictionary<String,protocol<NSCopying,NSObjectProtocol>>=[:]
+        
+        itunesMetaData[AVMetadataiTunesMetadataKeySongName]=unfold("\(latestVideosPath)|category|media|\(indexPath.row)|title") as? String
+        itunesMetaData[AVMetadataiTunesMetadataKeyGenreID]="Children"//unfold("\(latestVideosPath)|category|media|\(indexPath.row)|") as? String
+        //itunesMetaData[AVMetadataiTunesMetadataKeyContentRating]="G"
+        itunesMetaData[AVMetadataiTunesMetadataKeyDescription]="\nPublished by Watchtower Bible and Tract Society of New York, Inc.\n© 2016 Watch Tower Bible and Tract Society of Pennsylvania. All rights reserved."
+        //unfold("\(latestVideosPath)|category|media|\(indexPath.row)|description") as? String
+        itunesMetaData[AVMetadataiTunesMetadataKeyCopyright]="Copyright © 2016 Watch Tower Bible and Tract Society of Pennsylvania"
+        itunesMetaData[AVMetadataiTunesMetadataKeyPublisher]="Watchtower Bible and Tract Society of New York, Inc."
+        let imageURL=unfold("\(latestVideosPath)|category|media|\(indexPath.row)|images|lsr|md") as? String
+        let image=UIImagePNGRepresentation(imageUsingCache(imageURL!)!)
+        if (image != nil){ itunesMetaData[AVMetadataiTunesMetadataKeyCoverArt]=NSData(data: image!) }
+        
+        
+        for key in NSDictionary(dictionary: itunesMetaData).allKeys {
+            
+            let metadataItem = AVMutableMetadataItem()
+            metadataItem.locale = NSLocale.currentLocale()
+            metadataItem.key = key as! String
+            metadataItem.keySpace = AVMetadataKeySpaceiTunes
+            metadataItem.value = itunesMetaData[key as! String]
+            player.currentItem!.externalMetadata.append(metadataItem)
+            
+        }
+        
+        
         playerViewController.player = player
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerItemDidReachEnd:", name: AVPlayerItemDidPlayToEndTimeNotification, object: player.currentItem)
         self.window?.rootViewController!.presentViewController(playerViewController, animated: true) {

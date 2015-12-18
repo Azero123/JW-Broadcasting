@@ -27,7 +27,6 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        (self.tabBarController as! rootController).disableNavBarTimeOut=false
         self.activityIndicator.hidesWhenStopped=true
         self.activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
         // Loading indicator though there should be none
@@ -39,6 +38,7 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
     }
     
     override func viewDidDisappear(animated: Bool) {
+        (self.tabBarController as! rootController).disableNavBarTimeOut=false
         self.view.hidden=true // For some bugs I noticed in switching UIViewControllers to quickly (not our code) displaying multiple UIViewControllers simultaneously
     }
 

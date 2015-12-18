@@ -724,7 +724,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchScreenEarth.png" translatesAutoresizingMaskIntoConstraints="NO" id="17j-AV-sfd">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="17j-AV-sfd">
                                 <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                             </imageView>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gig-zN-ssf">
@@ -826,12 +826,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6fQ-k8-2Bs">
-                                <rect key="frame" x="0.0" y="0.0" width="1920" height="640"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="640" id="ZdX-a2-5dl"/>
-                                </constraints>
-                            </imageView>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XFY-vt-XoQ">
                                 <rect key="frame" x="960" y="0.0" width="960" height="1076"/>
                                 <subviews>
@@ -849,8 +843,11 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ikn-na-0NV">
-                                <rect key="frame" x="0.0" y="0.0" width="1920" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="1920" height="640"/>
                                 <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6fQ-k8-2Bs">
+                                        <rect key="frame" x="0.0" y="0.0" width="1920" height="640"/>
+                                    </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PER-Eo-rh1">
                                         <rect key="frame" x="120" y="230" width="1680" height="140"/>
                                         <constraints>
@@ -863,9 +860,14 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="640" id="82J-tJ-6bN"/>
+                                    <constraint firstItem="6fQ-k8-2Bs" firstAttribute="top" secondItem="Ikn-na-0NV" secondAttribute="top" id="8by-ol-yW8"/>
+                                    <constraint firstAttribute="bottom" secondItem="6fQ-k8-2Bs" secondAttribute="bottom" id="NTL-Q2-A32"/>
                                     <constraint firstAttribute="trailing" secondItem="PER-Eo-rh1" secondAttribute="trailing" constant="120" id="Y3j-Wv-by7"/>
+                                    <constraint firstItem="6fQ-k8-2Bs" firstAttribute="leading" secondItem="Ikn-na-0NV" secondAttribute="leading" id="jKa-5g-tJL"/>
                                     <constraint firstItem="PER-Eo-rh1" firstAttribute="leading" secondItem="Ikn-na-0NV" secondAttribute="leading" constant="120" id="k1F-7c-fbu"/>
-                                    <constraint firstItem="PER-Eo-rh1" firstAttribute="centerY" secondItem="Ikn-na-0NV" secondAttribute="centerY" id="mC4-Kz-3HC"/>
+                                    <constraint firstItem="PER-Eo-rh1" firstAttribute="centerY" secondItem="Ikn-na-0NV" secondAttribute="centerY" constant="-20" id="mC4-Kz-3HC"/>
+                                    <constraint firstAttribute="trailing" secondItem="6fQ-k8-2Bs" secondAttribute="trailing" id="obk-z8-8NG"/>
                                 </constraints>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jUM-8z-Dml">
@@ -886,17 +888,13 @@
                             </scrollView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="ONo-vx-5TD" firstAttribute="top" secondItem="Ikn-na-0NV" secondAttribute="bottom" constant="480" id="0EI-F3-lcd"/>
                             <constraint firstItem="Ikn-na-0NV" firstAttribute="top" secondItem="ZJS-fc-VtC" secondAttribute="bottom" id="3S4-Eg-ETc"/>
                             <constraint firstItem="jUM-8z-Dml" firstAttribute="leading" secondItem="iVy-kQ-FCo" secondAttribute="leading" id="80f-8d-Keg"/>
                             <constraint firstItem="Ikn-na-0NV" firstAttribute="leading" secondItem="iVy-kQ-FCo" secondAttribute="leading" id="8xI-YH-Ecb"/>
                             <constraint firstItem="ONo-vx-5TD" firstAttribute="top" secondItem="jUM-8z-Dml" secondAttribute="bottom" id="CZx-Ia-vZL"/>
                             <constraint firstAttribute="trailing" secondItem="Ikn-na-0NV" secondAttribute="trailing" id="DEV-iF-1TD"/>
                             <constraint firstItem="jUM-8z-Dml" firstAttribute="top" secondItem="ZJS-fc-VtC" secondAttribute="bottom" id="Ezk-Bx-8Ax"/>
-                            <constraint firstAttribute="trailing" secondItem="6fQ-k8-2Bs" secondAttribute="trailing" id="IhI-Cd-fNz"/>
                             <constraint firstAttribute="trailing" secondItem="XFY-vt-XoQ" secondAttribute="trailing" id="Mzl-D3-JYj"/>
-                            <constraint firstItem="6fQ-k8-2Bs" firstAttribute="top" secondItem="ZJS-fc-VtC" secondAttribute="bottom" id="StK-vR-9na"/>
-                            <constraint firstItem="6fQ-k8-2Bs" firstAttribute="leading" secondItem="iVy-kQ-FCo" secondAttribute="leading" id="eC7-72-JeG"/>
                             <constraint firstAttribute="trailing" secondItem="jUM-8z-Dml" secondAttribute="trailing" id="kSh-mO-C76"/>
                             <constraint firstItem="XFY-vt-XoQ" firstAttribute="height" secondItem="iVy-kQ-FCo" secondAttribute="height" id="oij-nT-fki"/>
                             <constraint firstItem="XFY-vt-XoQ" firstAttribute="width" secondItem="iVy-kQ-FCo" secondAttribute="width" multiplier="0.5" id="pNL-AW-afG"/>
@@ -910,7 +908,7 @@
                         <outlet property="categoryTitle" destination="PER-Eo-rh1" id="sML-XJ-kEG"/>
                         <outlet property="previewImageView" destination="VWA-ul-ckk" id="ucC-3i-2Kr"/>
                         <outlet property="scrollView" destination="jUM-8z-Dml" id="QQD-Nm-VOm"/>
-                        <outlet property="topImageTopPosition" destination="StK-vR-9na" id="Zvd-xC-lMU"/>
+                        <outlet property="topImageTopPosition" destination="3S4-Eg-ETc" id="Ic7-zp-wPD"/>
                         <segue destination="8kI-1n-j2v" kind="show" identifier="presentStreaming" id="RKc-xb-pil"/>
                     </connections>
                 </viewController>
@@ -949,6 +947,6 @@
         <image name="jw-broadcasting-logo.png" width="250" height="65"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="RKc-xb-pil"/>
+        <segue reference="eOq-gS-Wby"/>
     </inferredMetricsTieBreakers>
 </document>

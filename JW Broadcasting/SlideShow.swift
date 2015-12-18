@@ -455,7 +455,10 @@ class SlideShow: SuperCollectionView {
         
         let cellWidth=(self.delegate as! HomeController).collectionView(self, layout: self.collectionViewLayout, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*(self.collectionViewLayout as! CollectionViewHorizontalFlowLayout).spacingPercentile
         
-        let itemIndex=round((proposedContentOffset.x+((self.frame.size.width)-cellWidth)/2)/cellWidth)
+        var itemIndex=round((proposedContentOffset.x+((self.frame.size.width)-cellWidth)/2)/cellWidth)
+        if (isnan(itemIndex)){
+            itemIndex=0
+        }
         return CGPoint(x: itemIndex*(cellWidth)-((self.frame.size.width)-cellWidth)/2
             , y: 0)
         
