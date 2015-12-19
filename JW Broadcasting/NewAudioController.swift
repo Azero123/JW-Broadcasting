@@ -17,7 +17,7 @@
 
 import UIKit
 
-class NewAudioOnController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class NewAudioController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     @IBOutlet weak var MediaCollectionView: UICollectionView!
     @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var BackgroundEffectView: UIVisualEffectView!
@@ -32,9 +32,11 @@ class NewAudioOnController: UIViewController, UICollectionViewDelegate, UICollec
         self.MediaCollectionView.clipsToBounds=false
         self.MediaCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
         self.MediaCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "footer")
-        (self.MediaCollectionView.collectionViewLayout as! CollectionViewAlignmentFlowLayout).spacingPercentile=1.275
+        (self.MediaCollectionView.collectionViewLayout as! CollectionViewAlignmentFlowLayout).spacingPercentile=1.35
         renewContent()
     }
+    
+    let images=["newsongs-singtojehovah","piano-singtojehovah","vocals-singtojehovah","kingdommelodies","drama","readings"]
     
     var previousLanguageCode=languageCode
     
@@ -60,25 +62,11 @@ class NewAudioOnController: UIViewController, UICollectionViewDelegate, UICollec
         
         //http://mediator.jw.org/v1/categories/E/Audio?detailed=1
         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
-        let VODDataURL=categoriesDirectory+"/VideoOnDemand?detailed=1"
         let AudioDataURL=categoriesDirectory+"/Audio?detailed=1"
         
-        var finishCount=0
-        
-        fetchDataUsingCache(VODDataURL, downloaded: {
-            dispatch_async(dispatch_get_main_queue()) {
-                finishCount++
-                if (finishCount == 2){
-                    self.MediaCollectionView.reloadData()
-                }
-            }
-        })
         fetchDataUsingCache(AudioDataURL, downloaded: {
             dispatch_async(dispatch_get_main_queue()) {
-                finishCount++
-                if (finishCount == 2){
                     self.MediaCollectionView.reloadData()
-                }
             }
         })
     }
@@ -92,7 +80,7 @@ class NewAudioOnController: UIViewController, UICollectionViewDelegate, UICollec
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        let category="VideoOnDemand"
+        let category="Audio"
         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
         let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
         let response=unfold(categoryDataURL+"|category|subcategories|count") as? Int
@@ -123,7 +111,7 @@ class NewAudioOnController: UIViewController, UICollectionViewDelegate, UICollec
         let cell: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("category", forIndexPath: indexPath)
         cell.alpha=1
         
-        let category="VideoOnDemand"
+        let category="Audio"
         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
         let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
         
@@ -136,10 +124,13 @@ class NewAudioOnController: UIViewController, UICollectionViewDelegate, UICollec
                 
                 let imageView=subview as! UIImageView
                 
-                let imageURL=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|images|wss|lg") as? String
+                imageView.image=UIImage()
+                
+                let imageURL=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|images|sqr|lg") as? String
                 
                 imageView.userInteractionEnabled = true
                 imageView.adjustsImageWhenAncestorFocused = true
+                imageView.image=UIImage(named: images[indexPath.row])
                 if (imageURL != nil && imageURL != ""){
                     
                     fetchDataUsingCache(imageURL!, downloaded: {
@@ -161,7 +152,7 @@ class NewAudioOnController: UIViewController, UICollectionViewDelegate, UICollec
     
     func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
         
-        let category="VideoOnDemand"
+        let category="Audio"
         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
         let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
         categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|key") as! String
@@ -173,21 +164,26 @@ class NewAudioOnController: UIViewController, UICollectionViewDelegate, UICollec
     var categoryToGoTo=""
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if (segue.destinationViewController.isKindOfClass(MediaOnDemandCategory.self)){
-            (segue.destinationViewController as! MediaOnDemandCategory).categoryIndex=categoryIndexToGoTo
-            (segue.destinationViewController as! MediaOnDemandCategory).category=categoryToGoTo
+        if (segue.destinationViewController.isKindOfClass(AudioCategoryController.self)){
+            (segue.destinationViewController as! AudioCategoryController).categoryIndex=categoryIndexToGoTo
+            //(segue.destinationViewController as! AudioCategoryController).category=categoryToGoTo
         }
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        let multiplier:CGFloat=0.80
-        let ratio:CGFloat=1.77777777777778
+        let multiplier:CGFloat=1
+        let ratio:CGFloat=1
         let width:CGFloat=360
-        return CGSize(width: width*ratio*multiplier, height: width*multiplier)//640,360
+        return CGSize(width: width*ratio*multiplier, height: width*multiplier)
     }
     
     func collectionView(collectionView: UICollectionView, shouldUpdateFocusInContext context: UICollectionViewFocusUpdateContext) -> Bool {
+        return true
         
+    }
+    
+    
+    func collectionView(collectionView: UICollectionView, didUpdateFocusInContext context: UICollectionViewFocusUpdateContext, withAnimationCoordinator coordinator: UIFocusAnimationCoordinator) {
         /*
         
         This method handles when the user moves focus over a UICollectionViewCell and/or UICollectionView.
@@ -197,16 +193,35 @@ class NewAudioOnController: UIViewController, UICollectionViewDelegate, UICollec
         Lastly if he LatestVideos or SlideShow collection view are focused move everything up so you can see them.
         */
         
-        if (context.previouslyFocusedView?.superview!.isKindOfClass(SuperCollectionView.self) == true && context.previouslyFocusedIndexPath != nil){
+        if (context.nextFocusedView != nil && context.previouslyFocusedView?.superview!.isKindOfClass(SuperCollectionView.self) == true && context.previouslyFocusedIndexPath != nil){
+            if (self == context.nextFocusedView) {
+                /*[coordinator addCoordinatedAnimations:^{
+                // focusing animations
+                } completion:^{
+                // completion
+                }];*/
+            } else if (self == context.previouslyFocusedView) {
+                /*[coordinator addCoordinatedAnimations:^{
+                // unfocusing animations
+                } completion:^{
+                // completion
+                }];*/
+            }
             (context.previouslyFocusedView?.superview as! SuperCollectionView).cellShouldLoseFocus(context.previouslyFocusedView!, indexPath: context.previouslyFocusedIndexPath!)
+            coordinator.addCoordinatedAnimations({
+                }, completion: nil)
+            
         }
         if (context.nextFocusedView?.superview!.isKindOfClass(SuperCollectionView.self) == true && context.nextFocusedIndexPath != nil){
-            (context.nextFocusedView?.superview as! SuperCollectionView).cellShouldFocus(context.nextFocusedView!, indexPath: context.nextFocusedIndexPath!)
-            (context.nextFocusedView?.superview as! SuperCollectionView).cellShouldFocus(context.nextFocusedView!, indexPath: context.nextFocusedIndexPath!, previousIndexPath: context.previouslyFocusedIndexPath)
+            
+            
+            coordinator.addCoordinatedAnimations({
+                
+                (context.nextFocusedView?.superview as! SuperCollectionView).cellShouldFocus(context.nextFocusedView!, indexPath: context.nextFocusedIndexPath!)
+                (context.nextFocusedView?.superview as! SuperCollectionView).cellShouldFocus(context.nextFocusedView!, indexPath: context.nextFocusedIndexPath!, previousIndexPath: context.previouslyFocusedIndexPath)
+                
+                }, completion: nil)
         }
-        return true
-        
     }
-    
     
 }

@@ -40,7 +40,8 @@ let BETAMedia = true
 
 let VOD = false
 
-let Audio = true
+let Audio = false
+let NewAudio = true
 
 let Language = true
 

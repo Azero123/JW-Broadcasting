@@ -545,7 +545,6 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
         
-        
         //let videosData=
         let videoURLString=(unfold(parentCategory, instructions: ["\(indexPath.section)","media","\(indexPath.row)","files","last","progressiveDownloadURL"]) as! String)
         
@@ -553,8 +552,29 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
         let player = AVPlayer(URL: videoURL!)
         playerViewController = AVPlayerViewController()
         playerViewController!.player = player
+        
         self.presentViewController(playerViewController!, animated: true) {
             self.playerViewController!.player!.play()
+            
+            var isAudio = false
+            
+            for track in player.currentItem!.tracks {
+                if (track.assetTrack.mediaType == AVMediaTypeAudio){
+                    isAudio=true
+                }
+            }
+            
+            if (isAudio){
+                print(unfold(self.parentCategory, instructions: [indexPath.section,"media",indexPath.row,"images"]))
+                let imageURL=unfold(self.parentCategory, instructions: [indexPath.section,"media",indexPath.row,"images",["wss","cvr","lss","wsr","pss","pns",""],["xl","lg","md","sm",""]]) as? String
+                
+                let image=imageUsingCache(imageURL!)
+                let imageView=UIImageView(image: image)
+                imageView.center=(self.playerViewController?.contentOverlayView!.center)!
+                self.playerViewController?.contentOverlayView?.addSubview(imageView)
+            }
+            
+            
         }
         
         

@@ -183,41 +183,57 @@ class LatestVideos: SuperCollectionView {
         let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1"
         let videoURLString=unfold("\(latestVideosPath)|category|media|\(indexPath.row)|files|last|progressiveDownloadURL")! as? String
         
+        print((unfold("\(latestVideosPath)|category|media|\(indexPath.row)|primaryCategory") as! String))//primaryCategory
+        
+        
         let videoURL = NSURL(string: videoURLString!)
         let player = AVPlayer(URL: videoURL!)
         
+        fetchDataUsingCache(base+"/"+version+"/categories/"+languageCode+"/\(unfold("\(latestVideosPath)|category|media|\(indexPath.row)|primaryCategory")!)?detailed=1", downloaded: {
+            dispatch_async(dispatch_get_main_queue()) {
+                
+                print("downloaded")
+                
+                
+                var itunesMetaData:Dictionary<String,protocol<NSCopying,NSObjectProtocol>>=[:]
+                
+                itunesMetaData[AVMetadataiTunesMetadataKeySongName]=unfold("\(latestVideosPath)|category|media|\(indexPath.row)|title") as? String
+                itunesMetaData[AVMetadataiTunesMetadataKeyGenreID]="\(unfold(base+"/"+version+"/categories/"+languageCode+"/\(unfold("\(latestVideosPath)|category|media|\(indexPath.row)|primaryCategory")!)?detailed=1|category|name")!)"
+                //itunesMetaData[AVMetadataiTunesMetadataKeyContentRating]="G"
+                itunesMetaData[AVMetadataiTunesMetadataKeyDescription]="\nPublished by Watchtower Bible and Tract Society of New York, Inc.\n© 2016 Watch Tower Bible and Tract Society of Pennsylvania. All rights reserved."
+                //unfold("\(latestVideosPath)|category|media|\(indexPath.row)|description") as? String
+                itunesMetaData[AVMetadataiTunesMetadataKeyCopyright]="Copyright © 2016 Watch Tower Bible and Tract Society of Pennsylvania"
+                itunesMetaData[AVMetadataiTunesMetadataKeyPublisher]="Watchtower Bible and Tract Society of New York, Inc."
+                let imageURL=unfold("\(latestVideosPath)|category|media|\(indexPath.row)|images|lsr|md") as? String
+                let image=UIImagePNGRepresentation(imageUsingCache(imageURL!)!)
+                if (image != nil){ itunesMetaData[AVMetadataiTunesMetadataKeyCoverArt]=NSData(data: image!) }
+                
+                
+                
+                for key in NSDictionary(dictionary: itunesMetaData).allKeys {
+                    
+                    let metadataItem = AVMutableMetadataItem()
+                    metadataItem.locale = NSLocale.currentLocale()
+                    metadataItem.key = key as! String
+                    metadataItem.keySpace = AVMetadataKeySpaceiTunes
+                    metadataItem.value = itunesMetaData[key as! String]
+                    player.currentItem!.externalMetadata.append(metadataItem)
+                    
+                }
+            }
+        })
         
-        var itunesMetaData:Dictionary<String,protocol<NSCopying,NSObjectProtocol>>=[:]
-        
-        itunesMetaData[AVMetadataiTunesMetadataKeySongName]=unfold("\(latestVideosPath)|category|media|\(indexPath.row)|title") as? String
-        itunesMetaData[AVMetadataiTunesMetadataKeyGenreID]="Children"//unfold("\(latestVideosPath)|category|media|\(indexPath.row)|") as? String
-        //itunesMetaData[AVMetadataiTunesMetadataKeyContentRating]="G"
-        itunesMetaData[AVMetadataiTunesMetadataKeyDescription]="\nPublished by Watchtower Bible and Tract Society of New York, Inc.\n© 2016 Watch Tower Bible and Tract Society of Pennsylvania. All rights reserved."
-        //unfold("\(latestVideosPath)|category|media|\(indexPath.row)|description") as? String
-        itunesMetaData[AVMetadataiTunesMetadataKeyCopyright]="Copyright © 2016 Watch Tower Bible and Tract Society of Pennsylvania"
-        itunesMetaData[AVMetadataiTunesMetadataKeyPublisher]="Watchtower Bible and Tract Society of New York, Inc."
-        let imageURL=unfold("\(latestVideosPath)|category|media|\(indexPath.row)|images|lsr|md") as? String
-        let image=UIImagePNGRepresentation(imageUsingCache(imageURL!)!)
-        if (image != nil){ itunesMetaData[AVMetadataiTunesMetadataKeyCoverArt]=NSData(data: image!) }
         
         
-        for key in NSDictionary(dictionary: itunesMetaData).allKeys {
-            
-            let metadataItem = AVMutableMetadataItem()
-            metadataItem.locale = NSLocale.currentLocale()
-            metadataItem.key = key as! String
-            metadataItem.keySpace = AVMetadataKeySpaceiTunes
-            metadataItem.value = itunesMetaData[key as! String]
-            player.currentItem!.externalMetadata.append(metadataItem)
-            
-        }
-        
-        
-        playerViewController.player = player
+        self.playerViewController.player = player
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerItemDidReachEnd:", name: AVPlayerItemDidPlayToEndTimeNotification, object: player.currentItem)
-        self.window?.rootViewController!.presentViewController(playerViewController, animated: true) {
+        self.window?.rootViewController!.presentViewController(self.playerViewController, animated: true) {
             self.playerViewController.player!.play()
         }
+        
+        
+        
+        
     }
     
     func playerItemDidReachEnd(notification:NSNotification){

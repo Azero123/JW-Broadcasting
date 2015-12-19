@@ -171,6 +171,9 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                 if (Search==false){
                     self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
                 }
+                else {
+                    self.tabBar.items?[(self.viewControllers?.indexOf(viewController))!].title="Search"
+                }
             }
             else if (viewController.isKindOfClass(MediaOnDemandController.self)){//Remove MOD page if disabled
                 if (BETAMedia==false){
@@ -178,6 +181,14 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                 }
                 else {
                     self.tabBar.items?[(self.viewControllers?.indexOf(viewController))!].title="Video on Demand"
+                }
+            }
+            else if (viewController.isKindOfClass(NewAudioController.self)){//Remove MOD page if disabled
+                if (NewAudio==false){
+                    self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
+                }
+                else {
+                    self.tabBar.items?[(self.viewControllers?.indexOf(viewController))!].title="Audio"
                 }
             }
         }
@@ -421,6 +432,9 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                 }
                 else if (viewController.isKindOfClass(SearchController.self)){
                     keyForButton="Search"
+                }
+                else if (viewController.isKindOfClass(NewAudioController.self)){
+                    keyForButton="homepageAudioBlockTitle"
                 }
                 
                 

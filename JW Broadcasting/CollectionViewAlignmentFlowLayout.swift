@@ -9,7 +9,6 @@
 import UIKit
 
 class CollectionViewAlignmentFlowLayout: UICollectionViewFlowLayout {
-    //1.3
     var spacingPercentile:CGFloat=1
     var headerSpace:CGFloat=50
     var headerBottomSpace:CGFloat=25
@@ -111,8 +110,20 @@ class CollectionViewAlignmentFlowLayout: UICollectionViewFlowLayout {
         if ((self.collectionView?.delegate?.isKindOfClass(CategoryController.self)) == true){
             layout=(self.collectionView!.delegate as! CategoryController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forRow: 0, inSection: 0))
         }
-        else {
-            return CGSize(width: 1650, height: 1500)
+        else if ((self.collectionView?.delegate?.isKindOfClass(MediaOnDemandController.self)) == true){
+            
+            print((self.collectionView!.delegate as! MediaOnDemandController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forRow: 0, inSection: 0)))
+            
+            //self.collectionView.
+            return CGSize(width: (self.collectionView?.frame.size.width)!, height: 1500)
+            //layout=(self.collectionView!.delegate as! MediaOnDemandController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forRow: 0, inSection: 0))
+        }
+        else if ((self.collectionView?.delegate?.isKindOfClass(AudioController.self)) == true){
+            
+            print((self.collectionView!.delegate as! AudioController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forRow: 0, inSection: 0)))
+            
+            //self.collectionView.
+            return CGSize(width: (self.collectionView?.frame.size.width)!, height: 500)
             //layout=(self.collectionView!.delegate as! MediaOnDemandController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forRow: 0, inSection: 0))
         }
         let verticalRowCount=ceil(super.collectionViewContentSize().height/(layout.height))
