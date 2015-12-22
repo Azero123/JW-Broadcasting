@@ -224,7 +224,15 @@ class SlideShow: SuperCollectionView {
         let SLSlide=SLSlides![index]
         let imageURL=unfold(SLSlide, instructions: ["item","images","pnr","lg"]) as? String
         if ((self.delegate?.isKindOfClass(HomeController.self)) == true){
-            (self.delegate as! HomeController).backgroundImageView.image=imageUsingCache(imageURL!)
+            
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
+                if (view==UIScreen.mainScreen().focusedView){
+                    UIView.transitionWithView((self.delegate as! HomeController).backgroundImageView, duration: 0.8, options: .TransitionCrossDissolve, animations: {
+                        (self.delegate as! HomeController).backgroundImageView.image=imageUsingCache(imageURL!)
+                        }, completion: nil)
+                }
+            }
         }
         
         
@@ -294,7 +302,6 @@ class SlideShow: SuperCollectionView {
         /*
         Code for unfocus effects and unblocking automatic sliding.
         */
-        
         
         for subview in (view.subviews.first!.subviews) {
             if (subview.isKindOfClass(UIImageView.self)){
@@ -372,7 +379,7 @@ class SlideShow: SuperCollectionView {
             }
         }
     }
-    let playerViewController = AVPlayerViewController()
+    let player=SuperMediaPlayer()
     
     override func cellSelect(indexPath:NSIndexPath){
         /*
@@ -399,8 +406,6 @@ class SlideShow: SuperCollectionView {
             index = totalItems-1
         }
         
-        print("index: \(index)")
-        
         /*
         Grab the video url
         make sure it is real
@@ -410,23 +415,8 @@ class SlideShow: SuperCollectionView {
         
         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
         
-        let videosData=unfold("\(pathForSliderData)|settings|WebHomeSlider|slides|\(index)")!.objectForKey("item")!.objectForKey("files") as? NSArray
-        if (videosData != nil){
-            let videoData=videosData?.objectAtIndex((videosData?.count)!-1)
-            let videoURLString=videoData?.objectForKey("progressiveDownloadURL") as! String
-            
-            let videoURL = NSURL(string: videoURLString)
-            let player = AVPlayer(URL: videoURL!)
-            playerViewController.player = player
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerItemDidReachEnd:", name: AVPlayerItemDidPlayToEndTimeNotification, object: player.currentItem)
-            self.window?.rootViewController!.presentViewController(playerViewController, animated: true) {
-                self.playerViewController.player!.play()
-            }
-        }
-    }
-    
-    func playerItemDidReachEnd(notification:NSNotification){
-        playerViewController.dismissViewControllerAnimated(true, completion: nil)
+        player.updatePlayerUsingDictionary(unfold("\(pathForSliderData)|settings|WebHomeSlider|slides|\(index)|item") as! NSDictionary)
+        player.play()
     }
     
     override func layoutForCellAtIndex(indexPath:NSIndexPath, withPreLayout:UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {

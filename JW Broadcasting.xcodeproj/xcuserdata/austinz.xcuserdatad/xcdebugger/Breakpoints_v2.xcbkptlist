@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JW Broadcasting/AppDelegate.swift"
-            timestampString = "471076047.947684"
+            timestampString = "472437023.835493"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "195"
-            endingLineNumber = "195"
+            startingLineNumber = "213"
+            endingLineNumber = "213"
             landmarkName = "applicationWillResignActive(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -294,14 +294,14 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "JW Broadcasting/AudioCategoryController.swift"
-            timestampString = "472203950.976789"
+            filePath = "JW Broadcasting/LatestVideos.swift"
+            timestampString = "472513458.321787"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "224"
-            endingLineNumber = "224"
-            landmarkName = "AudioCategoryController"
-            landmarkType = "3">
+            startingLineNumber = "191"
+            endingLineNumber = "191"
+            landmarkName = "cellSelect(_:)"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

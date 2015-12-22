@@ -412,8 +412,6 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
         return true
     }
     
-    var playerViewController:AVPlayerViewController?=nil
-    
     func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
         /*
         let category="VideoOnDemand"
@@ -433,34 +431,15 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
         
         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
         let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
-        
-        let videoURLString=unfold("\(categoryDataURL)|category|subcategories|\(subcategoryCollectionViews.indexOf(collectionView as! MODSubcategoryCollectionView)!)|media|\(indexPathRow)|files|last|progressiveDownloadURL") as? String
-        if (videoURLString != nil){
-            let videoURL = NSURL(string: videoURLString!)
-            let player = AVPlayer(URL: videoURL!)
-            playerViewController = AVPlayerViewController()
-            playerViewController!.player = player
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerItemDidReachEnd:", name: AVPlayerItemDidPlayToEndTimeNotification, object: player.currentItem)
-            //player.currentItem!.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.New, context: nil)
-        
-            self.presentViewController(playerViewController!, animated: true) {
-                self.playerViewController!.player!.play()
-            }
-        }
+        let player=SuperMediaPlayer()
+        player.updatePlayerUsingDictionary(unfold("\(categoryDataURL)|category|subcategories|\(subcategoryCollectionViews.indexOf(collectionView as! MODSubcategoryCollectionView)!)|media|\(indexPathRow)") as! NSDictionary)
+        player.playIn(self)
         return true
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
         return CGSize(width: 560/1.05, height: 360/1.05)//588,378
-    }
-        
-        
-    func playerItemDidReachEnd(notification:NSNotification){
-        if (playerViewController != nil){
-            //playerViewController?.player!.currentItem?.removeObserver(self, forKeyPath: "status")
-            playerViewController?.dismissViewControllerAnimated(true, completion: nil)
-        }
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

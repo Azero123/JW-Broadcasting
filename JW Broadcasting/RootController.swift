@@ -84,7 +84,7 @@ func languageFromCode(code:String) -> NSDictionary?{
 }
 
 var translatedKeyPhrases:NSDictionary?
-let logoImageView=UIImageView(image: UIImage(named: "JW-White-Background-Blue.png"))
+let logoImageView=UIImageView(image: UIImage(named: "JWOrgLogo.png"))
 let logoLabelView=UILabel()
 
 class rootController: UITabBarController, UITabBarControllerDelegate{
@@ -115,7 +115,7 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         
         if (JWLogo){
             
-            logoLabelView.font=UIFont(name: "jwtv", size: self.tabBar.frame.size.height+60) // Use the font from jw.org to display the jw logo
+            /*logoLabelView.font=UIFont(name: "jwtv", size: self.tabBar.frame.size.height+60) // Use the font from jw.org to display the jw logo
             logoLabelView.frame=CGRect(x: 110, y: 10+10, width: self.tabBar.frame.size.height+60, height: self.tabBar.frame.size.height+60)//initial logo position and size
             logoLabelView.text=""//The unique key code for the JW.org logo
             logoLabelView.textAlignment = .Left
@@ -124,7 +124,10 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
             logoLabelView.frame=CGRect(x: 110, y: 10+10, width: logoLabelView.intrinsicContentSize().width, height: self.tabBar.frame.size.height+60)//corrected position
             
             logoLabelView.textColor=UIColor(colorLiteralRed: 0.3, green: 0.44, blue: 0.64, alpha: 1.0) // JW blue color
-            self.tabBar.addSubview(logoLabelView)
+            self.tabBar.addSubview(logoLabelView)*/
+            //logoImageView.backgroundColor=UIColor.blueColor()
+            logoImageView.frame=CGRect(x: 110, y: 10+10, width: 110, height: 110)
+            self.tabBar.addSubview(logoImageView)
         
         }
         
@@ -381,16 +384,13 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
             self.setViewControllers(self.viewControllers?.reverse(), animated: true)
             if (JWLogo){
                 if (textDirection == .RightToLeft){
-                    logoLabelView.textAlignment = .Right
-                    logoLabelView.frame=CGRect(x: self.tabBar.frame.size.width-logoLabelView.frame.size.width, y: -40+10, width: self.tabBar.frame.size.height+60, height: self.tabBar.frame.size.height+60)
-                    
-                    //logoLabelView.frame=CGRect(x: self.tabBar.frame.size.width-110-logoLabelView.frame.size.width, y: 10, width: logoLabelView.intrinsicContentSize().width+200, height: self.tabBar.frame.size.height+60)
+                    logoImageView.frame=CGRect(x: self.tabBar.frame.size.width-logoImageView.frame.size.width-110, y: 10+10, width: 110, height: 110)
                 }
                 else {
                     logoLabelView.textAlignment = .Left
                     
-                    logoLabelView.frame=CGRect(x: 110, y: logoLabelView.frame.origin.y+10, width: logoLabelView.intrinsicContentSize().width+200, height: self.tabBar.frame.size.height+60)
-                    //logoLabelView.frame=CGRect(x: 110, y: 10, width: self.tabBar.frame.size.height+60, height: self.tabBar.frame.size.height+60)
+                    logoImageView.frame=CGRect(x: 110, y: 10+10, width: 110, height: 110)
+                    print(logoImageView.frame)
                 }
             }
         }
@@ -467,14 +467,16 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         
         if (false){
             var subviews:Array<UIView>=self.tabBar.subviews
-            logoLabelView.hidden=false
+            //logoLabelView.hidden=false
+            logoImageView.hidden=false
             while subviews.first != nil {
                 let subview = subviews.first
                 subviews.removeFirst()
                 subviews.appendContentsOf(subview!.subviews)
                 if (subview!.isKindOfClass(NSClassFromString("UITabBarButton")!)){
-                    if (CGRectIntersectsRect((subview?.frame)!, logoLabelView.frame)){
-                        logoLabelView.hidden=true
+                    if (CGRectIntersectsRect((subview?.frame)!, logoImageView.frame)){
+                        //logoLabelView.hidden=true
+                        logoImageView.hidden=true
                     }
                 }
             }

@@ -142,7 +142,14 @@ class ChannelSelector: SuperCollectionView {
         if (channelMeta != nil){
             let imageURL=unfold(channelMeta, instructions: ["images","wss","sm"]) as? String
             if ((self.delegate?.isKindOfClass(HomeController.self)) == true){
-                (self.delegate as! HomeController).backgroundImageView.image=imageUsingCache(imageURL!)
+                
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
+                    if (view==UIScreen.mainScreen().focusedView){
+                        UIView.transitionWithView((self.delegate as! HomeController).backgroundImageView, duration: 0.8, options: .TransitionCrossDissolve, animations: {
+                            (self.delegate as! HomeController).backgroundImageView.image=imageUsingCache(imageURL!)
+                            }, completion: nil)
+                    }
+                }
             }
         }
         
@@ -234,7 +241,6 @@ class ChannelSelector: SuperCollectionView {
     var readyTimer:NSTimer?=nil
     
     override func cellShouldLoseFocus(view:UIView, indexPath:NSIndexPath){
-        
         self.player?.pause()
         
         for subview in (view.subviews.first!.subviews) {

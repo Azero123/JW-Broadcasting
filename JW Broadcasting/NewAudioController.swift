@@ -24,7 +24,6 @@ class NewAudioController: UIViewController, UICollectionViewDelegate, UICollecti
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        (self.tabBarController as! rootController).disableNavBarTimeOut=true
         
         backgroundImageView.alpha=0.75
         BackgroundEffectView.alpha=0.99
@@ -45,6 +44,7 @@ class NewAudioController: UIViewController, UICollectionViewDelegate, UICollecti
             renewContent()
         }
         previousLanguageCode=languageCode
+        (self.tabBarController as! rootController).disableNavBarTimeOut=true
         
         self.view.hidden=false
     }
@@ -115,6 +115,8 @@ class NewAudioController: UIViewController, UICollectionViewDelegate, UICollecti
         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
         let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
         
+        let extraction=titleExtractor(unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|name") as! String)
+        
         for subview in cell.contentView.subviews {
             if (subview.isKindOfClass(UIActivityIndicatorView.self)){
                 subview.transform = CGAffineTransformMakeScale(2.0, 2.0)
@@ -143,7 +145,12 @@ class NewAudioController: UIViewController, UICollectionViewDelegate, UICollecti
                 }
             }
             if (subview.isKindOfClass(UILabel.self)){
-                (subview as! UILabel).text=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|name") as! NSString as String
+                if ((subview as! UILabel).tag==0){
+                    (subview as! UILabel).text=extraction["correctedTitle"]
+                }
+                if ((subview as! UILabel).tag==1){
+                    (subview as! UILabel).text=extraction["subTitle"]
+                }
             }
         }
         return cell
@@ -194,33 +201,13 @@ class NewAudioController: UIViewController, UICollectionViewDelegate, UICollecti
         */
         
         if (context.nextFocusedView != nil && context.previouslyFocusedView?.superview!.isKindOfClass(SuperCollectionView.self) == true && context.previouslyFocusedIndexPath != nil){
-            if (self == context.nextFocusedView) {
-                /*[coordinator addCoordinatedAnimations:^{
-                // focusing animations
-                } completion:^{
-                // completion
-                }];*/
-            } else if (self == context.previouslyFocusedView) {
-                /*[coordinator addCoordinatedAnimations:^{
-                // unfocusing animations
-                } completion:^{
-                // completion
-                }];*/
-            }
-            (context.previouslyFocusedView?.superview as! SuperCollectionView).cellShouldLoseFocus(context.previouslyFocusedView!, indexPath: context.previouslyFocusedIndexPath!)
-            coordinator.addCoordinatedAnimations({
-                }, completion: nil)
             
+            (context.previouslyFocusedView?.superview as! SuperCollectionView).cellShouldLoseFocus(context.previouslyFocusedView!, indexPath: context.previouslyFocusedIndexPath!)
         }
         if (context.nextFocusedView?.superview!.isKindOfClass(SuperCollectionView.self) == true && context.nextFocusedIndexPath != nil){
             
-            
-            coordinator.addCoordinatedAnimations({
-                
-                (context.nextFocusedView?.superview as! SuperCollectionView).cellShouldFocus(context.nextFocusedView!, indexPath: context.nextFocusedIndexPath!)
-                (context.nextFocusedView?.superview as! SuperCollectionView).cellShouldFocus(context.nextFocusedView!, indexPath: context.nextFocusedIndexPath!, previousIndexPath: context.previouslyFocusedIndexPath)
-                
-                }, completion: nil)
+            (context.nextFocusedView?.superview as! SuperCollectionView).cellShouldFocus(context.nextFocusedView!, indexPath: context.nextFocusedIndexPath!)
+            (context.nextFocusedView?.superview as! SuperCollectionView).cellShouldFocus(context.nextFocusedView!, indexPath: context.nextFocusedIndexPath!, previousIndexPath: context.previouslyFocusedIndexPath)
         }
     }
     

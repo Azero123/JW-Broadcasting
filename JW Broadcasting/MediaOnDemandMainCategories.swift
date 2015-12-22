@@ -42,9 +42,15 @@ class MediaOnDemandMainCategories: SuperCollectionView {
         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
         let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
         if ((self.delegate?.isKindOfClass(MediaOnDemandController.self)) == true){
-            UIView.transitionWithView((self.delegate as! MediaOnDemandController).backgroundImageView, duration: 0.25, options: .TransitionCrossDissolve, animations: {
-                (self.delegate as! MediaOnDemandController).backgroundImageView.image=imageUsingCache((unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|images|wss|lg") as? String)!)
-                }, completion: nil)
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
+                if (view==UIScreen.mainScreen().focusedView){
+                    UIView.transitionWithView((self.delegate as! MediaOnDemandController).backgroundImageView, duration: 0.8, options: .TransitionCrossDissolve, animations: {
+                        
+                        (self.delegate as! MediaOnDemandController).backgroundImageView.image=imageUsingCache((unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|images|wss|lg") as? String)!)
+                        }, completion: nil)
+                }
+            }
             
         }
         

@@ -145,7 +145,14 @@ class LatestVideos: SuperCollectionView {
         let imageURL=unfold(videoData, instructions: ["images","lsr","md"]) as? String
         if (imageURL != nil){
             if ((self.delegate?.isKindOfClass(HomeController.self)) == true){
-                (self.delegate as! HomeController).backgroundImageView.image=imageUsingCache(imageURL!)
+                
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
+                    if (view==UIScreen.mainScreen().focusedView){
+                        UIView.transitionWithView((self.delegate as! HomeController).backgroundImageView, duration: 0.8, options: .TransitionCrossDissolve, animations: {
+                            (self.delegate as! HomeController).backgroundImageView.image=imageUsingCache(imageURL!)
+                            }, completion: nil)
+                    }
+                }
             }
         }
         
@@ -176,67 +183,15 @@ class LatestVideos: SuperCollectionView {
             }
         }
     }
-    let playerViewController = AVPlayerViewController()
+    let player=SuperMediaPlayer()
     
     override func cellSelect(indexPath: NSIndexPath) {
         
         let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1"
-        let videoURLString=unfold("\(latestVideosPath)|category|media|\(indexPath.row)|files|last|progressiveDownloadURL")! as? String
-        
-        print((unfold("\(latestVideosPath)|category|media|\(indexPath.row)|primaryCategory") as! String))//primaryCategory
-        
-        
-        let videoURL = NSURL(string: videoURLString!)
-        let player = AVPlayer(URL: videoURL!)
-        
-        fetchDataUsingCache(base+"/"+version+"/categories/"+languageCode+"/\(unfold("\(latestVideosPath)|category|media|\(indexPath.row)|primaryCategory")!)?detailed=1", downloaded: {
-            dispatch_async(dispatch_get_main_queue()) {
-                
-                print("downloaded")
-                
-                
-                var itunesMetaData:Dictionary<String,protocol<NSCopying,NSObjectProtocol>>=[:]
-                
-                itunesMetaData[AVMetadataiTunesMetadataKeySongName]=unfold("\(latestVideosPath)|category|media|\(indexPath.row)|title") as? String
-                itunesMetaData[AVMetadataiTunesMetadataKeyGenreID]="\(unfold(base+"/"+version+"/categories/"+languageCode+"/\(unfold("\(latestVideosPath)|category|media|\(indexPath.row)|primaryCategory")!)?detailed=1|category|name")!)"
-                //itunesMetaData[AVMetadataiTunesMetadataKeyContentRating]="G"
-                itunesMetaData[AVMetadataiTunesMetadataKeyDescription]="\nPublished by Watchtower Bible and Tract Society of New York, Inc.\n© 2016 Watch Tower Bible and Tract Society of Pennsylvania. All rights reserved."
-                //unfold("\(latestVideosPath)|category|media|\(indexPath.row)|description") as? String
-                itunesMetaData[AVMetadataiTunesMetadataKeyCopyright]="Copyright © 2016 Watch Tower Bible and Tract Society of Pennsylvania"
-                itunesMetaData[AVMetadataiTunesMetadataKeyPublisher]="Watchtower Bible and Tract Society of New York, Inc."
-                let imageURL=unfold("\(latestVideosPath)|category|media|\(indexPath.row)|images|lsr|md") as? String
-                let image=UIImagePNGRepresentation(imageUsingCache(imageURL!)!)
-                if (image != nil){ itunesMetaData[AVMetadataiTunesMetadataKeyCoverArt]=NSData(data: image!) }
-                
-                
-                
-                for key in NSDictionary(dictionary: itunesMetaData).allKeys {
-                    
-                    let metadataItem = AVMutableMetadataItem()
-                    metadataItem.locale = NSLocale.currentLocale()
-                    metadataItem.key = key as! String
-                    metadataItem.keySpace = AVMetadataKeySpaceiTunes
-                    metadataItem.value = itunesMetaData[key as! String]
-                    player.currentItem!.externalMetadata.append(metadataItem)
-                    
-                }
-            }
-        })
+        let dict=unfold("\(latestVideosPath)|category|media|\(indexPath.row)") as! NSDictionary
+        player.updatePlayerUsingDictionary(dict)
+        player.play()
         
         
-        
-        self.playerViewController.player = player
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerItemDidReachEnd:", name: AVPlayerItemDidPlayToEndTimeNotification, object: player.currentItem)
-        self.window?.rootViewController!.presentViewController(self.playerViewController, animated: true) {
-            self.playerViewController.player!.play()
-        }
-        
-        
-        
-        
-    }
-    
-    func playerItemDidReachEnd(notification:NSNotification){
-        playerViewController.dismissViewControllerAnimated(true, completion: nil)
     }
 }

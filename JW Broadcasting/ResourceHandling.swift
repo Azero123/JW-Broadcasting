@@ -688,8 +688,23 @@ func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
                     print(error)
                 }
             }
-
+            if (sourceData != nil && source?.isKindOfClass(NSDictionary.self) == false){
+                //NSXMLParser(data: sourceData!).parse()
+                print("xml last resort")
+                
+                //print(NSString(data: sourceData!, encoding: NSUTF8StringEncoding))
+                
+                //let parser=RSSParser(data: sourceData!)
+                //parser.parse()
+                //print(parser.rootNode)
+                
+                
+            }
             
+            if ((source?.isKindOfClass(NSDictionary.self)) == true){
+                
+                print((source as! NSDictionary).allKeys)
+            }
         }
     }
     /* This method failed to return an NSObject but we have to return something and hopefully not cause an error. */
@@ -769,7 +784,7 @@ func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
     var data:NSData? = nil
     
     let trueURL=NSURL(string: fileURL)!
-    let storedPath=cacheDirectory!+"/"+trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-")
+    var storedPath=cacheDirectory!+"/"+trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-")
     
     if (usingCache){
         if (logConnections){
@@ -850,6 +865,20 @@ func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
             badConnection=true
         }
     }
+    
+    storedPath=NSBundle.mainBundle().pathForResource(trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-").componentsSeparatedByString(".").first, ofType: trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-").componentsSeparatedByString(".").last)!
+    
+    let stored=NSData(contentsOfFile: storedPath)
+    cachedFiles[fileURL]=stored
+    data=stored
+    
+    let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+    dispatch_async(dispatch_get_global_queue(priority, 0)) {
+        dispatch_async(dispatch_get_main_queue()) {
+            checkBranchesFor(fileURL)
+        }
+    }
+    
     return data! //THIS CAN NOT BE CALLED this is just for the compiler
 }
 
@@ -962,4 +991,93 @@ func imageUsingCache(imageURL:String) -> UIImage?{
     return nil
 }
 
+class XMLParser:NSXMLParser, NSXMLParserDelegate {
+    override init(data:NSData) {
+        super.init(data: data)
+        self.delegate = self
+        print("init")
+    }
+    func parserDidStartDocument(parser: NSXMLParser) {
+        print("start document")
+    }
+    
+    func parser(parser: NSXMLParser, foundElementDeclarationWithName elementName: String, model: String) {
+        print("element \(elementName)")
+    }
+    
+    func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
+        print(parseError)
+    }
+    
+    func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
+        print("<\(elementName)>")
+    }
+}
+
+class RSSParser:NSXMLParser, NSXMLParserDelegate {
+    var rootNode:XMLNode?=nil
+    var buildNode:XMLNode?=nil
+    override init(data:NSData) {
+        super.init(data: data)
+        self.delegate = self
+        print("init")
+    }
+    func parserDidStartDocument(parser: NSXMLParser) {
+        print("start document")
+    }
+    
+    
+    
+    
+    
+    
+    func parser(parser: NSXMLParser,  didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
+        let node=XMLNode()
+        node.name=elementName
+        node.attributes=attributeDict
+        buildNode?.inside.append(node)
+        buildNode=node
+        if (rootNode == nil){
+            rootNode=node
+        }
+    }
+    
+    func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+        buildNode=buildNode?.parent
+    }
+    
+    
+    func parser(parser: NSXMLParser, foundElementDeclarationWithName elementName: String, model: String) {
+        print("element \(elementName)")
+    }
+    
+    func parser(parser: NSXMLParser, foundUnparsedEntityDeclarationWithName name: String, publicID: String?, systemID: String?, notationName: String?) {
+        print("unparse <\(name)>")
+    }
+    
+    func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
+        print(parseError)
+    }
+    func dicionary() -> NSDictionary {
+        
+        var dict = NSMutableDictionary()
+        
+        
+        
+        return dict
+    }
+}
+
+class XMLNode {
+    
+    struct attribute {
+        var name = ""
+        var value = ""
+    }
+    
+    var name=""
+    var attributes:[String : String]=[:]
+    var inside:[AnyObject]=[]
+    var parent:XMLNode?=nil
+}
 

@@ -9,15 +9,16 @@
 import UIKit
 import AVKit
 
-class AudioCategoryController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class AudioCategoryController: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     var categoryIndex=0
     var previousLanguageCode=languageCode
     let images=["newsongs-singtojehovah","piano-singtojehovah","vocals-singtojehovah","kingdommelodies","drama","readings"]
-    var playAll=true
+    var playAll=false
     var shuffle=false
     var currentSongID=0
     var nextSongID=0
+    var smartPlayer = SuperMediaPlayer()
     
     @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var BackgroundEffectView: UIVisualEffectView!
@@ -33,16 +34,11 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
         shuffleButton.clipsToBounds=false
         shuffleButton.titleLabel?.clipsToBounds=false
         
-        playerViewController = AVPlayerViewController()
-        player = AVQueuePlayer()
-        playerViewController!.player = player
-        
         let category="Audio"
         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
         let AudioDataURL=categoriesDirectory+"/"+category+"?detailed=1"
         
-        let title=unfold("\(AudioDataURL)|category|subcategories|\(categoryIndex)|name") as! String
-        
+        let title=categoryTitleCorrection(unfold("\(AudioDataURL)|category|subcategories|\(categoryIndex)|name") as! String)
         self.categoryTitle.text=title.componentsSeparatedByString("-")[0]
         if (title.componentsSeparatedByString("-").count>1){
             self.subLabel.text=title.componentsSeparatedByString("-")[1]
@@ -51,12 +47,58 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
             self.subLabel.text=""
         }
         self.categoryImage.image=UIImage(named: images[categoryIndex])
-        self.backgroundImageView.image=UIImage(named: images[categoryIndex])
+        //self.backgroundImageView.image=UIImage(named: images[categoryIndex])
         self.categoryImage.contentMode = .ScaleToFill
         self.categoryImage.layoutIfNeeded()
+        self.categoryImage.layer.shadowColor=UIColor.blackColor().CGColor
+        self.categoryImage.layer.shadowOpacity=0.25
+        self.categoryImage.layer.shadowRadius=10
+        
+        let playAllLabel=UILabel(frame: CGRect(x: 0, y: 70, width: 100, height: 50))
+        playAllLabel.text=unfold("\(base)/\(version)/translations/\(languageCode)|translations|\(languageCode)|itemPlayAllTitle") as? String
+        self.playAllButton.addSubview(playAllLabel)
+        playAllLabel.font=UIFont.preferredFontForTextStyle(UIFontTextStyleCaption2)
+        playAllLabel.center=CGPoint(x: self.playAllButton.frame.size.width/2, y: playAllLabel.center.y)
+        playAllLabel.textAlignment = .Center
+        
+        let shuffleLabel=UILabel(frame: CGRect(x: 0, y: 70, width: 100, height: 50))
+        shuffleLabel.text=unfold("\(base)/\(version)/translations/\(languageCode)|translations|\(languageCode)|itemShuffleTitle") as? String
+        self.shuffleButton.addSubview(shuffleLabel)
+        shuffleLabel.font=UIFont.preferredFontForTextStyle(UIFontTextStyleCaption2)
+        shuffleLabel.center=CGPoint(x: self.playAllButton.frame.size.width/2, y: playAllLabel.center.y)
+        shuffleLabel.textAlignment = .Center
+        
+        playAllButton.addTarget(self, action: "playAllButton:", forControlEvents: UIControlEvents.PrimaryActionTriggered)
+        shuffleButton.addTarget(self, action: "shuffleButton:", forControlEvents: UIControlEvents.PrimaryActionTriggered)
+        
+        
+        let guide=UIFocusGuide()
+        guide.preferredFocusedView=playAllButton
+        //guide.layoutFrame=CGRect(x: -100, y: -500, width: 200, height: 800)
+        playAllButton.addLayoutGuide(guide)
+        guide.trailingAnchor.constraintEqualToAnchor(playAllButton.trailingAnchor, constant: 0).active=true
+        guide.topAnchor.constraintEqualToAnchor(playAllButton.topAnchor, constant: -1000).active=true
+        guide.bottomAnchor.constraintEqualToAnchor(playAllButton.bottomAnchor, constant: 0).active=true
+        guide.leadingAnchor.constraintEqualToAnchor(playAllButton.leadingAnchor, constant: 0).active=true
+        
+    }
+    
+    override func pressesBegan(presses: Set<UIPress>, withEvent event: UIPressesEvent?) {
+        print("began")
+        for item in presses {
+            if item.type == .Menu {
+                print("start fade out")
+                fadeVolume()
+                playAll=false
+                shuffle=false
+            }
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
+        print("view did appear")
+        playAll=true
+        shuffle=false
         if (previousLanguageCode != languageCode){
             renewContent()
         }
@@ -74,9 +116,6 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
     func renewContent(){
         
         //http://mediator.jw.org/v1/categories/E/Audio?detailed=1
-        let category="Audio"
-        let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
-        let AudioDataURL=categoriesDirectory+"/"+category+"?detailed=1"
         self.categoryImage.image=UIImage(named: images[categoryIndex])
         self.backgroundImageView.image=UIImage(named: images[categoryIndex])
         self.categoryImage.contentMode = .ScaleToFill
@@ -113,9 +152,48 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
         let category="Audio"
         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
         let AudioDataURL=categoriesDirectory+"/"+category+"?detailed=1"
-        //print(unfold("\(AudioDataURL)|category|subcategories|\(1)|media|\(indexPath.row)|title"))
-        cell.textLabel?.text = unfold("\(AudioDataURL)|category|subcategories|\(categoryIndex)|media|\(indexPath.row)|title") as? String
+        
+            let title=unfold("\(AudioDataURL)|category|subcategories|\(categoryIndex)|media|\(indexPath.row)|title") as? String
+        
+        
+        let extraction=titleExtractor(title!)
+        
+        print(extraction)
+        
+        var visualSongNumber:String?=nil
+        if (extraction["visualNumber"] != nil){
+            visualSongNumber=extraction["visualNumber"]!//Int(extraction["visualNumber"]!)
+        }
+        
+        let attributedString=NSMutableAttributedString(string: "\(extraction["correctedTitle"]!)\n", attributes:  nil)
         let imageURL=unfold(nil, instructions: ["\(AudioDataURL)","category","subcategories",categoryIndex,"media",indexPath.row,"images",["sqr","sqs","cvr",""],["sm","md","lg","xs",""]]) as? String
+        if (visualSongNumber != nil && (unfold("\(AudioDataURL)|category|subcategories|\(categoryIndex)|name") as! String).containsString("Sing to Jehovah")){
+            cell.textLabel?.numberOfLines=2
+            if (languageCode == "E"){
+                let attributes=[NSFontAttributeName : UIFont.preferredFontForTextStyle(UIFontTextStyleCaption1),NSForegroundColorAttributeName:UIColor.grayColor()]
+                attributedString.appendAttributedString(NSMutableAttributedString(string: "Song: \(visualSongNumber!)", attributes: attributes))
+            }
+            else {
+                attributedString.appendAttributedString(NSMutableAttributedString(string: "\(visualSongNumber!)", attributes: [NSFontAttributeName : UIFont.preferredFontForTextStyle(UIFontTextStyleCaption1),NSForegroundColorAttributeName:UIColor.grayColor()]))
+            }
+            
+            if (extraction["parentheses"] != nil){
+                attributedString.appendAttributedString(NSMutableAttributedString(string: "\(extraction["parentheses"]!)", attributes: [NSFontAttributeName : UIFont.preferredFontForTextStyle(UIFontTextStyleCaption1),NSForegroundColorAttributeName:UIColor.grayColor()]))
+            }
+            //[NSFontAttributeName : UIFont.preferredFontForTextStyle(UIFontTextStyleCaption1),NSForegroundColorAttributeName:UIColor.grayColor()]
+            cell.textLabel?.attributedText=attributedString
+        }
+        else if (extraction["parentheses"] != nil){
+            cell.textLabel?.numberOfLines=2
+            attributedString.appendAttributedString(NSMutableAttributedString(string: "\(extraction["parentheses"]!)", attributes: [NSFontAttributeName : UIFont.preferredFontForTextStyle(UIFontTextStyleCaption1),NSForegroundColorAttributeName:UIColor.grayColor()]))
+            cell.textLabel?.attributedText=attributedString
+        }
+        else {
+            //cell.textLabel?.numberOfLines=0
+            cell.textLabel?.text=attributedString.string
+        }
+        
+        cell.detailTextLabel?.font=UIFont.preferredFontForTextStyle(UIFontTextStyleBody)//cell.detailTextLabel?.font.fontWithSize(30)
         cell.detailTextLabel?.text=unfold("\(AudioDataURL)|category|subcategories|\(categoryIndex)|media|\(indexPath.row)|durationFormattedHHMM") as? String
         //cell.imageView?.image=UIImage(named: "Singing")
         if (imageURL != nil){
@@ -136,24 +214,17 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 100
+        return 90
     }
     
-    var playerViewController:AVPlayerViewController? = nil
-    var player:AVQueuePlayer? = nil
-    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        player?.removeAllItems()
+        smartPlayer.player.removeAllItems()
         nextSongID=indexPath.row
+        playAll=false
+        shuffle=false
         playNextSong()
         
-        
-        self.presentViewController(playerViewController!, animated: true) {
-            self.playerViewController!.player!.play()
-            
-            
-        }
-        
+        smartPlayer.playIn(self)
         
     }
     
@@ -162,14 +233,75 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
         let category="Audio"
         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
         let AudioDataURL=categoriesDirectory+"/"+category+"?detailed=1"
-        let videoURLString=(unfold("\(AudioDataURL)|category|subcategories|\(categoryIndex)|media|\(nextSongID)|files|last|progressiveDownloadURL") as! String)
         currentSongID=nextSongID
         
         
         //player?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.Prior, context: nil)
-
+            
+            smartPlayer.nextDictionary=unfold("\(AudioDataURL)|category|subcategories|\(categoryIndex)|media|\(nextSongID)") as? NSDictionary
+        smartPlayer.play()
         
-        let videoURL = NSURL(string: videoURLString)
+        
+        
+    }
+    
+    
+    func fadeVolume(){
+        
+        self.smartPlayer.player.volume=(self.smartPlayer.player.volume)-0.05
+        if (self.smartPlayer.player.volume>0){
+            self.performSelector("fadeVolume", withObject: nil, afterDelay: 0.02)
+        }
+        else {
+            self.performSelector("restoreVolume", withObject: nil, afterDelay: 0.5)
+        }
+    }
+    func restoreVolume(){
+        self.smartPlayer.player.volume=1
+    }
+    
+    @IBAction func playAllButton(sender: AnyObject) {
+        playAll=true
+        nextSongID=0
+        playNextSong()
+        
+        
+        self.smartPlayer.finishedPlaying = {() in
+            
+            self.nextSongID++
+            let category="Audio"
+            let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
+            let AudioDataURL=categoriesDirectory+"/"+category+"?detailed=1"
+            self.nextSongID=Int(arc4random_uniform(UInt32(unfold("\(AudioDataURL)|category|subcategories|\(self.categoryIndex)|media|count") as! Int)) + 1)
+            
+            self.playNextSong()
+        }
+        
+        self.smartPlayer.playIn(self)
+    }
+    @IBAction func shuffleButton(sender: AnyObject) {
+        playAll=true
+        shuffle=true
+        
+        self.smartPlayer.finishedPlaying = {() in
+            
+            let category="Audio"
+            let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
+            let AudioDataURL=categoriesDirectory+"/"+category+"?detailed=1"
+            self.nextSongID=Int(arc4random_uniform(UInt32(unfold("\(AudioDataURL)|category|subcategories|\(self.categoryIndex)|media|count") as! Int)) + 1)
+            
+            self.playNextSong()
+        }
+        
+        self.smartPlayer.playIn(self)
+    }
+    
+    func playerItemDidReachEnd(notification:NSNotification){
+        
+        let category="Audio"
+        let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
+        let AudioDataURL=categoriesDirectory+"/"+category+"?detailed=1"
+        
         if (playAll){
             nextSongID=currentSongID+1
             if (shuffle){
@@ -179,116 +311,19 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
             if (nextSongID>=unfold("\(AudioDataURL)|category|subcategories|\(categoryIndex)|media|count") as! Int){
                 nextSongID=0
             }
-            
-            
-            let nextVideoURLString=(unfold("\(AudioDataURL)|category|subcategories|\(categoryIndex)|media|\(nextSongID)|files|last|progressiveDownloadURL") as! String)
-            let newItem=AVPlayerItem(URL: NSURL(string: nextVideoURLString)!)
-            player!.insertItem(newItem, afterItem: nil)
-            newItem.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.Prior, context: nil)
-            
-            
-            
-            
-            
-            
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerItemDidReachEnd:", name: AVPlayerItemDidPlayToEndTimeNotification, object: newItem)
-        }
-        else {
-            playerViewController?.dismissViewControllerAnimated(true, completion: nil)
-        }
-    }
-    @IBAction func playAllButton(sender: AnyObject) {
-        if (playAll==false){
-            playAll=true
-        }
-        else {
-            playAll=false
-        }
-    }
-    @IBAction func shuffleButton(sender: AnyObject) {
-        if (shuffle==false){
-            shuffle=true
-        }
-        else {
-            shuffle=false
-        }
-    }
-    
-    func playerItemDidReachEnd(notification:NSNotification){
-        if (playerViewController != nil){
-            //playerViewController?.player!.currentItem?.removeObserver(self, forKeyPath: "status")
-            //playerViewController?.dismissViewControllerAnimated(true, completion: nil)
+            print("current song: \(currentSongID) \(nextSongID)")
             playNextSong()
-        }
-    }
-    
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        if (object != nil && object?.isKindOfClass(AVPlayerItem.self)==true && (object as! AVPlayerItem) == player?.currentItem && keyPath! == "status"){
-            object?.removeObserver(self, forKeyPath: "status")
-            //https://www.jw.org/apps/E_RSSMEDIAMAG?rln=E&rmn=wp&rfm=m4b
-            if (player?.status == .ReadyToPlay){
-                var isAudio = false
-                
-                for track in (player?.currentItem!.tracks)! {
-                    if (track.assetTrack.mediaType == AVMediaTypeAudio){
-                        isAudio=true
-                    }
-                }
-                
-                if (isAudio){
-                    let category="Audio"
-                    let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
-                    let AudioDataURL=categoriesDirectory+"/"+category+"?detailed=1"
-                    let imageURL=unfold(nil, instructions: ["\(AudioDataURL)","category","subcategories",self.categoryIndex,"media",currentSongID,"images",["sqr","sqs","cvr",""],["lg","sm","md","xs",""]]) as? String
-                    
-                    
-                    let image=imageUsingCache(imageURL!)
-                    let imageView=UIImageView(image: image)
-                    self.playerViewController?.view.backgroundColor=UIColor.clearColor()
-                    self.playerViewController?.contentOverlayView?.backgroundColor=UIColor.clearColor()
-                    
-                    let subviews=NSMutableArray(array: (self.playerViewController?.view.subviews)!)
-                    
-                    while subviews.count>0{
-                        let subview=subviews.firstObject as! UIView
-                        subviews.addObjectsFromArray(subview.subviews)
-                        subview.backgroundColor=UIColor.clearColor()
-                        subviews.removeObjectAtIndex(0)
-                        
-                    }
-                    
-                    imageView.layer.shadowColor=UIColor.blackColor().CGColor
-                    imageView.layer.shadowOpacity=0.5
-                    imageView.layer.shadowRadius=20
-                    
-                    imageView.center=(self.playerViewController?.contentOverlayView!.center)!
-                    for subview in (self.playerViewController?.contentOverlayView?.subviews)! {
-                        subview.removeFromSuperview()
-                    }
-                    
-                    let backgroundImage=UIImageView(image: image)
-                    backgroundImage.frame=(self.playerViewController?.contentOverlayView?.bounds)!
-                    self.playerViewController?.contentOverlayView?.addSubview(backgroundImage)
-                    
-                    let backgroundEffect=UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
-                    backgroundEffect.frame=(self.playerViewController?.contentOverlayView?.bounds)!
-                    self.playerViewController?.contentOverlayView?.addSubview(backgroundEffect)
-                    
-                    self.playerViewController?.contentOverlayView?.addSubview(imageView)
-                    
-                    let label=UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.width, height: 50))
-                    label.text=unfold(nil, instructions: ["\(AudioDataURL)","category","subcategories",self.categoryIndex,"media",currentSongID,"title"]) as? String
-                    label.center=CGPoint(x: imageView.center.x, y: imageView.center.y+imageView.frame.size.height/2+50)
-                    label.textAlignment = .Center
-                    label.font=UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
-                    //title 3
-                    self.playerViewController?.contentOverlayView?.addSubview(label)
-                    
-                }
-            }
-            //player?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.New, context: nil)
+            
         }
         
+    }
+    
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        super.prepareForSegue(segue, sender: sender)
+        print("segued in")
+        playAll=true
+        shuffle=false
     }
 
 }
