@@ -411,8 +411,10 @@ func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?, usingCache:B
     }
 }
 
-
 /*Inline data requests.*/
+
+
+
 
 
 func unfold(instruction:String)-> AnyObject?{
@@ -426,6 +428,98 @@ func unfold(instruction:String)-> AnyObject?{
     let instructions=NSString(string: instruction).componentsSeparatedByString("|")
     return unfold(nil, instructions: instructions)
 }
+
+
+
+func unfoldArray(from:NSArray, instructions:[AnyObject]) -> AnyObject?{
+    if (testLogSteps){
+        print("NSArray.objectAtIndex(\(instructions[0]))")
+    }
+    
+    var source:AnyObject?=nil
+    
+    if (instructions[0].isKindOfClass(NSString.self) == true){
+        let stringval=instructions[0] as! String
+        if (stringval.lowercaseString == "last"){
+            if (from.count>0){
+                source=from.objectAtIndex(from.count-1)
+            }
+            else {
+                source=nil
+            }
+        }
+        else if (stringval.lowercaseString == "first"){
+            if (from.count>0){
+                source=from.objectAtIndex(0)
+            }
+            else {
+                source=nil
+            }
+        }
+        else if (stringval.lowercaseString == "count"){
+            source=from.count
+        }
+        else {
+            let i=Int((stringval as NSString).intValue)
+            if (from.count>i&&i>=0){
+                source=from.objectAtIndex(i) // Unfold the NSArray
+            }
+        }
+    }
+    else if (instructions[0].isKindOfClass(NSNumber.self) == true){
+        let i=Int((instructions[0] as! NSNumber))
+        if (from.count>i&&i>=0){
+            source=from.objectAtIndex(i) // Unfold the NSArray
+        }
+    }
+    else if (instructions[0].isKindOfClass(NSArray.self) == true) {
+        for instruction in instructions[0] as! NSArray {
+            let result=unfoldArray(from, instructions: [instruction])
+            if (result != nil){
+                return result
+            }
+        }
+    }
+    else {
+        print("unknown type for unfolding array:\(instructions[0].dynamicType)")
+    }
+    return source
+}
+
+func unfoldDictionary(from:NSDictionary, instructions:[AnyObject]) -> AnyObject? {
+    
+    if (testLogSteps){
+        print("NSDictionary.objectForKey(\(instructions[0])) \(from.allKeys) \(instructions[0].dynamicType)")
+    }
+    
+    
+    
+    if (from.objectForKey(instructions[0]) != nil){
+        return from.objectForKey(instructions[0])
+    }
+    else if (instructions[0].isKindOfClass(NSArray.self) == true) {
+        for instruction in instructions[0] as! NSArray  {
+            
+            let result=from.objectForKey(instruction)
+            
+            if (result != nil){
+                if (testLogSteps){
+                    print("NSDictionary.objectForKey(\(instruction)) success")
+                }
+                return from.objectForKey(instruction) // Unfold the NSDictionary
+            }
+            if ((instruction as! String)==""){
+                return from.objectForKey(from.allKeys.first!)
+            }
+            
+            if (testLogSteps){
+                print("NSDictionary.objectForKey(\(instruction)) failed")
+            }
+        }
+    }
+    return nil
+}
+
 func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
     /*
     This method is designed to make handling multilayered dictionaries, array or other forms of content much easier.
@@ -442,28 +536,24 @@ func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
     var source:AnyObject?=nil
     
     if (from?.isKindOfClass(NSDictionary.self) == true){ //The item to process is known already as an NSDictionary
-        if (testLogSteps){
-            print("from if NSDictionary")
-        }
-        source=(from as! NSDictionary).objectForKey(instructions[0]) // Unfold the NSDictionary
+        
+        source=unfoldDictionary(from as! NSDictionary, instructions:  instructions)
+        
     }
-    else if (from?.isKindOfClass(NSArray.self) == true){ //The item to process is known already as an NSArray
+    else if (from?.isKindOfClass(NSArray.self) == true) {//The item to process is known already as an NSArray
+        source=unfoldArray(from as! NSArray, instructions: instructions)
+    }
+    else if (from?.isKindOfClass(NSString.self) == true){
         if (testLogSteps){
-            print("from if NSArray")
+            print("from \(instructions[0]) is NSString")
         }
-        let stringval=instructions[0] as! String
-        if (stringval.lowercaseString == "last"){
-            source=(from as! NSArray).objectAtIndex((from as! NSArray).count)
+        source=(from as! NSString)
+    }
+    else if (from?.isKindOfClass(NSNumber.self) == true){
+        if (testLogSteps){
+            print("from \(instructions[0]) is NSNumber")
         }
-        else if (stringval.lowercaseString == "first"){
-            source=(from as! NSArray).objectAtIndex(0)
-        }
-        else if (stringval.lowercaseString == "count"){
-            source=(from as! NSArray).count
-        }
-        else {
-            source=(from as! NSArray).objectAtIndex(Int((stringval as NSString).intValue)) // Unfold the NSArray
-        }
+        source=(from as! NSNumber)
     }
     else if (from==nil){ // The item to process is empty and we need to discover what the first instruction is and use that as the item for the next unfold
         if (testLogSteps){
@@ -487,7 +577,12 @@ func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
             cachedBond[instructions[0] as! String]=source // Save this to process bond to not do this again
             
             
+            
+            
+            
+            
             if (sourceData != nil){ // Alright we have some data to process
+                print("try NSKeyUnarchiver")
                 if (testLogSteps){
                     print("data returned as it should")
                 }
@@ -498,29 +593,65 @@ func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
                         print(sourceURL)
                     }
                     
+                    
+                    
+                    let unarchiver=NSKeyedUnarchiver(forReadingWithData: sourceData!)
+                    if #available(iOS 9.0, *) {
+                        let tempDictionary=try unarchiver.decodeTopLevelObject()
+                        unarchiver.finishDecoding()
+                        if (tempDictionary != nil){
+                            source=tempDictionary
+                            cachedBond[instructions[0] as! String]=source // save this to cache so we don't do it again
+                        }
+                    } else {
+                        // Fallback on earlier versions
+                    }
+                    
+                }
+                catch {
+                    
+                    /*log out any errors that might have occured*/
+                    
+                    print(error)
+                }
+            }
+            if (sourceData != nil && source?.isKindOfClass(NSDictionary.self) == false){ // Alright we have some data to process
+                print("try NSJSONSerialization")
+                if (testLogSteps){
+                    print("data returned as it should")
+                }
+                source=sourceData
+                do {
+                    
+                    if (testLogSteps){
+                        print(sourceURL)
+                    }
+                    
+                    
+                    
                     var sourceAttributedString = NSMutableAttributedString(string: NSString(data: sourceData!, encoding: NSUTF8StringEncoding) as! String)
                     // Convert it into the proper string to be processed.
                     
                     
                     if (removeEntitiesSystemLevel){ // Control level toggle incase this appears to keep breaking
                         if (sourceAttributedString.string.containsString("&")){
-                        TryCatch.realTry({ // The contained code can fail and swift can't catch it so we need an Objective-C try/catch implementation ontop of our swift try/catch
-                            do {
+                            TryCatch.realTry({ // The contained code can fail and swift can't catch it so we need an Objective-C try/catch implementation ontop of our swift try/catch
+                                do {
+                                    
+                                    let attributedOptions=[NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,NSCharacterEncodingDocumentAttribute:NSUTF8StringEncoding]
+                                    
+                                    sourceAttributedString = try NSMutableAttributedString(data:sourceData!, options:attributedOptions as! [String : AnyObject], documentAttributes:nil) //The data we get contains strings that are not meant to be seen by the user try removing the HTML entities
+                                    
+                                    
+                                    //raises  NSInternalInconsistencyException
+                                }
+                                catch { // System level HTML entity removal failed
+                                    print("[ERROR] Could not remove HTML entities. \(error)")
+                                }
                                 
-                                let attributedOptions=[NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,NSCharacterEncodingDocumentAttribute:NSUTF8StringEncoding]
-                                
-                                sourceAttributedString = try NSMutableAttributedString(data:sourceData!, options:attributedOptions as! [String : AnyObject], documentAttributes:nil) //The data we get contains strings that are not meant to be seen by the user try removing the HTML entities
-                                
-                                
-                                //raises  NSInternalInconsistencyException
-                            }
-                            catch { // System level HTML entity removal failed
-                                print("[ERROR] Could not remove HTML entities. \(error)")
-                            }
-                            
-                            }, withCatch: { // System level HTML entity removal failed
-                                print("[ERROR] Could not remove HTML entities.")
-                        })
+                                }, withCatch: { // System level HTML entity removal failed
+                                    print("[ERROR] Could not remove HTML entities.")
+                            })
                         }
                     }
                     
@@ -557,14 +688,46 @@ func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
                     print(error)
                 }
             }
+            if (sourceData != nil && source?.isKindOfClass(NSDictionary.self) == false){
+                //NSXMLParser(data: sourceData!).parse()
+                print("xml last resort")
+                
+                //print(NSString(data: sourceData!, encoding: NSUTF8StringEncoding))
+                
+                //let parser=RSSParser(data: sourceData!)
+                //parser.parse()
+                //print(parser.rootNode)
+                
+                
+            }
             
-            
+            if ((source?.isKindOfClass(NSDictionary.self)) == true){
+                
+                print((source as! NSDictionary).allKeys)
+            }
         }
     }
-    
     /* This method failed to return an NSObject but we have to return something and hopefully not cause an error. */
     
     if (source == nil){
+        
+        if (testLogSteps){
+            print("source is nil")
+        }
+        
+        if (testLogSteps){
+            print((from as! NSObject).classForCoder)
+            if ((from?.isKindOfClass(NSDictionary.self)) == true){
+                print("from \((from as! NSDictionary).allKeys) unfold \(instructions[0]) \(instructions[0].dynamicType)")
+            }
+            if ((from?.isKindOfClass(NSArray.self)) == true){
+                print("from [\((from as! NSArray).count)] unfold \(instructions[0]) \(instructions[0].dynamicType)")
+            }
+            else {
+                print("from \(from) unfold \(instructions[0]) \(instructions[0].dynamicType)")
+            }
+        }
+        
         return nil
     }
     
@@ -621,7 +784,7 @@ func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
     var data:NSData? = nil
     
     let trueURL=NSURL(string: fileURL)!
-    let storedPath=cacheDirectory!+"/"+trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-")
+    var storedPath=cacheDirectory!+"/"+trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-")
     
     if (usingCache){
         if (logConnections){
@@ -672,7 +835,9 @@ func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
                 let downloadedData=try NSData(contentsOfURL: trueURL, options: .UncachedRead) //Download
                 if (simulateOffline == false){ //File successfully downloaded
                     if (offlineStorageSaving){
-                        print("[dataUsingCache] write to file... \(storedPath)")
+                        if (logConnections){
+                            print("[dataUsingCache] write to file... \(storedPath)")
+                        }
                         //downloadedData.writeToFile(storedPath, atomically: true) //Save file locally for use later
                         data?.writeToFile(storedPath, atomically: true) //Save file locally for use later
                     }
@@ -700,6 +865,20 @@ func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
             badConnection=true
         }
     }
+    
+    storedPath=NSBundle.mainBundle().pathForResource(trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-").componentsSeparatedByString(".").first, ofType: trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-").componentsSeparatedByString(".").last)!
+    
+    let stored=NSData(contentsOfFile: storedPath)
+    cachedFiles[fileURL]=stored
+    data=stored
+    
+    let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+    dispatch_async(dispatch_get_global_queue(priority, 0)) {
+        dispatch_async(dispatch_get_main_queue()) {
+            checkBranchesFor(fileURL)
+        }
+    }
+    
     return data! //THIS CAN NOT BE CALLED this is just for the compiler
 }
 
@@ -812,4 +991,93 @@ func imageUsingCache(imageURL:String) -> UIImage?{
     return nil
 }
 
+class XMLParser:NSXMLParser, NSXMLParserDelegate {
+    override init(data:NSData) {
+        super.init(data: data)
+        self.delegate = self
+        print("init")
+    }
+    func parserDidStartDocument(parser: NSXMLParser) {
+        print("start document")
+    }
+    
+    func parser(parser: NSXMLParser, foundElementDeclarationWithName elementName: String, model: String) {
+        print("element \(elementName)")
+    }
+    
+    func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
+        print(parseError)
+    }
+    
+    func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
+        print("<\(elementName)>")
+    }
+}
+
+class RSSParser:NSXMLParser, NSXMLParserDelegate {
+    var rootNode:XMLNode?=nil
+    var buildNode:XMLNode?=nil
+    override init(data:NSData) {
+        super.init(data: data)
+        self.delegate = self
+        print("init")
+    }
+    func parserDidStartDocument(parser: NSXMLParser) {
+        print("start document")
+    }
+    
+    
+    
+    
+    
+    
+    func parser(parser: NSXMLParser,  didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
+        let node=XMLNode()
+        node.name=elementName
+        node.attributes=attributeDict
+        buildNode?.inside.append(node)
+        buildNode=node
+        if (rootNode == nil){
+            rootNode=node
+        }
+    }
+    
+    func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+        buildNode=buildNode?.parent
+    }
+    
+    
+    func parser(parser: NSXMLParser, foundElementDeclarationWithName elementName: String, model: String) {
+        print("element \(elementName)")
+    }
+    
+    func parser(parser: NSXMLParser, foundUnparsedEntityDeclarationWithName name: String, publicID: String?, systemID: String?, notationName: String?) {
+        print("unparse <\(name)>")
+    }
+    
+    func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
+        print(parseError)
+    }
+    func dicionary() -> NSDictionary {
+        
+        var dict = NSMutableDictionary()
+        
+        
+        
+        return dict
+    }
+}
+
+class XMLNode {
+    
+    struct attribute {
+        var name = ""
+        var value = ""
+    }
+    
+    var name=""
+    var attributes:[String : String]=[:]
+    var inside:[AnyObject]=[]
+    var parent:XMLNode?=nil
+}
 

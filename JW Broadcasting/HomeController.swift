@@ -47,16 +47,22 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var backgroundImageView: UIImageView!
     var latestVideos=[]
     
+    @IBOutlet weak var BackgroundEffectView: UIVisualEffectView!
+    @IBOutlet weak var JWBroadcastingLogo: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.userInteractionEnabled=true
+        
+        backgroundImageView.alpha=0.75
+        BackgroundEffectView.alpha=0.99
         
         /*
         
         Set colors of tab bar. Selected is white not is gray.
         
         */
+        
         
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.grayColor()], forState:.Normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState:.Selected)
@@ -104,18 +110,18 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
         
         /*Hide all of the previews until they are done loading*/
         
+        self.slideShowCollectionView.alpha=0
+        self.streamingCollectionView.alpha=0
+        self.streamingCollectionView.label.superview!.alpha=0
+        self.latestVideosCollectionView.alpha=0
+        self.latestVideosCollectionView.label.alpha=0
         UIView.animateWithDuration(0.5, animations: {
-            self.slideShowCollectionView.alpha=0
-            self.streamingCollectionView.alpha=0
-            self.streamingCollectionView.label.superview!.alpha=0
-            self.latestVideosCollectionView.alpha=0
-            self.latestVideosCollectionView.label.alpha=0
         })
         
         /*Let logs know we are loading*/
         
         if (activity==0){
-            print("[HOME] Start loading...")
+            print("[HOME] Start loading... \(activity)")
         }
         
         /*Show the spinning wheel and add a tick to the counter*/
@@ -134,8 +140,7 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
         
         activity--
         
-        
-        if (activity==0 || true){
+        if (activity<=0){
             
             /*Bring back the previews*/
             
@@ -158,6 +163,7 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
     
     override func viewWillAppear(animated: Bool) {
         
+        (self.tabBarController as! rootController).disableNavBarTimeOut=true
         /*
         Every time the view goes to reappear this code runs to check if the language was changed by the Language tab. If it was then everything gets refreshed.
         */
@@ -192,12 +198,13 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
         /*
         Calls prepare methods in SuperCollectionViews so that they can downloaded any files necissary to display content.
         */
-        
+        activity=0
         if (HomeFeatured){
             self.slideShowCollectionView.prepare()
         }
         else {
-            self.slideShowTopConstraint.constant = -self.slideShowCollectionView.frame.size.height
+            //self.slideShowTopConstraint.constant = -self.slideShowCollectionView.frame.size.height
+            self.JWBroadcastingLogoTopConstraint.constant = 40
             self.view.layoutIfNeeded()
         }
         self.streamingCollectionView.prepare()
@@ -229,102 +236,7 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
             
             
             
-            /*
-            code for caching every file in VOD
-            This is togglable in control.swift
-            */
             
-            
-            let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
-        
-            let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
-            let VODURL=categoriesDirectory+"/VideoOnDemand?detailed=1"
-            dispatch_async(dispatch_get_global_queue(priority, 0)) {
-                
-                fetchDataUsingCache(VODURL, downloaded: {
-                    print("[PREDOWNLOAD] Video On Demand")
-                    
-                    if (aggressivePreload){
-                    let videoOnDemandData=dictionaryOfPath(VODURL, usingCache: false)
-                        if (videoOnDemandData != nil){
-                            for (var index=0; index<(videoOnDemandData!["category"]!["subcategories"]! as! NSArray).count ; index++){
-                                
-                                let subcat=(((videoOnDemandData!["category"] as! NSDictionary)["subcategories"] as! NSArray)[index] as! NSDictionary)
-                                let subcategoryDirectory=categoriesDirectory+"/"+(subcat["key"] as! String)+"?detailed=1"
-                                
-                                
-                                fetchDataUsingCache(subcategoryDirectory, downloaded: {
-                                    
-                                    var subsubcats:Array<NSDictionary>=[]
-                                    print("[PREDOWNLOAD] \(subcat["key"])")
-                                    //let subcategoryData:Array<NSDictionary>=[]
-                                    
-                                    let downloadedJSON=dictionaryOfPath(subcategoryDirectory, usingCache: false)
-                                    if (downloadedJSON?["category"]!["media"] != nil){
-                                        subsubcats.append(downloadedJSON!["category"] as! NSDictionary)
-                                    }
-                                    else if (downloadedJSON!["category"]!["subcategories"] != nil){
-                                        subsubcats=downloadedJSON!["category"]!["subcategories"] as! Array<NSDictionary>
-                                    }
-                                    print("[COMPILED] \(subcat["key"]) \(subcategoryDirectory)")
-                                    
-                                    let priorityRatios=["pns","pss","wsr","lss","wss"]
-                                    for (var index=0; index<(subsubcats).count ; index++){
-                                        
-                                        
-                                        for (var indexB=0; indexB<(subsubcats[index]["subcategories"] as! NSArray).count ; indexB++){
-                                            for (var indexC=0; indexC<(subsubcats[index]["subcategories"]![indexB]["media"] as! NSArray).count ; indexC++){
-                                                //print("subsub: \(index) \(indexB) \(indexC) = \(subsubcats[index]["subcategories"]![indexB]["media"])")
-                                                let imageRatios=(subsubcats[index]["subcategories"]![indexB]["media"] as! NSArray)[indexC]["images"]
-                                                
-                                                var imageURL:String?=""
-                                                
-                                                for ratio in imageRatios!!.allKeys {
-                                                    for priorityRatio in priorityRatios.reverse() {
-                                                        if (ratio as? String == priorityRatio){
-                                                            
-                                                            if (unfold(imageRatios, instructions: ["\(ratio)","lg"]) != nil){
-                                                                imageURL = unfold(imageRatios, instructions: ["\(ratio)","lg"]) as? String
-                                                            }
-                                                            else if (unfold(imageRatios, instructions: ["\(ratio)","md"]) != nil){
-                                                                imageURL = unfold(imageRatios, instructions: ["\(ratio)","md"]) as? String
-                                                            }
-                                                            else if (unfold(imageRatios, instructions: ["\(ratio)","sm"]) != nil){
-                                                                imageURL = unfold(imageRatios, instructions: ["\(ratio)","sm"]) as? String
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                                if (imageURL == ""){
-                                                    let sizes=unfold(imageRatios, instructions: [imageRatios!!.allKeys.first!]) as? NSDictionary
-                                                    imageURL=unfold(sizes, instructions: [sizes!.allKeys.first!]) as? String
-                                                }
-                                                
-                                                
-                                                //print("[PREDOWNLOAD] \(imageURL)")
-                                                imageUsingCache(imageURL!)
-                                                
-                                            }
-                                        }
-                                    }
-                                    
-                                })
-                            }
-                        }
-                    
-                    }
-                    print("[VOD] preload")
-                    
-                })
-                let AudioURL=categoriesDirectory+"/Audio?detailed=1"
-                fetchDataUsingCache(AudioURL, downloaded: {
-                print("[Audio] preloaded")
-                })
-            }
-            
-
-            
-            self.removeActivity()
         })
         
         
@@ -423,6 +335,7 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     @IBOutlet weak var slideShowTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var JWBroadcastingLogoTopConstraint: NSLayoutConstraint!
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
@@ -466,7 +379,8 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
                 
                 UIView.animateWithDuration(0.5, animations: {
                     
-                    self.slideShowTopConstraint.constant = -self.slideShowCollectionView.frame.size.height+100//880 1080
+                    //self.slideShowTopConstraint.constant = -self.slideShowCollectionView.frame.size.height+150//880 1080
+                    self.JWBroadcastingLogoTopConstraint.constant = -self.slideShowCollectionView.frame.size.height+30
                     self.slideShowCollectionView.alpha=0.001
                     self.view.layoutIfNeeded()
                 })
@@ -475,7 +389,8 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
                 
                 UIView.animateWithDuration(0.5, animations: {
                     
-                    self.slideShowTopConstraint.constant = 0
+                    //self.slideShowTopConstraint.constant = -30
+                    self.JWBroadcastingLogoTopConstraint.constant = 40
                     self.slideShowCollectionView.alpha=1
                     self.view.layoutIfNeeded()
                 })

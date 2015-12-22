@@ -64,16 +64,6 @@ class ChannelSelector: SuperCollectionView {
         })
 
     }
-    /*
-    
-    func properAlignment(){
-    print("proper alignment")
-    
-    var itemPoint=self.collectionViewLayout.layoutAttributesForItemAtIndexPath(NSIndexPath(forRow: 0, inSection: 0))?.center
-    itemPoint=self.centerPointFor(CGPoint(x: itemPoint!.x, y: itemPoint!.y))
-    self.contentOffset=CGPointMake(itemPoint!.x, itemPoint!.y)
-    }
-    */
     
     override func totalItemsInSection(section: Int) -> Int {
         
@@ -97,18 +87,15 @@ class ChannelSelector: SuperCollectionView {
     
     override func cellAtIndex(indexPath:NSIndexPath) -> UICollectionViewCell{
         let channel: UICollectionViewCell = self.dequeueReusableCellWithReuseIdentifier("channel", forIndexPath: indexPath)
-        
+        channel.tag=indexPath.row
         let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
         let channelsMeta=(unfold("\(streamingScheduleURL)|category|subcategories") as? NSArray)
-        
-        /*
-        if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
-            channelsMeta=channelsMeta!.reverse()
-        }*/
+
         
         let channelMeta=channelsMeta?[indexPath.row] as? NSDictionary
         if (channelMeta != nil){
-            let imageURL=unfold(channelMeta, instructions: ["images","wss","sm"]) as? String
+            //For some reason medium image sizes are smaller than small?!?
+            let imageURL=unfold(channelMeta, instructions: ["images","wss",["lg","sm","md"]]) as? String
             for subview in channel.contentView.subviews {
                 if (subview.isKindOfClass(UIImageView.self)){
                     let imageView=(subview as! UIImageView)
@@ -119,10 +106,10 @@ class ChannelSelector: SuperCollectionView {
                         fetchDataUsingCache(imageURL!, downloaded: {
                             dispatch_async(dispatch_get_main_queue()) {
                                 
-                                imageView.image=imageUsingCache(imageURL!)
-                                imageView.userInteractionEnabled=true
-                                //imageView.adjustsImageWhenAncestorFocused = true
-                                //channel.contentView.addSubview(imageView)
+                                if (channel.tag==indexPath.row){
+                                    imageView.image=imageUsingCache(imageURL!)
+                                    imageView.userInteractionEnabled=true
+                                }
                             }
                         })
                     }
@@ -131,16 +118,6 @@ class ChannelSelector: SuperCollectionView {
                     let titleLabel=subview as! UILabel
                     titleLabel.layer.zPosition=100000
                     titleLabel.text=channelMeta!.objectForKey("name") as? String
-                }
-                if (subview.isKindOfClass(MarqueeLabel.self)){
-                    (subview as! MarqueeLabel).type = .Continuous
-                    (subview as! MarqueeLabel).textAlignment = .Center
-                    (subview as! MarqueeLabel).lineBreakMode = .ByTruncatingHead
-                    (subview as! MarqueeLabel).scrollDuration = ((subview as! MarqueeLabel).intrinsicContentSize().width)/50
-                    (subview as! MarqueeLabel).fadeLength = 15.0
-                    (subview as! MarqueeLabel).leadingBuffer = 40.0
-                    (subview as! MarqueeLabel).animationDelay = 0
-                    (subview as! MarqueeLabel).pauseLabel()
                 }
             }
 
@@ -165,7 +142,14 @@ class ChannelSelector: SuperCollectionView {
         if (channelMeta != nil){
             let imageURL=unfold(channelMeta, instructions: ["images","wss","sm"]) as? String
             if ((self.delegate?.isKindOfClass(HomeController.self)) == true){
-                (self.delegate as! HomeController).backgroundImageView.image=imageUsingCache(imageURL!)
+                
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
+                    if (view==UIScreen.mainScreen().focusedView){
+                        UIView.transitionWithView((self.delegate as! HomeController).backgroundImageView, duration: 0.8, options: .TransitionCrossDissolve, animations: {
+                            (self.delegate as! HomeController).backgroundImageView.image=imageUsingCache(imageURL!)
+                            }, completion: nil)
+                    }
+                }
             }
         }
         
@@ -202,9 +186,7 @@ class ChannelSelector: SuperCollectionView {
             }
             if (subview.isKindOfClass(marqueeLabel.self)){
                 (subview as! marqueeLabel).beginFocus()
-            }
-            if (subview.isKindOfClass(MarqueeLabel.self)){
-                (subview as! MarqueeLabel).unpauseLabel()
+                subview.layoutIfNeeded()
             }
         }
         
@@ -259,7 +241,6 @@ class ChannelSelector: SuperCollectionView {
     var readyTimer:NSTimer?=nil
     
     override func cellShouldLoseFocus(view:UIView, indexPath:NSIndexPath){
-        
         self.player?.pause()
         
         for subview in (view.subviews.first!.subviews) {
@@ -269,9 +250,6 @@ class ChannelSelector: SuperCollectionView {
             }
             if (subview.isKindOfClass(marqueeLabel.self)){
                 (subview as! marqueeLabel).endFocus()
-            }
-            if (subview.isKindOfClass(MarqueeLabel.self)){
-                (subview as! MarqueeLabel).pauseLabel()
             }
         }
         player?.replaceCurrentItemWithPlayerItem(nil)
@@ -286,13 +264,13 @@ class ChannelSelector: SuperCollectionView {
     }
     
     override func cellSelect(indexPath:NSIndexPath){
+        self.playerLayer?.removeFromSuperlayer()
+        self.player?.pause()
         if ((self.delegate?.isKindOfClass(HomeController)) == true){
             (self.delegate as! HomeController).goToStreamID=indexPath.row
             (self.delegate as! HomeController).performSegueWithIdentifier("presentStreaming", sender: self)
         }
 
-        self.playerLayer?.removeFromSuperlayer()
-        self.player?.pause()
     }
     
     

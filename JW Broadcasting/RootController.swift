@@ -20,9 +20,7 @@ extension UITabBarController : TVApplicationControllerDelegate {
     }
     
     func setTabBarVisible(visible:Bool, animated:Bool) {
-        if (disableNavBar == false || visible == false){
-        /*If the tab bar is already in the right place then we don't need to animate so just exit now. No bugs no glitches (: */
-            if (tabBarIsVisible() == visible) { return }
+        if (disableNavBar == false){
             
             /*figure out what the height of the tab bar is*/
             let frame = self.tabBar.frame
@@ -33,8 +31,10 @@ extension UITabBarController : TVApplicationControllerDelegate {
             UIView.animateWithDuration(animated ? 0.3 : 0.0) {
                 /*adjust the view to move upward hiding the tab bar and then stretch it to make up for moving it*/
                 self.tabBar.frame=CGRect(x: 0, y: offsetY, width: self.tabBar.frame.size.width, height: self.tabBar.frame.size.height)
+                self.tabBarController?.viewControllers![(self.tabBarController?.selectedIndex)!].view.layoutIfNeeded()
             }
         }
+        self.tabBarController?.viewControllers![(self.tabBarController?.selectedIndex)!].updateFocusIfNeeded()
     }
     
     
@@ -84,10 +84,27 @@ func languageFromCode(code:String) -> NSDictionary?{
 }
 
 var translatedKeyPhrases:NSDictionary?
-let logoImageView=UIImageView(image: UIImage(named: "JW-White-Background-Blue.png"))
+let logoImageView=UIImageView(image: UIImage(named: "JWOrgLogo.png"))
 let logoLabelView=UILabel()
 
 class rootController: UITabBarController, UITabBarControllerDelegate{
+    
+    
+    var _disableNavBarTimeOut=false
+    var disableNavBarTimeOut:Bool {
+        set (newValue){
+            _disableNavBarTimeOut=newValue
+            if (newValue == true){
+                timer?.invalidate()
+            }
+            else {
+                timer=NSTimer.scheduledTimerWithTimeInterval(12, target: self, selector: "hide", userInfo: nil, repeats: false)
+            }
+        }
+        get {
+            return _disableNavBarTimeOut
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,16 +115,19 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         
         if (JWLogo){
             
-            logoLabelView.font=UIFont(name: "jwtv", size: self.tabBar.frame.size.height+60) // Use the font from jw.org to display the jw logo
-            logoLabelView.frame=CGRect(x: 110, y: 10, width: self.tabBar.frame.size.height+60, height: self.tabBar.frame.size.height+60)//initial logo position and size
+            /*logoLabelView.font=UIFont(name: "jwtv", size: self.tabBar.frame.size.height+60) // Use the font from jw.org to display the jw logo
+            logoLabelView.frame=CGRect(x: 110, y: 10+10, width: self.tabBar.frame.size.height+60, height: self.tabBar.frame.size.height+60)//initial logo position and size
             logoLabelView.text=""//The unique key code for the JW.org logo
             logoLabelView.textAlignment = .Left
             logoLabelView.lineBreakMode = .ByClipping
             
-            logoLabelView.frame=CGRect(x: 110, y: 10, width: logoLabelView.intrinsicContentSize().width+200, height: self.tabBar.frame.size.height+60)//corrected position
+            logoLabelView.frame=CGRect(x: 110, y: 10+10, width: logoLabelView.intrinsicContentSize().width, height: self.tabBar.frame.size.height+60)//corrected position
             
             logoLabelView.textColor=UIColor(colorLiteralRed: 0.3, green: 0.44, blue: 0.64, alpha: 1.0) // JW blue color
-            self.tabBar.addSubview(logoLabelView)
+            self.tabBar.addSubview(logoLabelView)*/
+            //logoImageView.backgroundColor=UIColor.blueColor()
+            logoImageView.frame=CGRect(x: 110, y: 10+10, width: 110, height: 110)
+            self.tabBar.addSubview(logoImageView)
         
         }
         
@@ -154,10 +174,24 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                 if (Search==false){
                     self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
                 }
+                else {
+                    self.tabBar.items?[(self.viewControllers?.indexOf(viewController))!].title="Search"
+                }
             }
             else if (viewController.isKindOfClass(MediaOnDemandController.self)){//Remove MOD page if disabled
                 if (BETAMedia==false){
                     self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
+                }
+                else {
+                    self.tabBar.items?[(self.viewControllers?.indexOf(viewController))!].title="Video on Demand"
+                }
+            }
+            else if (viewController.isKindOfClass(NewAudioController.self)){//Remove MOD page if disabled
+                if (NewAudio==false){
+                    self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
+                }
+                else {
+                    self.tabBar.items?[(self.viewControllers?.indexOf(viewController))!].title="Audio"
                 }
             }
         }
@@ -227,9 +261,10 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         
         
         
-        
-        timer=NSTimer.scheduledTimerWithTimeInterval(7.5, target: self, selector: "hide", userInfo: nil, repeats: false)
-        
+        if (disableNavBarTimeOut == false){
+            timer=NSTimer.scheduledTimerWithTimeInterval(12, target: self, selector: "hide", userInfo: nil, repeats: false)
+        }
+            
         let swipeRecognizer = UISwipeGestureRecognizer(target: self, action: "swiped:")
         swipeRecognizer.direction = .Right //|| .Up || .Left || .Right
         self.view.addGestureRecognizer(swipeRecognizer)
@@ -238,7 +273,7 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         tapRecognizer.allowedPressTypes = [NSNumber(integer: UIPressType.PlayPause.rawValue)];
         self.view.addGestureRecognizer(tapRecognizer)
         
-        }
+    }
     
     func displayFailedToFindLanguage(){
         //Alert the user that we do not know what language they are using
@@ -280,11 +315,14 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
     
     override func pressesBegan(presses: Set<UIPress>, withEvent event: UIPressesEvent?){
         //upon press of the remote we bring the tab bar down
-        keepDown()
-        
         super.pressesBegan(presses, withEvent: event)
         
     }
+    override func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem) {
+        keepDown()
+        self.setTabBarVisible(true, animated: true)
+    }
+    
     var timer:NSTimer?=nil
     
     func keepDown(){
@@ -293,7 +331,9 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         */
         
         timer?.invalidate()
-        timer=NSTimer.scheduledTimerWithTimeInterval(7.5, target: self, selector: "hide", userInfo: nil, repeats: false)
+        if (disableNavBarTimeOut == false){
+            timer=NSTimer.scheduledTimerWithTimeInterval(12, target: self, selector: "hide", userInfo: nil, repeats: false)
+        }
         self.setTabBarVisible(true, animated: true)
     }
     
@@ -344,16 +384,13 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
             self.setViewControllers(self.viewControllers?.reverse(), animated: true)
             if (JWLogo){
                 if (textDirection == .RightToLeft){
-                    logoLabelView.textAlignment = .Right
-                    logoLabelView.frame=CGRect(x: self.tabBar.frame.size.width-logoLabelView.frame.size.width, y: -40, width: self.tabBar.frame.size.height+60, height: self.tabBar.frame.size.height+60)
-                    
-                    //logoLabelView.frame=CGRect(x: self.tabBar.frame.size.width-110-logoLabelView.frame.size.width, y: 10, width: logoLabelView.intrinsicContentSize().width+200, height: self.tabBar.frame.size.height+60)
+                    logoImageView.frame=CGRect(x: self.tabBar.frame.size.width-logoImageView.frame.size.width-110, y: 10+10, width: 110, height: 110)
                 }
                 else {
                     logoLabelView.textAlignment = .Left
                     
-                    logoLabelView.frame=CGRect(x: 110, y: logoLabelView.frame.origin.y, width: logoLabelView.intrinsicContentSize().width+200, height: self.tabBar.frame.size.height+60)
-                    //logoLabelView.frame=CGRect(x: 110, y: 10, width: self.tabBar.frame.size.height+60, height: self.tabBar.frame.size.height+60)
+                    logoImageView.frame=CGRect(x: 110, y: 10+10, width: 110, height: 110)
+                    print(logoImageView.frame)
                 }
             }
         }
@@ -364,58 +401,58 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         if (translatedKeyPhrases != nil){ // if the language file was obtained
             /*These keys are what I found correspond to the navigation buttons on tv.jw.org*/
             
-            var keyForButton:Array<String>=[]
-            
-            if (Home){
-                keyForButton.append("lnkHomeView")//
-            }
-            if (VOD){
-                keyForButton.append("homepageVODBlockTitle")//
-            }
-            if (Audio){
-                keyForButton.append("homepageAudioBlockTitle")//
-            }
-            if (Language){
-                keyForButton.append("lnkLanguage")//
-            }
-            if (Search){
-                keyForButton.append("Search")
-            }
-            if (BETAMedia){
-                keyForButton.append("Media On Demand")
-            }
-            
             let startIndex=0
-            let endIndex=keyForButton.count
+            let endIndex=self.viewControllers!.count
             
             /* replace titles */
             for var i=startIndex ; i<endIndex ; i++ {
-                //var newTitle=translatedKeyPhrases?.objectForKey(keyForButton[i]) as! String
-                var keyI=i
-                if (textDirection==UIUserInterfaceLayoutDirection.RightToLeft){
-                    keyI=endIndex-1-i
+                
+                var keyForButton=""
+                
+                let viewController = self.viewControllers![i]
+                
+                if (viewController.isKindOfClass(HomeController.self)){
+                    keyForButton="lnkHomeView"
                 }
-                switch keyI {
-                case 3:
-                    
-                    self.tabBar.items?[i].title="    "
-                    
+                else if (viewController.isKindOfClass(MediaOnDemandController.self)){
+                    keyForButton="homepageVODBlockTitle"//
+                }
+                else if (viewController.isKindOfClass(VideoOnDemandController.self)){
+                    keyForButton="homepageVODBlockTitle"//
+                }
+                else if (viewController.isKindOfClass(AudioController.self)){
+                    keyForButton="homepageAudioBlockTitle"//
+                }
+                else if (viewController.isKindOfClass(LanguageSelector.self)){
+                    //"lnkLanguage"//
+                    keyForButton="    "
+                    /*self.tabBar.items?[(self.viewControllers?.indexOf(viewController))!].title="    "
                     let fontattributes=[NSFontAttributeName:UIFont(name: "jwtv", size: 36)!,NSForegroundColorAttributeName:UIColor.grayColor()] as Dictionary<String,AnyObject>
-                    self.tabBar.items?[i].setTitleTextAttributes(fontattributes, forState: .Normal)
-                    
-                default:
-                    let newText=translatedKeyPhrases?.objectForKey(keyForButton[keyI]) as? String
-                    if (newText != nil){
-                        self.tabBar.items?[i].title=newText
-                    }
-                    else {
-                        self.tabBar.items?[i].title=keyForButton[keyI]
-                    }
-                    
+                    self.tabBar.items?[(self.viewControllers?.indexOf(viewController))!].setTitleTextAttributes(fontattributes, forState: .Normal)*/
+                }
+                else if (viewController.isKindOfClass(SearchController.self)){
+                    keyForButton="Search"
+                }
+                else if (viewController.isKindOfClass(NewAudioController.self)){
+                    keyForButton="homepageAudioBlockTitle"
+                }
+                
+                
+                let newText=translatedKeyPhrases?.objectForKey(keyForButton) as? String
+                if (newText != nil){
+                    self.tabBar.items?[i].title=newText
+                }
+                else {
+                    self.tabBar.items?[i].title=keyForButton
+                }
+                
+                if (viewController.isKindOfClass(LanguageSelector.self)){
+                    let fontattributes=[NSFontAttributeName:UIFont(name: "jwtv", size: 36)!,NSForegroundColorAttributeName:UIColor.grayColor()] as Dictionary<String,AnyObject>
+                    self.tabBar.items?[(self.viewControllers?.indexOf(viewController))!].setTitleTextAttributes(fontattributes, forState: .Normal)
+                }
+                else {
                     let fontattributes=[NSForegroundColorAttributeName:UIColor.grayColor()] as Dictionary<String,AnyObject>
                     self.tabBar.items?[i].setTitleTextAttributes(fontattributes, forState: .Normal)
-                    
-                    break
                 }
             }
             
@@ -426,6 +463,25 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         print("completed")
             checkBranchesFor("language")
         }
+        
+        
+        if (false){
+            var subviews:Array<UIView>=self.tabBar.subviews
+            //logoLabelView.hidden=false
+            logoImageView.hidden=false
+            while subviews.first != nil {
+                let subview = subviews.first
+                subviews.removeFirst()
+                subviews.appendContentsOf(subview!.subviews)
+                if (subview!.isKindOfClass(NSClassFromString("UITabBarButton")!)){
+                    if (CGRectIntersectsRect((subview?.frame)!, logoImageView.frame)){
+                        //logoLabelView.hidden=true
+                        logoImageView.hidden=true
+                    }
+                }
+            }
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -433,5 +489,4 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         // Dispose of any resources that can be recreated.
     }
     
-
 }

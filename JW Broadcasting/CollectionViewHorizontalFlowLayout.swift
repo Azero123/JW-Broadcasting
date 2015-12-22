@@ -32,8 +32,35 @@ class CollectionViewHorizontalFlowLayout: UICollectionViewFlowLayout {
         Defines the position and size of the indivigual cell.
         */
         
-        if (collectionView!.isKindOfClass(SuperCollectionView.self)){
-            return (collectionView as! SuperCollectionView).layoutForCellAtIndex(indexPath, withPreLayout: super.layoutAttributesForItemAtIndexPath(indexPath)?.copy() as! UICollectionViewLayoutAttributes)
+        
+        if (collectionView?.delegate?.isKindOfClass(MediaOnDemandCategory.self) == true){
+            
+            
+            let layout=UICollectionViewLayoutAttributes(forCellWithIndexPath: indexPath)
+            
+            
+            let normalItemSize=(collectionView?.delegate as! MediaOnDemandCategory).collectionView(collectionView!, layout: self, sizeForItemAtIndexPath: indexPath)
+            
+            
+            layout.alpha=1
+            layout.frame=CGRect(x: normalItemSize.width*CGFloat(indexPath.row), y: 0, width: normalItemSize.width, height: normalItemSize.height)
+            
+            return (collectionView as! SuperCollectionView).layoutForCellAtIndex(indexPath, withPreLayout: layout)
+        }
+        
+        else if (collectionView!.isKindOfClass(SuperCollectionView.self)){
+            
+            
+            
+            //let superLayout=super.layoutAttributesForItemAtIndexPath(indexPath)?.copy() as! UICollectionViewLayoutAttributes
+            
+            let normalItemSize=(collectionView as! SuperCollectionView).sizeOfItemAtIndex(NSIndexPath(forRow: 0, inSection: 0))
+            
+            let layout=UICollectionViewLayoutAttributes(forCellWithIndexPath: indexPath)
+            layout.alpha=1
+            layout.frame=CGRect(x: normalItemSize.width*CGFloat(indexPath.row), y: 0, width: normalItemSize.width, height: normalItemSize.height)
+            
+            return (collectionView as! SuperCollectionView).layoutForCellAtIndex(indexPath, withPreLayout: layout)
         }
         
         let layoutAttribute=super.layoutAttributesForItemAtIndexPath(indexPath)?.copy() as! UICollectionViewLayoutAttributes
@@ -49,8 +76,11 @@ class CollectionViewHorizontalFlowLayout: UICollectionViewFlowLayout {
         */
         var attributes:Array<UICollectionViewLayoutAttributes>=[]
         
-        for (var i=0;i<self.collectionView?.numberOfItemsInSection(0);i++){
-            attributes.append(self.layoutAttributesForItemAtIndexPath(NSIndexPath(forRow: i, inSection: 0))!)
+        if (self.collectionView?.numberOfSections()>0){
+        
+            for (var i=0;i<self.collectionView?.numberOfItemsInSection(0);i++){
+                attributes.append(self.layoutAttributesForItemAtIndexPath(NSIndexPath(forRow: i, inSection: 0))!)
+            }
         }
         
         return attributes
@@ -85,11 +115,30 @@ class CollectionViewHorizontalFlowLayout: UICollectionViewFlowLayout {
         This takes the space the cells ACTUALLY take up with our code ( cell width (normal size * spacingPercentile) * total items + 90 for right side padding) 
         
         */
+        var cellWidth:CGFloat=100
+        if ((self.collectionView?.delegate?.isKindOfClass(HomeController.self)) == true){
+            cellWidth=(self.collectionView?.delegate as! HomeController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*spacingPercentile
+        
+        }
+        
+        if ((self.collectionView?.delegate?.isKindOfClass(MediaOnDemandCategory.self)) == true){
+            cellWidth=(self.collectionView?.delegate as! MediaOnDemandCategory).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*spacingPercentile
+        }
         
         
-        let cellWidth=(self.collectionView?.delegate as! HomeController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*spacingPercentile
+        if (self.collectionView?.numberOfSections()>0){
+            
+            return CGSize(width: CGFloat((self.collectionView?.numberOfItemsInSection(0))!)*cellWidth+90, height: (super.collectionView?.frame.size.height)!)
+        }
         
-        return CGSize(width: CGFloat((self.collectionView?.numberOfItemsInSection(0))!)*cellWidth+90, height: super.collectionViewContentSize().height)
+        return CGSize(width: (self.collectionView?.frame.size.width)!, height: (super.collectionView?.frame.size.height)!)
     }
     
+    override func initialLayoutAttributesForAppearingItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
+        return self.layoutAttributesForItemAtIndexPath(indexPath)
+    }
+    
+    override func finalLayoutAttributesForDisappearingItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
+        return self.layoutAttributesForItemAtIndexPath(indexPath)
+    }
 }

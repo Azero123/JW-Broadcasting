@@ -86,7 +86,6 @@ class LatestVideos: SuperCollectionView {
         let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1"
         
         let videosData:NSArray?=unfold("\(latestVideosPath)|category|media") as? NSArray
-        
         /*
         if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
             videosData=videosData!.reverse()
@@ -114,17 +113,14 @@ class LatestVideos: SuperCollectionView {
                             titleLabel.text=(videoData!.objectForKey("title") as? String)!
                             titleLabel.layer.shadowColor=UIColor.blackColor().CGColor
                             titleLabel.layer.shadowRadius=5
-                            
+                            titleLabel.frame=CGRectMake(titleLabel.frame.origin.x, titleLabel.frame.origin.y, titleLabel.frame.size.width, titleLabel.frame.size.height)
                         }
-                        if (subview.isKindOfClass(MarqueeLabel.self)){
-                            (subview as! MarqueeLabel).type = .Continuous
-                            (subview as! MarqueeLabel).textAlignment = .Center
-                            (subview as! MarqueeLabel).lineBreakMode = .ByTruncatingHead
-                            (subview as! MarqueeLabel).scrollDuration = ((subview as! MarqueeLabel).intrinsicContentSize().width)/50
-                            (subview as! MarqueeLabel).fadeLength = 15.0
-                            (subview as! MarqueeLabel).leadingBuffer = 40.0
-                            (subview as! MarqueeLabel).animationDelay = 0
-                            (subview as! MarqueeLabel).pauseLabel()
+                        if (subview.isKindOfClass(marqueeLabel.self)){
+                            
+                            (subview as! marqueeLabel).fadeLength=15
+                            (subview as! marqueeLabel).fadePadding = 30
+                            (subview as! marqueeLabel).fadePaddingWhenFull = -5
+                            (subview as! marqueeLabel).textSideOffset=15
                         }
                     }
                 }
@@ -149,7 +145,14 @@ class LatestVideos: SuperCollectionView {
         let imageURL=unfold(videoData, instructions: ["images","lsr","md"]) as? String
         if (imageURL != nil){
             if ((self.delegate?.isKindOfClass(HomeController.self)) == true){
-                (self.delegate as! HomeController).backgroundImageView.image=imageUsingCache(imageURL!)
+                
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
+                    if (view==UIScreen.mainScreen().focusedView){
+                        UIView.transitionWithView((self.delegate as! HomeController).backgroundImageView, duration: 0.8, options: .TransitionCrossDissolve, animations: {
+                            (self.delegate as! HomeController).backgroundImageView.image=imageUsingCache(imageURL!)
+                            }, completion: nil)
+                    }
+                }
             }
         }
         
@@ -162,9 +165,7 @@ class LatestVideos: SuperCollectionView {
             }
             if (subview.isKindOfClass(marqueeLabel.self)){
                 (subview as! marqueeLabel).beginFocus()
-            }
-            if (subview.isKindOfClass(MarqueeLabel.self)){
-                (subview as! MarqueeLabel).unpauseLabel()
+                subview.layoutIfNeeded()
             }
         }
     }
@@ -180,30 +181,17 @@ class LatestVideos: SuperCollectionView {
             if (subview.isKindOfClass(marqueeLabel.self)){
                 (subview as! marqueeLabel).endFocus()
             }
-            if (subview.isKindOfClass(MarqueeLabel.self)){
-                (subview as! MarqueeLabel).pauseLabel()
-            }
         }
     }
+    let player=SuperMediaPlayer()
     
     override func cellSelect(indexPath: NSIndexPath) {
         
-        let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1|category|media"
-        let videos=unfold(latestVideosPath)! as? NSArray
-        
-        let videoData:NSArray?=unfold(videos, instructions: ["\(indexPath.row)","files"]) as? NSArray
-        
-        let videoFile=videoData?.objectAtIndex((videoData?.count)!-1)
-        
-        let videoURLString=videoFile?.objectForKey("progressiveDownloadURL") as! String
+        let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1"
+        let dict=unfold("\(latestVideosPath)|category|media|\(indexPath.row)") as! NSDictionary
+        player.updatePlayerUsingDictionary(dict)
+        player.play()
         
         
-        let videoURL = NSURL(string: videoURLString)
-        let player = AVPlayer(URL: videoURL!)
-        let playerViewController = AVPlayerViewController()
-        playerViewController.player = player
-        self.window?.rootViewController!.presentViewController(playerViewController, animated: true) {
-            playerViewController.player!.play()
-        }
     }
 }

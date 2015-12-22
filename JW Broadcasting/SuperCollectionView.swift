@@ -59,7 +59,7 @@ cellSelect(...) Event called upon cell chosen, same as collectionView(collection
 
 import UIKit
 
-class SuperCollectionView: UICollectionView {
+class SuperCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource{
     func prepare(){
         /*
 
@@ -69,9 +69,9 @@ class SuperCollectionView: UICollectionView {
         
         */
     
-        self.registerClass(UIView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "defaultHeader")
-        self.registerClass(UIView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "defaultFooter")
-        self.registerClass(UIView.self, forCellWithReuseIdentifier: "defaultCell")
+        self.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "defaultHeader")
+        self.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "defaultFooter")
+        self.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "defaultCell")
     }
     
     func totalSections() -> Int {
@@ -129,7 +129,7 @@ class SuperCollectionView: UICollectionView {
         Used to create cell elements, same as
         collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell
         */
-        let cell: UICollectionViewCell = self.dequeueReusableCellWithReuseIdentifier("slide", forIndexPath: indexPath)
+        let cell: UICollectionViewCell = self.dequeueReusableCellWithReuseIdentifier("defaultCell", forIndexPath: indexPath)
         return cell
     }
     
@@ -189,6 +189,119 @@ class SuperCollectionView: UICollectionView {
         /* optional method for subclasses (check SlideShow.swift)*/
         
         return proposedContentOffset
+    }
+    
+    func didScroll(){
+        /*
+        Method to handle scroll events in SuperCollectionView.
+        */
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        /*
+        Event to capture scroll events.
+        */
+        self.didScroll()
+    }
+    
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        /*
+        States that all the collectionViews only have 1 section.
+        */
+        return 1
+    }
+    
+    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        
+        /*
+        Headers, footers and decoorative items are processed in this method. SuperCollectionViews manage their own supplementary items so if UICollectionView is a SuperCollectionView let it handle itself.
+        */
+        
+        let supplementaryItem:UICollectionReusableView?=nil
+        
+        if (collectionView.isKindOfClass(SuperCollectionView.self)){
+            return (collectionView as! SuperCollectionView).supplementaryElement(kind, forIndexPath: indexPath)
+        }
+        
+        return supplementaryItem!
+    }
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        /*
+        This method delegates how many videos or media types are in a UICollectionView. SuperCollectionViews manage their own cell count so if UICollectionView is a SuperCollectionView let it handle itself.
+        */
+        
+        if (collectionView.isKindOfClass(SuperCollectionView.self)){
+            return (collectionView as! SuperCollectionView).totalItemsInSection(section)
+        }
+        print("[ERROR] not enough")
+        return 0
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell{
+        
+        /*
+        This method processes and delegates UICollectionViewCells. UICollectionView that are SuperCollectionViews manage their own cells so if UICollectionView is a SuperCollectionView let it handle itself.
+        */
+        
+        if (collectionView.isKindOfClass(SuperCollectionView.self)){
+            return (collectionView as! SuperCollectionView).cellAtIndex(indexPath)
+        }
+        print("[ERROR] THIS SHOULD NEVER HAPPEN! \(collectionView)")
+        return UICollectionViewCell()
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        
+        /*
+        This method defines the size of UICollectionViewCells. UICollectionView that are SuperCollectionViews manage their own cell sizes so if UICollectionView is a SuperCollectionView let it handle itself.
+        */
+        
+        if (collectionView.isKindOfClass(SuperCollectionView.self)){
+            return (collectionView as! SuperCollectionView).sizeOfItemAtIndex(indexPath)
+        }
+        /*
+        Unknown collectionView so default.
+        */
+        return CGSizeMake(0, 0)
+    }
+    
+    override func didUpdateFocusInContext(context: UIFocusUpdateContext, withAnimationCoordinator coordinator: UIFocusAnimationCoordinator) {
+        super.didUpdateFocusInContext(context, withAnimationCoordinator: coordinator)
+        
+        if (context.nextFocusedView != nil && self.subviews.contains(context.nextFocusedView!) == false ){
+            if (context.previouslyFocusedView != nil && self.subviews.contains(context.previouslyFocusedView!) && self.indexPathForCell(context.previouslyFocusedView as! UICollectionViewCell) != nil){
+                self.cellShouldLoseFocus(context.previouslyFocusedView as! UICollectionViewCell, indexPath: self.indexPathForCell(context.previouslyFocusedView as! UICollectionViewCell)!)
+            }
+        }
+        if (context.previouslyFocusedView != nil && self.subviews.contains(context.previouslyFocusedView!) == false ){
+            if (context.nextFocusedView != nil && self.subviews.contains(context.nextFocusedView!) && self.indexPathForCell(context.nextFocusedView as! UICollectionViewCell) != nil){
+                self.cellShouldFocus(context.nextFocusedView as! UICollectionViewCell, indexPath: self.indexPathForCell(context.nextFocusedView as! UICollectionViewCell)!)
+            }
+        }
+    }
+    
+    func collectionView(collectionView: UICollectionView, shouldUpdateFocusInContext context: UICollectionViewFocusUpdateContext) -> Bool {
+        
+        /*
+        
+        This method handles when the user moves focus over a UICollectionViewCell and/or UICollectionView.
+        
+        UICollectionView that are SuperCollectionViews manage their own focus events so if UICollectionView is a SuperCollectionView let it handle itself.
+        
+        Lastly if he LatestVideos or SlideShow collection view are focused move everything up so you can see them.
+        */
+        
+        if (context.previouslyFocusedView?.superview!.isKindOfClass(SuperCollectionView.self) == true && context.previouslyFocusedIndexPath != nil){
+            (context.previouslyFocusedView?.superview as! SuperCollectionView).cellShouldLoseFocus(context.previouslyFocusedView!, indexPath: context.previouslyFocusedIndexPath!)
+        }
+        if (context.nextFocusedView?.superview!.isKindOfClass(SuperCollectionView.self) == true && context.nextFocusedIndexPath != nil){
+            (context.nextFocusedView?.superview as! SuperCollectionView).cellShouldFocus(context.nextFocusedView!, indexPath: context.nextFocusedIndexPath!)
+            (context.nextFocusedView?.superview as! SuperCollectionView).cellShouldFocus(context.nextFocusedView!, indexPath: context.nextFocusedIndexPath!, previousIndexPath: context.previouslyFocusedIndexPath)
+        }
+        
+        return true
     }
     
 }

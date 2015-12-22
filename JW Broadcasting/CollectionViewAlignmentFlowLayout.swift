@@ -9,7 +9,6 @@
 import UIKit
 
 class CollectionViewAlignmentFlowLayout: UICollectionViewFlowLayout {
-    //1.3
     var spacingPercentile:CGFloat=1
     var headerSpace:CGFloat=50
     var headerBottomSpace:CGFloat=25
@@ -26,7 +25,7 @@ class CollectionViewAlignmentFlowLayout: UICollectionViewFlowLayout {
         */
         
         if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
-            layoutAttribute.frame=CGRect(x: (self.collectionView?.frame.size.width)!-(layoutAttribute.frame.origin.x), y: (layoutAttribute.frame.origin.y), width: (layoutAttribute.frame.size.width), height: (layoutAttribute.frame.size.height))
+            layoutAttribute.frame=CGRect(x: (self.collectionView?.frame.size.width)!-(layoutAttribute.frame.origin.x)-(layoutAttribute.frame.size.width), y: (layoutAttribute.frame.origin.y), width: (layoutAttribute.frame.size.width), height: (layoutAttribute.frame.size.height))
         }
         
         
@@ -64,14 +63,14 @@ class CollectionViewAlignmentFlowLayout: UICollectionViewFlowLayout {
             /*
             Handles right to left placement of items. Does this by reversing the math (Getting the far right distance and moving the attributes back the normal distance plus their width instead of from the left and adding both.)
             */
-            
+            /*
             if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
                 attrs.frame=CGRect(
-                    x: self.collectionView!.frame.size.width-attrs.frame.origin.x-attrs.frame.size.width,
+                    x: self.collectionView!.frame.size.width-attrs.frame.origin.x,
                     y: attrs.frame.origin.y,
                     width: attrs.frame.size.width,
                     height: attrs.frame.height)
-            }
+            }*/
             /*
             Calculates the vertical position of the items using spacgingPercentile and the offset added by section headers.
             */
@@ -107,12 +106,33 @@ class CollectionViewAlignmentFlowLayout: UICollectionViewFlowLayout {
         */
         
         
-        let layout=(self.collectionView?.delegate as! CategoryController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forRow: 0, inSection: 0))
+        var layout=CGSize(width: 0,height: 0)
+        if ((self.collectionView?.delegate?.isKindOfClass(CategoryController.self)) == true){
+            layout=(self.collectionView!.delegate as! CategoryController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forRow: 0, inSection: 0))
+        }
+        else if ((self.collectionView?.delegate?.isKindOfClass(MediaOnDemandController.self)) == true){
+            
+            print((self.collectionView!.delegate as! MediaOnDemandController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forRow: 0, inSection: 0)))
+            
+            //self.collectionView.
+            return CGSize(width: (self.collectionView?.frame.size.width)!, height: 1500)
+            //layout=(self.collectionView!.delegate as! MediaOnDemandController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forRow: 0, inSection: 0))
+        }
+        else if ((self.collectionView?.delegate?.isKindOfClass(AudioController.self)) == true){
+            
+            print((self.collectionView!.delegate as! AudioController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forRow: 0, inSection: 0)))
+            
+            //self.collectionView.
+            return CGSize(width: (self.collectionView?.frame.size.width)!, height: 500)
+            //layout=(self.collectionView!.delegate as! MediaOnDemandController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forRow: 0, inSection: 0))
+        }
         let verticalRowCount=ceil(super.collectionViewContentSize().height/(layout.height))
         
         let headerHeight=layoutAttributesForSupplementaryViewOfKind( UICollectionElementKindSectionHeader , atIndexPath: NSIndexPath(forRow: 0, inSection: 0))?.frame.size.height
         let accumulativeHeaderHeight=CGFloat((self.collectionView?.numberOfSections())!)*headerHeight!
         
-        return CGSize(width: super.collectionViewContentSize().width, height: (layout.height)*spacingPercentile*verticalRowCount+accumulativeHeaderHeight)
+        let completedContentSize=CGSize(width: super.collectionViewContentSize().width, height: (layout.height)*spacingPercentile*verticalRowCount+accumulativeHeaderHeight)
+        
+        return completedContentSize
     }
 }

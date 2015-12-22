@@ -26,6 +26,13 @@ class AudioController: CategoryController {
     */
 
     override func viewDidLoad() {
+        
+        /*
+        
+        All the code for this section is in CategoryController. However we can change some properties. For instance we need to specify the category file name in this case Audio. Also we need to appropriately space the items based on the size of the previews so that they are not on top of each other.
+        
+        */
+        
         self.category="Audio"
         super.viewDidLoad()
         (self.videoCollection.collectionViewLayout as! CollectionViewAlignmentFlowLayout).spacingPercentile=1.2
@@ -39,11 +46,9 @@ class AudioController: CategoryController {
     */
     
     override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        /*if (self.parentCategory.count == 1){
-            if (self.parentCategory[0]["name"] as! String == "Dramatic Bible Readings" || self.parentCategory[0]["name"] as! String == "Dramas"){
-                return CGSizeMake(525, 525)
-            }
-        }*/
+        
+        /*The size of each preview item*/
+        
         return CGSizeMake(350, 350)
     }
     

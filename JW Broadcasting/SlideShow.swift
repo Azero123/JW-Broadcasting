@@ -21,8 +21,9 @@ class SlideShow: SuperCollectionView {
         /*
         Initial call for moving featured videos.
         */
+        
         if (HomeFeaturedSlide){
-            self.performSelector("timesUp", withObject: nil, afterDelay: 2.25)
+            self.performSelector("timesUp", withObject: nil, afterDelay: NSTimeInterval(timeToShow))
         }
     }
     
@@ -46,12 +47,26 @@ class SlideShow: SuperCollectionView {
                 
                 
                 
+                //self.moveToSlide(1)
+                
                 if (textDirection == .RightToLeft){//RTL alignment
                     self.contentOffset=self.centerPointFor(CGPointMake(self.contentSize.width-self.frame.size.width+self.contentInset.right, 0))
                 }
                 else {//LTR alignment
-                    self.contentOffset=CGPointMake(-self.contentInset.left, 0)
+                    //self.contentOffset=CGPointMake(-self.contentInset.left, 0)
+                    let size=self.sizeOfItemAtIndex(NSIndexPath(forRow: 0, inSection: 0))
+                    self.contentOffset=self.centerPointFor(CGPoint(x: size.width*(self.totalItemsInSection(0)>4 ? 2 : 1) , y: size.height))
                 }
+                
+                self.performBatchUpdates({
+                    self.reloadSections(NSIndexSet(index: 0))
+                    }, completion: { (finished:Bool) in
+                        if (finished){
+                            //self.moveToSlide(1)
+                            self.reloadItemsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)])
+                        }
+                
+                })
 
                 //reload content
                 self.reloadData()
@@ -80,21 +95,18 @@ class SlideShow: SuperCollectionView {
     
     override func cellAtIndex(indexPath:NSIndexPath) -> UICollectionViewCell{
         let slide: UICollectionViewCell = self.dequeueReusableCellWithReuseIdentifier("slide", forIndexPath: indexPath)
+        slide.tag=indexPath.row
         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
         
         var index=indexPath.row
         let totalItems=self.totalItemsInSection(0)
-        index=indexPath.row-1+indexOffset
+        index=indexPath.row-2+indexOffset
         while (index>totalItems-1){
             index = index-(totalItems)
         }
-        while (index < -1){
+        while (index < 0){
             index = index+(totalItems)
         }
-        if (index == -1){
-            index = totalItems-1
-        }
-        
         //print("reloading index \(indexPath.row) as \(index)")
         
         /*if (index>totalItems-1){
@@ -119,12 +131,14 @@ class SlideShow: SuperCollectionView {
                         dispatch_async(dispatch_get_main_queue()) {
                             //slide.layoutSubviews()
                             
-                            let image=imageUsingCache(imageURL!)
-                            imageView.image=image
-                            imageView.userInteractionEnabled = true
-                            imageView.adjustsImageWhenAncestorFocused = true
-                            imageView.frame=CGRectMake(0, 0, slide.frame.size.width, slide.frame.size.height)
                             
+                            if (slide.tag==indexPath.row){
+                                let image=imageUsingCache(imageURL!)
+                                imageView.image=image
+                                imageView.userInteractionEnabled = true
+                                imageView.adjustsImageWhenAncestorFocused = true
+                                imageView.frame=CGRectMake(0, 0, slide.frame.size.width, slide.frame.size.height)
+                            }
                             
                             
                         }
@@ -147,16 +161,6 @@ class SlideShow: SuperCollectionView {
             }
             if (subview.isKindOfClass(marqueeLabel.self)){
                 (subview as! marqueeLabel).darkBackground=true
-            }
-            if (subview.isKindOfClass(MarqueeLabel.self)){
-                (subview as! MarqueeLabel).type = .Continuous
-                (subview as! MarqueeLabel).textAlignment = .Center
-                (subview as! MarqueeLabel).lineBreakMode = .ByTruncatingHead
-                (subview as! MarqueeLabel).scrollDuration = ((subview as! MarqueeLabel).intrinsicContentSize().width)/50
-                (subview as! MarqueeLabel).fadeLength = 15.0
-                (subview as! MarqueeLabel).leadingBuffer = 40.0
-                (subview as! MarqueeLabel).animationDelay = 0
-                (subview as! MarqueeLabel).pauseLabel()
             }
         }
         }
@@ -196,7 +200,7 @@ class SlideShow: SuperCollectionView {
         
         let totalItems=self.totalItemsInSection(0)
         if (totalItems>=4){
-            index=indexPath.row-1+indexOffset
+            index=indexPath.row-2+indexOffset
             while (index>totalItems-1){
                 index = index-(totalItems)
             }
@@ -220,7 +224,15 @@ class SlideShow: SuperCollectionView {
         let SLSlide=SLSlides![index]
         let imageURL=unfold(SLSlide, instructions: ["item","images","pnr","lg"]) as? String
         if ((self.delegate?.isKindOfClass(HomeController.self)) == true){
-            (self.delegate as! HomeController).backgroundImageView.image=imageUsingCache(imageURL!)
+            
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
+                if (view==UIScreen.mainScreen().focusedView){
+                    UIView.transitionWithView((self.delegate as! HomeController).backgroundImageView, duration: 0.8, options: .TransitionCrossDissolve, animations: {
+                        (self.delegate as! HomeController).backgroundImageView.image=imageUsingCache(imageURL!)
+                        }, completion: nil)
+                }
+            }
         }
         
         
@@ -245,10 +257,9 @@ class SlideShow: SuperCollectionView {
                     loopItemFrom(rightIndex, to: leftIndex)
                 }
             }
-            if (indexPath.row == 0){
-                loopItemFrom(rightIndex, to: leftIndex)
-            }
         }
+        
+        
         SLIndex=indexPath.row
         
         
@@ -257,14 +268,9 @@ class SlideShow: SuperCollectionView {
         */
         
         for subview in (view.subviews.first!.subviews) {
-            if (subview.isKindOfClass(UILabel.self)){
-                subview.alpha=1
-            }
             if (subview.isKindOfClass(marqueeLabel.self)){
                 (subview as! marqueeLabel).beginFocus()
-            }
-            if (subview.isKindOfClass(MarqueeLabel.self)){
-                (subview as! MarqueeLabel).unpauseLabel()
+                subview.layoutIfNeeded()
             }
         }
         selectedSlideShow=true
@@ -276,21 +282,20 @@ class SlideShow: SuperCollectionView {
         Infinite scrolling code
         Code for moving last or first item to opposite side side.
         */
-        let cell=self.cellForItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0))
         if (indexToMove<indexToGoTo){
             indexOffset++
         }
         if (indexToMove>indexToGoTo){
             indexOffset--
         }
-        cell?.hidden=true
         
-        self.moveItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0), toIndexPath: NSIndexPath(forRow: indexToGoTo, inSection: 0))
         self.performBatchUpdates({
             
-            }, completion: { (finished:Bool) in
-                cell?.hidden=false
-        })
+            self.layer.speed=0
+            
+            self.moveItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0), toIndexPath: NSIndexPath(forRow: indexToGoTo, inSection: 0))
+            self.layer.speed=1
+            }, completion: nil)
     }
     
     override func cellShouldLoseFocus(view:UIView, indexPath:NSIndexPath){
@@ -298,25 +303,18 @@ class SlideShow: SuperCollectionView {
         Code for unfocus effects and unblocking automatic sliding.
         */
         
-        
         for subview in (view.subviews.first!.subviews) {
             if (subview.isKindOfClass(UIImageView.self)){
                 subview.frame=view.bounds
             }
-            if (subview.isKindOfClass(UILabel.self)){
-                subview.alpha=0
-            }
             if (subview.isKindOfClass(marqueeLabel.self)){
                 (subview as! marqueeLabel).endFocus()
-            }
-            if (subview.isKindOfClass(MarqueeLabel.self)){
-                (subview as! MarqueeLabel).pauseLabel()
             }
         }
         selectedSlideShow=false
     }
     
-    func moveToSlide(atIndex:Int){
+    func moveToSlide(var atIndex:Int){
         /*
         Code for moving the slides after checking to make sure the cell it's going to is loaded.
         */
@@ -324,7 +322,28 @@ class SlideShow: SuperCollectionView {
         if (unfold(base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider") != nil ){
             
             if (self.cellForItemAtIndexPath(NSIndexPath(forRow: atIndex, inSection: 0)) != nil){
+                
+                
+                let totalItems=self.totalItemsInSection(0)
+                let leftIndex = 0
+                let rightIndex = totalItems-1
+                
+                /*Infinite loop auto scrolling*/
+                
+                if (totalItems>3){
+                    
+                    while (atIndex>totalItems-3){
+                        atIndex--
+                        loopItemFrom(leftIndex, to: rightIndex)
+                    }
+                    while (atIndex<2){
+                        atIndex++
+                        loopItemFrom(rightIndex, to: leftIndex)
+                    }
+                }
+                
                 self.scrollToItemAtIndexPath(NSIndexPath(forRow: atIndex, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
+                
                 SLIndex=atIndex
             }
         }
@@ -360,6 +379,7 @@ class SlideShow: SuperCollectionView {
             }
         }
     }
+    let player=SuperMediaPlayer()
     
     override func cellSelect(indexPath:NSIndexPath){
         /*
@@ -372,7 +392,7 @@ class SlideShow: SuperCollectionView {
         var index=indexPath.row
         
         let totalItems=self.totalItemsInSection(0)
-        index=indexPath.row-1+indexOffset
+        index=indexPath.row-2+indexOffset
         
         if (totalItems>=4){
             while (index>totalItems-1){
@@ -386,8 +406,6 @@ class SlideShow: SuperCollectionView {
             index = totalItems-1
         }
         
-        print("index: \(index)")
-        
         /*
         Grab the video url
         make sure it is real
@@ -397,19 +415,8 @@ class SlideShow: SuperCollectionView {
         
         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
         
-        let videosData=unfold("\(pathForSliderData)|settings|WebHomeSlider|slides|\(index)")!.objectForKey("item")!.objectForKey("files") as? NSArray
-        if (videosData != nil){
-            let videoData=videosData?.objectAtIndex((videosData?.count)!-1)
-            let videoURLString=videoData?.objectForKey("progressiveDownloadURL") as! String
-            
-            let videoURL = NSURL(string: videoURLString)
-            let player = AVPlayer(URL: videoURL!)
-            let playerViewController = AVPlayerViewController()
-            playerViewController.player = player
-            self.window?.rootViewController!.presentViewController(playerViewController, animated: true) {
-                playerViewController.player!.play()
-            }
-        }
+        player.updatePlayerUsingDictionary(unfold("\(pathForSliderData)|settings|WebHomeSlider|slides|\(index)|item") as! NSDictionary)
+        player.play()
     }
     
     override func layoutForCellAtIndex(indexPath:NSIndexPath, withPreLayout:UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
@@ -438,7 +445,10 @@ class SlideShow: SuperCollectionView {
         
         let cellWidth=(self.delegate as! HomeController).collectionView(self, layout: self.collectionViewLayout, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*(self.collectionViewLayout as! CollectionViewHorizontalFlowLayout).spacingPercentile
         
-        let itemIndex=round((proposedContentOffset.x+((self.frame.size.width)-cellWidth)/2)/cellWidth)
+        var itemIndex=round((proposedContentOffset.x+((self.frame.size.width)-cellWidth)/2)/cellWidth)
+        if (isnan(itemIndex)){
+            itemIndex=0
+        }
         return CGPoint(x: itemIndex*(cellWidth)-((self.frame.size.width)-cellWidth)/2
             , y: 0)
         

@@ -8,16 +8,35 @@
 
 /* Begin PBXBuildFile section */
 		9F07787F1BD1CD5700476E4C /* keyPhrasesIndex in Resources */ = {isa = PBXBuildFile; fileRef = 9F07787E1BD1CD5700476E4C /* keyPhrasesIndex */; };
-		9F0A01971C0775DD0052B761 /* MarqueeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0A01961C0775DD0052B761 /* MarqueeLabel.swift */; };
+		9F0AB9181C24C19100ADCB77 /* piano-singtojehovah.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F0AB9171C24C19100ADCB77 /* piano-singtojehovah.png */; };
+		9F0AB91A1C24DC7200ADCB77 /* drama.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F0AB9191C24DC7200ADCB77 /* drama.png */; };
+		9F0AB91C1C24E3D900ADCB77 /* readings.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F0AB91B1C24E3D900ADCB77 /* readings.png */; };
+		9F0AB91E1C24E3E200ADCB77 /* kingdommelodies.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F0AB91D1C24E3E200ADCB77 /* kingdommelodies.png */; };
+		9F0AB9201C24E9D300ADCB77 /* AudioMainCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0AB91F1C24E9D300ADCB77 /* AudioMainCategories.swift */; };
 		9F161E9A1BED216F0011F16A /* AudioController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F161E991BED216F0011F16A /* AudioController.swift */; };
 		9F161E9C1BED256C0011F16A /* CategoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F161E9B1BED256C0011F16A /* CategoryController.swift */; };
 		9F22B00D1BFBCBCF0041E588 /* JW-White-Background-Blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F22B00C1BFBCBCF0041E588 /* JW-White-Background-Blue.png */; };
 		9F27BB051BA9341500C6DAFF /* StreamingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F27BB041BA9341500C6DAFF /* StreamingViewController.swift */; };
 		9F38D1B91BB23C980081073A /* RootController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F38D1B81BB23C980081073A /* RootController.swift */; };
 		9F38D1BB1BB2566B0081073A /* LanguageSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F38D1BA1BB2566B0081073A /* LanguageSelector.swift */; };
-		9F3E37021BF32438009C7847 /* marqueeLabel-old.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E37011BF32438009C7847 /* marqueeLabel-old.swift */; };
+		9F3E37021BF32438009C7847 /* MarqueeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E37011BF32438009C7847 /* MarqueeLabel.swift */; };
 		9F3F7F5A1BF6D7FA0010A789 /* SlideShow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3F7F591BF6D7FA0010A789 /* SlideShow.swift */; };
 		9F3F7F5E1BF6D9FD0010A789 /* SuperCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3F7F5D1BF6D9FD0010A789 /* SuperCollectionView.swift */; };
+		9F4915821C25268900B191F4 /* vocals-singtojehovah.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F4915811C25268900B191F4 /* vocals-singtojehovah.png */; };
+		9F4915841C25269000B191F4 /* newsongs-singtojehovah.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F4915831C25269000B191F4 /* newsongs-singtojehovah.png */; };
+		9F4915861C25394E00B191F4 /* playall.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F4915851C25394E00B191F4 /* playall.png */; };
+		9F4915881C25395500B191F4 /* shufflemusic.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F4915871C25395500B191F4 /* shufflemusic.png */; };
+		9F4916081C279B8800B191F4 /* JWOrgLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F4916071C279B8800B191F4 /* JWOrgLogo.png */; };
+		9F49160A1C279B9500B191F4 /* FullLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F4916091C279B9500B191F4 /* FullLogo.png */; };
+		9F49160C1C27D8D200B191F4 /* TableViewCellSmarterLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F49160B1C27D8D200B191F4 /* TableViewCellSmarterLayout.swift */; };
+		9F49160F1C27E27E00B191F4 /* fade-back-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F49160D1C27E27E00B191F4 /* fade-back-1.png */; };
+		9F4916101C27E27E00B191F4 /* fade-back-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F49160E1C27E27E00B191F4 /* fade-back-2.png */; };
+		9F4916121C27E55300B191F4 /* be_faithful_and_conquer_your_fears.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F4916111C27E55300B191F4 /* be_faithful_and_conquer_your_fears.png */; };
+		9F4916141C27F32400B191F4 /* -assets-a-iacyf-iacyf_E-iacyf_E_lg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9F4916131C27F32400B191F4 /* -assets-a-iacyf-iacyf_E-iacyf_E_lg.jpg */; };
+		9F536CCA1C116D230070BB12 /* jw-broadcasting-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F536CC91C116D230070BB12 /* jw-broadcasting-logo.png */; };
+		9F536D4C1C1235220070BB12 /* MediaOnDemandCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F536D4B1C1235220070BB12 /* MediaOnDemandCategory.swift */; };
+		9F536D501C1275130070BB12 /* MODSubcategoryCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F536D4F1C1275130070BB12 /* MODSubcategoryCollectionView.swift */; };
+		9F59F1F31C138CE400805D65 /* TopShelf.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9F59F1F21C138CE400805D65 /* TopShelf.jpg */; };
 		9F5CE48D1BB644C700378D4C /* CollectionViewHorizontalFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5CE48C1BB644C700378D4C /* CollectionViewHorizontalFlowLayout.swift */; };
 		9F72EF451BF738D000680302 /* ChannelSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F72EF441BF738D000680302 /* ChannelSelector.swift */; };
 		9F7872D21BF952DD00EE409B /* ResourceHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7872D11BF952DD00EE409B /* ResourceHandling.swift */; };
@@ -33,14 +52,19 @@
 		9F9333E31BFFB5CA00092AED /* mm3.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9F9333E21BFFB5CA00092AED /* mm3.ttf */; };
 		9F9333E71C00320100092AED /* LICENSE.md in Sources */ = {isa = PBXBuildFile; fileRef = 9F9333E61C00320100092AED /* LICENSE.md */; };
 		9FC0441C1BF66E4100AB0B4F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FC0441B1BF66E4100AB0B4F /* QuartzCore.framework */; };
+		9FC7985B1C2901F80026B6C0 /* SuperMediaHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC7985A1C2901F80026B6C0 /* SuperMediaHandler.swift */; };
 		9FC81A521C0D77640087510F /* MediaOnDemandController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC81A511C0D77640087510F /* MediaOnDemandController.swift */; };
-		9FC81A561C0D77920087510F /* Acknowledgements.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9FC81A551C0D77920087510F /* Acknowledgements.txt */; };
 		9FD098A71C027A2A002324BF /* try.c in Sources */ = {isa = PBXBuildFile; fileRef = 9FD098A51C027A2A002324BF /* try.c */; };
 		9FD098A91C027B5A002324BF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD098A81C027B5A002324BF /* Foundation.framework */; };
 		9FD098AC1C027CE4002324BF /* TryCatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD098AB1C027CE4002324BF /* TryCatch.m */; };
 		9FD474651BFDA1CF008C55C6 /* CollectionViewAlignmentFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD474641BFDA1CF008C55C6 /* CollectionViewAlignmentFlowLayout.swift */; };
+		9FE49B4F1C1B702D00231E5D /* StreamingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE49B4E1C1B702D00231E5D /* StreamingView.swift */; };
+		9FE5B9A31C1E90ED00B14FA9 /* MediaOnDemandMainCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE5B9A21C1E90ED00B14FA9 /* MediaOnDemandMainCategories.swift */; };
+		9FE5B9A61C1FF55100B14FA9 /* NewAudioController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE5B9A51C1FF55100B14FA9 /* NewAudioController.swift */; };
+		9FE5B9A81C23E6DC00B14FA9 /* AudioCategoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE5B9A71C23E6DC00B14FA9 /* AudioCategoryController.swift */; };
+		9FE5B9AA1C23ED9100B14FA9 /* Singing.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 9FE5B9A91C23ED9000B14FA9 /* Singing.pdf */; };
+		9FE5B9AC1C23F0B600B14FA9 /* audio-artwork in Resources */ = {isa = PBXBuildFile; fileRef = 9FE5B9AB1C23F0B600B14FA9 /* audio-artwork */; };
 		9FE9C17A1C019F0300E189D7 /* LaunchScreenEarth.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FE9C1791C019F0300E189D7 /* LaunchScreenEarth.png */; };
-		9FE9C17C1C019F0C00E189D7 /* TopShelf.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FE9C17B1C019F0C00E189D7 /* TopShelf.png */; };
 		9FE9C17F1C01A83000E189D7 /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE9C17E1C01A83000E189D7 /* SearchController.swift */; };
 		9FFA67851C03D35A00ECEF86 /* Control.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFA67841C03D35A00ECEF86 /* Control.swift */; };
 		9FFB9DB21BB528820059E5EA /* VideoOnDemandController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFB9DB11BB528820059E5EA /* VideoOnDemandController.swift */; };
@@ -61,7 +85,11 @@
 /* Begin PBXFileReference section */
 		9F07787C1BD1A99A00476E4C /* ideas */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ideas; sourceTree = "<group>"; };
 		9F07787E1BD1CD5700476E4C /* keyPhrasesIndex */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = keyPhrasesIndex; sourceTree = "<group>"; };
-		9F0A01961C0775DD0052B761 /* MarqueeLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarqueeLabel.swift; sourceTree = "<group>"; };
+		9F0AB9171C24C19100ADCB77 /* piano-singtojehovah.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "piano-singtojehovah.png"; sourceTree = "<group>"; };
+		9F0AB9191C24DC7200ADCB77 /* drama.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = drama.png; sourceTree = "<group>"; };
+		9F0AB91B1C24E3D900ADCB77 /* readings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = readings.png; sourceTree = "<group>"; };
+		9F0AB91D1C24E3E200ADCB77 /* kingdommelodies.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kingdommelodies.png; sourceTree = "<group>"; };
+		9F0AB91F1C24E9D300ADCB77 /* AudioMainCategories.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioMainCategories.swift; sourceTree = "<group>"; };
 		9F161E991BED216F0011F16A /* AudioController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioController.swift; sourceTree = "<group>"; };
 		9F161E9B1BED256C0011F16A /* CategoryController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryController.swift; sourceTree = "<group>"; };
 		9F22B00C1BFBCBCF0041E588 /* JW-White-Background-Blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "JW-White-Background-Blue.png"; sourceTree = "<group>"; };
@@ -69,10 +97,27 @@
 		9F38D1B81BB23C980081073A /* RootController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootController.swift; sourceTree = "<group>"; };
 		9F38D1BA1BB2566B0081073A /* LanguageSelector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LanguageSelector.swift; sourceTree = "<group>"; };
 		9F38D1BC1BB26B1F0081073A /* jwtv.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = jwtv.ttf; sourceTree = "<group>"; };
-		9F3E37011BF32438009C7847 /* marqueeLabel-old.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "marqueeLabel-old.swift"; sourceTree = "<group>"; };
+		9F3E37011BF32438009C7847 /* MarqueeLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarqueeLabel.swift; sourceTree = "<group>"; };
 		9F3F7F591BF6D7FA0010A789 /* SlideShow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideShow.swift; sourceTree = "<group>"; };
 		9F3F7F5B1BF6D9AB0010A789 /* saved code */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "saved code"; sourceTree = "<group>"; };
 		9F3F7F5D1BF6D9FD0010A789 /* SuperCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuperCollectionView.swift; sourceTree = "<group>"; };
+		9F4915811C25268900B191F4 /* vocals-singtojehovah.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vocals-singtojehovah.png"; sourceTree = "<group>"; };
+		9F4915831C25269000B191F4 /* newsongs-singtojehovah.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "newsongs-singtojehovah.png"; sourceTree = "<group>"; };
+		9F4915851C25394E00B191F4 /* playall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playall.png; sourceTree = "<group>"; };
+		9F4915871C25395500B191F4 /* shufflemusic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shufflemusic.png; sourceTree = "<group>"; };
+		9F4916051C279AFD00B191F4 /* JWBroadcastingSmall.lsr */ = {isa = PBXFileReference; lastKnownFileType = file; path = JWBroadcastingSmall.lsr; sourceTree = "<group>"; };
+		9F4916061C279B0200B191F4 /* JWBroadcastingLarge.lsr */ = {isa = PBXFileReference; lastKnownFileType = file; path = JWBroadcastingLarge.lsr; sourceTree = "<group>"; };
+		9F4916071C279B8800B191F4 /* JWOrgLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = JWOrgLogo.png; sourceTree = "<group>"; };
+		9F4916091C279B9500B191F4 /* FullLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FullLogo.png; sourceTree = "<group>"; };
+		9F49160B1C27D8D200B191F4 /* TableViewCellSmarterLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCellSmarterLayout.swift; sourceTree = "<group>"; };
+		9F49160D1C27E27E00B191F4 /* fade-back-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fade-back-1.png"; sourceTree = "<group>"; };
+		9F49160E1C27E27E00B191F4 /* fade-back-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fade-back-2.png"; sourceTree = "<group>"; };
+		9F4916111C27E55300B191F4 /* be_faithful_and_conquer_your_fears.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = be_faithful_and_conquer_your_fears.png; sourceTree = "<group>"; };
+		9F4916131C27F32400B191F4 /* -assets-a-iacyf-iacyf_E-iacyf_E_lg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-assets-a-iacyf-iacyf_E-iacyf_E_lg.jpg"; sourceTree = "<group>"; };
+		9F536CC91C116D230070BB12 /* jw-broadcasting-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jw-broadcasting-logo.png"; sourceTree = "<group>"; };
+		9F536D4B1C1235220070BB12 /* MediaOnDemandCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaOnDemandCategory.swift; sourceTree = "<group>"; };
+		9F536D4F1C1275130070BB12 /* MODSubcategoryCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MODSubcategoryCollectionView.swift; sourceTree = "<group>"; };
+		9F59F1F21C138CE400805D65 /* TopShelf.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = TopShelf.jpg; sourceTree = "<group>"; };
 		9F5CE48C1BB644C700378D4C /* CollectionViewHorizontalFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewHorizontalFlowLayout.swift; sourceTree = "<group>"; };
 		9F72EF441BF738D000680302 /* ChannelSelector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelSelector.swift; sourceTree = "<group>"; };
 		9F7872D11BF952DD00EE409B /* ResourceHandling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceHandling.swift; sourceTree = "<group>"; };
@@ -99,8 +144,8 @@
 		9F9333E81C00396800092AED /* DEMO NOTES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "DEMO NOTES.md"; sourceTree = SOURCE_ROOT; };
 		9F9333EB1C00515A00092AED /* JW Broadcasting.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "JW Broadcasting.entitlements"; sourceTree = "<group>"; };
 		9FC0441B1BF66E4100AB0B4F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		9FC7985A1C2901F80026B6C0 /* SuperMediaHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuperMediaHandler.swift; sourceTree = "<group>"; };
 		9FC81A511C0D77640087510F /* MediaOnDemandController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaOnDemandController.swift; sourceTree = "<group>"; };
-		9FC81A551C0D77920087510F /* Acknowledgements.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Acknowledgements.txt; sourceTree = SOURCE_ROOT; };
 		9FD098A41C027A2A002324BF /* JW Broadcasting-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JW Broadcasting-Bridging-Header.h"; sourceTree = "<group>"; };
 		9FD098A51C027A2A002324BF /* try.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = try.c; sourceTree = "<group>"; };
 		9FD098A61C027A2A002324BF /* try.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = try.h; sourceTree = "<group>"; };
@@ -108,6 +153,12 @@
 		9FD098AA1C027CE4002324BF /* TryCatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TryCatch.h; sourceTree = "<group>"; };
 		9FD098AB1C027CE4002324BF /* TryCatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TryCatch.m; sourceTree = "<group>"; };
 		9FD474641BFDA1CF008C55C6 /* CollectionViewAlignmentFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewAlignmentFlowLayout.swift; sourceTree = "<group>"; };
+		9FE49B4E1C1B702D00231E5D /* StreamingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamingView.swift; sourceTree = "<group>"; };
+		9FE5B9A21C1E90ED00B14FA9 /* MediaOnDemandMainCategories.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaOnDemandMainCategories.swift; sourceTree = "<group>"; };
+		9FE5B9A51C1FF55100B14FA9 /* NewAudioController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewAudioController.swift; sourceTree = "<group>"; };
+		9FE5B9A71C23E6DC00B14FA9 /* AudioCategoryController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioCategoryController.swift; sourceTree = "<group>"; };
+		9FE5B9A91C23ED9000B14FA9 /* Singing.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Singing.pdf; sourceTree = "<group>"; };
+		9FE5B9AB1C23F0B600B14FA9 /* audio-artwork */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "audio-artwork"; sourceTree = "<group>"; };
 		9FE9C1791C019F0300E189D7 /* LaunchScreenEarth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchScreenEarth.png; sourceTree = "<group>"; };
 		9FE9C17B1C019F0C00E189D7 /* TopShelf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TopShelf.png; sourceTree = "<group>"; };
 		9FE9C17E1C01A83000E189D7 /* SearchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
@@ -147,6 +198,7 @@
 				9F7872CB1BF950E700EE409B /* Streaming */,
 				9F7872C81BF9506B00EE409B /* Video On Demand */,
 				9F7872C91BF950CB00EE409B /* Audio */,
+				9FE5B9A41C1FF51700B14FA9 /* New Audio */,
 				9F7872CA1BF950D800EE409B /* Language */,
 				9FE9C17D1C01A80D00E189D7 /* Search */,
 				9FFA67861C0411EB00ECEF86 /* BetaMediaOnDemand */,
@@ -159,9 +211,10 @@
 			children = (
 				9F5CE48C1BB644C700378D4C /* CollectionViewHorizontalFlowLayout.swift */,
 				9FD474641BFDA1CF008C55C6 /* CollectionViewAlignmentFlowLayout.swift */,
-				9F3E37011BF32438009C7847 /* marqueeLabel-old.swift */,
-				9F0A01961C0775DD0052B761 /* MarqueeLabel.swift */,
+				9F3E37011BF32438009C7847 /* MarqueeLabel.swift */,
 				9F3F7F5D1BF6D9FD0010A789 /* SuperCollectionView.swift */,
+				9FE49B4E1C1B702D00231E5D /* StreamingView.swift */,
+				9FC7985A1C2901F80026B6C0 /* SuperMediaHandler.swift */,
 			);
 			name = "Custom Classes";
 			sourceTree = "<group>";
@@ -231,6 +284,11 @@
 		9F7872CE1BF9515800EE409B /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				9F49160D1C27E27E00B191F4 /* fade-back-1.png */,
+				9F4916131C27F32400B191F4 /* -assets-a-iacyf-iacyf_E-iacyf_E_lg.jpg */,
+				9F4916111C27E55300B191F4 /* be_faithful_and_conquer_your_fears.png */,
+				9F49160E1C27E27E00B191F4 /* fade-back-2.png */,
+				9F536CC91C116D230070BB12 /* jw-broadcasting-logo.png */,
 				9F7872D31BF955C800EE409B /* LaunchScreen.png */,
 				9F7872D41BF955C800EE409B /* LaunchScreenBlue.png */,
 				9F7872D51BF955C800EE409B /* LaunchScreenEarth-Washed.png */,
@@ -239,8 +297,23 @@
 				9F22B00C1BFBCBCF0041E588 /* JW-White-Background-Blue.png */,
 				9FE9C1791C019F0300E189D7 /* LaunchScreenEarth.png */,
 				9FE9C17B1C019F0C00E189D7 /* TopShelf.png */,
+				9F59F1F21C138CE400805D65 /* TopShelf.jpg */,
+				9F0AB9171C24C19100ADCB77 /* piano-singtojehovah.png */,
+				9F0AB9191C24DC7200ADCB77 /* drama.png */,
+				9F0AB91B1C24E3D900ADCB77 /* readings.png */,
+				9F0AB91D1C24E3E200ADCB77 /* kingdommelodies.png */,
+				9F4915811C25268900B191F4 /* vocals-singtojehovah.png */,
+				9F4915831C25269000B191F4 /* newsongs-singtojehovah.png */,
+				9F4915851C25394E00B191F4 /* playall.png */,
+				9F4915871C25395500B191F4 /* shufflemusic.png */,
+				9F4916071C279B8800B191F4 /* JWOrgLogo.png */,
+				9F4916091C279B9500B191F4 /* FullLogo.png */,
+				9F4916051C279AFD00B191F4 /* JWBroadcastingSmall.lsr */,
+				9F4916061C279B0200B191F4 /* JWBroadcastingLarge.lsr */,
+				9FE5B9AB1C23F0B600B14FA9 /* audio-artwork */,
 				9F7872D91BF955E100EE409B /* jwbroadcasting_images */,
 				9F79A1901BA6A3AC00B5E925 /* Assets.xcassets */,
+				9FE5B9A91C23ED9000B14FA9 /* Singing.pdf */,
 			);
 			name = Graphics;
 			sourceTree = "<group>";
@@ -251,7 +324,6 @@
 				9F9333E81C00396800092AED /* DEMO NOTES.md */,
 				9F9333E61C00320100092AED /* LICENSE.md */,
 				9F07787E1BD1CD5700476E4C /* keyPhrasesIndex */,
-				9FC81A551C0D77920087510F /* Acknowledgements.txt */,
 			);
 			name = References;
 			sourceTree = "<group>";
@@ -336,6 +408,17 @@
 			name = "Mature code";
 			sourceTree = "<group>";
 		};
+		9FE5B9A41C1FF51700B14FA9 /* New Audio */ = {
+			isa = PBXGroup;
+			children = (
+				9FE5B9A51C1FF55100B14FA9 /* NewAudioController.swift */,
+				9FE5B9A71C23E6DC00B14FA9 /* AudioCategoryController.swift */,
+				9F49160B1C27D8D200B191F4 /* TableViewCellSmarterLayout.swift */,
+				9F0AB91F1C24E9D300ADCB77 /* AudioMainCategories.swift */,
+			);
+			name = "New Audio";
+			sourceTree = "<group>";
+		};
 		9FE9C17D1C01A80D00E189D7 /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -348,6 +431,9 @@
 			isa = PBXGroup;
 			children = (
 				9FC81A511C0D77640087510F /* MediaOnDemandController.swift */,
+				9FE5B9A21C1E90ED00B14FA9 /* MediaOnDemandMainCategories.swift */,
+				9F536D4B1C1235220070BB12 /* MediaOnDemandCategory.swift */,
+				9F536D4F1C1275130070BB12 /* MODSubcategoryCollectionView.swift */,
 			);
 			name = BetaMediaOnDemand;
 			sourceTree = "<group>";
@@ -439,16 +525,32 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F4916141C27F32400B191F4 /* -assets-a-iacyf-iacyf_E-iacyf_E_lg.jpg in Resources */,
+				9F0AB91C1C24E3D900ADCB77 /* readings.png in Resources */,
+				9F0AB91E1C24E3E200ADCB77 /* kingdommelodies.png in Resources */,
+				9F536CCA1C116D230070BB12 /* jw-broadcasting-logo.png in Resources */,
 				9F9333E31BFFB5CA00092AED /* mm3.ttf in Resources */,
+				9FE5B9AC1C23F0B600B14FA9 /* audio-artwork in Resources */,
+				9F4916081C279B8800B191F4 /* JWOrgLogo.png in Resources */,
+				9F0AB91A1C24DC7200ADCB77 /* drama.png in Resources */,
 				9F22B00D1BFBCBCF0041E588 /* JW-White-Background-Blue.png in Resources */,
 				9F79A1911BA6A3AC00B5E925 /* Assets.xcassets in Resources */,
-				9FC81A561C0D77920087510F /* Acknowledgements.txt in Resources */,
 				9F07787F1BD1CD5700476E4C /* keyPhrasesIndex in Resources */,
-				9FE9C17C1C019F0C00E189D7 /* TopShelf.png in Resources */,
+				9F4915861C25394E00B191F4 /* playall.png in Resources */,
+				9F49160A1C279B9500B191F4 /* FullLogo.png in Resources */,
+				9FE5B9AA1C23ED9100B14FA9 /* Singing.pdf in Resources */,
+				9F59F1F31C138CE400805D65 /* TopShelf.jpg in Resources */,
+				9F0AB9181C24C19100ADCB77 /* piano-singtojehovah.png in Resources */,
 				9F79A18F1BA6A3AC00B5E925 /* Main.storyboard in Resources */,
+				9F49160F1C27E27E00B191F4 /* fade-back-1.png in Resources */,
 				9FFD0D581BB516AA0092CF71 /* jwtv.ttf in Resources */,
 				9F7872E11BFA782D00EE409B /* LaunchScreenEarth-old.png in Resources */,
 				9FE9C17A1C019F0300E189D7 /* LaunchScreenEarth.png in Resources */,
+				9F4915881C25395500B191F4 /* shufflemusic.png in Resources */,
+				9F4915821C25268900B191F4 /* vocals-singtojehovah.png in Resources */,
+				9F4916101C27E27E00B191F4 /* fade-back-2.png in Resources */,
+				9F4916121C27E55300B191F4 /* be_faithful_and_conquer_your_fears.png in Resources */,
+				9F4915841C25269000B191F4 /* newsongs-singtojehovah.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -467,25 +569,33 @@
 			buildActionMask = 2147483647;
 			files = (
 				9FFB9DB21BB528820059E5EA /* VideoOnDemandController.swift in Sources */,
+				9F536D4C1C1235220070BB12 /* MediaOnDemandCategory.swift in Sources */,
+				9FE5B9A61C1FF55100B14FA9 /* NewAudioController.swift in Sources */,
+				9FC7985B1C2901F80026B6C0 /* SuperMediaHandler.swift in Sources */,
 				9F38D1BB1BB2566B0081073A /* LanguageSelector.swift in Sources */,
 				9FFA67851C03D35A00ECEF86 /* Control.swift in Sources */,
 				9F3F7F5E1BF6D9FD0010A789 /* SuperCollectionView.swift in Sources */,
 				9F79A18C1BA6A3AC00B5E925 /* HomeController.swift in Sources */,
 				9F79A18A1BA6A3AC00B5E925 /* AppDelegate.swift in Sources */,
 				9F5CE48D1BB644C700378D4C /* CollectionViewHorizontalFlowLayout.swift in Sources */,
+				9FE49B4F1C1B702D00231E5D /* StreamingView.swift in Sources */,
 				9F27BB051BA9341500C6DAFF /* StreamingViewController.swift in Sources */,
 				9FE9C17F1C01A83000E189D7 /* SearchController.swift in Sources */,
 				9F3F7F5A1BF6D7FA0010A789 /* SlideShow.swift in Sources */,
 				9F161E9A1BED216F0011F16A /* AudioController.swift in Sources */,
+				9F0AB9201C24E9D300ADCB77 /* AudioMainCategories.swift in Sources */,
 				9FD098A71C027A2A002324BF /* try.c in Sources */,
 				9FC81A521C0D77640087510F /* MediaOnDemandController.swift in Sources */,
 				9F7872D21BF952DD00EE409B /* ResourceHandling.swift in Sources */,
 				9F72EF451BF738D000680302 /* ChannelSelector.swift in Sources */,
-				9F0A01971C0775DD0052B761 /* MarqueeLabel.swift in Sources */,
 				9F38D1B91BB23C980081073A /* RootController.swift in Sources */,
-				9F3E37021BF32438009C7847 /* marqueeLabel-old.swift in Sources */,
+				9F49160C1C27D8D200B191F4 /* TableViewCellSmarterLayout.swift in Sources */,
+				9F3E37021BF32438009C7847 /* MarqueeLabel.swift in Sources */,
+				9FE5B9A81C23E6DC00B14FA9 /* AudioCategoryController.swift in Sources */,
 				9F161E9C1BED256C0011F16A /* CategoryController.swift in Sources */,
 				9F9333E71C00320100092AED /* LICENSE.md in Sources */,
+				9FE5B9A31C1E90ED00B14FA9 /* MediaOnDemandMainCategories.swift in Sources */,
+				9F536D501C1275130070BB12 /* MODSubcategoryCollectionView.swift in Sources */,
 				9FD474651BFDA1CF008C55C6 /* CollectionViewAlignmentFlowLayout.swift in Sources */,
 				9FFCDCB91BF7329C00307DA8 /* LatestVideos.swift in Sources */,
 				9FD098AC1C027CE4002324BF /* TryCatch.m in Sources */,

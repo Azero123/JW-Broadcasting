@@ -38,6 +38,7 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
     }
     
     override func viewDidDisappear(animated: Bool) {
+        (self.tabBarController as! rootController).disableNavBarTimeOut=false
         self.view.hidden=true // For some bugs I noticed in switching UIViewControllers to quickly (not our code) displaying multiple UIViewControllers simultaneously
     }
 
@@ -83,13 +84,9 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
     }
     
     func tableView(tableView: UITableView, shouldUpdateFocusInContext context: UITableViewFocusUpdateContext) -> Bool {
-        if ((context.nextFocusedView?.isKindOfClass(UITableViewCell.self)) == true){
-            (context.nextFocusedView as! UITableViewCell).backgroundColor=UIColor(colorLiteralRed: 0.3, green: 0.44, blue: 0.64, alpha: 1.0)
-        }
         
-        if ((context.nextFocusedView?.isKindOfClass(UITableViewCell.self)) == true){
-            (context.nextFocusedView as! UITableViewCell).backgroundColor=UIColor.clearColor()
-        }
+        /*Do not allow the user to use the language page when changing language content*/
+        
         if (disableNavBar==true) {
             return false
         }
@@ -99,53 +96,79 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
+        /*
         
+        The user has selected a new language. First we prompt the user to confirm that they intend to change languages.
+        The prompt to change languages needs to be internationalized and handle different languages. HOWEVER, we do not have provided translated text from jw.org to prompt a language change. Current concept that appears to work is use "Language" in current language and the vernacular language text exp, "English" separated by a ":".
+
+        The buttons are x and ✓
+        When x is pressed nothing happens
+        When ✓ is pressed the downloads are prompted for the new language.
+        We predownload Featured videos, Streaming meta, Latest videos, Video on Demand and Audio because we are going to send the user to the home page and we want the app to be responsive. (The user shouldn't have to scroll all the way down the language list and back up.)
+        
+        We call rootController.setLanguage(...) to change the languageCode variable and change the top bar text (This includes making it RTL.)
+        
+        Once we finish we reload the table because we have a fresh copy of the language list.
+        
+        Lastly we send the user to the home page.
+        
+        */
+        
+        //Get the data on the language to go to
         let language=languageList![indexPath.row]
         
+        //Bring up the prompt for the user
         let alert=UIAlertController(title: (dictionaryOfPath(base+"/"+version+"/translations/"+languageCode)!["translations"]![languageCode]!!["hdgLanguage"] as? String)!+": "+(language["vernacular"] as? String)!, message: "", preferredStyle: .Alert)
+        //This was to make the "✓" button green but it didn't work
         alert.view.tintColor = UIColor.greenColor()
+        //This "x" button is destructive to give it the red color and nothing needs to happen when it is pressed.
         alert.addAction(UIAlertAction(title: "x", style: .Destructive, handler: nil))
+        //Create the "✓" button with the closure to execute when the user has confirmed the change.
         let action=UIAlertAction(title: "✓", style: .Default, handler: { (action:UIAlertAction) in
         
+            disableNavBar=true // Prevent the user from interacting until we are finished loading the new language
+            tableView.hidden=true // Prevent the language table from being seen until it is reloaded
+            self.activityIndicator.startAnimating() // Give the user a spinning wheel so they know the app is working.
             
-            disableNavBar=true
-            tableView.hidden=true
-            self.activityIndicator.startAnimating()
+            
             fetchDataUsingCache(base+"/"+version+"/languages/"+languageCode+"/web", downloaded: {
                 dispatch_async(dispatch_get_main_queue()) {
+                    
+                    //Make sure we actually have a root controller (This is incase this gets changed it will not cause the app to crash.
+                    
                     if ((self.tabBarController?.isKindOfClass(rootController.self)) == true){
                         
+                        //Let the tab bar update itself
                         (self.tabBarController as! rootController).setLanguage(language.objectForKey("code") as! String, newTextDirection: ( language.objectForKey("isRTL")?.boolValue == true ? UIUserInterfaceLayoutDirection.RightToLeft : UIUserInterfaceLayoutDirection.LeftToRight ))
-                        tableView.reloadData()
-                        (self.tabBarController as? rootController)!.setTabBarVisible(true, animated: true)
+                        (self.tabBarController as? rootController)!.setTabBarVisible(true, animated: true) //Now that we have updated the tab bar let the user see it
                         
                         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
                         let VODURL=categoriesDirectory+"/VideoOnDemand?detailed=1"
-                        fetchDataUsingCache(VODURL, downloaded: {
+                        fetchDataUsingCache(VODURL, downloaded: { //Predownload VOD
                             print("[VOD] preloaded")
                         })
                         let AudioURL=categoriesDirectory+"/Audio?detailed=1"
-                        fetchDataUsingCache(AudioURL, downloaded: {
+                        fetchDataUsingCache(AudioURL, downloaded: { //Predownload Audio
                             print("[Audio] preloaded")
                         })
                         
                         
                         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
                         
-                        fetchDataUsingCache(pathForSliderData, downloaded: {
+                        fetchDataUsingCache(pathForSliderData, downloaded: { //Predownload Featured videos
                             let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
-                            fetchDataUsingCache(streamingScheduleURL, downloaded: {
+                            fetchDataUsingCache(streamingScheduleURL, downloaded: { //Predownload Streaming meta
                                 let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1"
-                                fetchDataUsingCache(latestVideosPath, downloaded: {
+                                fetchDataUsingCache(latestVideosPath, downloaded: { //Predownload Latest videos
                                     dispatch_async(dispatch_get_main_queue()) {
-                                    disableNavBar=false
+                                    disableNavBar=false // Allow the user to interact now that we finished the downloads.
                                     tableView.hidden=false
-                                    self.activityIndicator.stopAnimating()
-                                    if (ReturnToHome){
-                                        if (textDirection == .RightToLeft){
+                                    self.activityIndicator.stopAnimating() // No longer processing anything so hide this
+                                    if (ReturnToHome){ // Togglable feature in the control.swift file
+                                        if (textDirection == .RightToLeft){ //If the app is in RTL then send it to the far right tab (home)
                                             self.tabBarController!.selectedIndex=(self.tabBarController?.viewControllers?.count)!-1
                                         }
-                                        else {
+                                        else { //If the app is in LTR then send it to the far left tab (home)
                                             self.tabBarController!.selectedIndex=0
                                         }
                                         tableView.reloadData()
@@ -162,20 +185,11 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
         
         
         })
-        alert.addAction(action)
-        self.presentViewController(alert, animated: true, completion: nil)
+        alert.addAction(action) // present the "✓" button
+        self.presentViewController(alert, animated: true, completion: nil) // present the prompt
         //lblSave : "Save"
         
         
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

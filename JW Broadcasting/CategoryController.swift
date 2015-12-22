@@ -67,7 +67,7 @@ The contents of $RESPONSE contains a %category% pattern:
         ...
     } (dictionary containing all available image urls)
 
-    subcategories [
+    subcategories = [
     %category%,
     %category%,
     ...
@@ -126,6 +126,7 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        (self.tabBarController as! rootController).disableNavBarTimeOut=false
         self.videoCollection.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "subcategory")
         
         self.videoCollection.clipsToBounds=false
@@ -140,6 +141,7 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
     var previousLanguageCode=languageCode
     
     override func viewWillAppear(animated: Bool) {
+        (self.tabBarController as! rootController).disableNavBarTimeOut=false
         if (previousLanguageCode != languageCode){
             renewContent()
         }
@@ -266,6 +268,7 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
         else {
             category.textLabel?.textAlignment=NSTextAlignment.Left
         }
+        
         return category
     }
     
@@ -409,34 +412,19 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
         let cell: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("video", forIndexPath: indexPath)
         cell.alpha=1
         cell.contentView.layoutSubviews()
-        let retrievedVideo=parentCategory.objectAtIndex(indexPath.section).objectForKey("media")?.objectAtIndex(indexPath.row)
         
-        let imageRatios=retrievedVideo!.objectForKey("images")!
         
-        let priorityRatios=["pns","pss","wsr","lss","cvr","wss"]//wsr
-        
-        var imageURL:String?=""
-        
-        for ratio in imageRatios.allKeys {
-            for priorityRatio in priorityRatios.reverse() {
-                if (ratio as? String == priorityRatio){
-                    
-                    if (unfold(imageRatios, instructions: ["\(ratio)","lg"]) != nil){
-                        imageURL = unfold(imageRatios, instructions: ["\(ratio)","lg"]) as? String
-                    }
-                    else if (unfold(imageRatios, instructions: ["\(ratio)","md"]) != nil){
-                        imageURL = unfold(imageRatios, instructions: ["\(ratio)","md"]) as? String
-                    }
-                    else if (unfold(imageRatios, instructions: ["\(ratio)","sm"]) != nil){
-                        imageURL = unfold(imageRatios, instructions: ["\(ratio)","sm"]) as? String
-                    }
-                }
+        for subview in cell.contentView.subviews {
+            if (subview.isKindOfClass(UIImageView.self)){
+                
+                (subview as! UIImageView).image=nil
             }
         }
-        if (imageURL == ""){
-            let sizes=unfold(imageRatios, instructions: [imageRatios.allKeys.first!]) as? NSDictionary
-            imageURL=unfold(sizes, instructions: [sizes!.allKeys.last!]) as? String
-        }
+        
+        
+        let retrievedVideo=parentCategory.objectAtIndex(indexPath.section).objectForKey("media")?.objectAtIndex(indexPath.row)
+        
+        let imageURL=unfold(parentCategory, instructions: [indexPath.section,"media",indexPath.row,"images",["wss","cvr","lss","wsr","pss","pns",""],["lg","md","sm",""]]) as? String
         
         let size=CGSize(width: 1,height: 1)
         UIGraphicsBeginImageContextWithOptions(size, true, 0)
@@ -557,28 +545,36 @@ class CategoryController: UIViewController, UITableViewDelegate, UITableViewData
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
         
-        let retrievedVideo=parentCategory.objectAtIndex(indexPath.section).objectForKey("media")?.objectAtIndex(indexPath.row)
-        
-        let imageRatios=retrievedVideo!.objectForKey("images")!
-        
-        print("\(imageRatios)")
-        
         //let videosData=
-        let subcat=parentCategory.objectAtIndex(indexPath.section)
-        let media=subcat.objectForKey("media")
-        let videosection=media!.objectAtIndex(indexPath.row)
-        let files=videosection.objectForKey("files")
-        let file=files!.objectAtIndex((files?.count)!-1)
-        let videoData=file
-        
-        let videoURLString=videoData.objectForKey("progressiveDownloadURL") as! String
+        let videoURLString=(unfold(parentCategory, instructions: ["\(indexPath.section)","media","\(indexPath.row)","files","last","progressiveDownloadURL"]) as! String)
         
         let videoURL = NSURL(string: videoURLString)
         let player = AVPlayer(URL: videoURL!)
         playerViewController = AVPlayerViewController()
         playerViewController!.player = player
+        
         self.presentViewController(playerViewController!, animated: true) {
             self.playerViewController!.player!.play()
+            
+            var isAudio = false
+            
+            for track in player.currentItem!.tracks {
+                if (track.assetTrack.mediaType == AVMediaTypeAudio){
+                    isAudio=true
+                }
+            }
+            
+            if (isAudio){
+                print(unfold(self.parentCategory, instructions: [indexPath.section,"media",indexPath.row,"images"]))
+                let imageURL=unfold(self.parentCategory, instructions: [indexPath.section,"media",indexPath.row,"images",["wss","cvr","lss","wsr","pss","pns",""],["xl","lg","md","sm",""]]) as? String
+                
+                let image=imageUsingCache(imageURL!)
+                let imageView=UIImageView(image: image)
+                imageView.center=(self.playerViewController?.contentOverlayView!.center)!
+                self.playerViewController?.contentOverlayView?.addSubview(imageView)
+            }
+            
+            
         }
         
         

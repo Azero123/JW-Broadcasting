@@ -6,19 +6,38 @@
 //  Copyright © 2015 xquared. All rights reserved.
 //
 
+/*
+The is an uncompleted combination of Video on Demand and Audio.
+The goal here is to merge the 2 sections and make it as understandable to the user as possible.
+
+
+*/
+
+
 import UIKit
 
 class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     @IBOutlet weak var MediaCollectionView: UICollectionView!
-
+    @IBOutlet weak var backgroundImageView: UIImageView!
+    @IBOutlet weak var BackgroundEffectView: UIVisualEffectView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        backgroundImageView.alpha=0.75
+        BackgroundEffectView.alpha=0.99
+        
+        self.MediaCollectionView.clipsToBounds=false
+        self.MediaCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
+        self.MediaCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "footer")
+        (self.MediaCollectionView.collectionViewLayout as! CollectionViewAlignmentFlowLayout).spacingPercentile=1.275
         renewContent()
     }
     
     var previousLanguageCode=languageCode
     
     override func viewWillAppear(animated: Bool) {
+        (self.tabBarController as! rootController).disableNavBarTimeOut=true
         if (previousLanguageCode != languageCode){
             renewContent()
         }
@@ -87,8 +106,7 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
         var header:UICollectionReusableView?=nil
         
         if (kind == UICollectionElementKindSectionHeader){
-            
-            
+            header=collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "header", forIndexPath: indexPath)
         }
         if (kind == UICollectionElementKindSectionFooter) {
             header=collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionFooter, withReuseIdentifier: "footer", forIndexPath: indexPath)
@@ -101,12 +119,9 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         
-        print("[Media On Demand] test")
-        
         let cell: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("category", forIndexPath: indexPath)
         cell.alpha=1
-        cell.backgroundColor=UIColor.redColor()
-        
+        cell.tag=indexPath.row
         let category="VideoOnDemand"
         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
         let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
@@ -118,48 +133,83 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
             }
             if (subview.isKindOfClass(UIImageView.self)){
                 
+                let imageView=subview as! UIImageView
+                imageView.image=UIImage()
                 let imageURL=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|images|wss|lg") as? String
                 
-                
-                
-                print(imageURL)
+                imageView.userInteractionEnabled = true
+                imageView.adjustsImageWhenAncestorFocused = true
+                imageView.alpha=0.2
                 if (imageURL != nil && imageURL != ""){
                     
                     fetchDataUsingCache(imageURL!, downloaded: {
                         
                         dispatch_async(dispatch_get_main_queue()) {
-                            print("[Media On Demand] test 2")
-                            let image=imageUsingCache(imageURL!)
-                            (subview as! UIImageView).image=image
+                            if (cell.tag==indexPath.row){
+                                imageView.alpha=1
+                                let image=imageUsingCache(imageURL!)
+                                (subview as! UIImageView).image=image
+                            }
                         }
                     })
                 }
+            }
+            if (subview.isKindOfClass(UILabel.self)){
+                (subview as! UILabel).text=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|name") as! NSString as String
             }
         }        
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, shouldUpdateFocusInContext context: UICollectionViewFocusUpdateContext) -> Bool {
+    
+    func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
         
-        /*
-        This method provides the blue highlighting to the cells and sets variable selectedSlideShow:Bool.
-        If selectedSlideShow==true (AKA the user is interacting with the slideshow) then the slide show will not roll to next slide.
-        
-        */
+        let category="VideoOnDemand"
+        let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
+        let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
+        categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|key") as! String
+        categoryIndexToGoTo=indexPath.row
         return true
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    var categoryIndexToGoTo:Int=0
+    var categoryToGoTo=""
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (segue.destinationViewController.isKindOfClass(MediaOnDemandCategory.self)){
+            (segue.destinationViewController as! MediaOnDemandCategory).categoryIndex=categoryIndexToGoTo
+            (segue.destinationViewController as! MediaOnDemandCategory).category=categoryToGoTo
+        }
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-    let multiplier:CGFloat=1.5
-        let ratio:CGFloat=1.875
-        let width:CGFloat=320/2
-        return CGSize(width: width*ratio*multiplier, height: width*multiplier+60)//450,300
+    let multiplier:CGFloat=0.80
+        let ratio:CGFloat=1.77777777777778
+        let width:CGFloat=360
+        return CGSize(width: width*ratio*multiplier, height: width*multiplier)//640,360
     }
-
     
+    func collectionView(collectionView: UICollectionView, didUpdateFocusInContext context: UICollectionViewFocusUpdateContext, withAnimationCoordinator coordinator: UIFocusAnimationCoordinator) {
+        /*
+        
+        This method handles when the user moves focus over a UICollectionViewCell and/or UICollectionView.
+        
+        UICollectionView that are SuperCollectionViews manage their own focus events so if UICollectionView is a SuperCollectionView let it handle itself.
+        
+        Lastly if he LatestVideos or SlideShow collection view are focused move everything up so you can see them.
+        */
+        
+        if (context.nextFocusedView != nil && context.previouslyFocusedView?.superview!.isKindOfClass(SuperCollectionView.self) == true && context.previouslyFocusedIndexPath != nil){
+            (context.previouslyFocusedView?.superview as! SuperCollectionView).cellShouldLoseFocus(context.previouslyFocusedView!, indexPath: context.previouslyFocusedIndexPath!)
+            
+        }
+        if (context.nextFocusedView?.superview!.isKindOfClass(SuperCollectionView.self) == true && context.nextFocusedIndexPath != nil){
+            
+            (context.nextFocusedView?.superview as! SuperCollectionView).cellShouldFocus(context.nextFocusedView!, indexPath: context.nextFocusedIndexPath!)
+            (context.nextFocusedView?.superview as! SuperCollectionView).cellShouldFocus(context.nextFocusedView!, indexPath: context.nextFocusedIndexPath!, previousIndexPath: context.previouslyFocusedIndexPath)
+            
+        }
+    }
 
     
 }

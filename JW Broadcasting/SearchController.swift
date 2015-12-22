@@ -6,6 +6,20 @@
 //  Copyright © 2015 xquared. All rights reserved.
 //
 
+
+/*
+
+WIP
+
+
+This is code for a keyboard view controller this will likely be torn down and added to MOD or presented ontop of MOD.
+
+*/
+
+
+
+
+
 import UIKit
 
 class SearchController: UIViewController {
