@@ -72,31 +72,27 @@ class SuperMediaPlayer: NSObject, UIGestureRecognizerDelegate {
         print("did reach end")
         if ((notification.object?.isKindOfClass(AVPlayerItem)) == true){
             
-            if (statusObserver){
+            while ("\(notification.object!.observationInfo)".containsString("(")){
+                print("still here!")
                 notification.object?.removeObserver(self, forKeyPath: "status")
             }
-                while ("\(notification.object!.observationInfo)".containsString("(")){
-                    print("still here!")
-                    notification.object?.removeObserver(self, forKeyPath: "status")
-                }
-                statusObserver=false
+            statusObserver=false
             //NSNotificationCenter.removeObserver(self, forKeyPath: AVPlayerItemDidPlayToEndTimeNotification)
             //notification.object?.removeObserver(self, forKeyPath: AVPlayerItemDidPlayToEndTimeNotification)
             if (nextDictionary != nil){
                 print("but we have more!")
-                    self.updatePlayerUsingDictionary(self.nextDictionary!)
+                self.updatePlayerUsingDictionary(self.nextDictionary!)
             }
             else if (dismissWhenFinished){
                 playerViewController.dismissViewControllerAnimated(true, completion: nil)
             }
         }
-        
+        finishedPlaying()
         
         
     }
     
     func updateMetaDataUsingDictionary(dictionary:NSDictionary){
-        
         
         
         fetchDataUsingCache(base+"/"+version+"/categories/"+languageCode+"/\(unfold(dictionary, instructions: ["primaryCategory"])!)?detailed=1", downloaded: {
@@ -129,7 +125,9 @@ class SuperMediaPlayer: NSObject, UIGestureRecognizerDelegate {
             updateMetaDataItem(key as! String, keySpace: AVMetadataKeySpaceiTunes, value: itunesMetaData[key as! String]!)
             
         }
-
+        
+        nextDictionary=dictionary
+        
     }
     func updateMetaDataItem(key:String, keySpace:String, value:protocol<NSCopying,NSObjectProtocol>){
         
@@ -150,8 +148,8 @@ class SuperMediaPlayer: NSObject, UIGestureRecognizerDelegate {
         if (player.currentItem == nil && nextDictionary != nil){
             updatePlayerUsingDictionary(nextDictionary!)
         }
-            UIApplication.sharedApplication().keyWindow!.rootViewController!.presentViewController(self.playerViewController, animated: true) {
-                self.playerViewController.player!.play()
+        UIApplication.sharedApplication().keyWindow!.rootViewController!.presentViewController(self.playerViewController, animated: true) {
+            self.playerViewController.player!.play()
         }
     }
     

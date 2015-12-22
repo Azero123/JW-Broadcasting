@@ -49,7 +49,7 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
     override func viewDidDisappear(animated: Bool) {
         self.view.hidden=true
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -82,7 +82,7 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
         })
     }
     
-
+    
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         
@@ -157,7 +157,7 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
             if (subview.isKindOfClass(UILabel.self)){
                 (subview as! UILabel).text=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|name") as! NSString as String
             }
-        }        
+        }
         return cell
     }
     
@@ -183,7 +183,7 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-    let multiplier:CGFloat=0.80
+        let multiplier:CGFloat=0.80
         let ratio:CGFloat=1.77777777777778
         let width:CGFloat=360
         return CGSize(width: width*ratio*multiplier, height: width*multiplier)//640,360
@@ -210,6 +210,6 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
             
         }
     }
-
+    
     
 }
