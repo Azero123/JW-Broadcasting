@@ -724,7 +724,7 @@
                         <viewControllerLayoutGuide type="top" id="97S-Mr-cnL"/>
                         <viewControllerLayoutGuide type="bottom" id="g3X-HJ-r6M"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" misplaced="YES" id="wWC-cJ-vh5">
+                    <view key="view" contentMode="scaleToFill" id="wWC-cJ-vh5">
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -826,7 +826,7 @@
                         <viewControllerLayoutGuide type="top" id="zKa-p9-Zmd"/>
                         <viewControllerLayoutGuide type="bottom" id="6nH-md-sog"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" misplaced="YES" id="b27-qm-Zzb">
+                    <view key="view" contentMode="scaleToFill" id="b27-qm-Zzb">
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -944,6 +944,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KF9-su-y7z">
+                                <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
+                            </imageView>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XFY-vt-XoQ">
                                 <rect key="frame" x="960" y="0.0" width="960" height="1076"/>
                                 <subviews>
@@ -1009,20 +1012,25 @@
                             <constraint firstItem="Ikn-na-0NV" firstAttribute="top" secondItem="ZJS-fc-VtC" secondAttribute="bottom" id="3S4-Eg-ETc"/>
                             <constraint firstItem="jUM-8z-Dml" firstAttribute="leading" secondItem="iVy-kQ-FCo" secondAttribute="leading" id="80f-8d-Keg"/>
                             <constraint firstItem="Ikn-na-0NV" firstAttribute="leading" secondItem="iVy-kQ-FCo" secondAttribute="leading" id="8xI-YH-Ecb"/>
+                            <constraint firstAttribute="trailing" secondItem="KF9-su-y7z" secondAttribute="trailing" id="BEd-zT-8x3"/>
                             <constraint firstItem="ONo-vx-5TD" firstAttribute="top" secondItem="jUM-8z-Dml" secondAttribute="bottom" id="CZx-Ia-vZL"/>
                             <constraint firstAttribute="trailing" secondItem="Ikn-na-0NV" secondAttribute="trailing" id="DEV-iF-1TD"/>
                             <constraint firstItem="jUM-8z-Dml" firstAttribute="top" secondItem="ZJS-fc-VtC" secondAttribute="bottom" id="Ezk-Bx-8Ax"/>
                             <constraint firstAttribute="trailing" secondItem="XFY-vt-XoQ" secondAttribute="trailing" id="Mzl-D3-JYj"/>
+                            <constraint firstItem="KF9-su-y7z" firstAttribute="leading" secondItem="iVy-kQ-FCo" secondAttribute="leading" id="RUD-gA-TIJ"/>
+                            <constraint firstItem="KF9-su-y7z" firstAttribute="top" secondItem="ZJS-fc-VtC" secondAttribute="bottom" id="ch1-HZ-hKd"/>
                             <constraint firstAttribute="trailing" secondItem="jUM-8z-Dml" secondAttribute="trailing" id="kSh-mO-C76"/>
                             <constraint firstItem="XFY-vt-XoQ" firstAttribute="height" secondItem="iVy-kQ-FCo" secondAttribute="height" id="oij-nT-fki"/>
                             <constraint firstItem="XFY-vt-XoQ" firstAttribute="width" secondItem="iVy-kQ-FCo" secondAttribute="width" multiplier="0.5" id="pNL-AW-afG"/>
                             <constraint firstItem="XFY-vt-XoQ" firstAttribute="top" secondItem="ZJS-fc-VtC" secondAttribute="bottom" id="q7S-mp-rkq"/>
+                            <constraint firstItem="ONo-vx-5TD" firstAttribute="top" secondItem="KF9-su-y7z" secondAttribute="bottom" id="vGs-Bg-8uN"/>
                             <constraint firstItem="ONo-vx-5TD" firstAttribute="top" secondItem="XFY-vt-XoQ" secondAttribute="bottom" id="vym-ZI-8XE"/>
                         </constraints>
                     </view>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="TopImage" destination="6fQ-k8-2Bs" id="i7K-Ht-xH8"/>
+                        <outlet property="backgroundImage" destination="KF9-su-y7z" id="3eB-P6-GEv"/>
                         <outlet property="backgroundVisualEffect" destination="oet-0W-KOp" id="mNs-UK-fIZ"/>
                         <outlet property="categoryTitle" destination="PER-Eo-rh1" id="sML-XJ-kEG"/>
                         <outlet property="previewImageView" destination="VWA-ul-ckk" id="ucC-3i-2Kr"/>

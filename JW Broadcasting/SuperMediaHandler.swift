@@ -32,7 +32,7 @@ class SuperMediaPlayer: NSObject, UIGestureRecognizerDelegate {
                 //NSUserDefaults.standardUserDefaults().setObject(NSDictionary(), forKey: "saved-media-states")
                 let updatedDictionary:NSMutableDictionary=(NSUserDefaults.standardUserDefaults().objectForKey("saved-media-states") as! NSDictionary).mutableCopy() as! NSMutableDictionary
                 let seconds=Float(CMTimeGetSeconds(self.player.currentTime()))
-                if (seconds>60*5 && Float(CMTimeGetSeconds(playerAsset!.duration))*Float(0.95)>seconds && CMTimeGetSeconds(playerAsset!.duration)>60*10){
+                if (seconds>60*2.5 && Float(CMTimeGetSeconds(playerAsset!.duration))*Float(0.95)>seconds && CMTimeGetSeconds(playerAsset!.duration)>60*8){
                     updatedDictionary.setObject(NSNumber(float: seconds), forKey: (playerAsset as! AVURLAsset).URL.path!)
                     NSUserDefaults.standardUserDefaults().setObject(updatedDictionary, forKey: "saved-media-states")
                 }

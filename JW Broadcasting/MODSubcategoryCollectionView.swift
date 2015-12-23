@@ -11,7 +11,19 @@ import UIKit
 class MODSubcategoryCollectionView: SuperCollectionView {
     
     var categoryName=""
-    var categoryCode=""
+    var _categoryCode = ""
+    var categoryCode:String {
+        set (newValue){
+            _categoryCode=newValue
+            
+            let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
+            let categoryDataURL=categoriesDirectory+"/"+newValue+"?detailed=1"
+            fetchDataUsingCache(categoryDataURL, downloaded: nil)
+        }
+        get {
+            return _categoryCode
+        }
+    }
     let categoryLabel=UILabel()
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
@@ -67,6 +79,33 @@ class MODSubcategoryCollectionView: SuperCollectionView {
     }
     
     override func cellShouldFocus(view: UIView, indexPath: NSIndexPath) {
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
+            if (view==UIScreen.mainScreen().focusedView){
+                
+                UIView.transitionWithView((self.delegate as! MediaOnDemandCategory).backgroundImage, duration: 0.8, options: .TransitionCrossDissolve, animations: {
+                    
+                    var indexPathRow=indexPath.row
+                    if (self.categoryCode.containsString("Featured")){
+                        indexPathRow=indexPathRow+1
+                    }
+                    
+                    let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
+                    let categoryDataURL=categoriesDirectory+"/"+self.categoryCode+"?detailed=1"
+                    let imageURL=unfold(nil, instructions: [
+                        categoryDataURL,
+                        "category",
+                        "media",
+                        "\(indexPathRow)",
+                        "images",["lsr","wss","cvr","lss","wsr","pss","pns",""],
+                        ["lg","md","sm","xs",""]]) as? String
+                    if (imageURL != nil){
+                        (self.delegate as! MediaOnDemandCategory).backgroundImage.image=imageUsingCache(imageURL!)
+                    }
+                    }, completion: nil)
+            }
+        }
+        
         for subview in (view.subviews.first!.subviews) {
             if (subview.isKindOfClass(UILabel.self)){
                 (subview as! UILabel).textColor=UIColor.whiteColor()

@@ -148,6 +148,8 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
                     
                     var collectionView=MODSubcategoryCollectionView(frame: CGRect(x: CGFloat(0), y:CGFloat(475*(i))+620, width: self.view.frame.size.width, height: CGFloat(425)), collectionViewLayout: layout)
                     collectionView.categoryName=unfold("\(categoryDataURL)|category|subcategories|\(i)|name") as! String
+                    print("CNKND \(unfold("\(categoryDataURL)|category|subcategories|\(i)|key"))")
+                    collectionView.categoryCode=unfold("\(categoryDataURL)|category|subcategories|\(i)|key") as! String
                     collectionView.clipsToBounds=false
                     collectionView.contentInset=UIEdgeInsetsMake(0, 60, 0, 60)
                     collectionView.prepare()
@@ -425,7 +427,7 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
             if (indexPath.row==0){
                 
                 self.performSegueWithIdentifier("presentStreaming", sender: self)
-                
+                return true
             }
         }
         
