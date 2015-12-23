@@ -403,34 +403,6 @@ class StreamingViewController : UIViewController {
 
     }
     
-    override func pressesBegan(presses: Set<UIPress>, withEvent event: UIPressesEvent?){
-        for press in presses {
-            switch press.type {
-            case .Select: break
-                //print("Select")
-                //timer?.invalidate()
-                
-                
-            case .PlayPause: break
-                //print("Play/Pause")
-                //timer?.invalidate()
-                
-                /*case .UpArrow:
-                print("Up Arrow")*/
-            case .DownArrow: break
-            case .LeftArrow: break
-            case .RightArrow: break
-            default:
-                //keepDown()
-                
-                break
-            }
-        }
-        
-        super.pressesBegan(presses, withEvent: event)
-        
-    }
-    
     
     var advancedLabel:UILabel?
     

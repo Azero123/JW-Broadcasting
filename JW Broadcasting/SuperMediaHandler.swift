@@ -22,6 +22,28 @@ class SuperMediaPlayer: NSObject, UIGestureRecognizerDelegate {
     override init() {
         super.init()
         playerViewController.player=player
+        player.addPeriodicTimeObserverForInterval(CMTime(value: 1, timescale: 1), queue: nil, usingBlock: { (time:CMTime) in
+            
+            let playerAsset:AVAsset? = self.player.currentItem != nil ? self.player.currentItem!.asset : nil
+            if (playerAsset != nil && playerAsset!.isKindOfClass(AVURLAsset.self)){
+            if (NSUserDefaults.standardUserDefaults().objectForKey("saved-media-states") == nil){
+                NSUserDefaults.standardUserDefaults().setObject(NSDictionary(), forKey: "saved-media-states")
+                }
+                //NSUserDefaults.standardUserDefaults().setObject(NSDictionary(), forKey: "saved-media-states")
+                let updatedDictionary:NSMutableDictionary=(NSUserDefaults.standardUserDefaults().objectForKey("saved-media-states") as! NSDictionary).mutableCopy() as! NSMutableDictionary
+                let seconds=Float(CMTimeGetSeconds(self.player.currentTime()))
+                if (seconds>60*5 && Float(CMTimeGetSeconds(playerAsset!.duration))*Float(0.95)>seconds && CMTimeGetSeconds(playerAsset!.duration)>60*10){
+                    updatedDictionary.setObject(NSNumber(float: seconds), forKey: (playerAsset as! AVURLAsset).URL.path!)
+                    NSUserDefaults.standardUserDefaults().setObject(updatedDictionary, forKey: "saved-media-states")
+                }
+                else {
+                    
+                    updatedDictionary.removeObjectForKey((playerAsset as! AVURLAsset).URL.path!)
+                    NSUserDefaults.standardUserDefaults().setObject(updatedDictionary, forKey: "saved-media-states")
+                }
+                
+            }
+        })
         
     }
     
@@ -47,8 +69,10 @@ class SuperMediaPlayer: NSObject, UIGestureRecognizerDelegate {
     func updatePlayerUsingURL(url:NSURL){
         let newItem=AVPlayerItem(URL: url)
         
+        NSNotificationCenter.defaultCenter().removeObserver(self)
         if (self.player.currentItem != nil){
-            print("status \(statusObserver)")
+            NSNotificationCenter.defaultCenter().removeObserver(self)
+            NSNotificationCenter.defaultCenter().removeObserver(self.player.currentItem!)
             //print("replace item \(self.player.currentItem?.observationInfo)")
             if ("\(self.player.currentItem!.observationInfo)".containsString("(")){
                 print("still here!")
@@ -58,7 +82,10 @@ class SuperMediaPlayer: NSObject, UIGestureRecognizerDelegate {
             print("replace item \(self.player.currentItem!.observationInfo)")
         }
         
+        player.removeAllItems()
+        
         player.insertItem(newItem, afterItem: nil)
+        //player.replaceCurrentItemWithPlayerItem(nil)
         statusObserver=true
         //NSNotificationCenter.defaultCenter().addObserver(self, selector: "statusChanged", name: "status", object: newItem)
         newItem.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.Prior, context: nil)
@@ -69,9 +96,14 @@ class SuperMediaPlayer: NSObject, UIGestureRecognizerDelegate {
     }
     
     func playerItemDidReachEnd(notification:NSNotification){
-        print("did reach end")
+        print("did reach end \(notification.object) \(notification.object?.observationInfo!)")
         if ((notification.object?.isKindOfClass(AVPlayerItem)) == true){
-            
+            if (statusObserver){
+                print("status observer")
+                
+                notification.object?.removeObserver(self, forKeyPath: "status")
+                
+            }
             while ("\(notification.object!.observationInfo)".containsString("(")){
                 print("still here!")
                 notification.object?.removeObserver(self, forKeyPath: "status")
@@ -145,21 +177,82 @@ class SuperMediaPlayer: NSObject, UIGestureRecognizerDelegate {
     }
     
     func play(){
-        if (player.currentItem == nil && nextDictionary != nil){
-            updatePlayerUsingDictionary(nextDictionary!)
-        }
-        UIApplication.sharedApplication().keyWindow!.rootViewController!.presentViewController(self.playerViewController, animated: true) {
-            self.playerViewController.player!.play()
-        }
+        /*
+        If return to within 30 Seconds than prompt for resume
+        
+        Had to be 5 min in or more
+        Had to be less than 95 % through
+        Video has to be longer than 10 minutes
+        
+        */
+
+        playIn(UIApplication.sharedApplication().keyWindow!.rootViewController!)
     }
     
     func playIn(presenter:UIViewController){
-        if (player.currentItem == nil && nextDictionary != nil){
-            updatePlayerUsingDictionary(nextDictionary!)
+        
+        let playerAsset = self.player.currentItem!.asset
+        if (playerAsset.isKindOfClass(AVURLAsset.self)){
+            let urlPath=(playerAsset as! AVURLAsset).URL.path!
+            if (NSUserDefaults.standardUserDefaults().objectForKey("saved-media-states") != nil && (NSUserDefaults.standardUserDefaults().objectForKey("saved-media-states") as! NSDictionary).objectForKey(urlPath) != nil){
+                
+                var seekPoint = CMTimeMake(0, 0)
+                let seconds=(NSUserDefaults.standardUserDefaults().objectForKey("saved-media-states") as! NSDictionary).objectForKey(urlPath) as! NSNumber
+                
+                seekPoint=CMTimeMake(Int64(seconds.floatValue), 1)
+                
+                let fromBeginningText=unfold(base+"/"+version+"/translations/"+languageCode+"|translations|\(languageCode)|btnPlayFromBeginning") as? String
+                let resumeText=unfold(base+"/"+version+"/translations/"+languageCode+"|translations|\(languageCode)|btnResume") as? String
+                
+                let alert=UIAlertController(title: "", message: "", preferredStyle: .Alert)
+                alert.view.tintColor = UIColor.greenColor()
+                
+                alert.addAction(UIAlertAction(title: nil, style: .Cancel , handler: nil))
+                
+        
+                let action=UIAlertAction(title: resumeText, style: .Default, handler: { (action:UIAlertAction) in
+                    
+                    self.playerViewController.player?.seekToTime(seekPoint)
+                    if (self.player.currentItem == nil && self.nextDictionary != nil){
+                        self.updatePlayerUsingDictionary(self.nextDictionary!)
+                    }
+                    presenter.presentViewController(self.playerViewController, animated: true) {
+                        self.playerViewController.player!.play()
+                    }
+                })
+                alert.addAction(action)
+                alert.addAction(UIAlertAction(title: fromBeginningText, style: .Default, handler: { (action:UIAlertAction) in
+                    if (self.player.currentItem == nil && self.nextDictionary != nil){
+                        self.updatePlayerUsingDictionary(self.nextDictionary!)
+                    }
+                    
+                    presenter.presentViewController(self.playerViewController, animated: true) {
+                        self.playerViewController.player!.play()
+                    }
+                }))
+                presenter.presentViewController(alert, animated: true, completion: nil)
+            }
+            if (self.player.currentItem == nil && self.nextDictionary != nil){
+                self.updatePlayerUsingDictionary(self.nextDictionary!)
+            }
+            
+            presenter.presentViewController(self.playerViewController, animated: true) {
+                self.playerViewController.player!.play()
+            }
+            
         }
-        presenter.presentViewController(self.playerViewController, animated: true) {
-            self.playerViewController.player!.play()
+        else {
+            
+            if (self.player.currentItem == nil && self.nextDictionary != nil){
+                self.updatePlayerUsingDictionary(self.nextDictionary!)
+            }
+            
+            presenter.presentViewController(self.playerViewController, animated: true) {
+                self.playerViewController.player!.play()
+            }
         }
+
+        
     }
     
     func exitPlayer(){
@@ -178,17 +271,24 @@ class SuperMediaPlayer: NSObject, UIGestureRecognizerDelegate {
                     if (track.assetTrack.mediaType == AVMediaTypeAudio){
                         isAudio=true
                     }
+                    if (track.assetTrack.mediaType == AVMediaTypeVideo){
+                        isAudio=false
+                        break
+                    }
                 }
                 
                 if (isAudio){
-                    if (nextDictionary != nil){
+                    if (nextDictionary != nil && playerViewController.contentOverlayView != nil){
                         fillEmptyVideoSpaceWithDictionary(nextDictionary!)
+                        self.nextDictionary=nil
                     }
                     
                 }
+                else {
+                    self.nextDictionary=nil
+                }
             }
         }
-        self.nextDictionary=nil
         
     }
     

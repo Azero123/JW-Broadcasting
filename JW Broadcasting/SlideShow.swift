@@ -416,7 +416,7 @@ class SlideShow: SuperCollectionView {
         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
         
         player.updatePlayerUsingDictionary(unfold("\(pathForSliderData)|settings|WebHomeSlider|slides|\(index)|item") as! NSDictionary)
-        player.play()
+        player.playIn(self.delegate as! HomeController)
     }
     
     override func layoutForCellAtIndex(indexPath:NSIndexPath, withPreLayout:UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
