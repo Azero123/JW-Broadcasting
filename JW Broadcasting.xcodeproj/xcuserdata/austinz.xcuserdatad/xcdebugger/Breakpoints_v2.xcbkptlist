@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JW Broadcasting/StreamingViewController.swift"
-            timestampString = "471561111.527097"
+            timestampString = "472522662.391429"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "471"
-            endingLineNumber = "471"
+            startingLineNumber = "443"
+            endingLineNumber = "443"
             landmarkName = "StreamingViewController"
             landmarkType = "3">
          </BreakpointContent>

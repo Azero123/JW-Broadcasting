@@ -190,7 +190,7 @@ class LatestVideos: SuperCollectionView {
         let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1"
         let dict=unfold("\(latestVideosPath)|category|media|\(indexPath.row)") as! NSDictionary
         player.updatePlayerUsingDictionary(dict)
-        player.play()
+        player.playIn(self.delegate as! HomeController)
         
         
     }

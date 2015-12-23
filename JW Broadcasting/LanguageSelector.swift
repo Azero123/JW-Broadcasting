@@ -119,6 +119,10 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
         
         //Bring up the prompt for the user
         let alert=UIAlertController(title: (dictionaryOfPath(base+"/"+version+"/translations/"+languageCode)!["translations"]![languageCode]!!["hdgLanguage"] as? String)!+": "+(language["vernacular"] as? String)!, message: "", preferredStyle: .Alert)
+        
+        
+        alert.addAction(UIAlertAction(title: nil, style: .Cancel , handler: nil))// This allows the user to push menu and cause nothing to happen
+        
         //This was to make the "✓" button green but it didn't work
         alert.view.tintColor = UIColor.greenColor()
         //This "x" button is destructive to give it the red color and nothing needs to happen when it is pressed.

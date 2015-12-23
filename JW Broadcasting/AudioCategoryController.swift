@@ -108,7 +108,7 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     override func viewDidDisappear(animated: Bool) {
-       // self.player?.removeObserver(self, forKeyPath: "status")
+        // self.player?.removeObserver(self, forKeyPath: "status")
         self.view.hidden=true
     }
     
@@ -123,8 +123,8 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
         self.categoryImage.layoutIfNeeded()
         /*
         fetchDataUsingCache(AudioDataURL, downloaded: {
-            dispatch_async(dispatch_get_main_queue()) {
-            }
+        dispatch_async(dispatch_get_main_queue()) {
+        }
         })*/
         
         
@@ -153,7 +153,7 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
         let AudioDataURL=categoriesDirectory+"/"+category+"?detailed=1"
         
-            let title=unfold("\(AudioDataURL)|category|subcategories|\(categoryIndex)|media|\(indexPath.row)|title") as? String
+        let title=unfold("\(AudioDataURL)|category|subcategories|\(categoryIndex)|media|\(indexPath.row)|title") as? String
         
         
         let extraction=titleExtractor(title!)
@@ -224,6 +224,12 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
         shuffle=false
         playNextSong()
         
+        
+        self.smartPlayer.dismissWhenFinished=true
+        
+        self.smartPlayer.finishedPlaying = {() in
+        }
+        
         smartPlayer.playIn(self)
         
     }
@@ -237,9 +243,9 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
         
         
         //player?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.Prior, context: nil)
-            
-            smartPlayer.nextDictionary=unfold("\(AudioDataURL)|category|subcategories|\(categoryIndex)|media|\(nextSongID)") as? NSDictionary
-        smartPlayer.play()
+        
+        //smartPlayer.nextDictionary=unfold("\(AudioDataURL)|category|subcategories|\(categoryIndex)|media|\(nextSongID)") as? NSDictionary
+        smartPlayer.updatePlayerUsingDictionary((unfold("\(AudioDataURL)|category|subcategories|\(categoryIndex)|media|\(nextSongID)") as? NSDictionary)!)
         
         
         
@@ -264,15 +270,11 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
         playAll=true
         nextSongID=0
         playNextSong()
-        
+        self.smartPlayer.dismissWhenFinished=false
         
         self.smartPlayer.finishedPlaying = {() in
             
             self.nextSongID++
-            let category="Audio"
-            let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
-            let AudioDataURL=categoriesDirectory+"/"+category+"?detailed=1"
-            self.nextSongID=Int(arc4random_uniform(UInt32(unfold("\(AudioDataURL)|category|subcategories|\(self.categoryIndex)|media|count") as! Int)) + 1)
             
             self.playNextSong()
         }
@@ -282,6 +284,12 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
     @IBAction func shuffleButton(sender: AnyObject) {
         playAll=true
         shuffle=true
+        self.smartPlayer.dismissWhenFinished=false
+        let category="Audio"
+        let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
+        let AudioDataURL=categoriesDirectory+"/"+category+"?detailed=1"
+        self.nextSongID=Int(arc4random_uniform(UInt32(unfold("\(AudioDataURL)|category|subcategories|\(self.categoryIndex)|media|count") as! Int)) + 1)
+        playNextSong()
         
         self.smartPlayer.finishedPlaying = {() in
             
@@ -289,41 +297,10 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
             let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
             let AudioDataURL=categoriesDirectory+"/"+category+"?detailed=1"
             self.nextSongID=Int(arc4random_uniform(UInt32(unfold("\(AudioDataURL)|category|subcategories|\(self.categoryIndex)|media|count") as! Int)) + 1)
-            
             self.playNextSong()
         }
         
         self.smartPlayer.playIn(self)
     }
     
-    func playerItemDidReachEnd(notification:NSNotification){
-        
-        let category="Audio"
-        let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
-        let AudioDataURL=categoriesDirectory+"/"+category+"?detailed=1"
-        
-        if (playAll){
-            nextSongID=currentSongID+1
-            if (shuffle){
-                nextSongID=Int(arc4random_uniform(UInt32(unfold("\(AudioDataURL)|category|subcategories|\(categoryIndex)|media|count") as! Int)) + 1)
-            }
-            
-            if (nextSongID>=unfold("\(AudioDataURL)|category|subcategories|\(categoryIndex)|media|count") as! Int){
-                nextSongID=0
-            }
-            print("current song: \(currentSongID) \(nextSongID)")
-            playNextSong()
-            
-        }
-        
-    }
-    
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        super.prepareForSegue(segue, sender: sender)
-        print("segued in")
-        playAll=true
-        shuffle=false
-    }
-
 }

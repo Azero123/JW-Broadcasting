@@ -50,7 +50,7 @@ class CollectionViewAlignmentFlowLayout: UICollectionViewFlowLayout {
     override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         /*
         Because previously layoutAttributesForItemAtIndexPath(...) was not being called for our needs consistently. Now all elements are laid out so that we don't have errors with users panning/scrolling through cells too quickly for the items to cells.*/
-
+        
         var attributes:Array<UICollectionViewLayoutAttributes>=super.layoutAttributesForElementsInRect(rect)!
         if (self.collectionView?.numberOfSections()>0){
             for (var i=0;i<self.collectionView?.numberOfItemsInSection(0);i++){
@@ -65,11 +65,11 @@ class CollectionViewAlignmentFlowLayout: UICollectionViewFlowLayout {
             */
             /*
             if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
-                attrs.frame=CGRect(
-                    x: self.collectionView!.frame.size.width-attrs.frame.origin.x,
-                    y: attrs.frame.origin.y,
-                    width: attrs.frame.size.width,
-                    height: attrs.frame.height)
+            attrs.frame=CGRect(
+            x: self.collectionView!.frame.size.width-attrs.frame.origin.x,
+            y: attrs.frame.origin.y,
+            width: attrs.frame.size.width,
+            height: attrs.frame.height)
             }*/
             /*
             Calculates the vertical position of the items using spacgingPercentile and the offset added by section headers.
