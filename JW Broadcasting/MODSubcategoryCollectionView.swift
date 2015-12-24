@@ -38,7 +38,7 @@ class MODSubcategoryCollectionView: SuperCollectionView {
     
     func initSupport(){
         categoryLabel.font=UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
-        categoryLabel.frame=CGRectMake(self.contentInset.left , 0, self.frame.size.width-self.contentInset.left-self.contentInset.right, 40)
+        categoryLabel.frame=CGRectMake(self.contentInset.left , 0, self.frame.size.width-self.contentInset.left-self.contentInset.right, 60)
         categoryLabel.text=categoryName
         self.addSubview(categoryLabel)
     }
@@ -80,13 +80,16 @@ class MODSubcategoryCollectionView: SuperCollectionView {
     
     override func cellShouldFocus(view: UIView, indexPath: NSIndexPath) {
         
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.4 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
             if (view==UIScreen.mainScreen().focusedView){
                 
-                UIView.transitionWithView((self.delegate as! MediaOnDemandCategory).backgroundImage, duration: 0.8, options: .TransitionCrossDissolve, animations: {
+                UIView.transitionWithView((self.delegate as! MediaOnDemandCategory).backgroundImage, duration: 0.5, options: .TransitionCrossDissolve, animations: {
                     
                     var indexPathRow=indexPath.row
                     if (self.categoryCode.containsString("Featured")&&streamingCell){
+                        if (indexPathRow==0){
+                            return
+                        }
                         indexPathRow=indexPathRow-1
                     }
                     
@@ -152,10 +155,10 @@ class MODSubcategoryCollectionView: SuperCollectionView {
         }
         if (textDirection == .RightToLeft){//RTL alignment
             let width=self.frame.size.width-self.contentInset.left-self.contentInset.right
-            self.categoryLabel.frame=CGRectMake(-self.contentInset.right+self.contentOffset.x+self.contentInset.left , 0, width, 40)
+            self.categoryLabel.frame=CGRectMake(-self.contentInset.right+self.contentOffset.x+self.contentInset.left , 25, width, 40)
         }
         else {
-            categoryLabel.frame=CGRectMake( self.contentInset.left+self.contentOffset.x+self.contentInset.left, 0, self.frame.size.width-self.contentInset.left-self.contentInset.right, 40)
+            categoryLabel.frame=CGRectMake( self.contentInset.left+self.contentOffset.x+self.contentInset.left, 25, self.frame.size.width-self.contentInset.left-self.contentInset.right, 40)
         }
     }
     

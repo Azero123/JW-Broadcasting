@@ -52,6 +52,7 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
         super.viewDidLoad()
         //backgroundImage.alpha=0.5
         //backgroundVisualEffect.alpha=0.85
+        //backgroundVisualEffect.hidden=fa
         
         let hMaskLayer:CAGradientLayer = CAGradientLayer()
         // defines the color of the background shadow effect
@@ -146,7 +147,7 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
                     layout.spacingPercentile=1.075
                     //layout.spacingPercentile=1.3
                     
-                    var collectionView=MODSubcategoryCollectionView(frame: CGRect(x: CGFloat(0), y:CGFloat(475*(i+(featured ? 0 : -1)))+620, width: self.view.frame.size.width, height: CGFloat(425)), collectionViewLayout: layout)
+                    var collectionView=MODSubcategoryCollectionView(frame: CGRect(x: CGFloat(0), y:CGFloat(480*(i+(featured ? 0 : -1)))+635, width: self.view.frame.size.width, height: CGFloat(425)), collectionViewLayout: layout)
                     collectionView.categoryName=unfold("\(categoryDataURL)|category|subcategories|\(i)|name") as! String
                     print("CNKND \(unfold("\(categoryDataURL)|category|subcategories|\(i)|key"))")
                     collectionView.categoryCode=unfold("\(categoryDataURL)|category|subcategories|\(i)|key") as! String
@@ -376,7 +377,7 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
             })
         }
         
-        imageView.alpha=0
+        imageView.alpha=1
         imageView.userInteractionEnabled = true
         imageView.layer.cornerRadius=5
         
@@ -466,14 +467,18 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
     }
     
     @IBOutlet weak var topImageTopPosition: NSLayoutConstraint!
+    @IBOutlet weak var backgroundEffectTopPosition: NSLayoutConstraint!
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        if (abs(Int(y-oldY))>abs(Int(y-scrollView.contentOffset.y))){
-            self.topImageTopPosition?.constant = min(0, -scrollView.contentOffset.y / 2.0)
-            oldY=scrollView.contentOffset.y
-        }
-        
-        if (scrollView.isKindOfClass(SuperCollectionView.self)){
-            (scrollView as! SuperCollectionView).didScroll()
+        if (scrollView == self.scrollView){
+            if (abs(Int(y-oldY))>abs(Int(y-scrollView.contentOffset.y))){
+                self.topImageTopPosition?.constant = min(0, -scrollView.contentOffset.y / 2.0)
+                self.backgroundEffectTopPosition?.constant = max(0, min(600, -scrollView.contentOffset.y+600))
+                oldY=scrollView.contentOffset.y
+            }
+            
+            if (scrollView.isKindOfClass(SuperCollectionView.self)){
+                (scrollView as! SuperCollectionView).didScroll()
+            }
         }
     }
     var shouldAnimate=false
