@@ -87,7 +87,7 @@ class MODSubcategoryCollectionView: SuperCollectionView {
                     
                     var indexPathRow=indexPath.row
                     if (self.categoryCode.containsString("Featured")){
-                        indexPathRow=indexPathRow+1
+                        indexPathRow=indexPathRow-1
                     }
                     
                     let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
@@ -144,12 +144,17 @@ class MODSubcategoryCollectionView: SuperCollectionView {
     }
     
     override func didScroll() {
+        if (self.contentSize.width<self.frame.size.width){
+            if (self.contentOffset.x != -self.contentInset.left){
+                self.contentOffset=CGPoint(x: -self.contentInset.left, y: 0)
+            }
+        }
         if (textDirection == .RightToLeft){//RTL alignment
             let width=self.frame.size.width-self.contentInset.left-self.contentInset.right
-            self.categoryLabel.frame=CGRectMake(-self.contentInset.right+self.contentOffset.x+60 , 0, width, 40)
+            self.categoryLabel.frame=CGRectMake(-self.contentInset.right+self.contentOffset.x+self.contentInset.left , 0, width, 40)
         }
         else {
-            categoryLabel.frame=CGRectMake( self.contentInset.left+self.contentOffset.x+60, 0, self.frame.size.width-self.contentInset.left-self.contentInset.right, 40)
+            categoryLabel.frame=CGRectMake( self.contentInset.left+self.contentOffset.x+self.contentInset.left, 0, self.frame.size.width-self.contentInset.left-self.contentInset.right, 40)
         }
     }
     

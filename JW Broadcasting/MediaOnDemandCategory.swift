@@ -454,8 +454,10 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
             (segue.destinationViewController as! StreamingViewController).streamID=categoryIndex
         }
     }
+    
     @IBOutlet weak var topImageTopPosition: NSLayoutConstraint!
     func scrollViewDidScroll(scrollView: UIScrollView) {
+        
         print(scrollView.contentOffset.y)
         UIView.animateWithDuration(0.01, animations: {
             self.topImageTopPosition?.constant = min(0, -scrollView.contentOffset.y / 2.0)

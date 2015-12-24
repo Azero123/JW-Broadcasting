@@ -112,15 +112,11 @@ class CollectionViewAlignmentFlowLayout: UICollectionViewFlowLayout {
         }
         else if ((self.collectionView?.delegate?.isKindOfClass(MediaOnDemandController.self)) == true){
             
-            print((self.collectionView!.delegate as! MediaOnDemandController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forRow: 0, inSection: 0)))
-            
             //self.collectionView.
             return CGSize(width: (self.collectionView?.frame.size.width)!, height: 1500)
             //layout=(self.collectionView!.delegate as! MediaOnDemandController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forRow: 0, inSection: 0))
         }
         else if ((self.collectionView?.delegate?.isKindOfClass(AudioController.self)) == true){
-            
-            print((self.collectionView!.delegate as! AudioController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forRow: 0, inSection: 0)))
             
             //self.collectionView.
             return CGSize(width: (self.collectionView?.frame.size.width)!, height: 500)
