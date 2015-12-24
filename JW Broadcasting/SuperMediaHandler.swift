@@ -259,7 +259,6 @@ class SuperMediaPlayer: NSObject, UIGestureRecognizerDelegate {
         
     }
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        print("OBSERVER IS PRESENT FRINGE TEAM LOOK OUT!")
         if (object != nil && object?.isKindOfClass(AVPlayerItem.self)==true && (object as! AVPlayerItem) == player.currentItem && keyPath! == "status"){
             object?.removeObserver(self, forKeyPath: "status")
             statusObserver=false

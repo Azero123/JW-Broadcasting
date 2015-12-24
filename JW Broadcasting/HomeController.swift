@@ -179,6 +179,19 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
         self.view.hidden=false
     }
     
+    /*func viewDidAppear(animated: Bool) {
+        <#code#>
+    }*/
+    
+    override var preferredFocusedView:UIView? {
+        get {
+            if (self.slideShowCollectionView.preferredFocusedView != nil){
+                return self.slideShowCollectionView
+            }
+            return super.preferredFocusedView
+        }
+    }
+    
     override func viewWillDisappear(animated: Bool) {
         
         /*

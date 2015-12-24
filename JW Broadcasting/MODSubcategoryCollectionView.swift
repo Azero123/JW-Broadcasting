@@ -80,13 +80,13 @@ class MODSubcategoryCollectionView: SuperCollectionView {
     
     override func cellShouldFocus(view: UIView, indexPath: NSIndexPath) {
         
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.4 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
             if (view==UIScreen.mainScreen().focusedView){
                 
                 UIView.transitionWithView((self.delegate as! MediaOnDemandCategory).backgroundImage, duration: 0.8, options: .TransitionCrossDissolve, animations: {
                     
                     var indexPathRow=indexPath.row
-                    if (self.categoryCode.containsString("Featured")){
+                    if (self.categoryCode.containsString("Featured")&&streamingCell){
                         indexPathRow=indexPathRow-1
                     }
                     
@@ -144,6 +144,7 @@ class MODSubcategoryCollectionView: SuperCollectionView {
     }
     
     override func didScroll() {
+        
         if (self.contentSize.width<self.frame.size.width){
             if (self.contentOffset.x != -self.contentInset.left){
                 self.contentOffset=CGPoint(x: -self.contentInset.left, y: 0)

@@ -27,6 +27,8 @@ class SlideShow: SuperCollectionView {
         }
     }
     
+    var focusReady=false
+    
     override func prepare(){
         /*
         Sets edge margins to meet Apple's requirements.
@@ -35,6 +37,7 @@ class SlideShow: SuperCollectionView {
         Ler's Home page know that this section is done loading.
         
         */
+        focusReady=false
         (self.delegate as? HomeController)?.addActivity()//Tells home to prevent interaction
         
         self.contentInset=UIEdgeInsetsMake(0, 60, 0, 60)//Edge insets
@@ -64,6 +67,9 @@ class SlideShow: SuperCollectionView {
                         if (finished){
                             //self.moveToSlide(1)
                             self.reloadItemsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)])
+                            
+                            self.performSelector("setFocusReady", withObject: nil, afterDelay: 1)
+                            
                         }
                 
                 })
@@ -76,6 +82,14 @@ class SlideShow: SuperCollectionView {
             }
         })
     }
+    
+    func setFocusReady(){
+        focusReady=true
+        
+        self.updateFocusIfNeeded()
+        self.setNeedsFocusUpdate()
+    }
+    
     override func totalItemsInSection(section: Int) -> Int {
         //sets the number of items based on how many featured videos are available.
         let slides=unfold(base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider|settings|WebHomeSlider|slides") as? NSArray
@@ -98,7 +112,7 @@ class SlideShow: SuperCollectionView {
         slide.tag=indexPath.row
         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
         
-        var index=indexPath.row
+        var index=indexPath.row % (self.totalItemsInSection(0))
         let totalItems=self.totalItemsInSection(0)
         index=indexPath.row-2+indexOffset
         while (index>totalItems-1){
@@ -109,9 +123,9 @@ class SlideShow: SuperCollectionView {
         }
         //print("reloading index \(indexPath.row) as \(index)")
         
-        /*if (index>totalItems-1){
+        if (index>totalItems-1){
         index=index-totalItems
-        }*/
+        }
         let SLSlides=unfold(pathForSliderData+"|settings|WebHomeSlider|slides") as? NSArray
         if (SLSlides != nil){
         let SLSlide=SLSlides![index]
@@ -196,7 +210,7 @@ class SlideShow: SuperCollectionView {
         */
         SLIndex=indexPath.row
         
-        var index=indexPath.row
+        var index=indexPath.row % (totalItemsInSection(0))
         
         let totalItems=self.totalItemsInSection(0)
         if (totalItems>=4){
@@ -212,6 +226,7 @@ class SlideShow: SuperCollectionView {
             }
             
         }
+
         
         
         
@@ -284,18 +299,23 @@ class SlideShow: SuperCollectionView {
         */
         if (indexToMove<indexToGoTo){
             indexOffset++
+            
         }
         if (indexToMove>indexToGoTo){
             indexOffset--
         }
+        self.layer.speed=0
         
         self.performBatchUpdates({
             
             self.layer.speed=0
             
+            //self.deleteItemsAtIndexPaths([NSIndexPath(forRow: indexToMove, inSection: 0)])
+            //self.insertItemsAtIndexPaths([NSIndexPath(forRow: indexToGoTo, inSection: 0)])
             self.moveItemAtIndexPath(NSIndexPath(forRow: indexToMove, inSection: 0), toIndexPath: NSIndexPath(forRow: indexToGoTo, inSection: 0))
-            self.layer.speed=1
+            self.layer.speed=0
             }, completion: nil)
+        self.layer.speed=1
     }
     
     override func cellShouldLoseFocus(view:UIView, indexPath:NSIndexPath){
@@ -453,4 +473,60 @@ class SlideShow: SuperCollectionView {
             , y: 0)
         
     }
-}
+    /*
+    var i=0
+    
+    override var preferredFocusedView:UIView? {
+        get {
+            //print("test2 \(super.preferredFocusedView) \(cell)")
+            //return super.preferredFocusedView
+            
+            /*
+            print("\n")
+            print("TESTING prefered focus")
+            print(self.subviews)
+            
+            i++
+            if (i>10){
+                /*NSArray *syms = [NSThread  callStackSymbols];
+                if ([syms count] > 1) {
+                    NSLog(@"<%@ %p> %@ - caller: %@ ", [self class], self, NSStringFromSelector(_cmd),[syms objectAtIndex:1]);
+                } else {
+                    NSLog(@"<%@ %p> %@", [self class], self, NSStringFromSelector(_cmd));
+                }*/
+                print(NSThread.callStackSymbols())
+            }
+            */
+            let cell:UICollectionViewCell?=self.collectionView(self, cellForItemAtIndexPath: NSIndexPath(forRow: 1, inSection: 0))
+            
+            if (cell != nil && super.preferredFocusedView != nil && focusReady){
+                if (self.indexPathForCell(super.preferredFocusedView as! UICollectionViewCell) != nil && self.indexPathForCell(cell!) != nil){
+                    print("test2 \(self.indexPathForCell(super.preferredFocusedView as! UICollectionViewCell)!.row) \(self.indexPathForCell(cell!)!.row)")
+                    return cell
+                }
+                //print(cell)
+                //print("\n")
+            }
+            
+            print("defaulting")
+            return nil
+        }
+    }*/
+    
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        let currentOffset = self.contentOffset
+        /*
+        if (self.contentOffset.x<self.contentSize.width/3){
+            contentOffset=CGPointMake(self.contentOffset.x+self.contentSize.width/3, currentOffset.y)
+        }
+        if (self.contentOffset.x<self.contentSize.width/3){
+            contentOffset=CGPointMake(self.contentOffset.x+self.contentSize.width/3, currentOffset.y)
+        }*/
+        
+        /*if ((self.contentSize.width - self.bounds.size.width)/2 > self.contentSize.width/4) { // this number of 4.0 is arbitrary
+            self.contentOffset = CGPointMake((self.contentSize.width - self.bounds.size.width)/4, currentOffset.y);
+        }*/
+    }
+    }

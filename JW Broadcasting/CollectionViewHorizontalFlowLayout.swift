@@ -135,7 +135,9 @@ class CollectionViewHorizontalFlowLayout: UICollectionViewFlowLayout {
     }
     
     override func initialLayoutAttributesForAppearingItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
-        return self.layoutAttributesForItemAtIndexPath(indexPath)
+        let layout=self.layoutAttributesForItemAtIndexPath(indexPath)
+        //layout?.alpha=0
+        return layout
     }
     
     override func finalLayoutAttributesForDisappearingItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {

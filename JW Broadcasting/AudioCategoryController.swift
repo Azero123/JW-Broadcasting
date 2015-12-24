@@ -84,10 +84,8 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     override func pressesBegan(presses: Set<UIPress>, withEvent event: UIPressesEvent?) {
-        print("began")
         for item in presses {
             if item.type == .Menu {
-                print("start fade out")
                 fadeVolume()
                 playAll=false
                 shuffle=false
@@ -96,7 +94,6 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     override func viewWillAppear(animated: Bool) {
-        print("view did appear")
         playAll=true
         shuffle=false
         if (previousLanguageCode != languageCode){
@@ -158,7 +155,6 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
         
         let extraction=titleExtractor(title!)
         
-        print(extraction)
         
         var visualSongNumber:String?=nil
         if (extraction["visualNumber"] != nil){

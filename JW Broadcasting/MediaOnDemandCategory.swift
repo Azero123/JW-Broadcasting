@@ -10,6 +10,7 @@ import UIKit
 import AVKit
 
 var streamingCell=true
+var featured=true
 
 class MediaOnDemandCategory: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate {
 
@@ -49,7 +50,6 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
     @IBOutlet weak var scrollView: UIScrollView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         //backgroundImage.alpha=0.5
         //backgroundVisualEffect.alpha=0.85
         
@@ -140,13 +140,13 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
                         }
                     })
                 }
-                for var i=0;i<unfold("\(categoryDataURL)|category|subcategories|count") as! Int ; i++ {
+                for var i=(featured ? 0 : 1);i<unfold("\(categoryDataURL)|category|subcategories|count") as! Int ; i++ {
                     
                     let layout=CollectionViewHorizontalFlowLayout()
                     layout.spacingPercentile=1.075
                     //layout.spacingPercentile=1.3
                     
-                    var collectionView=MODSubcategoryCollectionView(frame: CGRect(x: CGFloat(0), y:CGFloat(475*(i))+620, width: self.view.frame.size.width, height: CGFloat(425)), collectionViewLayout: layout)
+                    var collectionView=MODSubcategoryCollectionView(frame: CGRect(x: CGFloat(0), y:CGFloat(475*(i+(featured ? 0 : -1)))+620, width: self.view.frame.size.width, height: CGFloat(425)), collectionViewLayout: layout)
                     collectionView.categoryName=unfold("\(categoryDataURL)|category|subcategories|\(i)|name") as! String
                     print("CNKND \(unfold("\(categoryDataURL)|category|subcategories|\(i)|key"))")
                     collectionView.categoryCode=unfold("\(categoryDataURL)|category|subcategories|\(i)|key") as! String
@@ -234,7 +234,7 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
         cell.contentView.layoutSubviews()
         
         
-        var indexPathRow=indexPath.row
+        var indexPathRow=indexPath.row+(featured ? 0 : 1)
         if (streamingCell){
             if (subcategoryCollectionViews.indexOf(collectionView as! MODSubcategoryCollectionView)! == 0){
                 indexPathRow--
@@ -455,17 +455,30 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
         }
     }
     
+    var movingUp:Bool?=false
+    var oldY:CGFloat=0
+    
+    
+    
+    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        shouldAnimate=true
+        y=targetContentOffset.memory.y
+    }
+    
     @IBOutlet weak var topImageTopPosition: NSLayoutConstraint!
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        
-        print(scrollView.contentOffset.y)
-        UIView.animateWithDuration(0.01, animations: {
+        if (abs(Int(y-oldY))>abs(Int(y-scrollView.contentOffset.y))){
             self.topImageTopPosition?.constant = min(0, -scrollView.contentOffset.y / 2.0)
-        }) // only when scrolling down so we never let it be higher than 0
+            oldY=scrollView.contentOffset.y
+        }
         
         if (scrollView.isKindOfClass(SuperCollectionView.self)){
             (scrollView as! SuperCollectionView).didScroll()
         }
     }
+    var shouldAnimate=false
+    var y:CGFloat=0
+    
 
+    //func scrollvi
 }
