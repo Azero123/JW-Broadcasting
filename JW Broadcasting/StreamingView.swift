@@ -51,11 +51,13 @@ class StreamView: UIImageView {
         supportInit()
     }
     
+    let darkener=CALayer()
+    
     func supportInit(){
         
         self.userInteractionEnabled = true
         //self.adjustsImageWhenAncestorFocused = true
-        self.backgroundColor=UIColor.blackColor()
+        //self.backgroundColor=UIColor.blackColor()
         self.clipsToBounds=true
         /*let guide=UIFocusGuide()
         guide.preferredFocusedView=self
@@ -71,9 +73,10 @@ class StreamView: UIImageView {
         Show the spinning wheel to the user so the user knows that we are downloading data
         */
         
+        self.backgroundColor=UIColor.clearColor()
+        self.opaque=true
         //self.activityIndicator.color=UIColor(colorLiteralRed: 0.3, green: 0.44, blue: 0.64, alpha: 1.0)
         //self.activityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0)
-        let darkener=CALayer()
         darkener.frame=self.bounds
         darkener.backgroundColor=UIColor.blackColor().CGColor
         darkener.opacity=0.5
@@ -137,7 +140,8 @@ class StreamView: UIImageView {
         
         player = AVQueuePlayer()//Creates the player for the layer
         playerLayer=AVPlayerLayer(player: player)//Creates the layer
-        playerLayer?.backgroundColor=UIColor.blackColor().CGColor
+        playerLayer?.backgroundColor=UIColor.clearColor().CGColor
+        playerLayer?.opaque=true
         playerLayer!.frame=self.bounds//Sets the video to be the size of the screen
         
         
@@ -433,6 +437,8 @@ class StreamView: UIImageView {
             if (self.player!.currentItem!.status == AVPlayerItemStatus.ReadyToPlay) {
                 activityIndicator.stopAnimating()
                 if (self.hidden==false){
+                    self.darkener.removeFromSuperlayer()
+                    self.image=nil
                     self.layer.addSublayer(playerLayer!)
                 }
                 if (thisControllerIsVisible){
@@ -496,7 +502,7 @@ class StreamView: UIImageView {
         group.motionEffects=[hMotionEffect,vMotionEffect]
         self.addMotionEffect(group)
         
-        self.backgroundColor=UIColor.blackColor()
+        //self.backgroundColor=UIColor.blackColor()
         self.transform = CGAffineTransformMakeScale(1.135, 1.135)
         self.superview!.layer.shadowColor=UIColor.grayColor().CGColor
         self.superview!.layer.shadowOpacity=1

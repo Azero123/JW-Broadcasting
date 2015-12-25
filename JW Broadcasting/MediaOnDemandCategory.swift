@@ -476,9 +476,9 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
                 oldY=scrollView.contentOffset.y
             }
             
-            if (scrollView.isKindOfClass(SuperCollectionView.self)){
-                (scrollView as! SuperCollectionView).didScroll()
-            }
+        }
+        if (scrollView.isKindOfClass(SuperCollectionView.self)){
+            (scrollView as! SuperCollectionView).didScroll()
         }
     }
     var shouldAnimate=false

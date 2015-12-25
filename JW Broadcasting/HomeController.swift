@@ -197,6 +197,7 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
         /*
         self.view.hidden=false is used because TV OS is not reliable with changing view controllers. Sometimes subviews of one controller can jump to another if you rapidely switch between and/or if their is brackground threads/timers updating content.
         */
+        disableNavBar=false
         self.view.hidden=true
     }
     
@@ -344,6 +345,17 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
         Makes all cells selectable.
         */
         
+        if (collectionView == self.slideShowCollectionView){
+            var rectToCompare=self.slideShowCollectionView.cellAtIndex(indexPath).frame
+            rectToCompare = CGRect(x: rectToCompare.origin.x-self.slideShowCollectionView.contentOffset.x, y: rectToCompare.origin.y+self.slideShowCollectionView.frame.origin.y, width: rectToCompare.size.width, height: rectToCompare.size.height)
+            if (self.slideShowCollectionView.subviews.contains(UIScreen.mainScreen().focusedView!)){
+                return true
+            }
+            else if (self.slideShowCollectionView.frame.contains(rectToCompare)){
+                return true
+            }
+            return false
+        }
         return true
     }
     

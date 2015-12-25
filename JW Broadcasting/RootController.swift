@@ -22,10 +22,12 @@ extension UITabBarController : TVApplicationControllerDelegate {
     func setTabBarVisible(visible:Bool, animated:Bool) {
         if (disableNavBar == false){
             
+            print("tab bar disabled? \(disableNavBar)")
+            
             /*figure out what the height of the tab bar is*/
             let frame = self.tabBar.frame
             let height = frame.size.height
-            let offsetY = (visible==false ? -height : 0)
+            let offsetY = (visible==false || disableNavBar ? -height : 0)
             
             /*animate the removal of the tab bar so it looks nice if "animated" is true*/
             UIView.animateWithDuration(animated ? 0.3 : 0.0) {
@@ -488,5 +490,4 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 }

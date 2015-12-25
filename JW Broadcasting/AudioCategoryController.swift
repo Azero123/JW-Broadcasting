@@ -74,7 +74,6 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
         
         let guide=UIFocusGuide()
         guide.preferredFocusedView=playAllButton
-        //guide.layoutFrame=CGRect(x: -100, y: -500, width: 200, height: 800)
         playAllButton.addLayoutGuide(guide)
         guide.trailingAnchor.constraintEqualToAnchor(playAllButton.trailingAnchor, constant: 0).active=true
         guide.topAnchor.constraintEqualToAnchor(playAllButton.topAnchor, constant: -1000).active=true

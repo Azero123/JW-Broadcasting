@@ -134,7 +134,8 @@ class ChannelSelector: SuperCollectionView {
     var timerForPreview:NSTimer?
     
     override func cellShouldFocus(view:UIView, indexPath:NSIndexPath){
-    
+        
+        disableNavBar=true
         let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
         let channelsMeta=(unfold("\(streamingScheduleURL)|category|subcategories") as? NSArray)
         

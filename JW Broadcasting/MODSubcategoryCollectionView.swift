@@ -10,6 +10,8 @@ import UIKit
 
 class MODSubcategoryCollectionView: SuperCollectionView {
     
+    let titlePosition:CGFloat=0
+    
     var categoryName=""
     var _categoryCode = ""
     var categoryCode:String {
@@ -38,7 +40,7 @@ class MODSubcategoryCollectionView: SuperCollectionView {
     
     func initSupport(){
         categoryLabel.font=UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
-        categoryLabel.frame=CGRectMake(self.contentInset.left , 0, self.frame.size.width-self.contentInset.left-self.contentInset.right, 60)
+        categoryLabel.frame=CGRectMake(self.contentInset.left , titlePosition, self.frame.size.width-self.contentInset.left-self.contentInset.right, 60)
         categoryLabel.text=categoryName
         self.addSubview(categoryLabel)
     }
@@ -57,11 +59,11 @@ class MODSubcategoryCollectionView: SuperCollectionView {
         self.performBatchUpdates({}, completion: { (finished:Bool) in
             if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
                 let width=self.frame.size.width-self.contentInset.left-self.contentInset.right
-                self.categoryLabel.frame=CGRectMake(self.contentSize.width-width-self.contentInset.right , 0, width, 40)
+                self.categoryLabel.frame=CGRectMake(self.contentSize.width-width-self.contentInset.right , self.titlePosition, width, 40)
                 self.categoryLabel.textAlignment=NSTextAlignment.Right
             }
             else {
-                self.categoryLabel.frame=CGRectMake(self.contentInset.left , 0, self.frame.size.width-self.contentInset.left-self.contentInset.right, 40)
+                self.categoryLabel.frame=CGRectMake(self.contentInset.left , self.titlePosition, self.frame.size.width-self.contentInset.left-self.contentInset.right, 40)
                 self.categoryLabel.textAlignment=NSTextAlignment.Left
             }
             self.rightSide()
@@ -155,10 +157,10 @@ class MODSubcategoryCollectionView: SuperCollectionView {
         }
         if (textDirection == .RightToLeft){//RTL alignment
             let width=self.frame.size.width-self.contentInset.left-self.contentInset.right
-            self.categoryLabel.frame=CGRectMake(-self.contentInset.right+self.contentOffset.x+self.contentInset.left , 25, width, 40)
+            self.categoryLabel.frame=CGRectMake(-self.contentInset.right+self.contentOffset.x+self.contentInset.left , titlePosition, width, 40)
         }
         else {
-            categoryLabel.frame=CGRectMake( self.contentInset.left+self.contentOffset.x+self.contentInset.left, 25, self.frame.size.width-self.contentInset.left-self.contentInset.right, 40)
+            categoryLabel.frame=CGRectMake( self.contentInset.left+self.contentOffset.x+self.contentInset.left, titlePosition, self.frame.size.width-self.contentInset.left-self.contentInset.right, 40)
         }
     }
     

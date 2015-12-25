@@ -6,6 +6,8 @@
 //  Copyright © 2015 xquared. All rights reserved.
 //
 
+let infiniteScrolling=false
+
 import Foundation
 import UIKit
 import AVKit
@@ -14,7 +16,6 @@ class SlideShow: SuperCollectionView {
     
     var timer:NSTimer?
     var SLIndex=0
-    let timeToShow=10
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -37,6 +38,16 @@ class SlideShow: SuperCollectionView {
         Ler's Home page know that this section is done loading.
         
         */
+        
+        
+        let guide=UIFocusGuide()
+        guide.preferredFocusedView=self
+        self.addLayoutGuide(guide)
+        guide.trailingAnchor.constraintEqualToAnchor(self.trailingAnchor, constant: 0).active=true
+        guide.topAnchor.constraintEqualToAnchor(self.topAnchor, constant: 0).active=true
+        guide.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor, constant: 1000).active=true
+        guide.leadingAnchor.constraintEqualToAnchor(self.leadingAnchor, constant: 0).active=true
+        
         focusReady=false
         (self.delegate as? HomeController)?.addActivity()//Tells home to prevent interaction
         
@@ -113,6 +124,7 @@ class SlideShow: SuperCollectionView {
         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
         
         var index=indexPath.row % (self.totalItemsInSection(0))
+        if (infiniteScrolling){
         let totalItems=self.totalItemsInSection(0)
         index=indexPath.row-2+indexOffset
         while (index>totalItems-1){
@@ -125,6 +137,7 @@ class SlideShow: SuperCollectionView {
         
         if (index>totalItems-1){
         index=index-totalItems
+        }
         }
         let SLSlides=unfold(pathForSliderData+"|settings|WebHomeSlider|slides") as? NSArray
         if (SLSlides != nil){
@@ -204,6 +217,7 @@ class SlideShow: SuperCollectionView {
         Code for focus effects and blocking automatic sliding.
         */
         
+        disableNavBar=true
         
         /*
         Some math to calculate the actual video ID
@@ -213,7 +227,7 @@ class SlideShow: SuperCollectionView {
         var index=indexPath.row % (totalItemsInSection(0))
         
         let totalItems=self.totalItemsInSection(0)
-        if (totalItems>=4){
+        if (totalItems>=4 && infiniteScrolling){
             index=indexPath.row-2+indexOffset
             while (index>totalItems-1){
                 index = index-(totalItems)
@@ -256,7 +270,7 @@ class SlideShow: SuperCollectionView {
         /*
         Loops items from front to back or back to front for infinite looping.
         */
-        if (totalItems>=4){
+        if (totalItems>=4 && infiniteScrolling){
             let leftIndex = 0
             let rightIndex = totalItems-1
             
@@ -350,7 +364,7 @@ class SlideShow: SuperCollectionView {
                 
                 /*Infinite loop auto scrolling*/
                 
-                if (totalItems>3){
+                if (totalItems>3 && infiniteScrolling){
                     
                     while (atIndex>totalItems-3){
                         atIndex--
@@ -362,10 +376,10 @@ class SlideShow: SuperCollectionView {
                     }
                 }
                 
-                self.scrollToItemAtIndexPath(NSIndexPath(forRow: atIndex, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
-                
-                SLIndex=atIndex
             }
+            self.scrollToItemAtIndexPath(NSIndexPath(forRow: atIndex, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
+            
+            SLIndex=atIndex
         }
     }
     
@@ -412,6 +426,7 @@ class SlideShow: SuperCollectionView {
         var index=indexPath.row
         
         let totalItems=self.totalItemsInSection(0)
+        if (infiniteScrolling){
         index=indexPath.row-2+indexOffset
         
         if (totalItems>=4){
@@ -425,7 +440,8 @@ class SlideShow: SuperCollectionView {
         if (index == -1){
             index = totalItems-1
         }
-        
+        }
+            
         /*
         Grab the video url
         make sure it is real
@@ -473,60 +489,6 @@ class SlideShow: SuperCollectionView {
             , y: 0)
         
     }
-    /*
-    var i=0
-    
-    override var preferredFocusedView:UIView? {
-        get {
-            //print("test2 \(super.preferredFocusedView) \(cell)")
-            //return super.preferredFocusedView
-            
-            /*
-            print("\n")
-            print("TESTING prefered focus")
-            print(self.subviews)
-            
-            i++
-            if (i>10){
-                /*NSArray *syms = [NSThread  callStackSymbols];
-                if ([syms count] > 1) {
-                    NSLog(@"<%@ %p> %@ - caller: %@ ", [self class], self, NSStringFromSelector(_cmd),[syms objectAtIndex:1]);
-                } else {
-                    NSLog(@"<%@ %p> %@", [self class], self, NSStringFromSelector(_cmd));
-                }*/
-                print(NSThread.callStackSymbols())
-            }
-            */
-            let cell:UICollectionViewCell?=self.collectionView(self, cellForItemAtIndexPath: NSIndexPath(forRow: 1, inSection: 0))
-            
-            if (cell != nil && super.preferredFocusedView != nil && focusReady){
-                if (self.indexPathForCell(super.preferredFocusedView as! UICollectionViewCell) != nil && self.indexPathForCell(cell!) != nil){
-                    print("test2 \(self.indexPathForCell(super.preferredFocusedView as! UICollectionViewCell)!.row) \(self.indexPathForCell(cell!)!.row)")
-                    return cell
-                }
-                //print(cell)
-                //print("\n")
-            }
-            
-            print("defaulting")
-            return nil
-        }
-    }*/
     
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        let currentOffset = self.contentOffset
-        /*
-        if (self.contentOffset.x<self.contentSize.width/3){
-            contentOffset=CGPointMake(self.contentOffset.x+self.contentSize.width/3, currentOffset.y)
-        }
-        if (self.contentOffset.x<self.contentSize.width/3){
-            contentOffset=CGPointMake(self.contentOffset.x+self.contentSize.width/3, currentOffset.y)
-        }*/
-        
-        /*if ((self.contentSize.width - self.bounds.size.width)/2 > self.contentSize.width/4) { // this number of 4.0 is arbitrary
-            self.contentOffset = CGPointMake((self.contentSize.width - self.bounds.size.width)/4, currentOffset.y);
-        }*/
-    }
     }
