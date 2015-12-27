@@ -146,9 +146,9 @@ class LatestVideos: SuperCollectionView {
         if (imageURL != nil){
             if ((self.delegate?.isKindOfClass(HomeController.self)) == true){
                 
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
                     if (view==UIScreen.mainScreen().focusedView){
-                        UIView.transitionWithView((self.delegate as! HomeController).backgroundImageView, duration: 0.8, options: .TransitionCrossDissolve, animations: {
+                        UIView.transitionWithView((self.delegate as! HomeController).backgroundImageView, duration: 0.5, options: .TransitionCrossDissolve, animations: {
                             (self.delegate as! HomeController).backgroundImageView.image=imageUsingCache(imageURL!)
                             }, completion: nil)
                     }

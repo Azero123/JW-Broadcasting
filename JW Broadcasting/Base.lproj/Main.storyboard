@@ -103,7 +103,6 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" red="0.65252357719999998" green="0.66733610629999995" blue="0.66081053020000002" alpha="0.27043968023255816" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="Ylw-l7-zqG" firstAttribute="leading" secondItem="c1U-oz-E1L" secondAttribute="leading" constant="115" id="7to-dB-0O4"/>
                                     <constraint firstItem="Ylw-l7-zqG" firstAttribute="top" secondItem="c1U-oz-E1L" secondAttribute="top" constant="10" id="Pxy-L8-iQs"/>
@@ -1243,6 +1242,6 @@
         <image name="Singing" width="612" height="792"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="RKc-xb-pil"/>
+        <segue reference="eOq-gS-Wby"/>
     </inferredMetricsTieBreakers>
 </document>

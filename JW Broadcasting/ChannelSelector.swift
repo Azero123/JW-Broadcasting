@@ -81,7 +81,7 @@ class ChannelSelector: SuperCollectionView {
         let multiplier:CGFloat=1.5
         let ratio:CGFloat=1.875
         let width:CGFloat=320/2
-        return CGSize(width: width*ratio*multiplier, height: width*multiplier+60)//450,300
+        return CGSize(width: width*ratio*multiplier, height: width*multiplier+60)//wss lg 640,360
     }
     
     
@@ -126,11 +126,6 @@ class ChannelSelector: SuperCollectionView {
         
         return channel
     }
-    
-    var player:AVPlayer?
-    var playerLayer:AVPlayerLayer?
-    var currentURL:String?
-    var playerItem:AVPlayerItem?
     var timerForPreview:NSTimer?
     
     override func cellShouldFocus(view:UIView, indexPath:NSIndexPath){
@@ -140,14 +135,15 @@ class ChannelSelector: SuperCollectionView {
         let channelsMeta=(unfold("\(streamingScheduleURL)|category|subcategories") as? NSArray)
         
         let channelMeta=channelsMeta?[indexPath.row] as? NSDictionary
+        let imageURL=unfold(channelMeta, instructions: ["images","wss","sm"]) as? String
+        let image=imageUsingCache(imageURL!)
         if (channelMeta != nil){
-            let imageURL=unfold(channelMeta, instructions: ["images","wss","sm"]) as? String
             if ((self.delegate?.isKindOfClass(HomeController.self)) == true){
                 
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
                     if (view==UIScreen.mainScreen().focusedView){
-                        UIView.transitionWithView((self.delegate as! HomeController).backgroundImageView, duration: 0.8, options: .TransitionCrossDissolve, animations: {
-                            (self.delegate as! HomeController).backgroundImageView.image=imageUsingCache(imageURL!)
+                        UIView.transitionWithView((self.delegate as! HomeController).backgroundImageView, duration: 0.5, options: .TransitionCrossDissolve, animations: {
+                            (self.delegate as! HomeController).backgroundImageView.image=image
                             }, completion: nil)
                     }
                 }
@@ -157,33 +153,14 @@ class ChannelSelector: SuperCollectionView {
         view.subviews.first?.alpha=1
         timerForPreview?.invalidate()
         timerForPreview=nil
-        timerForPreview=NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: Selector("bringUpPreview:"), userInfo: ["view":view,"indexPath":indexPath], repeats: false)
+        timerForPreview=NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: Selector("bringUpPreview:"), userInfo: ["view":view,"indexPath":indexPath], repeats: false)
         
-        self.currentURL=""
-        readyTimer?.invalidate()
-        readyTimer=nil
-        
-        player?.muted=true
-        if (player == nil){
-            player = AVPlayer()
-        }
-        if (playerLayer == nil){
-            playerLayer=AVPlayerLayer(player: player)
-        }
         
         for subview in (view.subviews.first!.subviews) {
             if (subview.isKindOfClass(UILabel.self)){
                 (subview as! UILabel).textColor=UIColor.whiteColor()
                 (subview as! UILabel).shadowColor=UIColor.darkGrayColor()
                 subview.frame=CGRect(x: subview.frame.origin.x, y: subview.frame.origin.y+5, width: subview.frame.size.width, height: subview.frame.size.height)
-            }
-            if (subview.isKindOfClass(UIImageView.self)){
-                subview.clipsToBounds=true
-                let scaleUp=subview.frame.size.width/398
-                playerLayer!.frame=CGRect(x: -29, y: -13, width: subview.frame.size.width*scaleUp, height: subview.frame.size.height*scaleUp)
-                self.playerLayer?.backgroundColor=UIColor.clearColor().CGColor
-                self.player?.replaceCurrentItemWithPlayerItem(nil)
-                subview.layer.addSublayer(self.playerLayer!)
             }
             if (subview.isKindOfClass(marqueeLabel.self)){
                 (subview as! marqueeLabel).beginFocus()
@@ -204,45 +181,69 @@ class ChannelSelector: SuperCollectionView {
     }
     
     func bringUpPreview(timer:NSTimer){
-        bringUpPreview(timer.userInfo!["view"] as! UIView, indexPath: timer.userInfo!["indexPath"] as! NSIndexPath)
+        if (timer.userInfo!["view"] as? UIView == UIScreen.mainScreen().focusedView){
+            bringUpPreview(timer.userInfo!["view"] as! UIView, indexPath: timer.userInfo!["indexPath"] as! NSIndexPath)
+        }
     }
     
+    var streamview=StreamView()
     func bringUpPreview(view:UIView, indexPath:NSIndexPath){
+        if (streamview.superview != nil){
+            streamview.removeFromSuperview()
+        }
         
         let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
-        fetchDataUsingCache(streamingScheduleURL, downloaded: {
-            let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
-            dispatch_async(dispatch_get_global_queue(priority, 0)) {
-            let streamMeta=unfold(streamingScheduleURL)//dictionaryOfPath(streamingScheduleURL, usingCache: true)
-                if (streamMeta != nil){
-                    let subcategory=streamMeta?.objectForKey("category")?.objectForKey("subcategories")!.objectAtIndex(indexPath.row)
-                    let playlist=subcategory!["media"] as! NSArray
-                    let newVidData=playlist[0]["files"]
-                    let videoURL=newVidData!![0]["progressiveDownloadURL"]
-                    let timeIndex=subcategory!["position"]?!["time"]?!.floatValue
-                    if (videoURL as? String != self.currentURL){
-                        self.currentURL=videoURL as? String
-                        //self.player?.replaceCurrentItemWithPlayerItem()
-                        self.playerItem=AVPlayerItem(URL: NSURL(string: videoURL as! String)!)
-                    }
-                    if (self.player != nil){
-                        if ((self.player?.currentTime().value)!-CMTimeMake(Int64(timeIndex!), 1).value < abs(10)){
-                            self.playerItem?.seekToTime(CMTimeMake(Int64(timeIndex!), 1))
-                        }
-                        else {
-                            
-                        }
-                    }
-                    self.update()
-                }
+        let channelsMeta=(unfold("\(streamingScheduleURL)|category|subcategories") as? NSArray)
+        
+        let channelMeta=channelsMeta?[indexPath.row] as? NSDictionary
+        let imageURL=unfold(channelMeta, instructions: ["images","wss","sm"]) as? String
+        let image=imageUsingCache(imageURL!)
+        
+        for subview in view.subviews.first!.subviews {
+            if (subview.isKindOfClass(UIImageView.self)){
+                (subview as! UIImageView).image=nil
+                streamview=StreamView(frame: CGRect(x: 0, y: 0, width: subview.bounds.size.width, height: subview.bounds.size.height))
+                streamview.image=image
             }
-        }, usingCache: false)
+        }
+        streamview.streamID=indexPath.row
+        
+        //streamview.frame=CGRect(x: 0, y: 0, width: 860, height: 430)//(860.0, 430.0
+        let width:CGFloat=2
+        let height:CGFloat=1
+        var ratio:CGFloat=width/height
+        //streamview.frame=CGRect(x: (view.frame.size.width-((view.frame.size.height-60)*ratio))/2, y: 0, width: (view.frame.size.height-60)*ratio, height: (view.frame.size.height-60))
+        
+        if (width>height){
+            ratio=height/width
+            //streamview.frame=CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.width*ratio)
+        }
+        
+        
+        //print("image size: \(image!.size) \(imageURL)")
+        //let sizeOfStream=CGSize(width: , height: <#T##Double#>)
+        
+        //streamview.frame=CGRect(x: (view.frame.size.width-streamview.frame.size.width)/2, y: (view.frame.size.height-streamview.frame.size.height)/2, width: streamview.frame.size.width, height: streamview.frame.size.height)
+        
+        view.subviews.first!.addSubview(streamview)
+        
     }
     
     var readyTimer:NSTimer?=nil
     
     override func cellShouldLoseFocus(view:UIView, indexPath:NSIndexPath){
-        self.player?.pause()
+        
+        let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
+        let channelsMeta=(unfold("\(streamingScheduleURL)|category|subcategories") as? NSArray)
+        
+        let channelMeta=channelsMeta?[indexPath.row] as? NSDictionary
+        let imageURL=unfold(channelMeta, instructions: ["images","wss","sm"]) as? String
+        let image=imageUsingCache(imageURL!)
+        
+        if (streamview.superview != nil){
+            streamview.removeFromSuperview()
+            //streamview.playerLayer?.removeFromSuperlayer()
+        }
         
         for subview in (view.subviews.first!.subviews) {
             if (subview.isKindOfClass(UILabel.self)){
@@ -252,9 +253,14 @@ class ChannelSelector: SuperCollectionView {
             if (subview.isKindOfClass(marqueeLabel.self)){
                 (subview as! marqueeLabel).endFocus()
             }
+            if (subview.isKindOfClass(UIImageView.self)){
+                subview.clipsToBounds=true
+                (subview as! UIImageView).image=image
+            }
+            if (subview.isKindOfClass(StreamView.self)){
+                (subview as! StreamView).image=nil
+            }
         }
-        player?.replaceCurrentItemWithPlayerItem(nil)
-        self.playerLayer?.removeFromSuperlayer()
         
         UIView.animateWithDuration(0.2, animations: {
             
@@ -265,8 +271,6 @@ class ChannelSelector: SuperCollectionView {
     }
     
     override func cellSelect(indexPath:NSIndexPath){
-        self.playerLayer?.removeFromSuperlayer()
-        self.player?.pause()
         if ((self.delegate?.isKindOfClass(HomeController)) == true){
             (self.delegate as! HomeController).goToStreamID=indexPath.row
             (self.delegate as! HomeController).performSegueWithIdentifier("presentStreaming", sender: self)
@@ -275,46 +279,4 @@ class ChannelSelector: SuperCollectionView {
     }
     
     
-    func update(){
-        
-        dispatch_async(dispatch_get_main_queue()) {
-            self.player?.muted=true
-        if (self.playerItem != nil && (self.playerItem!.asset as! AVURLAsset).URL.absoluteString == self.currentURL){
-            self.player?.replaceCurrentItemWithPlayerItem(self.playerItem)
-        }
-        if ((self.player) != nil && self.playerItem != nil && self.playerItem!.status == AVPlayerItemStatus.ReadyToPlay ){
-            //self.playerLayer?.superlayer?.backgroundColor
-            //self.playerLayer?.backgroundColor=UIColor.grayColor().CGColor
-            self.player?.play()
-            
-            let fade=CABasicAnimation(keyPath: "opacity")
-            fade.fromValue=0
-            fade.toValue=1
-            fade.additive=false
-            fade.removedOnCompletion=false
-            fade.duration=1
-            fade.fillMode = kCAFillModeForwards
-            CATransaction.setCompletionBlock({
-            self.playerLayer?.backgroundColor=UIColor.blackColor().CGColor
-            
-            })
-            self.playerLayer?.addAnimation(fade, forKey: nil)
-            
-            /*
-            CABasicAnimation *fadeInAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
-            fadeInAnimation.fromValue = [NSNumber numberWithFloat:0.0];
-            fadeInAnimation.toValue = [NSNumber numberWithFloat:1.0];
-            fadeInAnimation.additive = NO;
-            fadeInAnimation.removedOnCompletion = YES;
-            fadeInAnimation.beginTime = 1.0;
-            fadeInAnimation.duration = 1.0;
-            fadeInAnimation.fillMode = kCAFillModeForwards;
-            [titleLayer addAnimation:fadeInAnimation forKey:nil];*/
-            
-        }
-        else if (self.playerLayer?.superlayer != nil){
-            self.readyTimer=NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: Selector("update"), userInfo: nil, repeats: false)
-        }
-        }
-    }
 }

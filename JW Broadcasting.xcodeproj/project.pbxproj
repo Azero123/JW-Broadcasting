@@ -412,9 +412,9 @@
 			isa = PBXGroup;
 			children = (
 				9FE5B9A51C1FF55100B14FA9 /* NewAudioController.swift */,
+				9F0AB91F1C24E9D300ADCB77 /* AudioMainCategories.swift */,
 				9FE5B9A71C23E6DC00B14FA9 /* AudioCategoryController.swift */,
 				9F49160B1C27D8D200B191F4 /* TableViewCellSmarterLayout.swift */,
-				9F0AB91F1C24E9D300ADCB77 /* AudioMainCategories.swift */,
 			);
 			name = "New Audio";
 			sourceTree = "<group>";

@@ -40,6 +40,7 @@ class NewAudioController: UIViewController, UICollectionViewDelegate, UICollecti
     var previousLanguageCode=languageCode
     
     override func viewWillAppear(animated: Bool) {
+        UIView.appearance().semanticContentAttribute=UISemanticContentAttribute.ForceLeftToRight
         if (previousLanguageCode != languageCode){
             renewContent()
         }

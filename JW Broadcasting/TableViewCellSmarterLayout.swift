@@ -24,6 +24,10 @@ class TableViewCellSmarterLayout: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         self.detailTextLabel?.center=CGPoint(x: (self.detailTextLabel?.center.x)!, y: self.frame.size.height/2)
+        /*self.textLabel!.frame.size.width -= 50
+        self.textLabel!.frame.origin.x -= 50
+        self.imageView?.frame.origin.x -= 50
+        self.textLabel?.textAlignment = .Right*/
     }
 
 }

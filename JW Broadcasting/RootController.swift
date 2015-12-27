@@ -198,14 +198,19 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
             }
         }
         
+        /*for var i = 0 ; i<self.viewControllers?.count ; i++ {
+            print("selected index")
+            if (self.viewControllers![i].isKindOfClass(NewAudioController.self)){
+                print("view controller found!")
+                self.selectedIndex=i
+            }
+        }*/
         if (textDirection == .RightToLeft){ // select the far right page if language is right to left
             self.selectedIndex=(self.viewControllers?.count)!-1
         }
         else {
             self.selectedIndex=0
         }
-        
-        
         
         /*self delegating :D*/
         self.delegate=self

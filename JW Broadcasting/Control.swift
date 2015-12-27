@@ -34,10 +34,11 @@ let logFolding = testLogSteps
 
 /*Disable View Controllers*/
 
+let defaultViewController=NewAudioController.self //unimplemented
+
 let Home = true
 
 let BETAMedia = true
-
 let VOD = false
 
 let Audio = false
@@ -67,7 +68,11 @@ var StreamingHTTPStitching=false //Not started
 let timeToShow=10
 
 
-
+/*
+var Home = {
+    var enabled=true
+}
+*/
 
 func titleExtractor(oldTitle:String) -> Dictionary< String,String >{
     

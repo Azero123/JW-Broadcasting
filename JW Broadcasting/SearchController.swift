@@ -26,11 +26,11 @@ class SearchController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        //UISearchController()
         // Do any additional setup after loading the view.
     }
     
-    
+    /*
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 
         return keys.characters.count
@@ -95,6 +95,6 @@ class SearchController: UIViewController {
             context.nextFocusedView?.transform = CGAffineTransformMakeScale(1.1, 1.1)
         }
         return true
-    }
+    }*/
 
 }

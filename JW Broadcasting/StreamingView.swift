@@ -223,9 +223,9 @@ class StreamView: UIImageView {
     }
     */
     
-    
     func updateStream(){
         
+        NSLog("start update stream")
         activityIndicator.startAnimating() //This process normally doesn't take a while but if it does let the user know the app is loading content
         
         let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480" //The Schedule url for all the streams
@@ -242,21 +242,28 @@ class StreamView: UIImageView {
             
             //let streamMeta=dictionaryOfPath(streamingScheduleURL, usingCache: false)
             
-            dispatch_async(dispatch_get_main_queue()) {
                 print("[Channels] \(self.streamID)")
                 
-                fetchDataUsingCache(streamingScheduleURL, downloaded: nil)
-                
+            fetchDataUsingCache(streamingScheduleURL, downloaded: {
+                NSLog("busy unfolding")
+                unfold("\(streamingScheduleURL)")
+                NSLog("finished unfolding")
+            })
+            
+            NSLog("busy update unfolding")
                 let subcategory=unfold("\(streamingScheduleURL)|category|subcategories|\(self.streamID)")//streamMeta?.objectForKey("category")?.objectForKey("subcategories")!.objectAtIndex(self.streamID)
-                
-                
+            
+            NSLog("finished update unfolding")
+            
                 
                 
                 //Code for getting current index
-                
+            
+            print("busy light unfolding")
                 var i=(unfold("\(streamingScheduleURL)|category|subcategories|\(self.streamID)|position|index") as! NSNumber).integerValue //Get the current index from tv.jw.org
-                self.indexInPlaylist=i //Getting the index was successful now use it
-                
+            self.indexInPlaylist=i //Getting the index was successful now use it
+            print("finished light unfolding")
+            
                 
                 
                 
@@ -319,9 +326,8 @@ class StreamView: UIImageView {
                 If we do not have any video in that place it just adds it to the queue.
                 
                 */
-                
-                
-                for ; i<(unfold("\(streamingScheduleURL)|category|subcategories|\(self.streamID)|media|count") as! NSNumber).integerValue  ; i++ {
+            
+                for ; i<(unfold("\(streamingScheduleURL)|category|subcategories|\(self.streamID)|media|count") as! NSNumber).integerValue ; i++ {
                     let videoURL=unfold("\(streamingScheduleURL)|category|subcategories|\(self.streamID)|media|\(i)|files|\(StreamingLowestQuality || true ? "first": "last")|progressiveDownloadURL") as? String
                     //imageUsingCache(unfold("\(streamingScheduleURL)|category|subcategories|\(self.streamID)|media|\(i)|") as! String)
                     
@@ -352,6 +358,53 @@ class StreamView: UIImageView {
                         
                         if (self.player != nil && videoURL != nil){
                             print("[Stream] add video")
+                            
+                            /*
+                            let operation = NSBlockOperation()
+                            operation.addExecutionBlock { () -> Void in
+                                print("start operation")
+                                // create the asset
+                                let asset = AVURLAsset(URL: NSURL(string: videoURL!)!, options: nil)
+                                // load values for track keys
+                                let keys = ["tracks", "duration"]
+                                asset.loadValuesAsynchronouslyForKeys(keys, completionHandler: { () -> Void in
+                                    // Loop through and check to make sure keys loaded
+                                    var successful = true
+                                    for key in keys {
+                                        var error: NSError?
+                                        let keyStatus: AVKeyValueStatus = asset.statusOfValueForKey(key, error: &error)
+                                        if keyStatus == .Failed {
+                                            successful=false
+                                            print("Failed to load key: \(key), error: \(error)")
+                                        }
+                                        else if keyStatus != .Loaded {
+                                            successful=false
+                                            print("Warning: Ignoring key status: \(keyStatus), for key: \(key), error: \(error)")
+                                        }
+                                    }
+                                    if successful == true {
+                                        if operation.cancelled == false {
+                                            let composition = self.createCompositionFromAsset(asset)
+                                            // register notifications
+                                            let playerItem = AVPlayerItem(asset: composition)
+                                            //self.registerNotificationsForItem(playerItem)
+                                            //self.playerItem = playerItem
+                                            // create the player
+                                            //let player = AVPlayer(playerItem: playerItem)
+                                            //self.player.player = player
+                                            self.player?.insertItem(playerItem, afterItem: nil)
+                                            NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerItemDidReachEnd:", name: AVPlayerItemDidPlayToEndTimeNotification, object: playerItem)
+                                        }
+                                    }
+                                    else {
+                                        print("Failed to load asset")
+                                    }
+                                })
+                            }
+                                // add operation to the queue
+                                NSOperationQueue().addOperation(operation)*/
+                            
+                            
                             let playerItem=AVPlayerItem(URL: NSURL(string: videoURL!)!)//make new video
                             //AVPlayerItemDidPlayToEndTimeNotification
                             NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerItemDidReachEnd:", name: AVPlayerItemDidPlayToEndTimeNotification, object: playerItem)//Let us know when the video finishes playing to go to the next one
@@ -378,12 +431,33 @@ class StreamView: UIImageView {
                 
                 
                 
-            }
+            
         }
         
         //player?.setRate(1.5, time: kCMTimeInvalid, atHostTime: CMTimeMake(Int64(timeIndex!), 1))
         /*might try using set rate to speed the video up until it catches up to the current time that way users can watch the video uninterrupted. Currently having some bugs with this however*/
         
+        NSLog("end update stream")
+    }
+        
+        
+        
+    func createCompositionFromAsset(asset: AVAsset, repeatCount: UInt8 = 16) -> AVMutableComposition {
+        let composition = AVMutableComposition()
+        let timescale = asset.duration.timescale
+        let duration = asset.duration.value
+        let editRange = CMTimeRangeMake(CMTimeMake(0, timescale), CMTimeMake(duration, timescale))
+        do {
+            try composition.insertTimeRange(editRange, ofAsset: asset, atTime: composition.duration)
+            
+            for _ in 0 ..< repeatCount - 1 {
+                try composition.insertTimeRange(editRange, ofAsset: asset, atTime: composition.duration)
+            }
+        }
+        catch {
+            
+        }
+        return composition
     }
     /*
     override func pressesBegan(presses: Set<UIPress>, withEvent event: UIPressesEvent?){
@@ -420,32 +494,36 @@ class StreamView: UIImageView {
     
     func update(){
         
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
         if (StreamingAdvancedMode){
             
-            if (advancedLabel == nil){
-                advancedLabel=UILabel(frame: CGRect(x: 10, y: self.bounds.height-50, width: self.bounds.width, height: 40))
-                advancedLabel?.font=UIFont.systemFontOfSize(30)
-                advancedLabel?.shadowColor=UIColor.blackColor()
-                advancedLabel?.textColor=UIColor.whiteColor()
-                self.addSubview(advancedLabel!)
-                player?.rate=1.0
+            if (self.advancedLabel == nil){
+                self.advancedLabel=UILabel(frame: CGRect(x: 10, y: self.bounds.height-50, width: self.bounds.width, height: 40))
+                self.advancedLabel?.font=UIFont.systemFontOfSize(30)
+                self.advancedLabel?.shadowColor=UIColor.blackColor()
+                self.advancedLabel?.textColor=UIColor.whiteColor()
+                self.addSubview(self.advancedLabel!)
+                self.player?.rate=1.0
             }
         }
-        if ((self.player) != nil && player?.currentItem != nil && player?.currentItem?.status == AVPlayerItemStatus.ReadyToPlay){
-            advancedLabel?.text=" bitrate \(player?.rate) \(floor((player?.currentTime().seconds)!))/\(floor((player?.currentItem?.duration.seconds)!)) \(player?.currentItem?.asset)"
+        if ((self.player) != nil && self.player?.currentItem != nil && self.player?.currentItem?.status == AVPlayerItemStatus.ReadyToPlay){
+            self.advancedLabel?.text=" bitrate \(self.player?.rate) \(floor((self.player?.currentTime().seconds)!))/\(floor((self.player?.currentItem?.duration.seconds)!)) \(self.player?.currentItem?.asset)"
             
             if (self.player!.currentItem!.status == AVPlayerItemStatus.ReadyToPlay) {
-                activityIndicator.stopAnimating()
+                self.activityIndicator.stopAnimating()
                 if (self.hidden==false){
+                    dispatch_async(dispatch_get_main_queue()) {
                     self.darkener.removeFromSuperlayer()
                     self.image=nil
-                    self.layer.addSublayer(playerLayer!)
+                    self.layer.addSublayer(self.playerLayer!)
+                    }
                 }
-                if (thisControllerIsVisible){
+                if (self.thisControllerIsVisible){
                     
                     let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480" //The Schedule url for all the streams
-                    
+                    NSLog("busy in play unfolding")
                     let subcategory=unfold("\(streamingScheduleURL)|category|subcategories|\(self.streamID)")//streamMeta?.objectForKey("category")?.objectForKey("subcategories")!.objectAtIndex(self.streamID)
+                    NSLog("busy in play unfolding")
                     
                     var timeIndex=subcategory!.objectForKey("position")?.objectForKey("time")?.floatValue
                     
@@ -467,18 +545,24 @@ class StreamView: UIImageView {
                     
                     
                     
+                    self.player!.seekToTime(CMTimeMake(Int64(timeIndex!), 1))
                     
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
                         print("play")
                         if (abs((self.player?.currentTime().value)!-CMTimeMake(Int64(timeIndex!), 1).value) < abs(10)){
-                            self.player?.play()
+                            /*self.player?.play()
+                            self.darkener.removeFromSuperlayer()
+                            self.image=nil
+                            self.layer.addSublayer(self.playerLayer!)*/
                         }
-                    }
                 }
             }
             
         }
-        self.performSelector("update", withObject: nil, afterDelay: 0.25)
+            print("ping")
+            dispatch_async(dispatch_get_main_queue()) {
+                self.performSelector("update", withObject: nil, afterDelay: 0.25)
+            }
+        }
     }
     
     

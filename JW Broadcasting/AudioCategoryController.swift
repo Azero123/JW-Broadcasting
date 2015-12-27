@@ -93,6 +93,9 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     override func viewWillAppear(animated: Bool) {
+        if (textDirection == .RightToLeft){
+            UIView.appearance().semanticContentAttribute=UISemanticContentAttribute.ForceRightToLeft
+        }
         playAll=true
         shuffle=false
         if (previousLanguageCode != languageCode){
@@ -191,7 +194,19 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
         cell.detailTextLabel?.font=UIFont.preferredFontForTextStyle(UIFontTextStyleBody)//cell.detailTextLabel?.font.fontWithSize(30)
         cell.detailTextLabel?.text=unfold("\(AudioDataURL)|category|subcategories|\(categoryIndex)|media|\(indexPath.row)|durationFormattedHHMM") as? String
         //cell.imageView?.image=UIImage(named: "Singing")
-        if (imageURL != nil){
+        
+        
+        
+        /*
+        
+        WARNING
+        
+        The UITableViewCell image views are currently broken in Right to left so in the RTL Semantic table view images are off.
+        
+        */
+        
+        
+        if (imageURL != nil && UIView.appearance().semanticContentAttribute != UISemanticContentAttribute.ForceRightToLeft){
             fetchDataUsingCache(imageURL!, downloaded: {
                 dispatch_async(dispatch_get_main_queue()) {
                     if (cell.tag == indexPath.row){
@@ -298,4 +313,14 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
         self.smartPlayer.playIn(self)
     }
     
+    /*func tableView(tableView: UITableView, indentationLevelForRowAtIndexPath indexPath: NSIndexPath) -> Int {
+        if (UIView.appearance().semanticContentAttribute == UISemanticContentAttribute.ForceRightToLeft){
+            let cell = tableView.cellForRowAtIndexPath(indexPath)
+            if (cell != nil){
+                return Int(50/cell!.frame.size.width)
+            }
+            return 10
+        }
+        return 0
+    }*/
 }

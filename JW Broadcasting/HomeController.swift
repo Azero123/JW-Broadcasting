@@ -345,7 +345,7 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
         Makes all cells selectable.
         */
         
-        if (collectionView == self.slideShowCollectionView){
+        if (collectionView == self.slideShowCollectionView && UIScreen.mainScreen().focusedView != nil){
             var rectToCompare=self.slideShowCollectionView.cellAtIndex(indexPath).frame
             rectToCompare = CGRect(x: rectToCompare.origin.x-self.slideShowCollectionView.contentOffset.x, y: rectToCompare.origin.y+self.slideShowCollectionView.frame.origin.y, width: rectToCompare.size.width, height: rectToCompare.size.height)
             if (self.slideShowCollectionView.subviews.contains(UIScreen.mainScreen().focusedView!)){
@@ -422,6 +422,19 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
             }
         }
         return true
+    }
+    
+    override func pressesBegan(presses: Set<UIPress>, withEvent event: UIPressesEvent?) {
+        for item in presses {
+            if item.type == .Menu {
+                
+                UIView.animateWithDuration(0.5, animations: {
+                    self.JWBroadcastingLogoTopConstraint.constant = 40
+                    self.slideShowCollectionView.alpha=1
+                    self.view.layoutIfNeeded()
+                })
+            }
+        }
     }
 }
 

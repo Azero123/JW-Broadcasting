@@ -186,7 +186,8 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
         let multiplier:CGFloat=0.80
         let ratio:CGFloat=1.77777777777778
         let width:CGFloat=360
-        return CGSize(width: width*ratio*multiplier, height: width*multiplier)//640,360
+        //512,288
+        return CGSize(width: width*ratio*multiplier, height: width*multiplier)
     }
     
     func collectionView(collectionView: UICollectionView, didUpdateFocusInContext context: UICollectionViewFocusUpdateContext, withAnimationCoordinator coordinator: UIFocusAnimationCoordinator) {
