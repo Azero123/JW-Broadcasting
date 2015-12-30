@@ -11,10 +11,10 @@ import UIKit
 class SearchTableHandlerViewController: UIViewController, UISearchBarDelegate, UISearchResultsUpdating, UITableViewDelegate, UITableViewDataSource {
     
     
-    let resultsTableView=UITableView(frame: CGRect(x: (UIScreen.mainScreen().bounds.size.width-920)/2, y: 0, width: 920, height: 900))
-    var searchIndex:[String]=[]
+    let resultsTableView=UITableView(frame: CGRect(x: (UIScreen.mainScreen().bounds.size.width-920-200)/2, y: 0, width: 920+200, height: 1000))
+    var searchIndex:[[String]]=[]
     var searchItems:[NSDictionary]=[]
-    var results:[String]=[]
+    var results:[Int]=[]
     
     let backgroundImageView=UIImageView(frame: UIScreen.mainScreen().bounds)
     
@@ -57,7 +57,7 @@ class SearchTableHandlerViewController: UIViewController, UISearchBarDelegate, U
         
         print("[Search] Beginning index...")
         
-        var itemsIndex:[String]=[]
+        var itemsIndex:[[String]]=[]
         var items:[NSDictionary]=[]
         var i=0
         
@@ -69,10 +69,19 @@ class SearchTableHandlerViewController: UIViewController, UISearchBarDelegate, U
             fetchDataUsingCache("\(categoryDataURL)", downloaded: { self.prepareIndex() })
             return
         }
+        
+        
+        let audiosubs=unfold(categoriesDirectory+"/Audio?detailed=1|category|subcategories") as? NSArray
+        if (audiosubs == nil){
+            fetchDataUsingCache("\(categoriesDirectory)/Audio?detailed=1", downloaded: { self.prepareIndex() })
+            return
+        }
+        
         for subcat in subcats! {
             let subcatKey=unfold(subcat, instructions: ["key"]) as! String
             let categoryDataURL=categoriesDirectory+"/"+subcatKey+"?detailed=1"
             let subcats=unfold("\(categoryDataURL)|category|subcategories") as? NSArray
+            
             if (subcats == nil){
                 fetchDataUsingCache("\(categoryDataURL)", downloaded: { self.prepareIndex() })
                 return
@@ -81,43 +90,167 @@ class SearchTableHandlerViewController: UIViewController, UISearchBarDelegate, U
                 for subcat in subcats! {
                     for item in ((subcat as! NSDictionary).objectForKey("media")) as! NSArray {
                         
+                        let searchableWords=searchableString(item.objectForKey("title") as! String).componentsSeparatedByCharactersInSet(NSCharacterSet(charactersInString: " "))
+                        
                         if ((unfold(subcat, instructions: ["key"]) as! String).containsString("Featured")){
                             break
                         }
                         
-                        itemsIndex.append(searchableString(item.objectForKey("title") as! String))
+                        
+                        var same=true
+                        
+                        if (searchIndex.count==0){
+                            same=false
+                        }
+                        
+                        for searchItem in searchIndex {
+                            if (searchItem.count == searchableWords.count){
+                                for var i = 0 ; i<searchItem.count ; i++ {
+                                    if (searchItem[i] != searchableWords[i]){
+                                        same=false
+                                    }
+                                }
+                            }
+                            else {
+                                same=false
+                            }
+                        }
+                        if (same==true){
+                            break
+                        }
+                        
+                        itemsIndex.append(searchableWords)
+                        item.setObject(titleExtractor(item.objectForKey("title") as! String)["correctedTitle"], forKey: "visual-title")
                         items.append(item as! NSDictionary)
                         i++
                         //items[(item.objectForKey("title") as! String).lowercaseString]=item as? NSDictionary //.append((item.objectForKey("title") as! String).lowercaseString)
                     }
                     searchIndex=itemsIndex
                     searchItems=items
+                    //self.searchFor(currentSearch)
                 }
             }
         }
+        
+        
+        for subcat in audiosubs! {
+            for item in ((subcat as! NSDictionary).objectForKey("media")) as! NSArray {
+                
+                let searchableWords=searchableString(item.objectForKey("title") as! String).componentsSeparatedByCharactersInSet(NSCharacterSet(charactersInString: " "))
+                
+                if ((unfold(subcat, instructions: ["key"]) as! String).containsString("Featured")){
+                    break
+                }
+                
+                var same=true
+                if (searchIndex.count==0){
+                    same=false
+                }
+                
+                for searchItem in searchIndex {
+                    if (searchItem.count == searchableWords.count){
+                        for var i = 0 ; i<searchItem.count ; i++ {
+                            if (searchItem[i] != searchableWords[i]){
+                                same=false
+                            }
+                        }
+                    }
+                    else {
+                        same=false
+                    }
+                }
+                if (same==true){
+                    break
+                }
+                
+                itemsIndex.append(searchableWords)
+                item.setObject(titleExtractor(item.objectForKey("title") as! String)["correctedTitle"], forKey: "visual-title")
+                items.append(item as! NSDictionary)
+                i++
+                //items[(item.objectForKey("title") as! String).lowercaseString]=item as? NSDictionary //.append((item.objectForKey("title") as! String).lowercaseString)
+            }
+            searchIndex=itemsIndex
+            searchItems=items
+            //self.searchFor(currentSearch)
+        }
+        //subcats?.addObjectsFromArray(audiosubs! as [AnyObject])
+    
+    
         searchIndex=itemsIndex
         searchItems=items
         print("[Search] index finished")
-        resultsTableView.reloadData()
+        //resultsTableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    var currentSearch=""
     
     func updateSearchResultsForSearchController(searchController: UISearchController) {
-        let search=searchableString(searchController.searchBar.text!)
+        self.searchFor(searchController.searchBar.text!)
+    }
+    
+    func searchFor(var search:String){
+        currentSearch=search
+        search=searchableString(search)
+        let searchWords=searchableString(search).componentsSeparatedByCharactersInSet(NSCharacterSet(charactersInString: " "))
         print(search)
-        var newResults:[String]=[]
+        var newResults:[Int]=[]
         var i=0
-        for itemKey in searchIndex {
-            let itemKeyAfterProcess=itemKey
-            if (itemKeyAfterProcess.containsString(search) || search.containsString(itemKeyAfterProcess)){
-                newResults.append(searchItems[i].objectForKey("title") as! String)
+        let searchFirstWord=searchWords.first
+        
+        for searchItem in searchIndex {
+            for searchWord in searchWords {
+                for searchKey in searchItem {
+                    if (searchKey.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)>2 && ( searchKey.containsString(searchWord) || searchWord.containsString(searchKey))){
+                        
+                        let dict=searchItems[i]
+                        let visualTitle=dict.objectForKey("visual-title")?.lowercaseString
+                        if (NSString(string: visualTitle!).rangeOfString(currentSearch.lowercaseString).location == 0){
+                            newResults.insert(i, atIndex: 0)
+                        }
+                        else {
+                            newResults.append(i)
+                        }
+                        break
+                    }
+                }
             }
             i++
         }
+        /*
+        let searchFirstWord=searchWords.first
+        if (searchFirstWord != nil){
+        
+        results=results.sort({ (a:Int, b:Int) in
+            if (searchIndex.count>a){
+                let indexWords=searchIndex[a]
+                print(".")
+                if (NSString(string: indexWords.first!).rangeOfString(searchFirstWord!).location == 0){
+                    print("\(searchFirstWord)==\(indexWords.first!)")
+                    return true
+                }
+            }
+            return false
+        })
+        }*/
+        
+        /*results.sortInPlace(isOrderedBefore:({ (a:Int, b:Int) in
+        
+            return true
+        })*/
+        
+        /*newFoundWords.sortInPlace({ (stringA:String, stringB:String) -> Bool in
+            
+            if (stringA.characters.count<stringB.characters.count){
+                return true
+            }
+            
+            return false
+        })*/
+        
         results=newResults
         resultsTableView.reloadData()
     }
@@ -161,18 +294,21 @@ class SearchTableHandlerViewController: UIViewController, UISearchBarDelegate, U
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell=tableView.dequeueReusableCellWithIdentifier("item", forIndexPath: indexPath)
         cell.tag=indexPath.row
-        let imageURL=unfold(searchItems[searchIndex.indexOf(searchableString(results[indexPath.row]))!], instructions: ["images",["wss","cvr","lss","wsr","pss","pns",""],["lg","md","sm",""]]) as? String
+        let dict=searchItems[results[indexPath.row]]
+        let imageURL=unfold(dict, instructions: ["images",["sqr","cvr","wss","lss","wsr","pss","pns",""],["lg","md","sm",""]]) as? String
         if (imageURL != nil){
             fetchDataUsingCache(imageURL!, downloaded: {
                 
                 dispatch_async(dispatch_get_main_queue()) {
-                    let image=imageUsingCache(imageURL!)
-                    cell.imageView?.image=image
+                    if (cell.tag==indexPath.row){
+                        let image=imageUsingCache(imageURL!)
+                        cell.imageView?.image=image
+                    }
                 }
             })
         }
         
-        cell.textLabel?.text=results[indexPath.row]
+        cell.textLabel?.text=dict.objectForKey("visual-title") as? String
         return cell
     }
     
@@ -185,9 +321,12 @@ class SearchTableHandlerViewController: UIViewController, UISearchBarDelegate, U
     }
     
     func tableView(tableView: UITableView, didUpdateFocusInContext context: UITableViewFocusUpdateContext, withAnimationCoordinator coordinator: UIFocusAnimationCoordinator) {
+        print("did update")
         if (context.nextFocusedIndexPath != nil){
-        let imageURL=unfold(searchItems[searchIndex.indexOf(searchableString(results[context.nextFocusedIndexPath!.row]))!], instructions: ["images",["wss","cvr","lss","wsr","pss","pns",""],["lg","md","sm",""]]) as? String
+            print("next focused indexpath")
+        let imageURL=unfold(searchItems[results[context.nextFocusedIndexPath!.row]], instructions: ["images",["wss","cvr","lss","wsr","pss","pns",""],["lg","md","sm",""]]) as? String
             if (imageURL != nil){
+                print("url real")
                 fetchDataUsingCache(imageURL!, downloaded: {
                     dispatch_async(dispatch_get_main_queue()) {
                         
@@ -206,11 +345,12 @@ class SearchTableHandlerViewController: UIViewController, UISearchBarDelegate, U
             }
         }
     }
+    let player=SuperMediaPlayer()
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        let player=SuperMediaPlayer()
-        player.updatePlayerUsingDictionary(searchItems[ indexPath.row ])
+        let dict=searchItems[ results[indexPath.row] ]
+        player.updatePlayerUsingDictionary(dict)
         player.playIn(self)
         
     }

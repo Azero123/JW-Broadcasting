@@ -74,13 +74,28 @@ var Home = {
 }
 */
 
-func titleExtractor(oldTitle:String) -> Dictionary< String,String >{
+func titleExtractor(var oldTitle:String) -> Dictionary< String,String >{
     
     var extraction:Dictionary<String,String>=[:]
     
     var visualNumber:Int?=nil
     
     
+    
+    let replacementStrings=["JW Broadcasting —","JW Broadcasting—"]
+    
+    for replacement in replacementStrings {
+        
+        if (oldTitle.containsString(replacement)){
+            
+            oldTitle=oldTitle.stringByReplacingOccurrencesOfString(replacement, withString: "")
+            oldTitle=oldTitle.stringByAppendingString(" Broadcast")
+            /* replace " Broadcast" with a key from:
+            base+"/"+version+"/languages/"+languageCode+"/web"
+            so that this works with foreign languages*/
+        }
+        
+    }
     
     if ((oldTitle.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))>3){
         visualNumber=Int(oldTitle.substringToIndex(oldTitle.startIndex.advancedBy(3)))
@@ -125,7 +140,7 @@ func titleExtractor(oldTitle:String) -> Dictionary< String,String >{
         extraction["correctedTitle"]=correctedTitle.componentsSeparatedByCharactersInSet(NSCharacterSet(charactersInString: "-—")).first!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
     }
     
-    print(oldTitle)
+    //print(oldTitle)
     
     
     
