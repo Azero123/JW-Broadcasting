@@ -103,6 +103,16 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
         // Do any additional setup after loading the view.
     }
     
+    let streamview=StreamView()
+    
+    override func viewDidAppear(animated: Bool) {
+        streamview.updateStream()
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        streamview.player!.removeAllItems()
+    }
+    
     func renewContent(){
         
         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
@@ -148,11 +158,11 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
                     //layout.spacingPercentile=1.3
                     
                     var collectionView=MODSubcategoryCollectionView(frame: CGRect(x: CGFloat(0), y:CGFloat(480*(i+(featured ? 0 : -1)))+635, width: self.view.frame.size.width, height: CGFloat(425)), collectionViewLayout: layout)
+                    collectionView.contentInset=UIEdgeInsetsMake(0, 60, 0, 60)
                     collectionView.categoryName=unfold("\(categoryDataURL)|category|subcategories|\(i)|name") as! String
                     print("CNKND \(unfold("\(categoryDataURL)|category|subcategories|\(i)|key"))")
                     collectionView.categoryCode=unfold("\(categoryDataURL)|category|subcategories|\(i)|key") as! String
                     collectionView.clipsToBounds=false
-                    collectionView.contentInset=UIEdgeInsetsMake(0, 60, 0, 60)
                     collectionView.prepare()
                     
                     
@@ -241,7 +251,7 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
                 indexPathRow--
                 if (indexPath.row==0){
                     
-                    let streamview=StreamView(frame: cell.bounds)
+                    streamview.frame=cell.bounds
                     streamview.streamID=categoryIndex
                     let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=0"
                     let imageURL:String?=unfold(nil, instructions: [streamingScheduleURL,"category","subcategories",streamview.streamID,"media",0,"images",["lsr","wss","cvr","lss","wsr","pss","pns",""],["lg","md","sm","xs",""]]) as? String
@@ -251,7 +261,7 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
                             dispatch_async(dispatch_get_main_queue()) {
                             
                                 //let image=imageUsingCache(imageURL!)
-                                streamview.image=imageUsingCache(imageURL!)
+                                self.streamview.image=imageUsingCache(imageURL!)
                             }
                         })
                     }
@@ -323,9 +333,11 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
         }
         if (subcategoryCollectionViews.indexOf(collectionView as! MODSubcategoryCollectionView)! == 0 && indexPath.row==0){
             let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=0"
-            let nowPlayingString=unfold("\(base)/\(version)/translations/\(languageCode)|translations|\(languageCode)|lblNowPlaying") as! String
+            let nowPlayingString=unfold("\(base)/\(version)/translations/\(languageCode)|translations|\(languageCode)|lblNowPlaying") as? String
             _=unfold(nil, instructions: [streamingScheduleURL,"category","subcategories",self.categoryIndex,"media","title"]) as? String
-            label.text="\(nowPlayingString)"
+            if (nowPlayingString != nil){
+                label.text="\(nowPlayingString!)"
+            }
         }
         
         if (retrievedVideo == nil){
@@ -415,6 +427,8 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
         return true
     }
     
+    let player=SuperMediaPlayer()
+    
     func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
         /*
         let category="VideoOnDemand"
@@ -434,7 +448,6 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
         
         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
         let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
-        let player=SuperMediaPlayer()
         player.updatePlayerUsingDictionary(unfold("\(categoryDataURL)|category|subcategories|\(subcategoryCollectionViews.indexOf(collectionView as! MODSubcategoryCollectionView)!)|media|\(indexPathRow)") as! NSDictionary)
         player.playIn(self)
         return true
@@ -485,5 +498,4 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
     var y:CGFloat=0
     
 
-    //func scrollvi
 }

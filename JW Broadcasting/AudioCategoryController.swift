@@ -108,6 +108,7 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
     
     override func viewDidDisappear(animated: Bool) {
         // self.player?.removeObserver(self, forKeyPath: "status")
+        smartPlayer.player.removeAllItems()
         self.view.hidden=true
     }
     

@@ -192,6 +192,11 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
         alert.addAction(action) // present the "✓" button
         self.presentViewController(alert, animated: true, completion: nil) // present the prompt
         //lblSave : "Save"
+        action.setValue(UIImage(named: "fade-back-1"), forKey: "image")
+        
+        
+        //print(alert.view.subviews.first?.subviews.last?.subviews.first?.subviews)
+        
         
         
     }

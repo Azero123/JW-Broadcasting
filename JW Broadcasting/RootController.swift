@@ -173,11 +173,24 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                 }
             }
             else if (viewController.isKindOfClass(SearchController.self)){//Remove Search page if disabled
+                let i=self.viewControllers?.indexOf(viewController)
+                let tabItem=self.viewControllers![i!].tabBarItem
+                tabItem.title="\\"
+                
+                let fontattributes=[NSFontAttributeName:UIFont(name: "Sosa", size: 36)!,NSForegroundColorAttributeName:UIColor.grayColor()] as Dictionary<String,AnyObject>
+                tabItem.setTitleTextAttributes(fontattributes, forState: .Normal)
+                
+                self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
+                
+                let deepNavController=UINavigationController(rootViewController: UISearchContainerViewController(searchController: SearchController(searchResultsController: SearchTableHandlerViewController())))
+                
+                self.viewControllers?.insert(deepNavController, atIndex: i!)
+                self.viewControllers![i!].tabBarItem=tabItem//UITabBarItem(tabBarSystemItem: UITabBarSystemItem.Search, tag: 0)
                 if (Search==false){
                     self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
                 }
                 else {
-                    self.tabBar.items?[(self.viewControllers?.indexOf(viewController))!].title="Search"
+                    //self.tabBar.items?[(self.viewControllers?.indexOf(viewController))!].title="Search"
                 }
             }
             else if (viewController.isKindOfClass(MediaOnDemandController.self)){//Remove MOD page if disabled

@@ -220,6 +220,11 @@ class StreamingViewController : UIViewController {
         //Hide and pause the video when we leave the Streaming page
         self.view.hidden=true
         player?.pause()
+        if (self.player != nil){
+            for item in player!.items() {
+                item.asset.cancelLoading()
+            }
+        }
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -286,10 +291,7 @@ class StreamingViewController : UIViewController {
                         do {
                             let storedPath=cacheDirectory!+"/"+(NSURL(string: streamingScheduleURL)?.path!.stringByReplacingOccurrencesOfString("/", withString: "-"))! // the desired stored file path
                             
-                            print("streaming stored path:\(storedPath)")
-                            
                             let dateDataWasRecieved=try NSFileManager.defaultManager().attributesOfItemAtPath(storedPath)[NSFileModificationDate] as! NSDate
-                            print("We have had this file since:\(dateDataWasRecieved.timeIntervalSinceNow)")
                             timeIndex=timeIndex!-Float(dateDataWasRecieved.timeIntervalSinceNow)
                             
                         }
@@ -436,7 +438,6 @@ class StreamingViewController : UIViewController {
         }
         self.performSelector("update", withObject: nil, afterDelay: 0.25)
     }
-    
     
     
 }

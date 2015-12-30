@@ -38,6 +38,7 @@ class SlideShow: SuperCollectionView {
         Ler's Home page know that this section is done loading.
         
         */
+        self.scrollEnabled=false
         
         
         let guide=UIFocusGuide()
@@ -60,33 +61,39 @@ class SlideShow: SuperCollectionView {
                 print("[SlideShow] Loaded")
                 
                 
-                
                 //self.moveToSlide(1)
-                
-                if (textDirection == .RightToLeft){//RTL alignment
+                self.contentOffset=self.centerPointFor(CGPoint(x: self.contentSize.width/2, y: 0))
+                self.SLIndex=self.numberOfItemsInSection(0)/2
+                //self.moveToSlide(self.SLIndex)
+                /*if (textDirection == .RightToLeft){//RTL alignment
                     self.contentOffset=self.centerPointFor(CGPointMake(self.contentSize.width-self.frame.size.width+self.contentInset.right, 0))
                 }
                 else {//LTR alignment
                     //self.contentOffset=CGPointMake(-self.contentInset.left, 0)
                     let size=self.sizeOfItemAtIndex(NSIndexPath(forRow: 0, inSection: 0))
                     self.contentOffset=self.centerPointFor(CGPoint(x: size.width*(self.totalItemsInSection(0)>4 ? 2 : 1) , y: size.height))
-                }
+                }*/
                 
                 self.performBatchUpdates({
                     self.reloadSections(NSIndexSet(index: 0))
                     }, completion: { (finished:Bool) in
                         if (finished){
-                            //self.moveToSlide(1)
-                            self.reloadItemsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)])
+                            self.scrollEnabled=true
+                            //self.reloadItemsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)])
                             
-                            self.performSelector("setFocusReady", withObject: nil, afterDelay: 1)
+                            //self.performSelector("setFocusReady", withObject: nil, afterDelay: 5)
                             
                         }
                 
                 })
+                self.setFocusReady()
+                self.performSelector("setFocusReady", withObject: nil, afterDelay: 0)
 
                 //reload content
                 self.reloadData()
+                //self.contentOffset=self.centerPointFor(CGPoint(x: self.contentSize.width/2, y: 0))
+                //self.SLIndex=self.numberOfItemsInSection(0)/2
+                //self.moveToSlide(self.SLIndex)
                 
                 //Enable interaction
                 (self.delegate as? HomeController)?.removeActivity()
@@ -95,10 +102,16 @@ class SlideShow: SuperCollectionView {
     }
     
     func setFocusReady(){
-        focusReady=true
+        // self.contentOffset=self.centerPointFor(CGPoint(x: self.contentSize.width/2, y: 0))
+        self.contentOffset=self.centerPointFor(CGPoint(x: self.contentSize.width/2, y: 0))
+        self.SLIndex=self.numberOfItemsInSection(0)/2
         
-        self.updateFocusIfNeeded()
-        self.setNeedsFocusUpdate()
+        //self.moveToSlide(SLIndex)
+        //self.scrollEnabled = false
+        //self.scrollEnabled = true
+        /*self.scrollRectToVisible(CGRect(x: 100000, y: 0, width: 100, height: 100), animated: false)
+        self.scrollRectToVisible(CGRect(x: 100000, y: 0, width: 100, height: 100), animated: true)
+        self.scrollRectToVisible(CGRect(x: 100000, y: 0, width: 100, height: 100), animated: true)*/
     }
     
     override func totalItemsInSection(section: Int) -> Int {
@@ -108,7 +121,7 @@ class SlideShow: SuperCollectionView {
             print("[SlideShow][INCOMPLETION] no slides \(unfold(base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"))")
             return 0
         }
-        return slides!.count
+        return slides!.count*100
     }
     
     override func sizeOfItemAtIndex(indexPath:NSIndexPath) -> CGSize{
@@ -123,21 +136,22 @@ class SlideShow: SuperCollectionView {
         slide.tag=indexPath.row
         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
         
-        var index=indexPath.row % (self.totalItemsInSection(0))
+        let totalItems=self.totalItemsInSection(0)/100
+        var index=indexPath.row % (totalItems)
         if (infiniteScrolling){
-        let totalItems=self.totalItemsInSection(0)
         index=indexPath.row-2+indexOffset
         while (index>totalItems-1){
             index = index-(totalItems)
         }
         while (index < 0){
             index = index+(totalItems)
-        }
+            }
+            if (index>totalItems-1){
+                index=index-totalItems
+            }
         //print("reloading index \(indexPath.row) as \(index)")
         
-        if (index>totalItems-1){
-        index=index-totalItems
-        }
+        
         }
         let SLSlides=unfold(pathForSliderData+"|settings|WebHomeSlider|slides") as? NSArray
         if (SLSlides != nil){
@@ -202,10 +216,10 @@ class SlideShow: SuperCollectionView {
         
         return slide
     }
-    
+    /*
     override func perferedFocus() -> NSIndexPath{
-        return NSIndexPath(forRow: 1, inSection: 0)
-    }
+        return NSIndexPath(forRow: SLIndex, inSection: 0)
+    }*/
     
     var selectedSlideShow=false
     
@@ -224,9 +238,9 @@ class SlideShow: SuperCollectionView {
         */
         SLIndex=indexPath.row
         
-        var index=indexPath.row % (totalItemsInSection(0))
+        let totalItems=self.totalItemsInSection(0)/100
+        var index=indexPath.row % (totalItems)
         
-        let totalItems=self.totalItemsInSection(0)
         if (totalItems>=4 && infiniteScrolling){
             index=indexPath.row-2+indexOffset
             while (index>totalItems-1){
@@ -376,8 +390,15 @@ class SlideShow: SuperCollectionView {
                     }
                 }
                 
+                self.scrollToItemAtIndexPath(NSIndexPath(forRow: atIndex, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
             }
-            self.scrollToItemAtIndexPath(NSIndexPath(forRow: atIndex, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
+            else {
+                let attributes=self.layoutForCellAtIndex(NSIndexPath(forRow: atIndex, inSection: 0), withPreLayout: UICollectionViewLayoutAttributes(forCellWithIndexPath: NSIndexPath(forRow: atIndex, inSection: 0)))
+                
+                self.contentOffset = CGPoint(x: attributes.frame.origin.x+attributes.frame.size.width/2, y: 0)
+                
+                
+            }
             
             SLIndex=atIndex
         }
@@ -393,7 +414,6 @@ class SlideShow: SuperCollectionView {
         */
         
         if (selectedSlideShow == false){
-            
             moveToSlide(SLIndex)
             
         }
@@ -405,10 +425,11 @@ class SlideShow: SuperCollectionView {
             SLIndex++
             
             if (unfold(base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider|settings|WebHomeSlider|slides") == nil){
+                
                 SLIndex=0
                 
             }
-            else if (SLIndex>=(unfold(base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider|settings|WebHomeSlider|slides") as? NSArray)!.count){
+            else if (SLIndex>=self.numberOfItemsInSection(0)){//(unfold(base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider|settings|WebHomeSlider|slides") as? NSArray)!.count){
                 SLIndex=0
             }
         }
@@ -425,7 +446,7 @@ class SlideShow: SuperCollectionView {
         */
         var index=indexPath.row
         
-        let totalItems=self.totalItemsInSection(0)
+        let totalItems=self.totalItemsInSection(0)/100
         if (infiniteScrolling){
         index=indexPath.row-2+indexOffset
         
@@ -451,7 +472,7 @@ class SlideShow: SuperCollectionView {
         
         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
         
-        player.updatePlayerUsingDictionary(unfold("\(pathForSliderData)|settings|WebHomeSlider|slides|\(index)|item") as! NSDictionary)
+        player.updatePlayerUsingDictionary(unfold("\(pathForSliderData)|settings|WebHomeSlider|slides|\((index % totalItems))|item") as! NSDictionary)
         player.playIn(self.delegate as! HomeController)
     }
     
@@ -490,5 +511,13 @@ class SlideShow: SuperCollectionView {
         
     }
     
+    override var preferredFocusedView:UIView? {
+        get {
+            if (self.visibleCells().first != nil){
+                return self.self.visibleCells().first
+            }
+            return super.preferredFocusedView
+        }
+    }
     
     }

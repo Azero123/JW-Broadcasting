@@ -197,6 +197,23 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
         /*
         self.view.hidden=false is used because TV OS is not reliable with changing view controllers. Sometimes subviews of one controller can jump to another if you rapidely switch between and/or if their is brackground threads/timers updating content.
         */
+        /*for item in slideShowCollectionView.player.player.items() {
+            item.asset.cancelLoading()
+            if ("\(item.observationInfo)".containsString("(")){
+                print("still here!")
+                item.removeObserver(self, forKeyPath: "status")
+            }
+        }
+        for item in latestVideosCollectionView.player.player.items() {
+            item.asset.cancelLoading()
+            if ("\(item.observationInfo)".containsString("(")){
+                print("still here!")
+                item.removeObserver(self, forKeyPath: "status")
+            }
+        }
+        
+        slideShowCollectionView.player.player.removeAllItems()
+        latestVideosCollectionView.player.player.removeAllItems()*/
         disableNavBar=false
         self.view.hidden=true
     }
@@ -433,6 +450,35 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
                     self.slideShowCollectionView.alpha=1
                     self.view.layoutIfNeeded()
                 })
+            }
+        }
+    }
+    
+    var previousOffset=CGPointZero
+    var blockSlideShowScrolling=false
+    
+    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        if (scrollView == self.slideShowCollectionView){
+            if (targetContentOffset.memory.x<0){
+                blockSlideShowScrolling=true
+                previousOffset=scrollView.contentOffset
+            }
+            else {
+                blockSlideShowScrolling=false
+            }
+        }
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if (scrollView == self.slideShowCollectionView){
+            if (((self.slideShowCollectionView.contentOffset.x-previousOffset.x) < -800 && self.slideShowCollectionView.contentOffset.x<0) || blockSlideShowScrolling){
+                self.slideShowCollectionView.contentOffset=previousOffset
+                blockSlideShowScrolling=false
+            }
+            previousOffset=self.slideShowCollectionView.contentOffset
+            //blockSlideShowScrolling--
+            if (self.slideShowCollectionView.contentOffset.x<0){
+                //self.slideShowCollectionView.contentOffset.x=self.slideShowCollectionView.contentSize.width/2
             }
         }
     }

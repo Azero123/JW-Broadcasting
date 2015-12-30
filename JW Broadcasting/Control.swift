@@ -46,7 +46,7 @@ let NewAudio = true
 
 let Language = true
 
-let Search = false
+let Search = true
 
 
 /*Settings for home page control*/

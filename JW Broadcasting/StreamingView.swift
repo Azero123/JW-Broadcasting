@@ -81,6 +81,16 @@ class StreamView: UIImageView {
         darkener.backgroundColor=UIColor.blackColor().CGColor
         darkener.opacity=0.5
         self.layer.addSublayer(darkener)
+        
+        let fadeInAnimation=CABasicAnimation(keyPath: "opacity")
+        fadeInAnimation.fromValue = 0
+        fadeInAnimation.toValue = 0.5
+        fadeInAnimation.additive = false
+        fadeInAnimation.removedOnCompletion = true
+        fadeInAnimation.duration = 1
+        fadeInAnimation.fillMode = kCAFillModeForwards;
+        darkener.addAnimation(fadeInAnimation, forKey: nil)
+        
         self.activityIndicator.frame=CGRectMake(0, 0, self.activityIndicator.frame.size.width*4, self.activityIndicator.frame.size.height*4)
         self.activityIndicator.layer.shadowColor=UIColor.blackColor().CGColor
         self.activityIndicator.layer.shadowOpacity=1
@@ -245,24 +255,18 @@ class StreamView: UIImageView {
                 print("[Channels] \(self.streamID)")
                 
             fetchDataUsingCache(streamingScheduleURL, downloaded: {
-                NSLog("busy unfolding")
                 unfold("\(streamingScheduleURL)")
-                NSLog("finished unfolding")
             })
             
-            NSLog("busy update unfolding")
                 let subcategory=unfold("\(streamingScheduleURL)|category|subcategories|\(self.streamID)")//streamMeta?.objectForKey("category")?.objectForKey("subcategories")!.objectAtIndex(self.streamID)
             
-            NSLog("finished update unfolding")
             
                 
                 
                 //Code for getting current index
             
-            print("busy light unfolding")
                 var i=(unfold("\(streamingScheduleURL)|category|subcategories|\(self.streamID)|position|index") as! NSNumber).integerValue //Get the current index from tv.jw.org
             self.indexInPlaylist=i //Getting the index was successful now use it
-            print("finished light unfolding")
             
                 
                 
@@ -276,10 +280,8 @@ class StreamView: UIImageView {
                     do {
                         let storedPath=cacheDirectory!+"/"+(NSURL(string: streamingScheduleURL)?.path!.stringByReplacingOccurrencesOfString("/", withString: "-"))! // the desired stored file path
                         
-                        print("streaming stored path:\(storedPath)")
                         
                         let dateDataWasRecieved=try NSFileManager.defaultManager().attributesOfItemAtPath(storedPath)[NSFileModificationDate] as! NSDate
-                        print("We have had this file since:\(dateDataWasRecieved.timeIntervalSinceNow)")
                         timeIndex=timeIndex!-Float(dateDataWasRecieved.timeIntervalSinceNow)
                         
                     }
@@ -512,10 +514,63 @@ class StreamView: UIImageView {
             if (self.player!.currentItem!.status == AVPlayerItemStatus.ReadyToPlay) {
                 self.activityIndicator.stopAnimating()
                 if (self.hidden==false){
-                    dispatch_async(dispatch_get_main_queue()) {
-                    self.darkener.removeFromSuperlayer()
-                    self.image=nil
-                    self.layer.addSublayer(self.playerLayer!)
+                    if (self.playerLayer!.superlayer == nil){
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.playerLayer?.player?.play()
+                            self.layer.addSublayer(self.playerLayer!)
+                            
+                            
+                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
+                                self.darkener.removeFromSuperlayer()
+                                self.image=nil
+                            }
+                            
+                            
+                            //self.playerLayer?.backgroundColor=UIColor.blackColor().CGColor
+                            /*
+                            let positionAnimate=CABasicAnimation(keyPath: "position")
+                            positionAnimate.duration=0.5
+                            positionAnimate.fromValue=NSValue(CGPoint:self.darkener.frame.origin)
+                            positionAnimate.toValue=NSValue(CGPoint:(self.playerLayer?.frame.origin)!)
+                            positionAnimate.removedOnCompletion=false
+                            
+                            self.darkener.addAnimation(positionAnimate, forKey: nil)
+                            */
+                            
+                            CATransaction.begin()
+                            let frameAnimate=CABasicAnimation(keyPath: "bounds")
+                            frameAnimate.duration=0.5
+                            frameAnimate.fromValue=NSValue(CGRect:self.darkener.bounds)
+                            frameAnimate.toValue=NSValue(CGRect:(self.playerLayer?.bounds)!)
+                            frameAnimate.removedOnCompletion=false
+                            //frameAnimate.fillMode=kCAF
+                            CATransaction.setCompletionBlock({
+                                
+                                
+                                
+                                CATransaction.begin()
+                                let fadeInAnimation=CABasicAnimation(keyPath: "opacity")
+                                fadeInAnimation.fromValue = 0
+                                fadeInAnimation.toValue = 1
+                                fadeInAnimation.additive = false
+                                fadeInAnimation.removedOnCompletion = true
+                                fadeInAnimation.duration = 1
+                                fadeInAnimation.fillMode = kCAFillModeForwards
+                                CATransaction.setCompletionBlock({
+                                    
+                                    self.darkener.removeFromSuperlayer()
+                                    self.image=nil
+                                    })
+                                self.playerLayer!.addAnimation(fadeInAnimation, forKey: nil)
+                                CATransaction.commit()
+                            })
+                            self.darkener.addAnimation(frameAnimate, forKey: nil)
+                            CATransaction.commit()
+                            
+                            
+                            
+                        
+                        }
                     }
                 }
                 if (self.thisControllerIsVisible){
@@ -531,10 +586,8 @@ class StreamView: UIImageView {
                     do {
                         let storedPath=cacheDirectory!+"/"+(NSURL(string: streamingScheduleURL)?.path!.stringByReplacingOccurrencesOfString("/", withString: "-"))! // the desired stored file path
                         
-                        print("streaming stored path:\(storedPath)")
                         
                         let dateDataWasRecieved=try NSFileManager.defaultManager().attributesOfItemAtPath(storedPath)[NSFileModificationDate] as! NSDate
-                        print("We have had this file since:\(dateDataWasRecieved.timeIntervalSinceNow)")
                         timeIndex=timeIndex!-Float(dateDataWasRecieved.timeIntervalSinceNow)
                         
                     }
@@ -558,7 +611,7 @@ class StreamView: UIImageView {
             }
             
         }
-            print("ping")
+            //print("ping")
             dispatch_async(dispatch_get_main_queue()) {
                 self.performSelector("update", withObject: nil, afterDelay: 0.25)
             }

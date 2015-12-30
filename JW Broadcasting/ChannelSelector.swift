@@ -79,8 +79,9 @@ class ChannelSelector: SuperCollectionView {
     override func sizeOfItemAtIndex(indexPath:NSIndexPath) -> CGSize{
         
         let multiplier:CGFloat=1.5
-        let ratio:CGFloat=1.875
+        let ratio:CGFloat=1.7777777777777
         let width:CGFloat=320/2
+        
         return CGSize(width: width*ratio*multiplier, height: width*multiplier+60)//wss lg 640,360
     }
     
@@ -186,10 +187,17 @@ class ChannelSelector: SuperCollectionView {
         }
     }
     
-    var streamview=StreamView()
+    var streamview:StreamView?=nil
     func bringUpPreview(view:UIView, indexPath:NSIndexPath){
-        if (streamview.superview != nil){
-            streamview.removeFromSuperview()
+        if (streamview == nil){
+            streamview=StreamView()
+        }
+        if (streamview!.superview != nil){
+            streamview?.player?.removeAllItems()
+            for item in streamview!.player!.items() {
+                item.asset.cancelLoading()
+            }
+            streamview!.removeFromSuperview()
         }
         
         let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=-480"
@@ -203,10 +211,10 @@ class ChannelSelector: SuperCollectionView {
             if (subview.isKindOfClass(UIImageView.self)){
                 (subview as! UIImageView).image=nil
                 streamview=StreamView(frame: CGRect(x: 0, y: 0, width: subview.bounds.size.width, height: subview.bounds.size.height))
-                streamview.image=image
+                streamview!.image=image
             }
         }
-        streamview.streamID=indexPath.row
+        streamview!.streamID=indexPath.row
         
         //streamview.frame=CGRect(x: 0, y: 0, width: 860, height: 430)//(860.0, 430.0
         let width:CGFloat=2
@@ -225,7 +233,7 @@ class ChannelSelector: SuperCollectionView {
         
         //streamview.frame=CGRect(x: (view.frame.size.width-streamview.frame.size.width)/2, y: (view.frame.size.height-streamview.frame.size.height)/2, width: streamview.frame.size.width, height: streamview.frame.size.height)
         
-        view.subviews.first!.addSubview(streamview)
+        view.subviews.first!.addSubview(streamview!)
         
     }
     
@@ -240,8 +248,15 @@ class ChannelSelector: SuperCollectionView {
         let imageURL=unfold(channelMeta, instructions: ["images","wss","sm"]) as? String
         let image=imageUsingCache(imageURL!)
         
-        if (streamview.superview != nil){
-            streamview.removeFromSuperview()
+        if (streamview != nil && streamview!.superview != nil){
+            
+            streamview?.player?.removeAllItems()
+            if (streamview?.player != nil){
+                for item in streamview!.player!.items() {
+                    item.asset.cancelLoading()
+                }
+            }
+            streamview!.removeFromSuperview()
             //streamview.playerLayer?.removeFromSuperlayer()
         }
         

@@ -12,6 +12,7 @@ import AVKit
 class LatestVideos: SuperCollectionView {
     
     @IBOutlet weak var label:UILabel!
+    let player=SuperMediaPlayer()
     
     override func prepare(){
         
@@ -172,7 +173,6 @@ class LatestVideos: SuperCollectionView {
     
     override func cellShouldLoseFocus(view:UIView, indexPath:NSIndexPath){
         
-        
         for subview in (view.subviews.first!.subviews) {
             if (subview.isKindOfClass(UILabel.self)){
                 (subview as! UILabel).textColor=UIColor.darkGrayColor()
@@ -183,7 +183,6 @@ class LatestVideos: SuperCollectionView {
             }
         }
     }
-    let player=SuperMediaPlayer()
     
     override func cellSelect(indexPath: NSIndexPath) {
         

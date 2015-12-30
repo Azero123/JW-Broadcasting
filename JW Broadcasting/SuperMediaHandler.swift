@@ -82,6 +82,14 @@ class SuperMediaPlayer: NSObject, UIGestureRecognizerDelegate {
             print("replace item \(self.player.currentItem!.observationInfo)")
         }
         
+        for item in player.items() {
+            item.asset.cancelLoading()
+            if ("\(item.observationInfo)".containsString("(")){
+                print("still here!")
+                item.removeObserver(self, forKeyPath: "status")
+            }
+        }
+        
         player.removeAllItems()
         
         player.insertItem(newItem, afterItem: nil)
@@ -417,5 +425,10 @@ class SuperMediaPlayer: NSObject, UIGestureRecognizerDelegate {
         self.playerViewController.contentOverlayView?.addSubview(backgroundEffect)
         
         self.playerViewController.contentOverlayView?.addSubview(imageView)
+    }
+    
+    func disconnect(){
+        print("disconnect")
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 }

@@ -39,10 +39,18 @@ class MODSubcategoryCollectionView: SuperCollectionView {
     }
     
     func initSupport(){
+        self.contentInset=UIEdgeInsets(top: 0, left: 60, bottom: 0, right: 60)
         categoryLabel.font=UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
-        categoryLabel.frame=CGRectMake(self.contentInset.left , titlePosition, self.frame.size.width-self.contentInset.left-self.contentInset.right, 60)
+        setCategoryLabelLayout()
         categoryLabel.text=categoryName
         self.addSubview(categoryLabel)
+        setCategoryLabelLayout()
+        if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
+            self.categoryLabel.textAlignment=NSTextAlignment.Right
+        }
+        else {
+            self.categoryLabel.textAlignment=NSTextAlignment.Left
+        }
     }
     
     override func prepare() {
@@ -57,13 +65,11 @@ class MODSubcategoryCollectionView: SuperCollectionView {
         self.categoryLabel.text=categoryName
         
         self.performBatchUpdates({}, completion: { (finished:Bool) in
+            self.setCategoryLabelLayout()
             if (textDirection == UIUserInterfaceLayoutDirection.RightToLeft){
-                let width=self.frame.size.width-self.contentInset.left-self.contentInset.right
-                self.categoryLabel.frame=CGRectMake(self.contentSize.width-width-self.contentInset.right , self.titlePosition, width, 40)
                 self.categoryLabel.textAlignment=NSTextAlignment.Right
             }
             else {
-                self.categoryLabel.frame=CGRectMake(self.contentInset.left , self.titlePosition, self.frame.size.width-self.contentInset.left-self.contentInset.right, 40)
                 self.categoryLabel.textAlignment=NSTextAlignment.Left
             }
             self.rightSide()
@@ -155,12 +161,27 @@ class MODSubcategoryCollectionView: SuperCollectionView {
                 self.contentOffset=CGPoint(x: -self.contentInset.left, y: 0)
             }
         }
+        setCategoryLabelLayout()
+    }
+    
+    func setCategoryLabelLayout(){
+        
         if (textDirection == .RightToLeft){//RTL alignment
             let width=self.frame.size.width-self.contentInset.left-self.contentInset.right
             self.categoryLabel.frame=CGRectMake(-self.contentInset.right+self.contentOffset.x+self.contentInset.left , titlePosition, width, 40)
         }
         else {
             categoryLabel.frame=CGRectMake( self.contentInset.left+self.contentOffset.x+self.contentInset.left, titlePosition, self.frame.size.width-self.contentInset.left-self.contentInset.right, 40)
+        }
+    }
+    
+    override var contentInset:UIEdgeInsets {
+        get {
+            return super.contentInset
+        }
+        set (newValue){
+            setCategoryLabelLayout()
+            super.contentInset=newValue
         }
     }
     

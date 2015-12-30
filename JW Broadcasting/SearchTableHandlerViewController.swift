@@ -1,118 +1,56 @@
 //
-//  SearchController.swift
+//  SearchTableHandlerViewController.swift
 //  JW Broadcasting
 //
-//  Created by Austin Zelenka on 11/21/15.
+//  Created by Austin Zelenka on 12/27/15.
 //  Copyright © 2015 xquared. All rights reserved.
 //
 
-
-/*
-
-WIP
-
-
-This is code for a keyboard view controller this will likely be torn down and added to MOD or presented ontop of MOD.
-
-*/
-
-
-
-
-
 import UIKit
 
-class SearchController: UISearchController, UISearchControllerDelegate, UISearchBarDelegate {
-    @IBOutlet weak var resultsTableView: UITableView!
+class SearchTableHandlerViewController: UIViewController, UISearchBarDelegate, UISearchResultsUpdating, UITableViewDelegate, UITableViewDataSource {
+    
+    
+    let resultsTableView=UITableView(frame: CGRect(x: (UIScreen.mainScreen().bounds.size.width-920)/2, y: 0, width: 920, height: 900))
     var searchIndex:[String]=[]
     var searchItems:[NSDictionary]=[]
     var results:[String]=[]
     
-    /*override init(searchController: UISearchController) {
-        super.init(searchController: searchController)
-        supportInit()
-    }*/
-    
-    override init(searchResultsController: UIViewController?) {
-        super.init(searchResultsController: searchResultsController)
-        self.searchResultsUpdater=searchResultsController as? UISearchResultsUpdating
-        supportInit()
-    }
-    
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        supportInit()
-        
-    }
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        supportInit()
-    }
-    
-    
-    /*
-    let _searchController=UISearchController(searchResultsController: SearchTableHandlerViewController())
-    override var searchController:UISearchController {
-        get {
-            return _searchController
-        }
-    }*/
-    
-    func supportInit(){
-        /*
-        self.tabBarItem=UITabBarItem(tabBarSystemItem: UITabBarSystemItem.Search, tag: 0)
-        mySearchController=UISearchController(searchResultsController: SearchTableHandlerViewController())
-        mySearchController?.delegate=self
-        mySearchController!.definesPresentationContext=true*/
-        //searchController=UISearchController(searchResultsController: SearchTableHandlerViewController())
-        //self.delegate=self
-        //searchController.definesPresentationContext=true
-        //self.view.backgroundColor=UIColor.clearColor()
-        self.definesPresentationContext=false
-    }
-    /*
-    var mySearchController:UISearchController?=nil
-    
-    */
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
     let backgroundImageView=UIImageView(frame: UIScreen.mainScreen().bounds)
     
-    override func viewDidAppear(animated: Bool) {
-        self.view.superview?.backgroundColor=UIColor.blackColor()
-        backgroundImageView.image=UIImage(named: "LaunchScreenEarth.png")
-        self.view.superview?.insertSubview(backgroundImageView, atIndex:0)
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
+        
+        self.view.addSubview(resultsTableView)
+        resultsTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "item")
+        resultsTableView.delegate=self
+        resultsTableView.dataSource=self
+        resultsTableView.reloadData()
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,
+            0)) {
+            self.prepareIndex()
+        }
+        
+        // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        /*
+        self.view.superview!.superview!.insertSubview(backgroundImageView, atIndex: 1)
+        //backgroundImageView.layer.zPosition = -1000
+        self.view.backgroundColor=UIColor(red: 1, green: 0, blue: 0, alpha: 0.5)
         
         let backgroundEffect=UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
         backgroundEffect.frame=(UIScreen.mainScreen().bounds)
-        backgroundImageView.alpha=0.75
-        backgroundEffect.alpha=0.99
-        //self.view.superview?.addSubview(backgroundEffect)
-        //self.view
-        /*var viewToClear=self.view
-        viewToClear.backgroundColor=UIColor.grayColor()
-        while viewToClear.superview != nil {
-            viewToClear.superview?.backgroundColor=UIColor.grayColor()
-            viewToClear=viewToClear.superview
-        }
-        */
-        self.view.superview?.insertSubview(backgroundEffect, atIndex:0)
-        self.view.superview!.superview!.insertSubview(backgroundEffect, atIndex: 0)
-        //self.view.superview?.backgroundColor=UIColor(red: 0, green: 0, blue: 1, alpha: 0)
-        //self.view.superview?.superview?.backgroundColor=UIColor.clearColor()
-        //self.view.backgroundColor=UIColor(red: 1, green: 0, blue: 0, alpha: 0)
-        //self.view.superview!.superview!.insertSubview(backgroundImageView, atIndex: 1)
-        //backgroundImageView.layer.zPosition = -1000
-        //self.view.backgroundColor=UIColor(red: 1, green: 0, blue: 0, alpha: 0.5)
-        
+        self.view.superview?.superview!.insertSubview(backgroundEffect, atIndex: 1)
         //backgroundEffect.layer.zPosition = -1
-        //self.searchBar.superview!.superview!.backgroundColor=UIColor.clearColor()
-    }
-    /*
-    
-    func didPresentSearchController(searchController: UISearchController) {
+        
+        self.view.removeFromSuperview()
+        backgroundEffect.superview!.addSubview(self.view)*/
     }
     
     func prepareIndex(){
@@ -143,6 +81,9 @@ class SearchController: UISearchController, UISearchControllerDelegate, UISearch
                 for subcat in subcats! {
                     for item in ((subcat as! NSDictionary).objectForKey("media")) as! NSArray {
                         
+                        if ((unfold(subcat, instructions: ["key"]) as! String).containsString("Featured")){
+                            break
+                        }
                         
                         itemsIndex.append(searchableString(item.objectForKey("title") as! String))
                         items.append(item as! NSDictionary)
@@ -159,7 +100,7 @@ class SearchController: UISearchController, UISearchControllerDelegate, UISearch
         print("[Search] index finished")
         resultsTableView.reloadData()
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -239,6 +180,33 @@ class SearchController: UISearchController, UISearchControllerDelegate, UISearch
         return 90
     }
     
+    func tableView(tableView: UITableView, didHighlightRowAtIndexPath indexPath: NSIndexPath) {
+        
+    }
+    
+    func tableView(tableView: UITableView, didUpdateFocusInContext context: UITableViewFocusUpdateContext, withAnimationCoordinator coordinator: UIFocusAnimationCoordinator) {
+        if (context.nextFocusedIndexPath != nil){
+        let imageURL=unfold(searchItems[searchIndex.indexOf(searchableString(results[context.nextFocusedIndexPath!.row]))!], instructions: ["images",["wss","cvr","lss","wsr","pss","pns",""],["lg","md","sm",""]]) as? String
+            if (imageURL != nil){
+                fetchDataUsingCache(imageURL!, downloaded: {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
+                            if (context.nextFocusedView==UIScreen.mainScreen().focusedView){
+                                
+                                UIView.transitionWithView((self.parentViewController as! SearchController).backgroundImageView, duration: 0.5, options: .TransitionCrossDissolve, animations: {
+                                    
+                                    let image=imageUsingCache(imageURL!)
+                                    (self.parentViewController as! SearchController).backgroundImageView.image=image
+                                    }, completion: nil)
+                            }
+                        }
+                    }
+                })
+            }
+        }
+    }
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let player=SuperMediaPlayer()
@@ -246,5 +214,14 @@ class SearchController: UISearchController, UISearchControllerDelegate, UISearch
         player.playIn(self)
         
     }
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
     */
+
 }

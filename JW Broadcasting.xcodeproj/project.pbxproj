@@ -51,6 +51,9 @@
 		9F79A1D61BA91DAE00B5E925 /* MediaToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F79A1D51BA91DAE00B5E925 /* MediaToolbox.framework */; };
 		9F9333E31BFFB5CA00092AED /* mm3.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9F9333E21BFFB5CA00092AED /* mm3.ttf */; };
 		9F9333E71C00320100092AED /* LICENSE.md in Sources */ = {isa = PBXBuildFile; fileRef = 9F9333E61C00320100092AED /* LICENSE.md */; };
+		9FA3122F1C30E52500FDD586 /* SearchTableHandlerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA3122E1C30E52500FDD586 /* SearchTableHandlerViewController.swift */; };
+		9FA312301C3279BF00FDD586 /* LaunchScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F7872D31BF955C800EE409B /* LaunchScreen.png */; };
+		9FA312321C3360B600FDD586 /* sosa-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9FA312311C335E8E00FDD586 /* sosa-regular-webfont.ttf */; };
 		9FC0441C1BF66E4100AB0B4F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FC0441B1BF66E4100AB0B4F /* QuartzCore.framework */; };
 		9FC7985B1C2901F80026B6C0 /* SuperMediaHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC7985A1C2901F80026B6C0 /* SuperMediaHandler.swift */; };
 		9FC81A521C0D77640087510F /* MediaOnDemandController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC81A511C0D77640087510F /* MediaOnDemandController.swift */; };
@@ -143,6 +146,8 @@
 		9F9333E61C00320100092AED /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = SOURCE_ROOT; };
 		9F9333E81C00396800092AED /* DEMO NOTES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "DEMO NOTES.md"; sourceTree = SOURCE_ROOT; };
 		9F9333EB1C00515A00092AED /* JW Broadcasting.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "JW Broadcasting.entitlements"; sourceTree = "<group>"; };
+		9FA3122E1C30E52500FDD586 /* SearchTableHandlerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableHandlerViewController.swift; sourceTree = "<group>"; };
+		9FA312311C335E8E00FDD586 /* sosa-regular-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "sosa-regular-webfont.ttf"; sourceTree = "<group>"; };
 		9FC0441B1BF66E4100AB0B4F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		9FC7985A1C2901F80026B6C0 /* SuperMediaHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuperMediaHandler.swift; sourceTree = "<group>"; };
 		9FC81A511C0D77640087510F /* MediaOnDemandController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaOnDemandController.swift; sourceTree = "<group>"; };
@@ -275,6 +280,7 @@
 		9F7872CD1BF9514E00EE409B /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				9FA312311C335E8E00FDD586 /* sosa-regular-webfont.ttf */,
 				9F9333E21BFFB5CA00092AED /* mm3.ttf */,
 				9F38D1BC1BB26B1F0081073A /* jwtv.ttf */,
 			);
@@ -423,6 +429,7 @@
 			isa = PBXGroup;
 			children = (
 				9FE9C17E1C01A83000E189D7 /* SearchController.swift */,
+				9FA3122E1C30E52500FDD586 /* SearchTableHandlerViewController.swift */,
 			);
 			name = Search;
 			sourceTree = "<group>";
@@ -531,6 +538,7 @@
 				9F536CCA1C116D230070BB12 /* jw-broadcasting-logo.png in Resources */,
 				9F9333E31BFFB5CA00092AED /* mm3.ttf in Resources */,
 				9FE5B9AC1C23F0B600B14FA9 /* audio-artwork in Resources */,
+				9FA312301C3279BF00FDD586 /* LaunchScreen.png in Resources */,
 				9F4916081C279B8800B191F4 /* JWOrgLogo.png in Resources */,
 				9F0AB91A1C24DC7200ADCB77 /* drama.png in Resources */,
 				9F22B00D1BFBCBCF0041E588 /* JW-White-Background-Blue.png in Resources */,
@@ -539,6 +547,7 @@
 				9F4915861C25394E00B191F4 /* playall.png in Resources */,
 				9F49160A1C279B9500B191F4 /* FullLogo.png in Resources */,
 				9FE5B9AA1C23ED9100B14FA9 /* Singing.pdf in Resources */,
+				9FA312321C3360B600FDD586 /* sosa-regular-webfont.ttf in Resources */,
 				9F59F1F31C138CE400805D65 /* TopShelf.jpg in Resources */,
 				9F0AB9181C24C19100ADCB77 /* piano-singtojehovah.png in Resources */,
 				9F79A18F1BA6A3AC00B5E925 /* Main.storyboard in Resources */,
@@ -596,6 +605,7 @@
 				9F9333E71C00320100092AED /* LICENSE.md in Sources */,
 				9FE5B9A31C1E90ED00B14FA9 /* MediaOnDemandMainCategories.swift in Sources */,
 				9F536D501C1275130070BB12 /* MODSubcategoryCollectionView.swift in Sources */,
+				9FA3122F1C30E52500FDD586 /* SearchTableHandlerViewController.swift in Sources */,
 				9FD474651BFDA1CF008C55C6 /* CollectionViewAlignmentFlowLayout.swift in Sources */,
 				9FFCDCB91BF7329C00307DA8 /* LatestVideos.swift in Sources */,
 				9FD098AC1C027CE4002324BF /* TryCatch.m in Sources */,
