@@ -54,6 +54,7 @@
 		9FA3122F1C30E52500FDD586 /* SearchTableHandlerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA3122E1C30E52500FDD586 /* SearchTableHandlerViewController.swift */; };
 		9FA312301C3279BF00FDD586 /* LaunchScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F7872D31BF955C800EE409B /* LaunchScreen.png */; };
 		9FA312321C3360B600FDD586 /* sosa-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9FA312311C335E8E00FDD586 /* sosa-regular-webfont.ttf */; };
+		9FA312361C33C8A100FDD586 /* ACKNOWLEDGEMENTS.md in Sources */ = {isa = PBXBuildFile; fileRef = 9FA312351C33C8A100FDD586 /* ACKNOWLEDGEMENTS.md */; };
 		9FC0441C1BF66E4100AB0B4F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FC0441B1BF66E4100AB0B4F /* QuartzCore.framework */; };
 		9FC7985B1C2901F80026B6C0 /* SuperMediaHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC7985A1C2901F80026B6C0 /* SuperMediaHandler.swift */; };
 		9FC81A521C0D77640087510F /* MediaOnDemandController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC81A511C0D77640087510F /* MediaOnDemandController.swift */; };
@@ -148,6 +149,7 @@
 		9F9333EB1C00515A00092AED /* JW Broadcasting.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "JW Broadcasting.entitlements"; sourceTree = "<group>"; };
 		9FA3122E1C30E52500FDD586 /* SearchTableHandlerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableHandlerViewController.swift; sourceTree = "<group>"; };
 		9FA312311C335E8E00FDD586 /* sosa-regular-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "sosa-regular-webfont.ttf"; sourceTree = "<group>"; };
+		9FA312351C33C8A100FDD586 /* ACKNOWLEDGEMENTS.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = ACKNOWLEDGEMENTS.md; sourceTree = SOURCE_ROOT; };
 		9FC0441B1BF66E4100AB0B4F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		9FC7985A1C2901F80026B6C0 /* SuperMediaHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuperMediaHandler.swift; sourceTree = "<group>"; };
 		9FC81A511C0D77640087510F /* MediaOnDemandController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaOnDemandController.swift; sourceTree = "<group>"; };
@@ -329,6 +331,7 @@
 			children = (
 				9F9333E81C00396800092AED /* DEMO NOTES.md */,
 				9F9333E61C00320100092AED /* LICENSE.md */,
+				9FA312351C33C8A100FDD586 /* ACKNOWLEDGEMENTS.md */,
 				9F07787E1BD1CD5700476E4C /* keyPhrasesIndex */,
 			);
 			name = References;
@@ -582,6 +585,7 @@
 				9FE5B9A61C1FF55100B14FA9 /* NewAudioController.swift in Sources */,
 				9FC7985B1C2901F80026B6C0 /* SuperMediaHandler.swift in Sources */,
 				9F38D1BB1BB2566B0081073A /* LanguageSelector.swift in Sources */,
+				9FA312361C33C8A100FDD586 /* ACKNOWLEDGEMENTS.md in Sources */,
 				9FFA67851C03D35A00ECEF86 /* Control.swift in Sources */,
 				9F3F7F5E1BF6D9FD0010A789 /* SuperCollectionView.swift in Sources */,
 				9F79A18C1BA6A3AC00B5E925 /* HomeController.swift in Sources */,
