@@ -11,8 +11,15 @@ import UIKit
 class AudioMainCategories: SuperCollectionView {
     
     
-    let images=["newsongs-singtojehovah","piano-singtojehovah","vocals-singtojehovah","kingdommelodies","drama","readings"]
     
+    let images=[
+        "NewSongs":"newsongs-singtojehovah",
+        "Piano":"piano-singtojehovah",
+        "Vocal":"vocals-singtojehovah",
+        "KingdomMelodies":"kingdommelodies",
+        "Dramas":"drama",
+        "DramaticBibleReadings":"readings"
+    ]
     
     override func cellShouldLoseFocus(view: UIView, indexPath: NSIndexPath) {
         for subview in (view.subviews.first!.subviews) {
@@ -40,7 +47,12 @@ class AudioMainCategories: SuperCollectionView {
                 if (view==UIScreen.mainScreen().focusedView){
 
                     UIView.transitionWithView((self.delegate as! NewAudioController).backgroundImageView, duration: 0.5, options: .TransitionCrossDissolve, animations: {
-                        (self.delegate as! NewAudioController).backgroundImageView.image=UIImage(named: self.images[indexPath.row])
+                        
+                        let category="Audio"
+                        let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
+                        let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
+                        let key=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|key") as! String
+                        (self.delegate as! NewAudioController).backgroundImageView.image=UIImage(named: self.images[key]!)
                         }, completion: nil)
                 }
             }

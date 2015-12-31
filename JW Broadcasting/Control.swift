@@ -52,7 +52,7 @@ let Search = true
 /*Settings for home page control*/
 
 let HomeFeatured = true
-let HomeFeaturedSlide=true
+let HomeFeaturedSlide=false
 let HomeChannels = true //unimplemented
 let HomeLastestVideos = true //unimplemented
 
@@ -153,7 +153,7 @@ func titleCorrection(var oldTitle:String) -> String{
         return oldTitle
     }
     
-    if (characters[3] == "-" && characters[5] == " " && characterIsNumber(characters[0])&&characterIsNumber(characters[1])&&characterIsNumber(characters[2])){
+    if ((characters[3] == "-" || characters[3] == "—") && characters[5] == " " && characterIsNumber(characters[0])&&characterIsNumber(characters[1])&&characterIsNumber(characters[2])){
         oldTitle.removeRange(  Range<String.Index>(start: oldTitle.startIndex, end: oldTitle.startIndex.advancedBy(6))  )
     }
     return oldTitle

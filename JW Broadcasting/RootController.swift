@@ -450,13 +450,13 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                     let fontattributes=[NSFontAttributeName:UIFont(name: "jwtv", size: 36)!,NSForegroundColorAttributeName:UIColor.grayColor()] as Dictionary<String,AnyObject>
                     self.tabBar.items?[(self.viewControllers?.indexOf(viewController))!].setTitleTextAttributes(fontattributes, forState: .Normal)*/
                 }
-                else if (viewController.isKindOfClass(SearchController.self)){
-                    keyForButton="Search"
-                }
                 else if (viewController.isKindOfClass(NewAudioController.self)){
                     keyForButton="homepageAudioBlockTitle"
                 }
-                
+                else if (viewController.isKindOfClass(SearchController.self) || viewController.isKindOfClass(UINavigationController.self)){
+                    keyForButton="\\"
+                }
+
                 
                 let newText=translatedKeyPhrases?.objectForKey(keyForButton) as? String
                 if (newText != nil){
@@ -469,6 +469,11 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                 if (viewController.isKindOfClass(LanguageSelector.self)){
                     let fontattributes=[NSFontAttributeName:UIFont(name: "jwtv", size: 36)!,NSForegroundColorAttributeName:UIColor.grayColor()] as Dictionary<String,AnyObject>
                     self.tabBar.items?[(self.viewControllers?.indexOf(viewController))!].setTitleTextAttributes(fontattributes, forState: .Normal)
+                }
+                    
+                else if (viewController.isKindOfClass(SearchController.self) || viewController.isKindOfClass(UINavigationController.self)){
+                    let fontattributes=[NSFontAttributeName:UIFont(name: "Sosa", size: 36)!,NSForegroundColorAttributeName:UIColor.grayColor()] as Dictionary<String,AnyObject>
+                    self.tabBar.items?[i].setTitleTextAttributes(fontattributes, forState: .Normal)
                 }
                 else {
                     let fontattributes=[NSForegroundColorAttributeName:UIColor.grayColor()] as Dictionary<String,AnyObject>

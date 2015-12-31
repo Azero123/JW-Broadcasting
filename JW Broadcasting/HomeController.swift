@@ -365,6 +365,9 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
         if (collectionView == self.slideShowCollectionView && UIScreen.mainScreen().focusedView != nil){
             var rectToCompare=self.slideShowCollectionView.cellAtIndex(indexPath).frame
             rectToCompare = CGRect(x: rectToCompare.origin.x-self.slideShowCollectionView.contentOffset.x, y: rectToCompare.origin.y+self.slideShowCollectionView.frame.origin.y, width: rectToCompare.size.width, height: rectToCompare.size.height)
+            if (indexPath.row<2){
+                return false
+            }
             if (self.slideShowCollectionView.subviews.contains(UIScreen.mainScreen().focusedView!)){
                 return true
             }
@@ -471,16 +474,26 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if (scrollView == self.slideShowCollectionView){
+            
             if (((self.slideShowCollectionView.contentOffset.x-previousOffset.x) < -800 && self.slideShowCollectionView.contentOffset.x<0) || blockSlideShowScrolling){
                 self.slideShowCollectionView.contentOffset=previousOffset
                 blockSlideShowScrolling=false
             }
             previousOffset=self.slideShowCollectionView.contentOffset
             //blockSlideShowScrolling--
-            if (self.slideShowCollectionView.contentOffset.x<0){
-                //self.slideShowCollectionView.contentOffset.x=self.slideShowCollectionView.contentSize.width/2
-            }
         }
+    }
+    
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        if (self.slideShowCollectionView.contentOffset.x<3000){
+            print("about to change \(self.slideShowCollectionView.contentOffset)")
+            if (self.slideShowCollectionView.numberOfItemsInSection(0)>201){
+                self.slideShowCollectionView.scrollToItemAtIndexPath(NSIndexPath(forRow: 200, inSection: 0), atScrollPosition: .CenteredHorizontally, animated: true)
+                self.slideShowCollectionView.updateFocusIfNeeded()
+            }
+            print("changed \(self.slideShowCollectionView.contentOffset)")
+        }
+
     }
 }
 

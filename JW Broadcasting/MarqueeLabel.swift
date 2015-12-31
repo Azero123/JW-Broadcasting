@@ -81,8 +81,8 @@ class marqueeLabel : UILabel  {
                 let outerColor = UIColor(colorLiteralRed: 0, green: 0, blue: 0, alpha: 0).CGColor
                 
                 // define a vertical gradient (up/bottom edges)
-                let colors = [outerColor, innerColor ,outerColor]
-                let locations = [0.0, 0.5,1.0]
+                let colors = [outerColor,outerColor, innerColor ,outerColor,outerColor]
+                let locations = [0.0,0.25, 0.5,0.75,1.0]
                 
                 // without specifying startPoint and endPoint, we get a vertical gradient
                 vMaskLayer.opacity = 0.7

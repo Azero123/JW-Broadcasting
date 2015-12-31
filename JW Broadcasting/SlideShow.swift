@@ -87,7 +87,7 @@ class SlideShow: SuperCollectionView {
                 
                 })
                 self.setFocusReady()
-                self.performSelector("setFocusReady", withObject: nil, afterDelay: 0)
+                self.performSelector("setFocusReady", withObject: nil, afterDelay: 0.5)
 
                 //reload content
                 self.reloadData()

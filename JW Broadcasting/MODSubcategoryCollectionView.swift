@@ -147,12 +147,24 @@ class MODSubcategoryCollectionView: SuperCollectionView {
             }
         }
     }
-    
+    /*
     override var preferredFocusedView:UIView? {
         get {
-            return self.cellAtIndex(NSIndexPath(forRow: 0, inSection: 0))
+            print("preferred focus")
+            var cellToFocus=super.preferredFocusedView
+            if (textDirection == .RightToLeft){
+                for cell in self.visibleCells() {
+                    if (cell.frame.origin.x>cellToFocus!.frame.origin.x){
+                        print("new")
+                        cellToFocus=cell
+                    }
+                }
+            }
+            print("\(cellToFocus)")
+            
+            return cellToFocus
         }
-    }
+    }*/
     
     override func didScroll() {
         
@@ -184,5 +196,6 @@ class MODSubcategoryCollectionView: SuperCollectionView {
             super.contentInset=newValue
         }
     }
+    
     
 }

@@ -13,7 +13,15 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
     
     var categoryIndex=0
     var previousLanguageCode=languageCode
-    let images=["newsongs-singtojehovah","piano-singtojehovah","vocals-singtojehovah","kingdommelodies","drama","readings"]
+    
+    let images=[
+        "NewSongs":"newsongs-singtojehovah",
+        "Piano":"piano-singtojehovah",
+        "Vocal":"vocals-singtojehovah",
+        "KingdomMelodies":"kingdommelodies",
+        "Dramas":"drama",
+        "DramaticBibleReadings":"readings"
+    ]
     var playAll=false
     var shuffle=false
     var currentSongID=0
@@ -46,7 +54,9 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
         else {
             self.subLabel.text=""
         }
-        self.categoryImage.image=UIImage(named: images[categoryIndex])
+        
+        let key=unfold(AudioDataURL+"|category|subcategories|\(categoryIndex)|key") as! String
+        self.categoryImage.image=UIImage(named: images[key]!)
         //self.backgroundImageView.image=UIImage(named: images[categoryIndex])
         self.categoryImage.contentMode = .ScaleToFill
         self.categoryImage.layoutIfNeeded()
@@ -83,6 +93,7 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     override func pressesBegan(presses: Set<UIPress>, withEvent event: UIPressesEvent?) {
+        super.pressesBegan(presses, withEvent: event)
         for item in presses {
             if item.type == .Menu {
                 fadeVolume()
@@ -108,7 +119,7 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
     
     override func viewDidDisappear(animated: Bool) {
         // self.player?.removeObserver(self, forKeyPath: "status")
-        smartPlayer.player.removeAllItems()
+        //smartPlayer.player.removeAllItems()
         self.view.hidden=true
     }
     
@@ -116,8 +127,13 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
     func renewContent(){
         
         //http://mediator.jw.org/v1/categories/E/Audio?detailed=1
-        self.categoryImage.image=UIImage(named: images[categoryIndex])
-        self.backgroundImageView.image=UIImage(named: images[categoryIndex])
+        let category="Audio"
+        let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
+        let AudioDataURL=categoriesDirectory+"/"+category+"?detailed=1"
+        let key=unfold(AudioDataURL+"|category|subcategories|\(categoryIndex)|key") as! String
+        
+        self.categoryImage.image=UIImage(named: images[key]!)
+        self.backgroundImageView.image=UIImage(named: images[key]!)
         self.categoryImage.contentMode = .ScaleToFill
         
         self.categoryImage.layoutIfNeeded()
@@ -229,7 +245,7 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        smartPlayer.player.removeAllItems()
+        //smartPlayer.player.removeAllItems()
         nextSongID=indexPath.row
         playAll=false
         shuffle=false

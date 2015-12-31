@@ -78,8 +78,20 @@ class SearchController: UISearchController, UISearchControllerDelegate, UISearch
         super.viewDidLoad()
     }
     let backgroundImageView=UIImageView(frame: UIScreen.mainScreen().bounds)
+    var previousLanguageCode=languageCode
     
     override func viewDidAppear(animated: Bool) {
+        /*
+        Every time the view goes to reappear this code runs to check if the language was changed by the Language tab. If it was then everything gets refreshed.
+        */
+        
+        if (previousLanguageCode != languageCode){
+            (self.searchResultsController as! SearchTableHandlerViewController).results=[]
+            (self.searchResultsController as! SearchTableHandlerViewController).searchItems=[]
+            (self.searchResultsController as! SearchTableHandlerViewController).searchIndex=[]
+            (self.searchResultsController as! SearchTableHandlerViewController).prepareIndex()
+            previousLanguageCode=languageCode
+        }
         self.view.superview?.backgroundColor=UIColor.blackColor()
         backgroundImageView.image=UIImage(named: "LaunchScreenEarth.png")
         self.view.superview?.insertSubview(backgroundImageView, atIndex:0)
@@ -89,26 +101,8 @@ class SearchController: UISearchController, UISearchControllerDelegate, UISearch
         backgroundEffect.frame=(UIScreen.mainScreen().bounds)
         backgroundImageView.alpha=0.75
         backgroundEffect.alpha=0.99
-        //self.view.superview?.addSubview(backgroundEffect)
-        //self.view
-        /*var viewToClear=self.view
-        viewToClear.backgroundColor=UIColor.grayColor()
-        while viewToClear.superview != nil {
-            viewToClear.superview?.backgroundColor=UIColor.grayColor()
-            viewToClear=viewToClear.superview
-        }
-        */
         self.view.superview?.insertSubview(backgroundEffect, atIndex:0)
         self.view.superview!.superview!.insertSubview(backgroundEffect, atIndex: 0)
-        //self.view.superview?.backgroundColor=UIColor(red: 0, green: 0, blue: 1, alpha: 0)
-        //self.view.superview?.superview?.backgroundColor=UIColor.clearColor()
-        //self.view.backgroundColor=UIColor(red: 1, green: 0, blue: 0, alpha: 0)
-        //self.view.superview!.superview!.insertSubview(backgroundImageView, atIndex: 1)
-        //backgroundImageView.layer.zPosition = -1000
-        //self.view.backgroundColor=UIColor(red: 1, green: 0, blue: 0, alpha: 0.5)
-        
-        //backgroundEffect.layer.zPosition = -1
-        //self.searchBar.superview!.superview!.backgroundColor=UIColor.clearColor()
     }
     /*
     

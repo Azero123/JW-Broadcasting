@@ -36,21 +36,21 @@ class SearchTableHandlerViewController: UIViewController, UISearchBarDelegate, U
         // Do any additional setup after loading the view.
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
+    
+    var previousLanguageCode=languageCode
+    
+    override func viewWillAppear(animated: Bool) {
         /*
-        self.view.superview!.superview!.insertSubview(backgroundImageView, atIndex: 1)
-        //backgroundImageView.layer.zPosition = -1000
-        self.view.backgroundColor=UIColor(red: 1, green: 0, blue: 0, alpha: 0.5)
+        Every time the view goes to reappear this code runs to check if the language was changed by the Language tab. If it was then everything gets refreshed.
+        */
         
-        let backgroundEffect=UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
-        backgroundEffect.frame=(UIScreen.mainScreen().bounds)
-        self.view.superview?.superview!.insertSubview(backgroundEffect, atIndex: 1)
-        //backgroundEffect.layer.zPosition = -1
-        
-        self.view.removeFromSuperview()
-        backgroundEffect.superview!.addSubview(self.view)*/
+        if (previousLanguageCode != languageCode){
+            results=[]
+            searchItems=[]
+            searchIndex=[]
+            prepareIndex()
+            previousLanguageCode=languageCode
+        }
     }
     
     func prepareIndex(){
@@ -120,7 +120,8 @@ class SearchTableHandlerViewController: UIViewController, UISearchBarDelegate, U
                         }
                         
                         itemsIndex.append(searchableWords)
-                        item.setObject(titleExtractor(item.objectForKey("title") as! String)["correctedTitle"], forKey: "visual-title")
+                        //item.setObject(titleExtractor(item.objectForKey("title") as! String)["correctedTitle"], forKey: "visual-title")
+                        item.setObject(item.objectForKey("title") as! String, forKey: "visual-title")
                         items.append(item as! NSDictionary)
                         i++
                         //items[(item.objectForKey("title") as! String).lowercaseString]=item as? NSDictionary //.append((item.objectForKey("title") as! String).lowercaseString)
@@ -294,6 +295,7 @@ class SearchTableHandlerViewController: UIViewController, UISearchBarDelegate, U
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell=tableView.dequeueReusableCellWithIdentifier("item", forIndexPath: indexPath)
         cell.tag=indexPath.row
+        cell.imageView?.image=nil
         let dict=searchItems[results[indexPath.row]]
         let imageURL=unfold(dict, instructions: ["images",["sqr","cvr","wss","lss","wsr","pss","pns",""],["lg","md","sm",""]]) as? String
         if (imageURL != nil){
@@ -303,6 +305,9 @@ class SearchTableHandlerViewController: UIViewController, UISearchBarDelegate, U
                     if (cell.tag==indexPath.row){
                         let image=imageUsingCache(imageURL!)
                         cell.imageView?.image=image
+                        cell.layoutIfNeeded()
+                        cell.layoutSubviews()
+                        cell.imageView?.layoutIfNeeded()
                     }
                 }
             })

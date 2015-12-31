@@ -34,8 +34,14 @@ class NewAudioController: UIViewController, UICollectionViewDelegate, UICollecti
         (self.MediaCollectionView.collectionViewLayout as! CollectionViewAlignmentFlowLayout).spacingPercentile=1.35
         renewContent()
     }
-    
-    let images=["newsongs-singtojehovah","piano-singtojehovah","vocals-singtojehovah","kingdommelodies","drama","readings"]
+    let images=[
+        "NewSongs":"newsongs-singtojehovah",
+        "Piano":"piano-singtojehovah",
+        "Vocal":"vocals-singtojehovah",
+        "KingdomMelodies":"kingdommelodies",
+        "Dramas":"drama",
+        "DramaticBibleReadings":"readings"
+    ]
     
     var previousLanguageCode=languageCode
     
@@ -133,7 +139,11 @@ class NewAudioController: UIViewController, UICollectionViewDelegate, UICollecti
                 
                 imageView.userInteractionEnabled = true
                 imageView.adjustsImageWhenAncestorFocused = true
-                imageView.image=UIImage(named: images[indexPath.row])
+                
+                
+                let key=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|key") as! String
+                
+                imageView.image=UIImage(named: images[key]!)
                 if (imageURL != nil && imageURL != ""){
                     
                     fetchDataUsingCache(imageURL!, downloaded: {

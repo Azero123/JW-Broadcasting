@@ -110,7 +110,9 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
     }
     
     override func viewDidDisappear(animated: Bool) {
-        streamview.player!.removeAllItems()
+        if (streamview.player != nil){
+            streamview.player!.removeAllItems()
+        }
     }
     
     func renewContent(){
@@ -148,6 +150,8 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
                             
                             self.previewImageView.userInteractionEnabled=true
                             self.previewImageView.adjustsImageWhenAncestorFocused = true
+                            
+                            self.updateFocusIfNeeded()
                         }
                     })
                 }
@@ -496,6 +500,10 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
     }
     var shouldAnimate=false
     var y:CGFloat=0
+    
+    
+    
+   
     
 
 }
