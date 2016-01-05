@@ -300,7 +300,7 @@ class SuperMediaPlayer: NSObject, UIGestureRecognizerDelegate {
     }
     
     func fillEmptyVideoSpaceWithDictionary(dictionary:NSDictionary){
-        let imageURL=unfold(dictionary, instructions: ["images",["sqr","sqs","cvr",""],["lg","sm","md","xs",""]]) as? String
+        let imageURL=unfold(dictionary, instructions: ["images",["sqr","sqs","cvr",""],["TVOS","lg","sm","md","xs",""]]) as? String
         for subview in (self.playerViewController.contentOverlayView?.subviews)! {
             subview.removeFromSuperview()
         }
@@ -325,6 +325,19 @@ class SuperMediaPlayer: NSObject, UIGestureRecognizerDelegate {
                 
                 imageView.image=image
                 imageView.frame=CGRect(x: 0, y: 0, width: image!.size.width, height: image!.size.height)
+                if (imageView.frame.width>imageView.frame.height){
+                    if (imageView.frame.width>270){
+                        let scaleDown=imageView.frame.size.width/270
+                        imageView.frame=CGRect(x: 0, y: 0, width: imageView.frame.width/scaleDown, height: imageView.frame.height/scaleDown)
+                    }
+                }
+                else {
+                    if (imageView.frame.height>270){
+                        let scaleDown=imageView.frame.size.height/270
+                        imageView.frame=CGRect(x: 0, y: 0, width: imageView.frame.width/scaleDown, height: imageView.frame.height/scaleDown)
+                    }
+                }
+                
                 backgroundImage.image=image
                 imageView.center=CGPoint(x: (self.playerViewController.contentOverlayView?.frame.size.width)!/2, y: 705-imageView.frame.size.height/2-150)
                 

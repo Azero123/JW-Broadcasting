@@ -80,18 +80,24 @@ class SearchController: UISearchController, UISearchControllerDelegate, UISearch
     let backgroundImageView=UIImageView(frame: UIScreen.mainScreen().bounds)
     var previousLanguageCode=languageCode
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewWillAppear(animated: Bool) {
         /*
         Every time the view goes to reappear this code runs to check if the language was changed by the Language tab. If it was then everything gets refreshed.
         */
+        print("may refresh language")
         
         if (previousLanguageCode != languageCode){
+            print("[Search] REFRESH LANGUAGE")
             (self.searchResultsController as! SearchTableHandlerViewController).results=[]
             (self.searchResultsController as! SearchTableHandlerViewController).searchItems=[]
             (self.searchResultsController as! SearchTableHandlerViewController).searchIndex=[]
             (self.searchResultsController as! SearchTableHandlerViewController).prepareIndex()
             previousLanguageCode=languageCode
         }
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+
         self.view.superview?.backgroundColor=UIColor.blackColor()
         backgroundImageView.image=UIImage(named: "LaunchScreenEarth.png")
         self.view.superview?.insertSubview(backgroundImageView, atIndex:0)
@@ -103,6 +109,10 @@ class SearchController: UISearchController, UISearchControllerDelegate, UISearch
         backgroundEffect.alpha=0.99
         self.view.superview?.insertSubview(backgroundEffect, atIndex:0)
         self.view.superview!.superview!.insertSubview(backgroundEffect, atIndex: 0)
+        
+        
+        print("input accessory\(self.searchBar.inputAccessoryView)")
+        print("\(self.searchBar.inputAccessoryViewController)")
     }
     /*
     

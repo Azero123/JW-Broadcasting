@@ -182,6 +182,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let AudioURL=categoriesDirectory+"/Audio?detailed=1"
             fetchDataUsingCache(AudioURL, downloaded: {
                 print("[Audio] preloaded")
+                
+                let audioOnDemandData=dictionaryOfPath(AudioURL, usingCache: false)
+                for (var index=0; index<(audioOnDemandData!["category"]!["subcategories"]! as! NSArray).count ; index++){
+                    
+                    let subcat=(((audioOnDemandData!["category"] as! NSDictionary)["subcategories"] as! NSArray)[index] as! NSDictionary)
+                    let subcategoryDirectory=categoriesDirectory+"/"+(subcat["key"] as! String)+"?detailed=1"
+                    let downloadedJSON=dictionaryOfPath(subcategoryDirectory, usingCache: false)
+                }
             })
         }
         /*

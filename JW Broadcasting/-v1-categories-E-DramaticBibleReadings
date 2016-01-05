@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>category</key>
+	<dict>
+		<key>media</key>
+		<array>
+			<string></string>
+			<string></string>
+			<string></string>
+			<dict>
+				<key>images</key>
+				<dict>
+					<key>cvr</key>
+					<dict>
+						<key>TVOS</key>
+						<string>http://assets.jw.org/assets/a/ivjtg/ivjtg_E/iajtg_univ_lg.jpg</string>
+					</dict>
+					<key>sqr</key>
+					<dict>
+						<key>TVOS</key>
+						<string>http://assets.jw.org/assets/a/ivjtg/ivjtg_E/iajtg_univ_lg.jpg</string>
+					</dict>
+					<key>sqs</key>
+					<dict>
+						<key>TVOS</key>
+						<string>http://assets.jw.org/assets/a/ivjtg/ivjtg_E/iajtg_univ_lg.jpg</string>
+					</dict>
+				</dict>
+			</dict>
+		</array>
+	</dict>
+</dict>
+</plist>

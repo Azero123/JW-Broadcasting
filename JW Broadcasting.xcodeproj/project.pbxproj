@@ -31,8 +31,7 @@
 		9F49160C1C27D8D200B191F4 /* TableViewCellSmarterLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F49160B1C27D8D200B191F4 /* TableViewCellSmarterLayout.swift */; };
 		9F49160F1C27E27E00B191F4 /* fade-back-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F49160D1C27E27E00B191F4 /* fade-back-1.png */; };
 		9F4916101C27E27E00B191F4 /* fade-back-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F49160E1C27E27E00B191F4 /* fade-back-2.png */; };
-		9F4916121C27E55300B191F4 /* be_faithful_and_conquer_your_fears.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F4916111C27E55300B191F4 /* be_faithful_and_conquer_your_fears.png */; };
-		9F4916141C27F32400B191F4 /* -assets-a-iacyf-iacyf_E-iacyf_E_lg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9F4916131C27F32400B191F4 /* -assets-a-iacyf-iacyf_E-iacyf_E_lg.jpg */; };
+		9F4916141C27F32400B191F4 /* -assets-a-ivjtg-ivjtg_E-iajtg_univ_lg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9F4916131C27F32400B191F4 /* -assets-a-ivjtg-ivjtg_E-iajtg_univ_lg.jpg */; };
 		9F536CCA1C116D230070BB12 /* jw-broadcasting-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F536CC91C116D230070BB12 /* jw-broadcasting-logo.png */; };
 		9F536D4C1C1235220070BB12 /* MediaOnDemandCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F536D4B1C1235220070BB12 /* MediaOnDemandCategory.swift */; };
 		9F536D501C1275130070BB12 /* MODSubcategoryCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F536D4F1C1275130070BB12 /* MODSubcategoryCollectionView.swift */; };
@@ -40,7 +39,6 @@
 		9F5CE48D1BB644C700378D4C /* CollectionViewHorizontalFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5CE48C1BB644C700378D4C /* CollectionViewHorizontalFlowLayout.swift */; };
 		9F72EF451BF738D000680302 /* ChannelSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F72EF441BF738D000680302 /* ChannelSelector.swift */; };
 		9F7872D21BF952DD00EE409B /* ResourceHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7872D11BF952DD00EE409B /* ResourceHandling.swift */; };
-		9F7872E11BFA782D00EE409B /* LaunchScreenEarth-old.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F7872E01BFA782D00EE409B /* LaunchScreenEarth-old.png */; };
 		9F79A18A1BA6A3AC00B5E925 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F79A1891BA6A3AC00B5E925 /* AppDelegate.swift */; };
 		9F79A18C1BA6A3AC00B5E925 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F79A18B1BA6A3AC00B5E925 /* HomeController.swift */; };
 		9F79A18F1BA6A3AC00B5E925 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F79A18D1BA6A3AC00B5E925 /* Main.storyboard */; };
@@ -52,9 +50,9 @@
 		9F9333E31BFFB5CA00092AED /* mm3.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9F9333E21BFFB5CA00092AED /* mm3.ttf */; };
 		9F9333E71C00320100092AED /* LICENSE.md in Sources */ = {isa = PBXBuildFile; fileRef = 9F9333E61C00320100092AED /* LICENSE.md */; };
 		9FA3122F1C30E52500FDD586 /* SearchTableHandlerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA3122E1C30E52500FDD586 /* SearchTableHandlerViewController.swift */; };
-		9FA312301C3279BF00FDD586 /* LaunchScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F7872D31BF955C800EE409B /* LaunchScreen.png */; };
 		9FA312321C3360B600FDD586 /* sosa-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9FA312311C335E8E00FDD586 /* sosa-regular-webfont.ttf */; };
 		9FA312361C33C8A100FDD586 /* ACKNOWLEDGEMENTS.md in Sources */ = {isa = PBXBuildFile; fileRef = 9FA312351C33C8A100FDD586 /* ACKNOWLEDGEMENTS.md */; };
+		9FA312391C38548700FDD586 /* -v1-categories-E-DramaticBibleReadings in Resources */ = {isa = PBXBuildFile; fileRef = 9FA312381C38548700FDD586 /* -v1-categories-E-DramaticBibleReadings */; };
 		9FC0441C1BF66E4100AB0B4F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FC0441B1BF66E4100AB0B4F /* QuartzCore.framework */; };
 		9FC7985B1C2901F80026B6C0 /* SuperMediaHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC7985A1C2901F80026B6C0 /* SuperMediaHandler.swift */; };
 		9FC81A521C0D77640087510F /* MediaOnDemandController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC81A511C0D77640087510F /* MediaOnDemandController.swift */; };
@@ -66,7 +64,6 @@
 		9FE5B9A31C1E90ED00B14FA9 /* MediaOnDemandMainCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE5B9A21C1E90ED00B14FA9 /* MediaOnDemandMainCategories.swift */; };
 		9FE5B9A61C1FF55100B14FA9 /* NewAudioController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE5B9A51C1FF55100B14FA9 /* NewAudioController.swift */; };
 		9FE5B9A81C23E6DC00B14FA9 /* AudioCategoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE5B9A71C23E6DC00B14FA9 /* AudioCategoryController.swift */; };
-		9FE5B9AA1C23ED9100B14FA9 /* Singing.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 9FE5B9A91C23ED9000B14FA9 /* Singing.pdf */; };
 		9FE5B9AC1C23F0B600B14FA9 /* audio-artwork in Resources */ = {isa = PBXBuildFile; fileRef = 9FE5B9AB1C23F0B600B14FA9 /* audio-artwork */; };
 		9FE9C17A1C019F0300E189D7 /* LaunchScreenEarth.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FE9C1791C019F0300E189D7 /* LaunchScreenEarth.png */; };
 		9FE9C17F1C01A83000E189D7 /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE9C17E1C01A83000E189D7 /* SearchController.swift */; };
@@ -116,8 +113,7 @@
 		9F49160B1C27D8D200B191F4 /* TableViewCellSmarterLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCellSmarterLayout.swift; sourceTree = "<group>"; };
 		9F49160D1C27E27E00B191F4 /* fade-back-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fade-back-1.png"; sourceTree = "<group>"; };
 		9F49160E1C27E27E00B191F4 /* fade-back-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fade-back-2.png"; sourceTree = "<group>"; };
-		9F4916111C27E55300B191F4 /* be_faithful_and_conquer_your_fears.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = be_faithful_and_conquer_your_fears.png; sourceTree = "<group>"; };
-		9F4916131C27F32400B191F4 /* -assets-a-iacyf-iacyf_E-iacyf_E_lg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-assets-a-iacyf-iacyf_E-iacyf_E_lg.jpg"; sourceTree = "<group>"; };
+		9F4916131C27F32400B191F4 /* -assets-a-ivjtg-ivjtg_E-iajtg_univ_lg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-assets-a-ivjtg-ivjtg_E-iajtg_univ_lg.jpg"; sourceTree = "<group>"; };
 		9F536CC91C116D230070BB12 /* jw-broadcasting-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jw-broadcasting-logo.png"; sourceTree = "<group>"; };
 		9F536D4B1C1235220070BB12 /* MediaOnDemandCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaOnDemandCategory.swift; sourceTree = "<group>"; };
 		9F536D4F1C1275130070BB12 /* MODSubcategoryCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MODSubcategoryCollectionView.swift; sourceTree = "<group>"; };
@@ -150,6 +146,7 @@
 		9FA3122E1C30E52500FDD586 /* SearchTableHandlerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableHandlerViewController.swift; sourceTree = "<group>"; };
 		9FA312311C335E8E00FDD586 /* sosa-regular-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "sosa-regular-webfont.ttf"; sourceTree = "<group>"; };
 		9FA312351C33C8A100FDD586 /* ACKNOWLEDGEMENTS.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = ACKNOWLEDGEMENTS.md; sourceTree = SOURCE_ROOT; };
+		9FA312381C38548700FDD586 /* -v1-categories-E-DramaticBibleReadings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "-v1-categories-E-DramaticBibleReadings"; sourceTree = "<group>"; };
 		9FC0441B1BF66E4100AB0B4F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		9FC7985A1C2901F80026B6C0 /* SuperMediaHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuperMediaHandler.swift; sourceTree = "<group>"; };
 		9FC81A511C0D77640087510F /* MediaOnDemandController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaOnDemandController.swift; sourceTree = "<group>"; };
@@ -197,6 +194,109 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9F267E721C3B4E8400782EAB /* Launch Screens */ = {
+			isa = PBXGroup;
+			children = (
+				9F7872D31BF955C800EE409B /* LaunchScreen.png */,
+				9F7872D41BF955C800EE409B /* LaunchScreenBlue.png */,
+				9F7872D51BF955C800EE409B /* LaunchScreenEarth-Washed.png */,
+				9F7872DE1BFA72EF00EE409B /* LaunchScreenEarth-Dark.png */,
+				9F7872E01BFA782D00EE409B /* LaunchScreenEarth-old.png */,
+				9FE9C1791C019F0300E189D7 /* LaunchScreenEarth.png */,
+			);
+			name = "Launch Screens";
+			sourceTree = "<group>";
+		};
+		9F267E741C3B4ECB00782EAB /* Grabage extras */ = {
+			isa = PBXGroup;
+			children = (
+				9F49160D1C27E27E00B191F4 /* fade-back-1.png */,
+				9F49160E1C27E27E00B191F4 /* fade-back-2.png */,
+			);
+			name = "Grabage extras";
+			sourceTree = "<group>";
+		};
+		9F267E751C3B4EF100782EAB /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				9F267E761C3B4EFE00782EAB /* JW */,
+			);
+			name = Icons;
+			sourceTree = "<group>";
+		};
+		9F267E761C3B4EFE00782EAB /* JW */ = {
+			isa = PBXGroup;
+			children = (
+				9F536CC91C116D230070BB12 /* jw-broadcasting-logo.png */,
+				9F22B00C1BFBCBCF0041E588 /* JW-White-Background-Blue.png */,
+				9F4916071C279B8800B191F4 /* JWOrgLogo.png */,
+				9F4916091C279B9500B191F4 /* FullLogo.png */,
+			);
+			name = JW;
+			sourceTree = "<group>";
+		};
+		9F267E771C3B4F1400782EAB /* Top Shelf */ = {
+			isa = PBXGroup;
+			children = (
+				9FE9C17B1C019F0C00E189D7 /* TopShelf.png */,
+				9F59F1F21C138CE400805D65 /* TopShelf.jpg */,
+			);
+			name = "Top Shelf";
+			sourceTree = "<group>";
+		};
+		9F267E781C3B4F2C00782EAB /* Category Images */ = {
+			isa = PBXGroup;
+			children = (
+				9F0AB9171C24C19100ADCB77 /* piano-singtojehovah.png */,
+				9F0AB9191C24DC7200ADCB77 /* drama.png */,
+				9F0AB91B1C24E3D900ADCB77 /* readings.png */,
+				9F0AB91D1C24E3E200ADCB77 /* kingdommelodies.png */,
+				9F4915811C25268900B191F4 /* vocals-singtojehovah.png */,
+				9F4915831C25269000B191F4 /* newsongs-singtojehovah.png */,
+			);
+			name = "Category Images";
+			sourceTree = "<group>";
+		};
+		9F267E791C3B4F5900782EAB /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				9F4915871C25395500B191F4 /* shufflemusic.png */,
+				9F4915851C25394E00B191F4 /* playall.png */,
+			);
+			name = Buttons;
+			sourceTree = "<group>";
+		};
+		9F267E7A1C3B4F9C00782EAB /* For creation */ = {
+			isa = PBXGroup;
+			children = (
+				9FE5B9A91C23ED9000B14FA9 /* Singing.pdf */,
+			);
+			name = "For creation";
+			sourceTree = "<group>";
+		};
+		9F267E7B1C3B4FB700782EAB /* images */ = {
+			isa = PBXGroup;
+			children = (
+				9F4916131C27F32400B191F4 /* -assets-a-ivjtg-ivjtg_E-iajtg_univ_lg.jpg */,
+			);
+			name = images;
+			sourceTree = "<group>";
+		};
+		9F267E7C1C3B4FBC00782EAB /* language specific */ = {
+			isa = PBXGroup;
+			children = (
+				9FA312381C38548700FDD586 /* -v1-categories-E-DramaticBibleReadings */,
+			);
+			name = "language specific";
+			sourceTree = "<group>";
+		};
+		9F267E7D1C3B4FC200782EAB /* global */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = global;
+			sourceTree = "<group>";
+		};
 		9F7872C51BF9501F00EE409B /* Tab Items */ = {
 			isa = PBXGroup;
 			children = (
@@ -292,36 +392,18 @@
 		9F7872CE1BF9515800EE409B /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
-				9F49160D1C27E27E00B191F4 /* fade-back-1.png */,
-				9F4916131C27F32400B191F4 /* -assets-a-iacyf-iacyf_E-iacyf_E_lg.jpg */,
-				9F4916111C27E55300B191F4 /* be_faithful_and_conquer_your_fears.png */,
-				9F49160E1C27E27E00B191F4 /* fade-back-2.png */,
-				9F536CC91C116D230070BB12 /* jw-broadcasting-logo.png */,
-				9F7872D31BF955C800EE409B /* LaunchScreen.png */,
-				9F7872D41BF955C800EE409B /* LaunchScreenBlue.png */,
-				9F7872D51BF955C800EE409B /* LaunchScreenEarth-Washed.png */,
-				9F7872DE1BFA72EF00EE409B /* LaunchScreenEarth-Dark.png */,
-				9F7872E01BFA782D00EE409B /* LaunchScreenEarth-old.png */,
-				9F22B00C1BFBCBCF0041E588 /* JW-White-Background-Blue.png */,
-				9FE9C1791C019F0300E189D7 /* LaunchScreenEarth.png */,
-				9FE9C17B1C019F0C00E189D7 /* TopShelf.png */,
-				9F59F1F21C138CE400805D65 /* TopShelf.jpg */,
-				9F0AB9171C24C19100ADCB77 /* piano-singtojehovah.png */,
-				9F0AB9191C24DC7200ADCB77 /* drama.png */,
-				9F0AB91B1C24E3D900ADCB77 /* readings.png */,
-				9F0AB91D1C24E3E200ADCB77 /* kingdommelodies.png */,
-				9F4915811C25268900B191F4 /* vocals-singtojehovah.png */,
-				9F4915831C25269000B191F4 /* newsongs-singtojehovah.png */,
-				9F4915851C25394E00B191F4 /* playall.png */,
-				9F4915871C25395500B191F4 /* shufflemusic.png */,
-				9F4916071C279B8800B191F4 /* JWOrgLogo.png */,
-				9F4916091C279B9500B191F4 /* FullLogo.png */,
+				9F267E7A1C3B4F9C00782EAB /* For creation */,
+				9F267E791C3B4F5900782EAB /* Buttons */,
+				9F267E781C3B4F2C00782EAB /* Category Images */,
+				9F267E771C3B4F1400782EAB /* Top Shelf */,
+				9F267E751C3B4EF100782EAB /* Icons */,
+				9F267E741C3B4ECB00782EAB /* Grabage extras */,
+				9F267E721C3B4E8400782EAB /* Launch Screens */,
 				9F4916051C279AFD00B191F4 /* JWBroadcastingSmall.lsr */,
 				9F4916061C279B0200B191F4 /* JWBroadcastingLarge.lsr */,
 				9FE5B9AB1C23F0B600B14FA9 /* audio-artwork */,
 				9F7872D91BF955E100EE409B /* jwbroadcasting_images */,
 				9F79A1901BA6A3AC00B5E925 /* Assets.xcassets */,
-				9FE5B9A91C23ED9000B14FA9 /* Singing.pdf */,
 			);
 			name = Graphics;
 			sourceTree = "<group>";
@@ -391,6 +473,7 @@
 				9F7872CF1BF9516900EE409B /* References */,
 				9F07787C1BD1A99A00476E4C /* ideas */,
 				9F3F7F5B1BF6D9AB0010A789 /* saved code */,
+				9FA312371C38539A00FDD586 /* overwrites */,
 				9F79A1921BA6A3AC00B5E925 /* Info.plist */,
 			);
 			path = "JW Broadcasting";
@@ -403,6 +486,16 @@
 				9F79A19D1BA6A3AD00B5E925 /* Info.plist */,
 			);
 			path = "JW BroadcastingTests";
+			sourceTree = "<group>";
+		};
+		9FA312371C38539A00FDD586 /* overwrites */ = {
+			isa = PBXGroup;
+			children = (
+				9F267E7D1C3B4FC200782EAB /* global */,
+				9F267E7C1C3B4FBC00782EAB /* language specific */,
+				9F267E7B1C3B4FB700782EAB /* images */,
+			);
+			name = overwrites;
 			sourceTree = "<group>";
 		};
 		9FD098A31C0279EC002324BF /* Mature code */ = {
@@ -535,13 +628,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9F4916141C27F32400B191F4 /* -assets-a-iacyf-iacyf_E-iacyf_E_lg.jpg in Resources */,
+				9F4916141C27F32400B191F4 /* -assets-a-ivjtg-ivjtg_E-iajtg_univ_lg.jpg in Resources */,
 				9F0AB91C1C24E3D900ADCB77 /* readings.png in Resources */,
 				9F0AB91E1C24E3E200ADCB77 /* kingdommelodies.png in Resources */,
 				9F536CCA1C116D230070BB12 /* jw-broadcasting-logo.png in Resources */,
 				9F9333E31BFFB5CA00092AED /* mm3.ttf in Resources */,
+				9FA312391C38548700FDD586 /* -v1-categories-E-DramaticBibleReadings in Resources */,
 				9FE5B9AC1C23F0B600B14FA9 /* audio-artwork in Resources */,
-				9FA312301C3279BF00FDD586 /* LaunchScreen.png in Resources */,
 				9F4916081C279B8800B191F4 /* JWOrgLogo.png in Resources */,
 				9F0AB91A1C24DC7200ADCB77 /* drama.png in Resources */,
 				9F22B00D1BFBCBCF0041E588 /* JW-White-Background-Blue.png in Resources */,
@@ -549,19 +642,16 @@
 				9F07787F1BD1CD5700476E4C /* keyPhrasesIndex in Resources */,
 				9F4915861C25394E00B191F4 /* playall.png in Resources */,
 				9F49160A1C279B9500B191F4 /* FullLogo.png in Resources */,
-				9FE5B9AA1C23ED9100B14FA9 /* Singing.pdf in Resources */,
 				9FA312321C3360B600FDD586 /* sosa-regular-webfont.ttf in Resources */,
 				9F59F1F31C138CE400805D65 /* TopShelf.jpg in Resources */,
 				9F0AB9181C24C19100ADCB77 /* piano-singtojehovah.png in Resources */,
 				9F79A18F1BA6A3AC00B5E925 /* Main.storyboard in Resources */,
 				9F49160F1C27E27E00B191F4 /* fade-back-1.png in Resources */,
 				9FFD0D581BB516AA0092CF71 /* jwtv.ttf in Resources */,
-				9F7872E11BFA782D00EE409B /* LaunchScreenEarth-old.png in Resources */,
 				9FE9C17A1C019F0300E189D7 /* LaunchScreenEarth.png in Resources */,
 				9F4915881C25395500B191F4 /* shufflemusic.png in Resources */,
 				9F4915821C25268900B191F4 /* vocals-singtojehovah.png in Resources */,
 				9F4916101C27E27E00B191F4 /* fade-back-2.png in Resources */,
-				9F4916121C27E55300B191F4 /* be_faithful_and_conquer_your_fears.png in Resources */,
 				9F4915841C25269000B191F4 /* newsongs-singtojehovah.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

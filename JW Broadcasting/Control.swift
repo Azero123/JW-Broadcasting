@@ -118,7 +118,6 @@ func titleExtractor(var oldTitle:String) -> Dictionary< String,String >{
         correctedTitle=correctedTitle.stringByReplacingOccurrencesOfString("Piano", withString: "Piano Accompaniment")
     }
     if (correctedTitle.containsString("(") && correctedTitle.containsString(")")){
-        print("contains ()")
         let startIndex=correctedTitle.rangeOfString("(")?.startIndex
         let endIndex=correctedTitle.rangeOfString(")")?.startIndex
         

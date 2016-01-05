@@ -342,6 +342,7 @@ func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?, usingCache:B
             else if (offlineStorage){ // (used in control file for testing)
                 let stored=NSData(contentsOfFile: storedPath) //Try using a local file
                 if (stored != nil){ //Yay! we have a local file
+                    
                     cachedFiles[fileURL]=stored // Add local file to memory
                     data=stored // Assign to variable
                     
@@ -386,12 +387,24 @@ func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?, usingCache:B
             */
             
             let request=NSURLRequest(URL: trueURL, cachePolicy: cachePolicy, timeoutInterval: requestTimeout)
-            let task=NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: { (data:NSData?, padawan: NSURLResponse?, error:NSError?) -> Void in
-                
+            let task=NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: { (var data:NSData?, padawan: NSURLResponse?, error:NSError?) -> Void in
                 if (logConnections){
                     print("[Fetcher] Successful request")
                 }
-                if (data != nil && simulateOffline == false){ //File successfully downloaded
+                if ((padawan?.isKindOfClass(NSHTTPURLResponse.self)) == true){
+                    if ((padawan as! NSHTTPURLResponse).statusCode != 200){
+                        let bundlePath=NSBundle.mainBundle().pathForResource(trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-").componentsSeparatedByString(".").first!, ofType: trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-").componentsSeparatedByString(".").last!)
+                        if (bundlePath != nil && NSFileManager().fileExistsAtPath(bundlePath!)){
+                            let stored=NSData(contentsOfFile: bundlePath!)
+                            cachedFiles[fileURL]=stored
+                            data=stored
+                            cachedBond[fileURL]=nil //let branch/unfold system have to reprocess this file for changes
+                            retrievedAction(data) // now do any tasks that need to be done (Completion actions)
+                        }
+                        return
+                    }
+                }
+                if (data != nil && simulateOffline == false && error == nil){ //File successfully downloaded
                     if (offlineStorageSaving){ // Control file determines whether to save files (Mostly for testing)
                         data?.writeToFile(storedPath, atomically: true)
                     }
@@ -694,17 +707,29 @@ func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
                 
                 //print(NSString(data: sourceData!, encoding: NSUTF8StringEncoding))
                 
-                //let parser=RSSParser(data: sourceData!)
-                //parser.parse()
-                //print(parser.rootNode)
+                let parser=RSSParser(data: sourceData!)
+                parser.parse()
+                print(parser.rootNode)
                 
                 
             }
             
-            if ((source?.isKindOfClass(NSDictionary.self)) == true){
-                
-                print((source as! NSDictionary).allKeys)
+            
+        }
+        if ((source?.isKindOfClass(NSDictionary.self)) == true){
+            let storedPath=NSBundle.mainBundle().pathForResource(sourceURL!.path!.stringByReplacingOccurrencesOfString("/", withString: "-"), ofType: nil)
+            if (storedPath != nil && NSFileManager().fileExistsAtPath(storedPath!)){
+                let overwrites=NSDictionary(contentsOfFile: storedPath!)
+                let newSource=foldOver(source as! NSDictionary, overwriteKey: nil, overwriteValue: overwrites!)
+                if (newSource != source as! NSObject?){
+                }
+                source=newSource
+                //print("source: \(source)")
+                if (cachedBond[instructions[0] as! String] == nil){
+                }
+                cachedBond[instructions[0] as! String]=source
             }
+            
         }
     }
     /* This method failed to return an NSObject but we have to return something and hopefully not cause an error. */
@@ -740,6 +765,94 @@ func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
     return source
 }
 
+func foldOver(var object:AnyObject?, overwriteKey:protocol<NSObjectProtocol ,NSCopying>?, overwriteValue:NSObject) -> NSObject?{
+    
+    if (testLogSteps){
+        if (object != nil && object!.isKindOfClass(NSDictionary.self) && overwriteValue.isKindOfClass(NSDictionary.self)){
+            
+            print("changing \((overwriteValue as! NSDictionary).allKeys) \(overwriteKey) to \((overwriteValue as! NSDictionary).allKeys) ")
+        }
+        else if (object != nil && object!.isKindOfClass(NSArray.self) && overwriteValue.isKindOfClass(NSArray.self)){
+            
+            print("changing \((overwriteValue as! NSArray).count) \(overwriteKey) to \((overwriteValue as! NSArray).count) ")
+        }
+        else {
+            
+            print("changing")
+        }
+    }
+    
+    if (object != nil && object!.isKindOfClass(NSDictionary.self) && overwriteValue.isKindOfClass(NSDictionary.self)){
+        if (overwriteKey == nil){
+            /*object=object!.mutableCopy()
+            for key in (overwriteValue as! NSDictionary).allKeys {
+                //object=foldOver(object as! NSDictionary, overwriteKey: key as? protocol<NSObjectProtocol ,NSCopying>, overwriteValue: (overwriteValue as! NSDictionary).objectForKey(key) as! NSObject)!
+                (object as! NSMutableDictionary).setObject(foldOver((object as! NSDictionary).objectForKey((key as? protocol<NSObjectProtocol ,NSCopying>)!), overwriteKey: nil, overwriteValue: overwriteValue)!, forKey: (key as? protocol<NSObjectProtocol ,NSCopying>)!)
+            }*/
+            if (overwriteValue.isKindOfClass(NSDictionary.self)){
+                for key in (overwriteValue as! NSDictionary).allKeys {
+                    let newObjectForKey=foldOver(object?.objectForKey(key), overwriteKey: nil, overwriteValue: (overwriteValue as! NSDictionary).objectForKey(key) as! NSObject)
+                    (object as! NSMutableDictionary).setObject(newObjectForKey!, forKey: (key as? protocol<NSObjectProtocol ,NSCopying>)!)
+                }
+            }
+        }
+        else {
+            print("dead end")
+            //let newObjectForKey=foldOver((object as! NSDictionary).objectForKey(overwriteKey!)!, overwriteKey: overwriteKey, overwriteValue: (overwriteValue as! NSDictionary).objectForKey(overwriteKey!) as! NSObject)!
+            
+            //(object as! NSMutableDict
+            //object=(object as! NSDictionary).mutableCopy() as! NSObject
+            //(object as! NSMutableDictionary).setObject(foldOver((object as! NSDictionary).objectForKey(overwriteKey!), overwriteKey: nil, overwriteValue: overwriteValue)!, forKey: overwriteKey!)
+        }
+        /*else if ((object as! NSDictionary).objectForKey(overwriteKey!) != nil){
+            if (overwriteValue.isKindOfClass(NSDictionary.self)){
+                for key in (overwriteValue as! NSDictionary).allKeys {
+                    if ((object as! NSDictionary).objectForKey(overwriteKey!) != nil){
+                        let newObjectForKey=foldOver((object as! NSDictionary).objectForKey(overwriteKey!)!, overwriteKey: key as? protocol<NSObjectProtocol ,NSCopying>, overwriteValue: (overwriteValue as! NSDictionary).objectForKey(key) as! NSObject)!
+                        
+                        (object as! NSMutableDictionary).setObject(newObjectForKey, forKey: (key as? protocol<NSObjectProtocol ,NSCopying>)!)
+                    }
+                    else{
+                        object=(object as! NSDictionary).mutableCopy()
+                        (object as! NSMutableDictionary).setObject((overwriteValue as! NSDictionary).objectForKey(key)!, forKey: (key as? protocol<NSObjectProtocol ,NSCopying>)! )
+                    }
+                }
+            }
+            else {
+                object=foldOver((object as! NSDictionary).objectForKey(overwriteKey!)!, overwriteKey: nil, overwriteValue: overwriteValue )!
+            }
+        }
+        else {
+            object=(object as! NSDictionary).mutableCopy() as! NSObject
+            (object as! NSMutableDictionary).setObject(overwriteValue, forKey: overwriteKey!)
+        }*/
+    }
+    else if (object != nil && object!.isKindOfClass(NSArray.self)){
+        //print("arrays are not finished yet!")
+        object=(object as! NSArray).mutableCopy() as! NSObject
+        
+        if (overwriteValue.isKindOfClass(NSArray.self)){
+            for var i = 0 ; i<(overwriteValue as! NSArray).count ; i++ {
+                object=foldOver(object, overwriteKey: NSNumber(integer: i), overwriteValue: (overwriteValue as! NSArray)[i] as! NSObject )!
+                
+            }
+        }
+        else if ((object as! NSMutableArray).count>(overwriteKey as! NSNumber).integerValue){
+            let itemToOverwrite=foldOver((object as! NSMutableArray)[(overwriteKey as! NSNumber).integerValue], overwriteKey: nil, overwriteValue: overwriteValue )!
+            (object as! NSMutableArray).replaceObjectAtIndex((overwriteKey as! NSNumber).integerValue, withObject: itemToOverwrite )
+        }
+        else {
+            //let itemToOverwrite=foldOver((object as! NSMutableArray)[(overwriteValue as! NSNumber).integerValue], overwriteKey: nil, overwriteValue: (overwriteValue as! NSArray)[(overwriteValue as! NSNumber).integerValue] as! NSObject )!
+            //(object as! NSMutableArray).replaceObjectAtIndex((overwriteKey as! NSNumber).integerValue, withObject: itemToOverwrite[i] )
+        }
+    }
+    else if (object == nil) {
+        object=overwriteValue
+    }
+    
+    return object as? NSObject
+}
+
 
 func dataUsingCache(fileURL:String) -> NSData?{
     /*
@@ -750,7 +863,6 @@ func dataUsingCache(fileURL:String) -> NSData?{
     return dataUsingCache(fileURL, usingCache: true)
 }
 func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
-    
     if (logConnections){
         print("[Fetcher-inline] \(fileURL)")
     }
@@ -784,8 +896,7 @@ func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
     var data:NSData? = nil
     
     let trueURL=NSURL(string: fileURL)!
-    var storedPath=cacheDirectory!+"/"+trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-")
-    
+    let storedPath=cacheDirectory!+"/"+trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-")
     if (usingCache){
         if (logConnections){
             print("[Fetcher-inline] attempt using cache")
@@ -816,15 +927,15 @@ func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
     
     //STEP 3
     
-    
     var attempts=0 //Amount of attempts to download the file
     let maxAttempts=100//Amount of possible attempts
     var badConnection=false
+    var firstLoop=true
     
     while (data == nil){ //If the file is not downloaded download it
         if (attempts>maxAttempts){ //But if we have tried 100 times then give up
             print("Failed to download \(fileURL)")
-            return nil //give up
+            return nil
         }
         else {
             do {
@@ -858,6 +969,21 @@ func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
                 print(error)
             }
         }
+        if (data==nil && firstLoop == true){
+            firstLoop=false
+            let bundlePath=NSBundle.mainBundle().pathForResource(trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-").componentsSeparatedByString(".").first!, ofType: trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-").componentsSeparatedByString(".").last!)
+            if (bundlePath != nil && NSFileManager().fileExistsAtPath(storedPath)){
+                let stored=NSData(contentsOfFile: storedPath)
+                cachedFiles[fileURL]=stored
+                data=stored
+                let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+                dispatch_async(dispatch_get_global_queue(priority, 0)) {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        checkBranchesFor(fileURL)
+                    }
+                }
+            }
+        }
         
         attempts++ //Count another attempt to download the file
         if (badConnection==false){
@@ -866,20 +992,10 @@ func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
         }
     }
     
-    storedPath=NSBundle.mainBundle().pathForResource(trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-").componentsSeparatedByString(".").first, ofType: trueURL.path!.stringByReplacingOccurrencesOfString("/", withString: "-").componentsSeparatedByString(".").last)!
     
-    let stored=NSData(contentsOfFile: storedPath)
-    cachedFiles[fileURL]=stored
-    data=stored
     
-    let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
-    dispatch_async(dispatch_get_global_queue(priority, 0)) {
-        dispatch_async(dispatch_get_main_queue()) {
-            checkBranchesFor(fileURL)
-        }
-    }
     
-    return data! //THIS CAN NOT BE CALLED this is just for the compiler
+    return data! //If this happens it could cause an error or crash
 }
 
 func dictionaryOfPath(path: String) -> NSDictionary?{
@@ -1060,7 +1176,7 @@ class RSSParser:NSXMLParser, NSXMLParserDelegate {
     }
     func dicionary() -> NSDictionary {
         
-        var dict = NSMutableDictionary()
+        let dict = NSMutableDictionary()
         
         
         

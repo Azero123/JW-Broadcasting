@@ -12,7 +12,9 @@ import AVKit
 class AudioCategoryController: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     var categoryIndex=0
+    //var categoryKey=""
     var previousLanguageCode=languageCode
+    
     
     let images=[
         "NewSongs":"newsongs-singtojehovah",
@@ -42,11 +44,25 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
         shuffleButton.clipsToBounds=false
         shuffleButton.titleLabel?.clipsToBounds=false
         
-        let category="Audio"
         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
-        let AudioDataURL=categoriesDirectory+"/"+category+"?detailed=1"
+        let AudioDataURL=categoriesDirectory+"/"+"Audio"+"?detailed=1"
+        let categoryDataURL=categoriesDirectory+"/"+(unfold("\(AudioDataURL)|category|subcategories|\(categoryIndex)|key") as! String)+"?detailed=1"
+        if (cachedBond[categoryDataURL]==nil){
+            cachedBond[categoryDataURL]=NSDictionary(object: unfold("\(AudioDataURL)|category|subcategories|\(categoryIndex)") as! NSDictionary, forKey: "category")
+        }
+        print(categoryDataURL)
+        fetchDataUsingCache(categoryDataURL, downloaded: {
+            dispatch_async(dispatch_get_main_queue()) {
+                print("category downloaded")
+                unfold(categoryDataURL)
+                //print("\(unfold(categoryDataURL))")
+            }
+        })
+        print((cachedBond[categoryDataURL] as! NSDictionary).allKeys)
         
-        let title=categoryTitleCorrection(unfold("\(AudioDataURL)|category|subcategories|\(categoryIndex)|name") as! String)
+        testLogSteps=true
+        let title=categoryTitleCorrection(unfold("\(categoryDataURL)|category|name") as! String)
+        testLogSteps=false
         self.categoryTitle.text=title.componentsSeparatedByString("-")[0]
         if (title.componentsSeparatedByString("-").count>1){
             self.subLabel.text=title.componentsSeparatedByString("-")[1]
@@ -55,7 +71,7 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
             self.subLabel.text=""
         }
         
-        let key=unfold(AudioDataURL+"|category|subcategories|\(categoryIndex)|key") as! String
+        let key=unfold("\(categoryDataURL)|category|key") as! String
         self.categoryImage.image=UIImage(named: images[key]!)
         //self.backgroundImageView.image=UIImage(named: images[categoryIndex])
         self.categoryImage.contentMode = .ScaleToFill
@@ -181,7 +197,9 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
         }
         
         let attributedString=NSMutableAttributedString(string: "\(extraction["correctedTitle"]!)\n", attributes:  nil)
-        let imageURL=unfold(nil, instructions: ["\(AudioDataURL)","category","subcategories",categoryIndex,"media",indexPath.row,"images",["sqr","sqs","cvr",""],["sm","md","lg","xs",""]]) as? String
+        let categoryDataURL=categoriesDirectory+"/"+(unfold("\(AudioDataURL)|category|subcategories|\(self.categoryIndex)|key") as! String)+"?detailed=1"
+        let imageURL=unfold(nil, instructions: ["\(categoryDataURL)","category","media",indexPath.row,"images",["sqr","sqs","cvr",""],["TVOS","sm","md","lg","xs",""]]) as? String
+            
         if (visualSongNumber != nil && (unfold("\(AudioDataURL)|category|subcategories|\(categoryIndex)|name") as! String).containsString("Sing to Jehovah")){
             cell.textLabel?.numberOfLines=2
             if (languageCode == "E"){
@@ -266,13 +284,14 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
         let category="Audio"
         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
         let AudioDataURL=categoriesDirectory+"/"+category+"?detailed=1"
+        let categoryDataURL=categoriesDirectory+"/"+(unfold("\(AudioDataURL)|category|subcategories|\(self.categoryIndex)|key") as! String)+"?detailed=1"
         currentSongID=nextSongID
         
         
         //player?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.Prior, context: nil)
         
         //smartPlayer.nextDictionary=unfold("\(AudioDataURL)|category|subcategories|\(categoryIndex)|media|\(nextSongID)") as? NSDictionary
-        smartPlayer.updatePlayerUsingDictionary((unfold("\(AudioDataURL)|category|subcategories|\(categoryIndex)|media|\(nextSongID)") as? NSDictionary)!)
+        smartPlayer.updatePlayerUsingDictionary((unfold("\(categoryDataURL)|category|media|\(nextSongID)") as? NSDictionary)!)
         
         
         
@@ -315,15 +334,16 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
         let category="Audio"
         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
         let AudioDataURL=categoriesDirectory+"/"+category+"?detailed=1"
-        self.nextSongID=Int(arc4random_uniform(UInt32(unfold("\(AudioDataURL)|category|subcategories|\(self.categoryIndex)|media|count") as! Int)) + 1)
+        let categoryDataURL=categoriesDirectory+"/"+(unfold("\(AudioDataURL)|category|subcategories|\(self.categoryIndex)|key") as! String)+"?detailed=1"
+        self.nextSongID=Int(arc4random_uniform(UInt32(unfold("\(categoryDataURL)|category|media|count") as! Int)) + 1)
         playNextSong()
         
         self.smartPlayer.finishedPlaying = {() in
             
-            let category="Audio"
             let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
-            let AudioDataURL=categoriesDirectory+"/"+category+"?detailed=1"
-            self.nextSongID=Int(arc4random_uniform(UInt32(unfold("\(AudioDataURL)|category|subcategories|\(self.categoryIndex)|media|count") as! Int)) + 1)
+            let AudioDataURL=categoriesDirectory+"/"+"Audio"+"?detailed=1"
+            let categoryDataURL=categoriesDirectory+"/"+(unfold("\(AudioDataURL)|category|subcategories|\(self.categoryIndex)|key") as! String)+"?detailed=1"
+            self.nextSongID=Int(arc4random_uniform(UInt32(unfold("\(categoryDataURL)|category|media|count") as! Int)) + 1)
             self.playNextSong()
         }
         
