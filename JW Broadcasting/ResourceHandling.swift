@@ -131,11 +131,124 @@ import UIKit
 
 var cachedFiles:Dictionary<String,NSData>=[:] // All files that have been accessed since app launch
 var cachedBond:Dictionary<String,AnyObject?>=[:] // All JSON (and later also plist) files after being processed some files have a 0.3~ second interpretation time.
-var branchListeners:Dictionary<String, Array< () -> Any >>=[:] // All branches (see addBranchListener(...)/checkBranchesFor(...)
+var branchListeners:[Branch]=[] // All branches (see addBranchListener(...)/checkBranchesFor(...)
 var fileDownloadedClosures:Dictionary<String, Array< () -> Any >>=[:] // Events to be called by fetchDataUsingCache upon file download
 
-func addBranchListener(instruction:String, serverBonded: () -> Void){
+enum BranchPriority:Int {
+    case required=0
+    case normal=100
+    case unnecissary=200
+}
+
+enum BranchUpdateType:Int {
     
+    
+    
+    case sync=0//Sends request as soon as previous request finishes or times out
+    case live1=1//Sends request 5 seconds after previous request times out
+    case live2=2//Sends request 15 seconds after previous request times out
+    case live3=3//Sends request 30 seconds after previous request times out
+    case live4=4//Sends request 1 minute after previous request times out
+    case live5=5//Sends request 5 minute after previous request times out
+    case live6=6//Sends request 10 minute after previous request times out
+    case live7=7//Sends request 30 minute after previous request times out
+    
+    
+    case normal=100
+    
+    
+    case never=400
+}
+
+enum BranchSourcesPriority:Int  {
+    case new=0//Only download content from server
+    case updateLatest=1
+    case latestFromServer=2
+    
+    case bundleOnly=100
+    case localOnly=101
+    
+    case cacheOnly=200
+    case localOnlyPriorityCache=201
+    
+    case normal=300
+    case any=301//Whatever we get just use it
+    /*
+    1 Server -
+    1 Server 2 Cache -
+    1 Server 2 bundle
+    1 Server 2 Cache 3 Bundle -
+    
+    1 Cache
+    1 Cache 2 Bundle
+    1 Cache 2 Server
+    1 Cache 2 Bundle 3 Server
+    1 Cache 2 Server 3 Bundle
+    
+    1 Bundle
+    1 Bundle 2 Cache
+    1 Bundle 2 Server
+    
+    */
+}
+
+class Branch {
+    var instructions:[AnyObject] = []
+    var priority:BranchPriority = .normal
+    var updateFrequency:BranchUpdateType = .normal
+    var sources:BranchSourcesPriority = .normal
+    var downloaded = {(data:AnyObject?) in
+        
+    }
+    var enabled=true
+    var subBranches:[Branch] = []
+}
+
+func createBranchListener(instructions:String, action:((data:AnyObject?) -> Void)?) -> Branch{
+    return createBranchListener(instructions.componentsSeparatedByString("|"), action: action)
+}
+
+func createBranchListener(instructions:[AnyObject], action:((data:AnyObject?) -> Void)?) -> Branch {
+    
+    return createBranchListener(instructions, preferedType:AnyObject.self, action: action)
+}
+
+func createBranchListener(instructions:[AnyObject], preferedType:AnyClass, action:((data:AnyObject?) -> Void)?) -> Branch {
+    
+    return createBranchListener(instructions, priority: .normal, autoUpdates: .normal, sourcePriority: .normal, preferedType:preferedType, action: action)
+}
+
+func createBranchListener(instructions:[AnyObject], priority:BranchPriority, autoUpdates:BranchUpdateType, sourcePriority:BranchSourcesPriority, preferedType:AnyClass, action:((data:AnyObject?) -> Void)?) -> Branch {
+    let newBranch=Branch()
+    newBranch.instructions=instructions
+    newBranch.priority=priority
+    newBranch.updateFrequency=autoUpdates
+    newBranch.sources=sourcePriority
+    newBranch.downloaded=action!
+    return newBranch
+}
+
+
+
+func addBranchListener(instruction:String, serverBonded: () -> Void){
+    addBranchListener(createBranchListener(instruction, action: { (data:AnyObject?) in
+        serverBonded()
+    }))
+}
+
+func addBranchListener(branch:Branch){
+    
+    branchListeners.append(branch)
+    
+    let response=unfold(nil, instructions: branch.instructions)
+    if (branch.instructions.first != nil && branch.instructions.first!.isKindOfClass(NSString.self)){
+        let sourceURL=NSURL(string: (branch.instructions.first!) as! String )
+        print("[BranchListener] new branch... responding... \(response.dynamicType)  \(response)")
+        if (sourceURL != nil && sourceURL?.scheme != nil && sourceURL?.host != nil){
+            fetchDataUsingCache((branch.instructions.first!) as! String, downloaded: nil, usingCache: true) // download file
+        }
+    }
+    /*
     /*
     
     Adds serverBonded() to the list of closures (blocks in Objective-C) to be called when file is updated.
@@ -177,7 +290,7 @@ func addBranchListener(instruction:String, serverBonded: () -> Void){
         
     else if (sourceURL != nil && sourceURL?.scheme != nil && sourceURL?.host != nil){
         fetchDataUsingCache(instruction, downloaded: nil, usingCache: true) // download file
-    }
+    }*/
 }
 func checkBranchesFor(updatedInstruction:String){
     
@@ -187,7 +300,7 @@ func checkBranchesFor(updatedInstruction:String){
     NOTE
     This is not finished it needs to only update content when changed
     */
-    
+    /*
     let updatedFile=updatedInstruction.componentsSeparatedByString("|").first // get the file that changed
     for branch in branchListeners.keys { // get all branches
         if (branch.componentsSeparatedByString("|").first == updatedFile){ // compare the branches to see if it is the same file
@@ -195,8 +308,57 @@ func checkBranchesFor(updatedInstruction:String){
                 responder()
             }
         }
+    }*/
+    checkBranchesFor(updatedInstruction.componentsSeparatedByString("|"))
+
+}
+func checkBranchesFor(instructions:[AnyObject]){
+    
+    /*
+    Update all branches that have been added by addBranchListener(...)
+    
+    NOTE
+    This is not finished it needs to only update content when changed
+    */
+    for branch in branchListeners {
+        var i=0
+        for instruction in instructions {
+            if ("\(branch.instructions[i])" == "\(instruction)"){
+                if (branch.enabled==true){
+                    let sourceURL=NSURL(string: "\(instruction)")
+                    
+                    //let storedPath=cacheDirectory!+"/"+sourceURL!.path!.stringByReplacingOccurrencesOfString("/", withString: "-") // the desired stored file path
+                    
+                    if (branch.sources == .normal || branch.sources == .bundleOnly || branch.sources == .localOnly || branch.sources == .any){
+                        let bundlePath=NSBundle.mainBundle().pathForResource(sourceURL!.path!.stringByReplacingOccurrencesOfString("/", withString: "-").componentsSeparatedByString(".").first!, ofType: sourceURL!.path!.stringByReplacingOccurrencesOfString("/", withString: "-").componentsSeparatedByString(".").last!)
+                        if (bundlePath != nil && NSFileManager().fileExistsAtPath(bundlePath!)){
+                            let stored=NSData(contentsOfFile: bundlePath!)
+                            cachedFiles["\(instruction)"]=stored
+                            //data=stored
+                            cachedBond["\(instruction)"]=nil //let branch/unfold system have to reprocess this file for changes
+                            //retrievedAction(data) // now do any tasks that need to be done (Completion actions)
+                            branch.downloaded(unfold(nil, instructions: instructions))
+                        }
+                    }
+                    
+                    if (i==0 && cachedFiles["\(instruction)"] == nil && sourceURL != nil && sourceURL?.scheme != nil && sourceURL?.host != nil){
+                        print("\(instruction)")
+                        fetchDataUsingCache("\(instruction)", downloaded: {
+                            //print("fetch for branch")
+                            //checkBranchesFor(instructions)
+                            //branch.downloaded(unfold(nil, instructions: instructions))
+                            }, usingCache: false)
+                    }
+                    else {
+                        branch.downloaded(unfold(nil, instructions: instructions))
+                    }
+                }
+            }
+            i++
+        }
     }
 }
+
 
 func refreshFileIfNeeded(trueURL:NSURL){
     
@@ -230,7 +392,7 @@ func refreshFileIfNeeded(trueURL:NSURL){
                     let onlineDate=formatter.dateFromString((response as! NSHTTPURLResponse).allHeaderFields["Last-Modified"] as! String)
                     //The date we just recieved from the server
                     
-                    if ((onlineDate?.timeIntervalSince1970)!-offlineDate.timeIntervalSince1970>60){ // file is too old
+                    if (onlineDate != nil && (onlineDate?.timeIntervalSince1970)!-offlineDate.timeIntervalSince1970>60){ // file is too old
                         fetchDataUsingCache(trueURL.absoluteString, downloaded: nil, usingCache: false) // update file
                     }
                 }
@@ -265,6 +427,18 @@ func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?, usingCache:B
         }
     }
     
+    /*
+    
+    Add tasks to list to go over once file is downloaded.
+    
+    */
+    
+    if (fileDownloadedClosures[fileURL] == nil && downloaded != nil){ // If list of closures is not created yet
+        fileDownloadedClosures.updateValue([], forKey: fileURL) // Create new closure list
+    }
+    if (downloaded != nil){
+        fileDownloadedClosures[fileURL]?.append(downloaded!) // add closure to list
+    }
     
     /*
     
@@ -312,18 +486,6 @@ func fetchDataUsingCache(fileURL:String, downloaded: (() -> Void)?, usingCache:B
             print("[Fetcher] \(fileURL)")
         }
         
-        /*
-        
-        Add tasks to list to go over once file is downloaded.
-        
-        */
-        
-        if (fileDownloadedClosures[fileURL] == nil && downloaded != nil){ // If list of closures is not created yet
-            fileDownloadedClosures.updateValue([], forKey: fileURL) // Create new closure list
-        }
-        if (downloaded != nil){
-            fileDownloadedClosures[fileURL]?.append(downloaded!) // add closure to list
-        }
         
         var data:NSData? = nil // data of file
         
@@ -784,11 +946,6 @@ func foldOver(var object:AnyObject?, overwriteKey:protocol<NSObjectProtocol ,NSC
     
     if (object != nil && object!.isKindOfClass(NSDictionary.self) && overwriteValue.isKindOfClass(NSDictionary.self)){
         if (overwriteKey == nil){
-            /*object=object!.mutableCopy()
-            for key in (overwriteValue as! NSDictionary).allKeys {
-                //object=foldOver(object as! NSDictionary, overwriteKey: key as? protocol<NSObjectProtocol ,NSCopying>, overwriteValue: (overwriteValue as! NSDictionary).objectForKey(key) as! NSObject)!
-                (object as! NSMutableDictionary).setObject(foldOver((object as! NSDictionary).objectForKey((key as? protocol<NSObjectProtocol ,NSCopying>)!), overwriteKey: nil, overwriteValue: overwriteValue)!, forKey: (key as? protocol<NSObjectProtocol ,NSCopying>)!)
-            }*/
             if (overwriteValue.isKindOfClass(NSDictionary.self)){
                 for key in (overwriteValue as! NSDictionary).allKeys {
                     let newObjectForKey=foldOver(object?.objectForKey(key), overwriteKey: nil, overwriteValue: (overwriteValue as! NSDictionary).objectForKey(key) as! NSObject)
@@ -798,34 +955,7 @@ func foldOver(var object:AnyObject?, overwriteKey:protocol<NSObjectProtocol ,NSC
         }
         else {
             print("dead end")
-            //let newObjectForKey=foldOver((object as! NSDictionary).objectForKey(overwriteKey!)!, overwriteKey: overwriteKey, overwriteValue: (overwriteValue as! NSDictionary).objectForKey(overwriteKey!) as! NSObject)!
-            
-            //(object as! NSMutableDict
-            //object=(object as! NSDictionary).mutableCopy() as! NSObject
-            //(object as! NSMutableDictionary).setObject(foldOver((object as! NSDictionary).objectForKey(overwriteKey!), overwriteKey: nil, overwriteValue: overwriteValue)!, forKey: overwriteKey!)
         }
-        /*else if ((object as! NSDictionary).objectForKey(overwriteKey!) != nil){
-            if (overwriteValue.isKindOfClass(NSDictionary.self)){
-                for key in (overwriteValue as! NSDictionary).allKeys {
-                    if ((object as! NSDictionary).objectForKey(overwriteKey!) != nil){
-                        let newObjectForKey=foldOver((object as! NSDictionary).objectForKey(overwriteKey!)!, overwriteKey: key as? protocol<NSObjectProtocol ,NSCopying>, overwriteValue: (overwriteValue as! NSDictionary).objectForKey(key) as! NSObject)!
-                        
-                        (object as! NSMutableDictionary).setObject(newObjectForKey, forKey: (key as? protocol<NSObjectProtocol ,NSCopying>)!)
-                    }
-                    else{
-                        object=(object as! NSDictionary).mutableCopy()
-                        (object as! NSMutableDictionary).setObject((overwriteValue as! NSDictionary).objectForKey(key)!, forKey: (key as? protocol<NSObjectProtocol ,NSCopying>)! )
-                    }
-                }
-            }
-            else {
-                object=foldOver((object as! NSDictionary).objectForKey(overwriteKey!)!, overwriteKey: nil, overwriteValue: overwriteValue )!
-            }
-        }
-        else {
-            object=(object as! NSDictionary).mutableCopy() as! NSObject
-            (object as! NSMutableDictionary).setObject(overwriteValue, forKey: overwriteKey!)
-        }*/
     }
     else if (object != nil && object!.isKindOfClass(NSArray.self)){
         //print("arrays are not finished yet!")
@@ -842,8 +972,6 @@ func foldOver(var object:AnyObject?, overwriteKey:protocol<NSObjectProtocol ,NSC
             (object as! NSMutableArray).replaceObjectAtIndex((overwriteKey as! NSNumber).integerValue, withObject: itemToOverwrite )
         }
         else {
-            //let itemToOverwrite=foldOver((object as! NSMutableArray)[(overwriteValue as! NSNumber).integerValue], overwriteKey: nil, overwriteValue: (overwriteValue as! NSArray)[(overwriteValue as! NSNumber).integerValue] as! NSObject )!
-            //(object as! NSMutableArray).replaceObjectAtIndex((overwriteKey as! NSNumber).integerValue, withObject: itemToOverwrite[i] )
         }
     }
     else if (object == nil) {
@@ -938,12 +1066,35 @@ func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
             return nil
         }
         else {
-            do {
+            //do {
                 
                 if (logConnections){
                     print("[Fetcher-inline] attempt request")
                 }
-                let downloadedData=try NSData(contentsOfURL: trueURL, options: .UncachedRead) //Download
+                //NSURLSession.sharedSession().dataTaskWithURL(<#T##url: NSURL##NSURL#>)
+                //let downloadedData=try NSData(contentsOfURL: trueURL, options: .UncachedRead) //Download
+                //var dataVal: NSData =  NSURLConnection.sendSynchronousRequest(request1, returningResponse: response, error:nil)!
+                //var data: NSData? = nil
+                let semaphore: dispatch_semaphore_t = dispatch_semaphore_create(0)
+                let task = NSURLSession.sharedSession().dataTaskWithRequest(NSURLRequest(URL: trueURL, cachePolicy: .ReloadIgnoringLocalCacheData, timeoutInterval: requestTimeout), completionHandler: {
+                    taskData, padawan, error -> () in
+                    
+                    if ((padawan?.isKindOfClass(NSHTTPURLResponse.self)) == true){
+                        if ((padawan as! NSHTTPURLResponse).statusCode != 200){
+                            NSException(name: "Failed to download File", reason: "Returned status code \((padawan as! NSHTTPURLResponse).statusCode) for file \(trueURL)", userInfo: nil).raise()
+                            //NSException.raise("Failed to download File", format: "Returned status code \((padawan as! NSHTTPURLResponse).statusCode) for file \(trueURL)", arguments: nil)
+                        }
+                    }
+                    
+                    data = taskData
+                    if data == nil, let error = error {print(error)}
+                    dispatch_semaphore_signal(semaphore);
+                })
+                task.resume()
+                dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+                
+                
+                
                 if (simulateOffline == false){ //File successfully downloaded
                     if (offlineStorageSaving){
                         if (logConnections){
@@ -952,9 +1103,9 @@ func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
                         //downloadedData.writeToFile(storedPath, atomically: true) //Save file locally for use later
                         data?.writeToFile(storedPath, atomically: true) //Save file locally for use later
                     }
-                    cachedFiles[fileURL]=downloadedData //Save file to memory
+                    cachedFiles[fileURL]=data //Save file to memory
                     cachedBond[fileURL]=nil
-                    data=cachedFiles[fileURL]! //Use as local variable
+                    //data=cachedFiles[fileURL]! //Use as local variable
                     
                     let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
                     dispatch_async(dispatch_get_global_queue(priority, 0)) {
@@ -964,10 +1115,10 @@ func dataUsingCache(fileURL:String, usingCache:Bool) -> NSData?{
                     }
                     return data! //Return file
                 }
-            }
+            /*}
             catch {
                 print(error)
-            }
+            }*/
         }
         if (data==nil && firstLoop == true){
             firstLoop=false

@@ -24,6 +24,7 @@ var testLogSteps=false
 let removeEntitiesSystemLevel = true //Incase other critical bugs arrise from this.
 
 let JWLogo = true
+var hidesJWLogoWhenCovered=false
 
 let useLibraryDirectoryInSimulator=true
 

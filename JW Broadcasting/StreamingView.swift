@@ -253,10 +253,10 @@ class StreamView: UIImageView {
             //let streamMeta=dictionaryOfPath(streamingScheduleURL, usingCache: false)
             
                 print("[Channels] \(self.streamID)")
-                
+            
             fetchDataUsingCache(streamingScheduleURL, downloaded: {
                 unfold("\(streamingScheduleURL)")
-            })
+            }, usingCache: false)
             
                 let subcategory=unfold("\(streamingScheduleURL)|category|subcategories|\(self.streamID)")//streamMeta?.objectForKey("category")?.objectForKey("subcategories")!.objectAtIndex(self.streamID)
             

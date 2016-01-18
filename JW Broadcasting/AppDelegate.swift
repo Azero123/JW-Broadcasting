@@ -65,9 +65,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
         let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=0"
         let latestVideosPath=base+"/"+version+"/categories/"+languageCode+"/LatestVideos?detailed=1"
-        dictionaryOfPath(pathForSliderData)
-        dictionaryOfPath(streamingScheduleURL)
-        dictionaryOfPath(latestVideosPath)
+        dictionaryOfPath(pathForSliderData, usingCache: false)
+        dictionaryOfPath(streamingScheduleURL, usingCache: false)
+        dictionaryOfPath(latestVideosPath, usingCache: false)
         
         if (unfold(pathForSliderData+"|settings|WebHomeSlider|slides|count") != nil){
             print("[Preload] Featured successful")
@@ -97,7 +97,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         This is togglable in control.swift
         */
         
-        
+        /*
         let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
         
         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
@@ -171,27 +171,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                     }
                                 }
                                 
-                            })
+                            }, usingCache: true)
                         }
                     }
                     
                 }
                 print("[VOD] preload")
                 
-            })
+            }, usingCache: true)
             let AudioURL=categoriesDirectory+"/Audio?detailed=1"
             fetchDataUsingCache(AudioURL, downloaded: {
                 print("[Audio] preloaded")
                 
-                let audioOnDemandData=dictionaryOfPath(AudioURL, usingCache: false)
+                let audioOnDemandData=dictionaryOfPath(AudioURL, usingCache: true)
                 for (var index=0; index<(audioOnDemandData!["category"]!["subcategories"]! as! NSArray).count ; index++){
                     
                     let subcat=(((audioOnDemandData!["category"] as! NSDictionary)["subcategories"] as! NSArray)[index] as! NSDictionary)
                     let subcategoryDirectory=categoriesDirectory+"/"+(subcat["key"] as! String)+"?detailed=1"
-                    let downloadedJSON=dictionaryOfPath(subcategoryDirectory, usingCache: false)
+                    dictionaryOfPath(subcategoryDirectory, usingCache: true)
                 }
-            })
-        }
+            }, usingCache: true)
+        }*/
         /*
         print("start rss parse")
         fetchDataUsingCache("https://www.jw.org/apps/E_RSSMEDIAMAG?rln=E&rmn=wp&rfm=m4b", downloaded: {

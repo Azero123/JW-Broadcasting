@@ -24,6 +24,8 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print("loading...")
+        
         backgroundImageView.alpha=0.75
         BackgroundEffectView.alpha=0.99
         
@@ -31,12 +33,15 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
         self.MediaCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
         self.MediaCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "footer")
         (self.MediaCollectionView.collectionViewLayout as! CollectionViewAlignmentFlowLayout).spacingPercentile=1.275
+        print("loading b...")
         renewContent()
+        print("loading c...")
     }
     
     var previousLanguageCode=languageCode
     
     override func viewWillAppear(animated: Bool) {
+        print("appear")
         (self.tabBarController as! rootController).disableNavBarTimeOut=true
         if (previousLanguageCode != languageCode){
             renewContent()
@@ -64,22 +69,27 @@ class MediaOnDemandController: UIViewController, UICollectionViewDelegate, UICol
         
         var finishCount=0
         
-        fetchDataUsingCache(VODDataURL, downloaded: {
-            dispatch_async(dispatch_get_main_queue()) {
-                finishCount++
-                if (finishCount == 2){
-                    self.MediaCollectionView.reloadData()
+        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+        dispatch_async(dispatch_get_global_queue(priority, 0)) {
+            fetchDataUsingCache(VODDataURL, downloaded: {
+                dispatch_async(dispatch_get_main_queue()) {
+                    print("downloaded")
+                    finishCount++
+                    if (finishCount == 2){
+                        self.MediaCollectionView.reloadData()
+                    }
                 }
-            }
-        })
-        fetchDataUsingCache(AudioDataURL, downloaded: {
-            dispatch_async(dispatch_get_main_queue()) {
-                finishCount++
-                if (finishCount == 2){
-                    self.MediaCollectionView.reloadData()
+            })
+            fetchDataUsingCache(AudioDataURL, downloaded: {
+                dispatch_async(dispatch_get_main_queue()) {
+                    print("downloaded")
+                    finishCount++
+                    if (finishCount == 2){
+                        self.MediaCollectionView.reloadData()
+                    }
                 }
-            }
-        })
+            })
+        }
     }
     
     

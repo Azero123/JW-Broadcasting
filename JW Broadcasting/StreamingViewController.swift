@@ -102,6 +102,8 @@ import AVKit
 class StreamingViewController : UIViewController {
     
     
+    @IBOutlet weak var messageLabel: UILabel!
+    
     var currentURL:String?
     var playlist=[]
     var _streamID:Int=0
@@ -209,6 +211,12 @@ class StreamingViewController : UIViewController {
         previousLanguageCode=languageCode//Remember what language we are in
         previousStreamId=streamID//Remember what channel we are on
         self.view.hidden=false
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(20 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
+            if (self.player?.rate == 0){
+                self.displaySlowConnectionMessage()
+            }
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -267,7 +275,7 @@ class StreamingViewController : UIViewController {
                 dispatch_async(dispatch_get_main_queue()) {
                     print("[Channels] \(self.streamID)")
                     
-                    fetchDataUsingCache(streamingScheduleURL, downloaded: nil)
+                    fetchDataUsingCache(streamingScheduleURL, downloaded: nil, usingCache: false)
                     
                     let subcategory=unfold("\(streamingScheduleURL)|category|subcategories|\(self.streamID)")//streamMeta?.objectForKey("category")?.objectForKey("subcategories")!.objectAtIndex(self.streamID)
                     
@@ -284,7 +292,6 @@ class StreamingViewController : UIViewController {
                     
                     
                     var timeIndex=subcategory!.objectForKey("position")?.objectForKey("time")?.floatValue
-                    
                     
                     if (self.player != nil){
                         
@@ -346,7 +353,7 @@ class StreamingViewController : UIViewController {
                             //The video index is already taken so check it
                             if ((self.player?.items()[i].asset.isKindOfClass(AVURLAsset.self)) == true){
                                 //Make sure the url is available
-                                if ((self.player?.items()[i-1].asset as! AVURLAsset).URL.absoluteString != videoURL){
+                                if (self.player?.items().count >= i-1 && (self.player?.items()[i-1].asset as! AVURLAsset).URL.absoluteString != videoURL){
                                     //Okay so we have a differen't video than what we previously had so remove it and add the new video
                                     
                                     
@@ -380,10 +387,8 @@ class StreamingViewController : UIViewController {
                     
                     
                     
-                    
                     if (self.player != nil){
-                    
-                        if ((self.player?.currentTime().value)!-CMTimeMake(Int64(timeIndex!), 1).value < abs(10)){
+                        if (abs((self.player?.currentTime().value)!-CMTimeMake(Int64(timeIndex!), 1).value) > abs(10)){
                             print("[Channels] too far behind")
                             self.player!.seekToTime(CMTimeMake(Int64(timeIndex!), 1))
                         }
@@ -427,6 +432,7 @@ class StreamingViewController : UIViewController {
             
             if (self.player!.currentItem!.status == AVPlayerItemStatus.ReadyToPlay) {
                 activityIndicator.stopAnimating()
+                self.messageLabel.hidden=true
                 if (self.view.hidden==false){
                     self.view.layer.addSublayer(playerLayer!)
                 }
@@ -437,6 +443,16 @@ class StreamingViewController : UIViewController {
             
         }
         self.performSelector("update", withObject: nil, afterDelay: 0.25)
+    }
+    
+    func displaySlowConnectionMessage(){
+        
+        self.messageLabel.alpha=0
+        self.messageLabel.hidden=false
+        self.messageLabel.text=unfold("\(base)/\(version)/translations/\(languageCode)|translations|\(languageCode)|msgGeneralErrorDialogBody") as? String
+        UIView.animateWithDuration(2, animations: {
+            self.messageLabel.alpha=1
+        })
     }
     
     

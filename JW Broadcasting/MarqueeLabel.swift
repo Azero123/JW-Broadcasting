@@ -158,6 +158,8 @@ class marqueeLabel : UILabel  {
             //stop UIView.animateWithDuration(...)
             labels[0]?.layer.removeAllAnimations()
             labels[1]?.layer.removeAllAnimations()
+            self.moving=false
+            
             self.layer.removeAllAnimations()
             UIView.animateWithDuration(0.1, animations: {
                 //The normal positions of the labels
@@ -166,6 +168,8 @@ class marqueeLabel : UILabel  {
             })
         }
     }
+    
+    var moving=false
     
     func marquee(){
         /*
@@ -178,9 +182,10 @@ class marqueeLabel : UILabel  {
         */
         
         
-        if (self.frame.size.width<self.labels[0]?.intrinsicContentSize().width){
+        if (self.frame.size.width<self.labels[0]?.intrinsicContentSize().width && moving == false){
+            moving=true
             let width=labels[0]!.frame.size.width
-            UIView.animateWithDuration( NSTimeInterval(width / CGFloat(50)), delay: 0, options: UIViewAnimationOptions.CurveLinear , animations: {
+            UIView.animateWithDuration( NSTimeInterval(width / CGFloat(50)), delay: 0, options: [UIViewAnimationOptions.CurveLinear,UIViewAnimationOptions.BeginFromCurrentState] , animations: {
                 for label in self.labels {
                     
                     if (textDirection == .RightToLeft){
@@ -199,6 +204,7 @@ class marqueeLabel : UILabel  {
                         self.labels[0]?.frame=CGRectMake(self.textSideOffset, (self.labels[0]?.frame.origin.y)!, (self.labels[0]?.frame.size.width)!, (self.labels[0]?.frame.size.height)!)
                         self.labels[1]?.frame=CGRect(x: (self.labels[1]?.frame.size.width)!+self.padding+self.textSideOffset, y: 0, width: (self.labels[1]?.frame.size.width)!, height: self.frame.size.height)
                         //loop text again
+                        self.moving=false
                         self.marquee()
                     }
             })

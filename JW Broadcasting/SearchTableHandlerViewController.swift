@@ -32,7 +32,11 @@ class SearchTableHandlerViewController: UIViewController, UISearchBarDelegate, U
             0)) {
             self.prepareIndex()
         }
-        
+        addBranchListener("language", serverBonded: { () in
+            
+            self.prepareIndex()
+            
+        })
         // Do any additional setup after loading the view.
     }
     
@@ -200,7 +204,6 @@ class SearchTableHandlerViewController: UIViewController, UISearchBarDelegate, U
         print(search)
         var newResults:[Int]=[]
         var i=0
-        let searchFirstWord=searchWords.first
         
         for searchItem in searchIndex {
             for searchWord in searchWords {

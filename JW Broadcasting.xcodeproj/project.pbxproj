@@ -16,6 +16,22 @@
 		9F161E9A1BED216F0011F16A /* AudioController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F161E991BED216F0011F16A /* AudioController.swift */; };
 		9F161E9C1BED256C0011F16A /* CategoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F161E9B1BED256C0011F16A /* CategoryController.swift */; };
 		9F22B00D1BFBCBCF0041E588 /* JW-White-Background-Blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F22B00C1BFBCBCF0041E588 /* JW-White-Background-Blue.png */; };
+		9F2418A81C45C2AD00410793 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9F2418A71C45C2AD00410793 /* Settings.bundle */; };
+		9F267E801C3B5C0D00782EAB /* -assets-a-ivjtg-ivjtg_E-iajtg_univ_lg.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F267E7F1C3B5C0D00782EAB /* -assets-a-ivjtg-ivjtg_E-iajtg_univ_lg.png */; };
+		9F267E821C3B5C1D00782EAB /* -assets-a-iantg-iantg_E-iantg_univ_lg.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F267E811C3B5C1D00782EAB /* -assets-a-iantg-iantg_E-iantg_univ_lg.png */; };
+		9F267E841C3B5C6C00782EAB /* -assets-a-iarhp-iarhp_L-iarhp_univ_lg.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F267E831C3B5C6C00782EAB /* -assets-a-iarhp-iarhp_L-iarhp_univ_lg.png */; };
+		9F267E861C3B5C8100782EAB /* -assets-a-iart-iart_F-iart_univ_lg.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F267E851C3B5C8100782EAB /* -assets-a-iart-iart_F-iart_univ_lg.png */; };
+		9F267E8A1C3B5C8B00782EAB /* -assets-a-iacu-iacu_E-iacu_univ_lg.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F267E891C3B5C8B00782EAB /* -assets-a-iacu-iacu_E-iacu_univ_lg.png */; };
+		9F267E8D1C3B5CCB00782EAB /* -assets-a-iajj-iajj_X-iajj_univ_lg.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F267E8C1C3B5CCB00782EAB /* -assets-a-iajj-iajj_X-iajj_univ_lg.png */; };
+		9F267E8F1C3B5CD000782EAB /* -assets-a-iaey-iaey_M-iaey_univ_lg.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F267E8E1C3B5CD000782EAB /* -assets-a-iaey-iaey_M-iaey_univ_lg.png */; };
+		9F267E911C3B5CD600782EAB /* -assets-a-iame-iame_E-iame_univ_lg.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F267E901C3B5CD600782EAB /* -assets-a-iame-iame_E-iame_univ_lg.png */; };
+		9F267E931C3B5CDB00782EAB /* -assets-a-iapv-iapv_X-iapv_univ_lg.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F267E921C3B5CDB00782EAB /* -assets-a-iapv-iapv_X-iapv_univ_lg.png */; };
+		9F267E951C3B5CE600782EAB /* -assets-a-iaru-iaru_MG-iaru_univ_ld.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F267E941C3B5CE600782EAB /* -assets-a-iaru-iaru_MG-iaru_univ_ld.png */; };
+		9F267E971C3B5CEA00782EAB /* -assets-a-iawx-iawx_ST-iawx_univ_lg.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F267E961C3B5CEA00782EAB /* -assets-a-iawx-iawx_ST-iawx_univ_lg.png */; };
+		9F267E991C3B5CEF00782EAB /* -assets-a-iath-iath_D-iath_univ_lg.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F267E981C3B5CEF00782EAB /* -assets-a-iath-iath_D-iath_univ_lg.png */; };
+		9F267E9B1C3B5D2700782EAB /* -v1-categories-E-Dramas in Resources */ = {isa = PBXBuildFile; fileRef = 9F267E9A1C3B5D2700782EAB /* -v1-categories-E-Dramas */; };
+		9F267E9D1C3B607400782EAB /* -assets-a-iajn-iajn_Z-iajn_univ_lg.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F267E9C1C3B607400782EAB /* -assets-a-iajn-iajn_Z-iajn_univ_lg.png */; };
+		9F267EA11C3B62D600782EAB /* -assets-a-iaeb-iaeb_SV-iaeb_univ_lg.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F267EA01C3B62D600782EAB /* -assets-a-iaeb-iaeb_SV-iaeb_univ_lg.png */; };
 		9F27BB051BA9341500C6DAFF /* StreamingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F27BB041BA9341500C6DAFF /* StreamingViewController.swift */; };
 		9F38D1B91BB23C980081073A /* RootController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F38D1B81BB23C980081073A /* RootController.swift */; };
 		9F38D1BB1BB2566B0081073A /* LanguageSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F38D1BA1BB2566B0081073A /* LanguageSelector.swift */; };
@@ -37,6 +53,7 @@
 		9F536D501C1275130070BB12 /* MODSubcategoryCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F536D4F1C1275130070BB12 /* MODSubcategoryCollectionView.swift */; };
 		9F59F1F31C138CE400805D65 /* TopShelf.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9F59F1F21C138CE400805D65 /* TopShelf.jpg */; };
 		9F5CE48D1BB644C700378D4C /* CollectionViewHorizontalFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5CE48C1BB644C700378D4C /* CollectionViewHorizontalFlowLayout.swift */; };
+		9F6368661C3CDBF300BA45CD /* JWBroadcastingActvityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6368651C3CDBF300BA45CD /* JWBroadcastingActvityIndicator.swift */; };
 		9F72EF451BF738D000680302 /* ChannelSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F72EF441BF738D000680302 /* ChannelSelector.swift */; };
 		9F7872D21BF952DD00EE409B /* ResourceHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7872D11BF952DD00EE409B /* ResourceHandling.swift */; };
 		9F79A18A1BA6A3AC00B5E925 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F79A1891BA6A3AC00B5E925 /* AppDelegate.swift */; };
@@ -48,10 +65,8 @@
 		9F79A1D41BA91DA900B5E925 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F79A1D31BA91DA900B5E925 /* CoreMedia.framework */; };
 		9F79A1D61BA91DAE00B5E925 /* MediaToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F79A1D51BA91DAE00B5E925 /* MediaToolbox.framework */; };
 		9F9333E31BFFB5CA00092AED /* mm3.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9F9333E21BFFB5CA00092AED /* mm3.ttf */; };
-		9F9333E71C00320100092AED /* LICENSE.md in Sources */ = {isa = PBXBuildFile; fileRef = 9F9333E61C00320100092AED /* LICENSE.md */; };
 		9FA3122F1C30E52500FDD586 /* SearchTableHandlerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA3122E1C30E52500FDD586 /* SearchTableHandlerViewController.swift */; };
 		9FA312321C3360B600FDD586 /* sosa-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9FA312311C335E8E00FDD586 /* sosa-regular-webfont.ttf */; };
-		9FA312361C33C8A100FDD586 /* ACKNOWLEDGEMENTS.md in Sources */ = {isa = PBXBuildFile; fileRef = 9FA312351C33C8A100FDD586 /* ACKNOWLEDGEMENTS.md */; };
 		9FA312391C38548700FDD586 /* -v1-categories-E-DramaticBibleReadings in Resources */ = {isa = PBXBuildFile; fileRef = 9FA312381C38548700FDD586 /* -v1-categories-E-DramaticBibleReadings */; };
 		9FC0441C1BF66E4100AB0B4F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FC0441B1BF66E4100AB0B4F /* QuartzCore.framework */; };
 		9FC7985B1C2901F80026B6C0 /* SuperMediaHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC7985A1C2901F80026B6C0 /* SuperMediaHandler.swift */; };
@@ -94,6 +109,22 @@
 		9F161E991BED216F0011F16A /* AudioController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioController.swift; sourceTree = "<group>"; };
 		9F161E9B1BED256C0011F16A /* CategoryController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryController.swift; sourceTree = "<group>"; };
 		9F22B00C1BFBCBCF0041E588 /* JW-White-Background-Blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "JW-White-Background-Blue.png"; sourceTree = "<group>"; };
+		9F2418A71C45C2AD00410793 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		9F267E7F1C3B5C0D00782EAB /* -assets-a-ivjtg-ivjtg_E-iajtg_univ_lg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "-assets-a-ivjtg-ivjtg_E-iajtg_univ_lg.png"; sourceTree = "<group>"; };
+		9F267E811C3B5C1D00782EAB /* -assets-a-iantg-iantg_E-iantg_univ_lg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "-assets-a-iantg-iantg_E-iantg_univ_lg.png"; sourceTree = "<group>"; };
+		9F267E831C3B5C6C00782EAB /* -assets-a-iarhp-iarhp_L-iarhp_univ_lg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "-assets-a-iarhp-iarhp_L-iarhp_univ_lg.png"; sourceTree = "<group>"; };
+		9F267E851C3B5C8100782EAB /* -assets-a-iart-iart_F-iart_univ_lg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "-assets-a-iart-iart_F-iart_univ_lg.png"; sourceTree = "<group>"; };
+		9F267E891C3B5C8B00782EAB /* -assets-a-iacu-iacu_E-iacu_univ_lg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "-assets-a-iacu-iacu_E-iacu_univ_lg.png"; sourceTree = "<group>"; };
+		9F267E8C1C3B5CCB00782EAB /* -assets-a-iajj-iajj_X-iajj_univ_lg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "-assets-a-iajj-iajj_X-iajj_univ_lg.png"; sourceTree = "<group>"; };
+		9F267E8E1C3B5CD000782EAB /* -assets-a-iaey-iaey_M-iaey_univ_lg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "-assets-a-iaey-iaey_M-iaey_univ_lg.png"; sourceTree = "<group>"; };
+		9F267E901C3B5CD600782EAB /* -assets-a-iame-iame_E-iame_univ_lg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "-assets-a-iame-iame_E-iame_univ_lg.png"; sourceTree = "<group>"; };
+		9F267E921C3B5CDB00782EAB /* -assets-a-iapv-iapv_X-iapv_univ_lg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "-assets-a-iapv-iapv_X-iapv_univ_lg.png"; sourceTree = "<group>"; };
+		9F267E941C3B5CE600782EAB /* -assets-a-iaru-iaru_MG-iaru_univ_ld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "-assets-a-iaru-iaru_MG-iaru_univ_ld.png"; sourceTree = "<group>"; };
+		9F267E961C3B5CEA00782EAB /* -assets-a-iawx-iawx_ST-iawx_univ_lg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "-assets-a-iawx-iawx_ST-iawx_univ_lg.png"; sourceTree = "<group>"; };
+		9F267E981C3B5CEF00782EAB /* -assets-a-iath-iath_D-iath_univ_lg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "-assets-a-iath-iath_D-iath_univ_lg.png"; sourceTree = "<group>"; };
+		9F267E9A1C3B5D2700782EAB /* -v1-categories-E-Dramas */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "-v1-categories-E-Dramas"; sourceTree = "<group>"; };
+		9F267E9C1C3B607400782EAB /* -assets-a-iajn-iajn_Z-iajn_univ_lg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "-assets-a-iajn-iajn_Z-iajn_univ_lg.png"; sourceTree = "<group>"; };
+		9F267EA01C3B62D600782EAB /* -assets-a-iaeb-iaeb_SV-iaeb_univ_lg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "-assets-a-iaeb-iaeb_SV-iaeb_univ_lg.png"; sourceTree = "<group>"; };
 		9F27BB041BA9341500C6DAFF /* StreamingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamingViewController.swift; sourceTree = "<group>"; };
 		9F38D1B81BB23C980081073A /* RootController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootController.swift; sourceTree = "<group>"; };
 		9F38D1BA1BB2566B0081073A /* LanguageSelector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LanguageSelector.swift; sourceTree = "<group>"; };
@@ -119,6 +150,7 @@
 		9F536D4F1C1275130070BB12 /* MODSubcategoryCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MODSubcategoryCollectionView.swift; sourceTree = "<group>"; };
 		9F59F1F21C138CE400805D65 /* TopShelf.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = TopShelf.jpg; sourceTree = "<group>"; };
 		9F5CE48C1BB644C700378D4C /* CollectionViewHorizontalFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewHorizontalFlowLayout.swift; sourceTree = "<group>"; };
+		9F6368651C3CDBF300BA45CD /* JWBroadcastingActvityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JWBroadcastingActvityIndicator.swift; sourceTree = "<group>"; };
 		9F72EF441BF738D000680302 /* ChannelSelector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelSelector.swift; sourceTree = "<group>"; };
 		9F7872D11BF952DD00EE409B /* ResourceHandling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceHandling.swift; sourceTree = "<group>"; };
 		9F7872D31BF955C800EE409B /* LaunchScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchScreen.png; sourceTree = "<group>"; };
@@ -141,11 +173,11 @@
 		9F79A1D51BA91DAE00B5E925 /* MediaToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaToolbox.framework; path = System/Library/Frameworks/MediaToolbox.framework; sourceTree = SDKROOT; };
 		9F9333E21BFFB5CA00092AED /* mm3.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = mm3.ttf; sourceTree = "<group>"; };
 		9F9333E61C00320100092AED /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = SOURCE_ROOT; };
-		9F9333E81C00396800092AED /* DEMO NOTES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "DEMO NOTES.md"; sourceTree = SOURCE_ROOT; };
+		9F9333E81C00396800092AED /* DEMO NOTES.md */ = {isa = PBXFileReference; explicitFileType = text; path = "DEMO NOTES.md"; sourceTree = SOURCE_ROOT; };
 		9F9333EB1C00515A00092AED /* JW Broadcasting.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "JW Broadcasting.entitlements"; sourceTree = "<group>"; };
 		9FA3122E1C30E52500FDD586 /* SearchTableHandlerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableHandlerViewController.swift; sourceTree = "<group>"; };
 		9FA312311C335E8E00FDD586 /* sosa-regular-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "sosa-regular-webfont.ttf"; sourceTree = "<group>"; };
-		9FA312351C33C8A100FDD586 /* ACKNOWLEDGEMENTS.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = ACKNOWLEDGEMENTS.md; sourceTree = SOURCE_ROOT; };
+		9FA312351C33C8A100FDD586 /* ACKNOWLEDGEMENTS.md */ = {isa = PBXFileReference; explicitFileType = text; fileEncoding = 4; path = ACKNOWLEDGEMENTS.md; sourceTree = SOURCE_ROOT; };
 		9FA312381C38548700FDD586 /* -v1-categories-E-DramaticBibleReadings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "-v1-categories-E-DramaticBibleReadings"; sourceTree = "<group>"; };
 		9FC0441B1BF66E4100AB0B4F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		9FC7985A1C2901F80026B6C0 /* SuperMediaHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuperMediaHandler.swift; sourceTree = "<group>"; };
@@ -277,7 +309,8 @@
 		9F267E7B1C3B4FB700782EAB /* images */ = {
 			isa = PBXGroup;
 			children = (
-				9F4916131C27F32400B191F4 /* -assets-a-ivjtg-ivjtg_E-iajtg_univ_lg.jpg */,
+				9F267E8B1C3B5CB000782EAB /* Dramas */,
+				9F267E7E1C3B5BFA00782EAB /* Dramatic Bible Readings */,
 			);
 			name = images;
 			sourceTree = "<group>";
@@ -285,6 +318,7 @@
 		9F267E7C1C3B4FBC00782EAB /* language specific */ = {
 			isa = PBXGroup;
 			children = (
+				9F267E9A1C3B5D2700782EAB /* -v1-categories-E-Dramas */,
 				9FA312381C38548700FDD586 /* -v1-categories-E-DramaticBibleReadings */,
 			);
 			name = "language specific";
@@ -295,6 +329,35 @@
 			children = (
 			);
 			name = global;
+			sourceTree = "<group>";
+		};
+		9F267E7E1C3B5BFA00782EAB /* Dramatic Bible Readings */ = {
+			isa = PBXGroup;
+			children = (
+				9F4916131C27F32400B191F4 /* -assets-a-ivjtg-ivjtg_E-iajtg_univ_lg.jpg */,
+			);
+			name = "Dramatic Bible Readings";
+			sourceTree = "<group>";
+		};
+		9F267E8B1C3B5CB000782EAB /* Dramas */ = {
+			isa = PBXGroup;
+			children = (
+				9F267E7F1C3B5C0D00782EAB /* -assets-a-ivjtg-ivjtg_E-iajtg_univ_lg.png */,
+				9F267E831C3B5C6C00782EAB /* -assets-a-iarhp-iarhp_L-iarhp_univ_lg.png */,
+				9F267E851C3B5C8100782EAB /* -assets-a-iart-iart_F-iart_univ_lg.png */,
+				9F267EA01C3B62D600782EAB /* -assets-a-iaeb-iaeb_SV-iaeb_univ_lg.png */,
+				9F267E8C1C3B5CCB00782EAB /* -assets-a-iajj-iajj_X-iajj_univ_lg.png */,
+				9F267E9C1C3B607400782EAB /* -assets-a-iajn-iajn_Z-iajn_univ_lg.png */,
+				9F267E8E1C3B5CD000782EAB /* -assets-a-iaey-iaey_M-iaey_univ_lg.png */,
+				9F267E901C3B5CD600782EAB /* -assets-a-iame-iame_E-iame_univ_lg.png */,
+				9F267E921C3B5CDB00782EAB /* -assets-a-iapv-iapv_X-iapv_univ_lg.png */,
+				9F267E941C3B5CE600782EAB /* -assets-a-iaru-iaru_MG-iaru_univ_ld.png */,
+				9F267E961C3B5CEA00782EAB /* -assets-a-iawx-iawx_ST-iawx_univ_lg.png */,
+				9F267E981C3B5CEF00782EAB /* -assets-a-iath-iath_D-iath_univ_lg.png */,
+				9F267E811C3B5C1D00782EAB /* -assets-a-iantg-iantg_E-iantg_univ_lg.png */,
+				9F267E891C3B5C8B00782EAB /* -assets-a-iacu-iacu_E-iacu_univ_lg.png */,
+			);
+			name = Dramas;
 			sourceTree = "<group>";
 		};
 		9F7872C51BF9501F00EE409B /* Tab Items */ = {
@@ -322,6 +385,7 @@
 				9F3F7F5D1BF6D9FD0010A789 /* SuperCollectionView.swift */,
 				9FE49B4E1C1B702D00231E5D /* StreamingView.swift */,
 				9FC7985A1C2901F80026B6C0 /* SuperMediaHandler.swift */,
+				9F6368651C3CDBF300BA45CD /* JWBroadcastingActvityIndicator.swift */,
 			);
 			name = "Custom Classes";
 			sourceTree = "<group>";
@@ -461,6 +525,7 @@
 		9F79A1881BA6A3AC00B5E925 /* JW Broadcasting */ = {
 			isa = PBXGroup;
 			children = (
+				9F2418A71C45C2AD00410793 /* Settings.bundle */,
 				9F9333EB1C00515A00092AED /* JW Broadcasting.entitlements */,
 				9F79A1891BA6A3AC00B5E925 /* AppDelegate.swift */,
 				9FFA67841C03D35A00ECEF86 /* Control.swift */,
@@ -632,22 +697,38 @@
 				9F0AB91C1C24E3D900ADCB77 /* readings.png in Resources */,
 				9F0AB91E1C24E3E200ADCB77 /* kingdommelodies.png in Resources */,
 				9F536CCA1C116D230070BB12 /* jw-broadcasting-logo.png in Resources */,
+				9F267E801C3B5C0D00782EAB /* -assets-a-ivjtg-ivjtg_E-iajtg_univ_lg.png in Resources */,
+				9F2418A81C45C2AD00410793 /* Settings.bundle in Resources */,
 				9F9333E31BFFB5CA00092AED /* mm3.ttf in Resources */,
+				9F267E821C3B5C1D00782EAB /* -assets-a-iantg-iantg_E-iantg_univ_lg.png in Resources */,
 				9FA312391C38548700FDD586 /* -v1-categories-E-DramaticBibleReadings in Resources */,
+				9F267E971C3B5CEA00782EAB /* -assets-a-iawx-iawx_ST-iawx_univ_lg.png in Resources */,
+				9F267EA11C3B62D600782EAB /* -assets-a-iaeb-iaeb_SV-iaeb_univ_lg.png in Resources */,
 				9FE5B9AC1C23F0B600B14FA9 /* audio-artwork in Resources */,
+				9F267E8D1C3B5CCB00782EAB /* -assets-a-iajj-iajj_X-iajj_univ_lg.png in Resources */,
 				9F4916081C279B8800B191F4 /* JWOrgLogo.png in Resources */,
+				9F267E931C3B5CDB00782EAB /* -assets-a-iapv-iapv_X-iapv_univ_lg.png in Resources */,
 				9F0AB91A1C24DC7200ADCB77 /* drama.png in Resources */,
 				9F22B00D1BFBCBCF0041E588 /* JW-White-Background-Blue.png in Resources */,
 				9F79A1911BA6A3AC00B5E925 /* Assets.xcassets in Resources */,
+				9F267E911C3B5CD600782EAB /* -assets-a-iame-iame_E-iame_univ_lg.png in Resources */,
 				9F07787F1BD1CD5700476E4C /* keyPhrasesIndex in Resources */,
+				9F267E951C3B5CE600782EAB /* -assets-a-iaru-iaru_MG-iaru_univ_ld.png in Resources */,
 				9F4915861C25394E00B191F4 /* playall.png in Resources */,
 				9F49160A1C279B9500B191F4 /* FullLogo.png in Resources */,
 				9FA312321C3360B600FDD586 /* sosa-regular-webfont.ttf in Resources */,
 				9F59F1F31C138CE400805D65 /* TopShelf.jpg in Resources */,
+				9F267E9D1C3B607400782EAB /* -assets-a-iajn-iajn_Z-iajn_univ_lg.png in Resources */,
+				9F267E991C3B5CEF00782EAB /* -assets-a-iath-iath_D-iath_univ_lg.png in Resources */,
 				9F0AB9181C24C19100ADCB77 /* piano-singtojehovah.png in Resources */,
 				9F79A18F1BA6A3AC00B5E925 /* Main.storyboard in Resources */,
 				9F49160F1C27E27E00B191F4 /* fade-back-1.png in Resources */,
 				9FFD0D581BB516AA0092CF71 /* jwtv.ttf in Resources */,
+				9F267E9B1C3B5D2700782EAB /* -v1-categories-E-Dramas in Resources */,
+				9F267E841C3B5C6C00782EAB /* -assets-a-iarhp-iarhp_L-iarhp_univ_lg.png in Resources */,
+				9F267E8F1C3B5CD000782EAB /* -assets-a-iaey-iaey_M-iaey_univ_lg.png in Resources */,
+				9F267E861C3B5C8100782EAB /* -assets-a-iart-iart_F-iart_univ_lg.png in Resources */,
+				9F267E8A1C3B5C8B00782EAB /* -assets-a-iacu-iacu_E-iacu_univ_lg.png in Resources */,
 				9FE9C17A1C019F0300E189D7 /* LaunchScreenEarth.png in Resources */,
 				9F4915881C25395500B191F4 /* shufflemusic.png in Resources */,
 				9F4915821C25268900B191F4 /* vocals-singtojehovah.png in Resources */,
@@ -675,7 +756,6 @@
 				9FE5B9A61C1FF55100B14FA9 /* NewAudioController.swift in Sources */,
 				9FC7985B1C2901F80026B6C0 /* SuperMediaHandler.swift in Sources */,
 				9F38D1BB1BB2566B0081073A /* LanguageSelector.swift in Sources */,
-				9FA312361C33C8A100FDD586 /* ACKNOWLEDGEMENTS.md in Sources */,
 				9FFA67851C03D35A00ECEF86 /* Control.swift in Sources */,
 				9F3F7F5E1BF6D9FD0010A789 /* SuperCollectionView.swift in Sources */,
 				9F79A18C1BA6A3AC00B5E925 /* HomeController.swift in Sources */,
@@ -693,10 +773,10 @@
 				9F72EF451BF738D000680302 /* ChannelSelector.swift in Sources */,
 				9F38D1B91BB23C980081073A /* RootController.swift in Sources */,
 				9F49160C1C27D8D200B191F4 /* TableViewCellSmarterLayout.swift in Sources */,
+				9F6368661C3CDBF300BA45CD /* JWBroadcastingActvityIndicator.swift in Sources */,
 				9F3E37021BF32438009C7847 /* MarqueeLabel.swift in Sources */,
 				9FE5B9A81C23E6DC00B14FA9 /* AudioCategoryController.swift in Sources */,
 				9F161E9C1BED256C0011F16A /* CategoryController.swift in Sources */,
-				9F9333E71C00320100092AED /* LICENSE.md in Sources */,
 				9FE5B9A31C1E90ED00B14FA9 /* MediaOnDemandMainCategories.swift in Sources */,
 				9F536D501C1275130070BB12 /* MODSubcategoryCollectionView.swift in Sources */,
 				9FA3122F1C30E52500FDD586 /* SearchTableHandlerViewController.swift in Sources */,

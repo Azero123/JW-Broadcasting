@@ -97,6 +97,7 @@ class HomeController: UIViewController, UICollectionViewDataSource, UICollection
                 }
             }
         })
+        
         /*Call initial update because local variables and files are not yet implmented*/
         checkBranchesFor("language")
         

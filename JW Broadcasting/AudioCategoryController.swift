@@ -60,9 +60,8 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
         })
         print((cachedBond[categoryDataURL] as! NSDictionary).allKeys)
         
-        testLogSteps=true
         let title=categoryTitleCorrection(unfold("\(categoryDataURL)|category|name") as! String)
-        testLogSteps=false
+        
         self.categoryTitle.text=title.componentsSeparatedByString("-")[0]
         if (title.componentsSeparatedByString("-").count>1){
             self.subLabel.text=title.componentsSeparatedByString("-")[1]
@@ -242,7 +241,15 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
         
         
         if (imageURL != nil && UIView.appearance().semanticContentAttribute != UISemanticContentAttribute.ForceRightToLeft){
-            fetchDataUsingCache(imageURL!, downloaded: {
+            addBranchListener(createBranchListener(imageURL!, action: { (data:AnyObject?) in
+                if (data?.isKindOfClass(NSData.self) == true){
+                    cell.imageView?.image = UIImage(data: data as! NSData)
+                    cell.layoutIfNeeded()
+                    cell.layoutSubviews()
+                    cell.imageView?.layoutIfNeeded()
+                }
+            }))
+            /*fetchDataUsingCache(imageURL!, downloaded: {
                 dispatch_async(dispatch_get_main_queue()) {
                     if (cell.tag == indexPath.row){
                         cell.imageView?.image = imageUsingCache(imageURL!)
@@ -251,7 +258,7 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
                         cell.imageView?.layoutIfNeeded()
                     }
                 }
-            })
+            })*/
         }
         
         

@@ -215,7 +215,7 @@ class ChannelSelector: SuperCollectionView {
             }
         }
         streamview!.streamID=indexPath.row
-        
+        /*
         //streamview.frame=CGRect(x: 0, y: 0, width: 860, height: 430)//(860.0, 430.0
         let width:CGFloat=2
         let height:CGFloat=1
@@ -226,7 +226,7 @@ class ChannelSelector: SuperCollectionView {
             ratio=height/width
             //streamview.frame=CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.width*ratio)
         }
-        
+        */
         
         //print("image size: \(image!.size) \(imageURL)")
         //let sizeOfStream=CGSize(width: , height: <#T##Double#>)

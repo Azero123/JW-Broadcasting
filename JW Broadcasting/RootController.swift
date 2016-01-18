@@ -489,8 +489,7 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
             checkBranchesFor("language")
         }
         
-        
-        if (false){
+        if (hidesJWLogoWhenCovered){
             var subviews:Array<UIView>=self.tabBar.subviews
             //logoLabelView.hidden=false
             logoImageView.hidden=false
@@ -506,6 +505,7 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                 }
             }
         }
+        
         
     }
 

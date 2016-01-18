@@ -295,12 +295,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="200" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="U3j-ZR-zh4">
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="200" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="U3j-ZR-zh4" customClass="JWBroadcastingActvityIndicator" customModule="JW_Broadcasting" customModuleProvider="target">
                                 <rect key="frame" x="860" y="440" width="200" height="200"/>
                             </activityIndicatorView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="msgGeneralErrorDialogBody" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rxn-eh-3OU">
+                                <rect key="frame" x="0.0" y="700" width="1920" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="cvB-RF-OcD"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="rxn-eh-3OU" firstAttribute="top" secondItem="l4D-2f-YA5" secondAttribute="bottom" constant="700" id="Gak-lk-5Te"/>
+                            <constraint firstItem="rxn-eh-3OU" firstAttribute="leading" secondItem="6Ui-v5-MMk" secondAttribute="leading" id="KiH-fC-vRm"/>
+                            <constraint firstAttribute="trailing" secondItem="rxn-eh-3OU" secondAttribute="trailing" id="YNg-EA-pvP"/>
                             <constraint firstItem="U3j-ZR-zh4" firstAttribute="centerY" secondItem="6Ui-v5-MMk" secondAttribute="centerY" id="hOg-Gp-j2o"/>
                             <constraint firstItem="U3j-ZR-zh4" firstAttribute="centerX" secondItem="6Ui-v5-MMk" secondAttribute="centerX" id="qE9-hN-WDq"/>
                         </constraints>
@@ -308,6 +320,7 @@
                     <tabBarItem key="tabBarItem" title="Streaming" id="NOB-2y-Sks"/>
                     <connections>
                         <outlet property="activityIndicator" destination="U3j-ZR-zh4" id="kmd-zv-ceS"/>
+                        <outlet property="messageLabel" destination="rxn-eh-3OU" id="ehc-NO-Zhj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XLD-T8-JUc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -666,7 +679,7 @@
                         <viewControllerLayoutGuide type="top" id="97S-Mr-cnL"/>
                         <viewControllerLayoutGuide type="bottom" id="g3X-HJ-r6M"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" misplaced="YES" id="wWC-cJ-vh5">
+                    <view key="view" contentMode="scaleToFill" id="wWC-cJ-vh5">
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -768,7 +781,7 @@
                         <viewControllerLayoutGuide type="top" id="zKa-p9-Zmd"/>
                         <viewControllerLayoutGuide type="bottom" id="6nH-md-sog"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" misplaced="YES" id="b27-qm-Zzb">
+                    <view key="view" contentMode="scaleToFill" id="b27-qm-Zzb">
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -914,8 +927,8 @@
                                     <constraint firstAttribute="trailing" secondItem="6fQ-k8-2Bs" secondAttribute="trailing" id="obk-z8-8NG"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XFY-vt-XoQ">
-                                <rect key="frame" x="960" y="0.0" width="960" height="1076"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XFY-vt-XoQ">
+                                <rect key="frame" x="960" y="0.0" width="960" height="1080"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VWA-ul-ckk">
                                         <rect key="frame" x="160" y="650" width="640" height="359"/>

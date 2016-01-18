@@ -289,6 +289,9 @@ class SuperMediaPlayer: NSObject, UIGestureRecognizerDelegate {
                         fillEmptyVideoSpaceWithDictionary(nextDictionary!)
                         self.nextDictionary=nil
                     }
+                    else {
+                        print("wanted to fill but couldn't")
+                    }
                     
                 }
                 else {
@@ -323,23 +326,24 @@ class SuperMediaPlayer: NSObject, UIGestureRecognizerDelegate {
             }
             dispatch_async(dispatch_get_main_queue()) {
                 
-                imageView.image=image
-                imageView.frame=CGRect(x: 0, y: 0, width: image!.size.width, height: image!.size.height)
-                if (imageView.frame.width>imageView.frame.height){
-                    if (imageView.frame.width>270){
-                        let scaleDown=imageView.frame.size.width/270
-                        imageView.frame=CGRect(x: 0, y: 0, width: imageView.frame.width/scaleDown, height: imageView.frame.height/scaleDown)
+                if (image != nil){
+                    imageView.image=image
+                    imageView.frame=CGRect(x: 0, y: 0, width: image!.size.width, height: image!.size.height)
+                    if (imageView.frame.width>imageView.frame.height){
+                        if (imageView.frame.width>270){
+                            let scaleDown=imageView.frame.size.width/270
+                            imageView.frame=CGRect(x: 0, y: 0, width: imageView.frame.width/scaleDown, height: imageView.frame.height/scaleDown)
+                        }
                     }
-                }
-                else {
-                    if (imageView.frame.height>270){
-                        let scaleDown=imageView.frame.size.height/270
-                        imageView.frame=CGRect(x: 0, y: 0, width: imageView.frame.width/scaleDown, height: imageView.frame.height/scaleDown)
+                    else {
+                        if (imageView.frame.height>270){
+                            let scaleDown=imageView.frame.size.height/270
+                            imageView.frame=CGRect(x: 0, y: 0, width: imageView.frame.width/scaleDown, height: imageView.frame.height/scaleDown)
+                        }
                     }
+                    backgroundImage.image=image
+                    imageView.center=CGPoint(x: (self.playerViewController.contentOverlayView?.frame.size.width)!/2, y: 705-imageView.frame.size.height/2-150)
                 }
-                
-                backgroundImage.image=image
-                imageView.center=CGPoint(x: (self.playerViewController.contentOverlayView?.frame.size.width)!/2, y: 705-imageView.frame.size.height/2-150)
                 
                 
                 var title=unfold(dictionary, instructions: ["title"]) as? String
