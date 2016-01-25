@@ -1,5 +1,5 @@
 //
-//  MediaOnDemandCategory.swift
+//  VideoOnDemandCategory.swift
 //  JW Broadcasting
 //
 //  Created by Austin Zelenka on 12/4/15.
@@ -12,7 +12,7 @@ import AVKit
 var streamingCell=true
 var featured=true
 
-class MediaOnDemandCategory: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate {
+class VideoOnDemandCategory: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate {
 
     var _category="VODBible"
     var category:String {
@@ -103,6 +103,10 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
     let streamview=StreamView()
     
     override func viewDidAppear(animated: Bool) {
@@ -116,7 +120,12 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
     }
     
     func renewContent(){
-        
+        if (textDirection == .RightToLeft){//RTL alignment
+            UIView.appearance().semanticContentAttribute=UISemanticContentAttribute.ForceRightToLeft
+        }
+        else {
+            UIView.appearance().semanticContentAttribute=UISemanticContentAttribute.ForceLeftToRight
+        }
         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
         let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
         fetchDataUsingCache(categoryDataURL, downloaded: {
@@ -160,11 +169,9 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
                     let layout=CollectionViewHorizontalFlowLayout()
                     layout.spacingPercentile=1.075
                     //layout.spacingPercentile=1.3
-                    
-                    var collectionView=MODSubcategoryCollectionView(frame: CGRect(x: CGFloat(0), y:CGFloat(480*(i+(featured ? 0 : -1)))+635, width: self.view.frame.size.width, height: CGFloat(425)), collectionViewLayout: layout)
+                    var collectionView=VODSubcategoryCollectionView(frame: CGRect(x: CGFloat(0), y:CGFloat(480*(i+(featured ? 0 : -1)))+635, width: self.view.frame.size.width, height: CGFloat(425)), collectionViewLayout: layout)
                     collectionView.contentInset=UIEdgeInsetsMake(0, 60, 0, 60)
                     collectionView.categoryName=unfold("\(categoryDataURL)|category|subcategories|\(i)|name") as! String
-                    print("CNKND \(unfold("\(categoryDataURL)|category|subcategories|\(i)|key"))")
                     collectionView.categoryCode=unfold("\(categoryDataURL)|category|subcategories|\(i)|key") as! String
                     collectionView.clipsToBounds=false
                     collectionView.prepare()
@@ -175,7 +182,7 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
                     }
                     else {
                         
-                        collectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "mediaElement")
+                        collectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "MediaElement")
                         collectionView.dataSource=self
                         collectionView.delegate=self
                         self.subcategoryCollectionViews.insert(collectionView, atIndex: i)
@@ -208,7 +215,7 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
     }
     
     
-    var subcategoryCollectionViews:[MODSubcategoryCollectionView]=[]
+    var subcategoryCollectionViews:[VODSubcategoryCollectionView]=[]
     
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -219,11 +226,11 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
         let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
         
-        let subcategories=unfold("\(categoryDataURL)|category|subcategories|\(subcategoryCollectionViews.indexOf(collectionView as! MODSubcategoryCollectionView)!)|media|count") as? Int
+        let subcategories=unfold("\(categoryDataURL)|category|subcategories|\(subcategoryCollectionViews.indexOf(collectionView as! VODSubcategoryCollectionView)!)|media|count") as? Int
         if (subcategories != nil){
             
             if (streamingCell){
-                if (subcategoryCollectionViews.indexOf(collectionView as! MODSubcategoryCollectionView)! == 0){
+                if (subcategoryCollectionViews.indexOf(collectionView as! VODSubcategoryCollectionView)! == 0){
                     return subcategories!+1
                 }
             }
@@ -238,7 +245,7 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
         let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
         
         
-        let cell: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("mediaElement", forIndexPath: indexPath)
+        let cell: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("MediaElement", forIndexPath: indexPath)
         
         for subview in cell.contentView.subviews {
             subview.removeFromSuperview()
@@ -251,7 +258,7 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
         
         var indexPathRow=indexPath.row+(featured ? 0 : 1)
         if (streamingCell){
-            if (subcategoryCollectionViews.indexOf(collectionView as! MODSubcategoryCollectionView)! == 0){
+            if (subcategoryCollectionViews.indexOf(collectionView as! VODSubcategoryCollectionView)! == 0){
                 indexPathRow--
                 if (indexPath.row==0){
                     
@@ -305,7 +312,7 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
         label.textColor=UIColor.darkGrayColor()
         label.textAlignment = .Center
         label.font=UIFont.systemFontOfSize(29)
-        let retrievedVideo=unfold("\(categoryDataURL)|category|subcategories|\(subcategoryCollectionViews.indexOf(collectionView as! MODSubcategoryCollectionView)!)|media|\(indexPathRow)")
+        let retrievedVideo=unfold("\(categoryDataURL)|category|subcategories|\(subcategoryCollectionViews.indexOf(collectionView as! VODSubcategoryCollectionView)!)|media|\(indexPathRow)")
 
         /*
         
@@ -335,7 +342,7 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
             label.layer.shadowRadius=5
             label.numberOfLines=3
         }
-        if (subcategoryCollectionViews.indexOf(collectionView as! MODSubcategoryCollectionView)! == 0 && indexPath.row==0){
+        if (subcategoryCollectionViews.indexOf(collectionView as! VODSubcategoryCollectionView)! == 0 && indexPath.row==0){
             let streamingScheduleURL=base+"/"+version+"/schedules/"+languageCode+"/Streaming?utcOffset=0"
             let nowPlayingString=unfold("\(base)/\(version)/translations/\(languageCode)|translations|\(languageCode)|lblNowPlaying") as? String
             _=unfold(nil, instructions: [streamingScheduleURL,"category","subcategories",self.categoryIndex,"media","title"]) as? String
@@ -414,14 +421,14 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
         If selectedSlideShow==true (AKA the user is interacting with the slideshow) then the slide show will not roll to next slide.
         
         */
-        if (context.previouslyFocusedView?.superview?.isKindOfClass(MODSubcategoryCollectionView.self) == true && subcategoryCollectionViews.contains(context.previouslyFocusedView?.superview as! MODSubcategoryCollectionView) && context.previouslyFocusedIndexPath != nil){
+        if (context.previouslyFocusedView?.superview?.isKindOfClass(VODSubcategoryCollectionView.self) == true && subcategoryCollectionViews.contains(context.previouslyFocusedView?.superview as! VODSubcategoryCollectionView) && context.previouslyFocusedIndexPath != nil){
             
-            (context.previouslyFocusedView?.superview as! MODSubcategoryCollectionView).cellShouldLoseFocus(context.previouslyFocusedView!, indexPath: context.previouslyFocusedIndexPath!)
+            (context.previouslyFocusedView?.superview as! VODSubcategoryCollectionView).cellShouldLoseFocus(context.previouslyFocusedView!, indexPath: context.previouslyFocusedIndexPath!)
             
         }
-        if (context.nextFocusedView?.superview?.isKindOfClass(MODSubcategoryCollectionView.self) == true && subcategoryCollectionViews.contains(context.nextFocusedView?.superview as! MODSubcategoryCollectionView) && context.nextFocusedIndexPath != nil){
+        if (context.nextFocusedView?.superview?.isKindOfClass(VODSubcategoryCollectionView.self) == true && subcategoryCollectionViews.contains(context.nextFocusedView?.superview as! VODSubcategoryCollectionView) && context.nextFocusedIndexPath != nil){
             
-            (context.nextFocusedView?.superview as! MODSubcategoryCollectionView).cellShouldFocus(context.nextFocusedView!, indexPath: context.nextFocusedIndexPath!)
+            (context.nextFocusedView?.superview as! VODSubcategoryCollectionView).cellShouldFocus(context.nextFocusedView!, indexPath: context.nextFocusedIndexPath!)
             
             self.scrollView.scrollRectToVisible((context.nextFocusedView?.superview?.frame)!, animated: true)
         }
@@ -441,7 +448,7 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
         categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|key") as! String
         print("category to go to \(categoryToGoTo)")*/
         var indexPathRow=indexPath.row
-        if (subcategoryCollectionViews.indexOf(collectionView as! MODSubcategoryCollectionView)! == 0){
+        if (subcategoryCollectionViews.indexOf(collectionView as! VODSubcategoryCollectionView)! == 0){
             indexPathRow--
             if (indexPath.row==0){
                 
@@ -452,7 +459,7 @@ categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|
         
         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
         let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
-        player.updatePlayerUsingDictionary(unfold("\(categoryDataURL)|category|subcategories|\(subcategoryCollectionViews.indexOf(collectionView as! MODSubcategoryCollectionView)!)|media|\(indexPathRow)") as! NSDictionary)
+        player.updatePlayerUsingDictionary(unfold("\(categoryDataURL)|category|subcategories|\(subcategoryCollectionViews.indexOf(collectionView as! VODSubcategoryCollectionView)!)|media|\(indexPathRow)") as! NSDictionary)
         player.playIn(self)
         return true
     }

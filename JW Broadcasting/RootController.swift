@@ -7,11 +7,10 @@
 //
 
 import UIKit
-import TVMLKit
 
 var disableNavBar=false
 
-extension UITabBarController : TVApplicationControllerDelegate {
+extension UITabBarController {
     
     /*method to check whether the tab bar is lined up or not*/
     
@@ -133,6 +132,29 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
         
         }
         
+        print("Checking login information")
+        print(NSUserDefaults.standardUserDefaults().objectForKey("name_preference"))
+        print(NSUserDefaults.standardUserDefaults().objectForKey("password_preference"))
+        if (NSUserDefaults.standardUserDefaults().objectForKey("name_preference") != nil && NSUserDefaults.standardUserDefaults().objectForKey("password_preference") != nil || true){
+            print("attempt login to stream.jw.org...")
+            /*fetchDataUsingCache("https://www.stream.jw.org/member/processLogin", downloaded: {
+                print(NSString(data: unfold("https://www.stream.jw.org/member/processLogin") as! NSData, encoding: NSUTF8StringEncoding))
+            
+            
+            })*/
+            //https://fle.stream.jw.org/t/RFhyWDM1YmcxZEUxdW0yNUNaNGU1NzFHOGZFYXlaWWZFYnlmbW9kUGdPSTVMTzhIaG9mZlBzQUVPUnZyYTFHUQ==
+            /*fetchDataUsingCache("https://fle.stream.jw.org/t/RFhyWDM1YmcxZEUxdW0yNUNaNGU1NzFHOGZFYXlaWWZFYnlmbW9kUGdPSTVMTzhIaG9mZlBzQUVPUnZyYTFHUQ==", downloaded: {
+                print("file retrieved")
+                print(NSString(data: unfold("https://fle.stream.jw.org/t/RFhyWDM1YmcxZEUxdW0yNUNaNGU1NzFHOGZFYXlaWWZFYnlmbW9kUGdPSTVMTzhIaG9mZlBzQUVPUnZyYTFHUQ==") as! NSData, encoding: NSUTF8StringEncoding))
+                fetchDataUsingCache("https://fle.stream.jw.org/event/languageVideos", downloaded: {
+                    //print(NSString(data: unfold("https://fle.stream.jw.org/event/languageVideos") as! NSData, encoding: NSUTF8StringEncoding))
+                    
+                    
+                })
+                
+            })//https://fle.stream.jw.org/event/languageVideos*/
+            
+        }
         
         /*
         This loop cycles through all the view controllers and their corresponding tab bar items.
@@ -149,16 +171,6 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
             }
             if (viewController.isKindOfClass(HomeController.self)){//Remove home page if disabled
                 if (Home==false){
-                    self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
-                }
-            }
-            else if (viewController.isKindOfClass(VideoOnDemandController.self)){//Remove VOD page if disabled
-                if (VOD==false){
-                    self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
-                }
-            }
-            else if (viewController.isKindOfClass(AudioController.self)){//Remove Audio page if disabled
-                if (Audio==false){
                     self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
                 }
             }
@@ -182,31 +194,46 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                 
                 self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
                 
-                let deepNavController=UINavigationController(rootViewController: UISearchContainerViewController(searchController: SearchController(searchResultsController: SearchTableHandlerViewController())))
+                if #available(iOS 9.1, *) {
+                    let deepNavController=UINavigationController(rootViewController: UISearchContainerViewController(searchController: SearchController(searchResultsController: SearchTableHandlerViewController())))
                 
                 self.viewControllers?.insert(deepNavController, atIndex: i!)
                 self.viewControllers![i!].tabBarItem=tabItem//UITabBarItem(tabBarSystemItem: UITabBarSystemItem.Search, tag: 0)
-                if (Search==false){
-                    self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
-                }
-                else {
+                    if (Search==false){
+                        self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
+                    }
+                    else {
                     //self.tabBar.items?[(self.viewControllers?.indexOf(viewController))!].title="Search"
+                    }
                 }
             }
-            else if (viewController.isKindOfClass(MediaOnDemandController.self)){//Remove MOD page if disabled
-                if (BETAMedia==false){
+            else if (viewController.isKindOfClass(VideoOnDemandController.self)){//Remove VOD page if disabled
+                if (VOD==false){
                     self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
                 }
                 else {
                     self.tabBar.items?[(self.viewControllers?.indexOf(viewController))!].title="Video on Demand"
                 }
             }
-            else if (viewController.isKindOfClass(NewAudioController.self)){//Remove MOD page if disabled
-                if (NewAudio==false){
+            else if (viewController.isKindOfClass(AudioController.self)){//Remove Audio page if disabled
+                if (Audio==false){
                     self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
                 }
                 else {
                     self.tabBar.items?[(self.viewControllers?.indexOf(viewController))!].title="Audio"
+                }
+            }
+            else if (viewController.isKindOfClass(MeetingsController.self)){//Remove Audio page if disabled
+                
+                
+                let settings=NSUserDefaults.standardUserDefaults()//meetings_preference
+                
+                if (Meetings==false || settings.objectForKey("meetings_preference")?.boolValue == false){
+                    self.viewControllers?.removeAtIndex((self.viewControllers?.indexOf(viewController))!)
+                }
+                else {
+                    self.tabBar.items?[(self.viewControllers?.indexOf(viewController))!].title="Meetings"
+                    //self.tabBar.items?[(self.viewControllers?.indexOf(viewController))!].enabled=false
                 }
             }
         }
@@ -434,14 +461,14 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                 if (viewController.isKindOfClass(HomeController.self)){
                     keyForButton="lnkHomeView"
                 }
-                else if (viewController.isKindOfClass(MediaOnDemandController.self)){
-                    keyForButton="homepageVODBlockTitle"//
-                }
                 else if (viewController.isKindOfClass(VideoOnDemandController.self)){
                     keyForButton="homepageVODBlockTitle"//
                 }
                 else if (viewController.isKindOfClass(AudioController.self)){
                     keyForButton="homepageAudioBlockTitle"//
+                }
+                else if (viewController.isKindOfClass(MeetingsController.self)){
+                    keyForButton="Meetings"
                 }
                 else if (viewController.isKindOfClass(LanguageSelector.self)){
                     //"lnkLanguage"//
@@ -449,9 +476,6 @@ class rootController: UITabBarController, UITabBarControllerDelegate{
                     /*self.tabBar.items?[(self.viewControllers?.indexOf(viewController))!].title="    "
                     let fontattributes=[NSFontAttributeName:UIFont(name: "jwtv", size: 36)!,NSForegroundColorAttributeName:UIColor.grayColor()] as Dictionary<String,AnyObject>
                     self.tabBar.items?[(self.viewControllers?.indexOf(viewController))!].setTitleTextAttributes(fontattributes, forState: .Normal)*/
-                }
-                else if (viewController.isKindOfClass(NewAudioController.self)){
-                    keyForButton="homepageAudioBlockTitle"
                 }
                 else if (viewController.isKindOfClass(SearchController.self) || viewController.isKindOfClass(UINavigationController.self)){
                     keyForButton="\\"

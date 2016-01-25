@@ -24,6 +24,16 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
         "Dramas":"drama",
         "DramaticBibleReadings":"readings"
     ]
+    
+    let SLImages=[
+        "NewSongs":"newsongs-singtojehovah",
+        "Piano":"piano-singtojehovah",
+        "Vocal":"vocals-singtojehovah",
+        "KingdomMelodies":"kingdommelodies",
+        "Dramas":"drama-jwblue",
+        "DramaticBibleReadings":"dramaticbiblereading-jwblue"
+    ]
+    
     var playAll=false
     var shuffle=false
     var currentSongID=0
@@ -72,6 +82,9 @@ class AudioCategoryController: UIViewController, UITableViewDelegate, UITableVie
         
         let key=unfold("\(categoryDataURL)|category|key") as! String
         self.categoryImage.image=UIImage(named: images[key]!)
+        if (languageFromCode(languageCode)!["isSignLanguage"]?.boolValue == true){
+            self.categoryImage.image=UIImage(named: self.SLImages[key]!)
+        }
         //self.backgroundImageView.image=UIImage(named: images[categoryIndex])
         self.categoryImage.contentMode = .ScaleToFill
         self.categoryImage.layoutIfNeeded()

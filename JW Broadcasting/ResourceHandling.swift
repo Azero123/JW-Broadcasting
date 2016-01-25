@@ -607,13 +607,13 @@ func unfold(instruction:String)-> AnyObject?{
 
 
 func unfoldArray(from:NSArray, instructions:[AnyObject]) -> AnyObject?{
-    if (testLogSteps){
+    if (testLogSteps && instructions.count>0){
         print("NSArray.objectAtIndex(\(instructions[0]))")
     }
     
     var source:AnyObject?=nil
     
-    if (instructions[0].isKindOfClass(NSString.self) == true){
+    if (instructions.count>0 && instructions[0].isKindOfClass(NSString.self) == true){
         let stringval=instructions[0] as! String
         if (stringval.lowercaseString == "last"){
             if (from.count>0){
@@ -641,13 +641,13 @@ func unfoldArray(from:NSArray, instructions:[AnyObject]) -> AnyObject?{
             }
         }
     }
-    else if (instructions[0].isKindOfClass(NSNumber.self) == true){
+    else if (instructions.count>0 && instructions[0].isKindOfClass(NSNumber.self) == true){
         let i=Int((instructions[0] as! NSNumber))
         if (from.count>i&&i>=0){
             source=from.objectAtIndex(i) // Unfold the NSArray
         }
     }
-    else if (instructions[0].isKindOfClass(NSArray.self) == true) {
+    else if (instructions.count>0 && instructions[0].isKindOfClass(NSArray.self) == true) {
         for instruction in instructions[0] as! NSArray {
             let result=unfoldArray(from, instructions: [instruction])
             if (result != nil){
@@ -655,19 +655,24 @@ func unfoldArray(from:NSArray, instructions:[AnyObject]) -> AnyObject?{
             }
         }
     }
-    else {
+    else if (instructions.count>0){
         print("unknown type for unfolding array:\(instructions[0].dynamicType)")
+    }
+    else {
+        print("unknown type for unfolding array nil")
     }
     return source
 }
 
 func unfoldDictionary(from:NSDictionary, instructions:[AnyObject]) -> AnyObject? {
     
+    if (instructions.count==0){
+        return from
+    }
+    
     if (testLogSteps){
         print("NSDictionary.objectForKey(\(instructions[0])) \(from.allKeys) \(instructions[0].dynamicType)")
     }
-    
-    
     
     if (from.objectForKey(instructions[0]) != nil){
         return from.objectForKey(instructions[0])
@@ -676,7 +681,6 @@ func unfoldDictionary(from:NSDictionary, instructions:[AnyObject]) -> AnyObject?
         for instruction in instructions[0] as! NSArray  {
             
             let result=from.objectForKey(instruction)
-            
             if (result != nil){
                 if (testLogSteps){
                     print("NSDictionary.objectForKey(\(instruction)) success")
@@ -706,225 +710,201 @@ func unfold(from:AnyObject?, var instructions:[AnyObject]) -> AnyObject?{
     
     */
     
-    
-    
-    var source:AnyObject?=nil
+    if (testLogSteps && from != nil && instructions.count>0){
+        print((from as! NSObject).classForCoder)
+        if ((from?.isKindOfClass(NSDictionary.self)) == true){
+            print("unfold \((from as! NSDictionary).allKeys) with \(instructions[0]) of \(instructions[0].dynamicType)")
+        }
+        if ((from?.isKindOfClass(NSArray.self)) == true){
+            print("unfold [\((from as! NSArray).count)] width \(instructions[0]) of \(instructions[0].dynamicType)")
+        }
+        else {
+            //print("unfold \(from) width \(instructions[0]) of \(instructions[0].dynamicType)")
+        }
+    }
     
     if (from?.isKindOfClass(NSDictionary.self) == true){ //The item to process is known already as an NSDictionary
-        
-        source=unfoldDictionary(from as! NSDictionary, instructions:  instructions)
-        
+        var passthrough:AnyObject?=from
+        if (instructions.count>0){
+            passthrough=unfoldDictionary(from as! NSDictionary, instructions:  instructions)
+        }
+        if (instructions.count>1){
+            instructions.removeFirst()
+            return unfold(passthrough, instructions:  instructions)
+        }
+        return passthrough
     }
     else if (from?.isKindOfClass(NSArray.self) == true) {//The item to process is known already as an NSArray
-        source=unfoldArray(from as! NSArray, instructions: instructions)
+        
+        var passthrough:AnyObject?=from
+        if (instructions.count>0){
+            passthrough=unfoldArray(from as! NSArray, instructions: instructions)
+        }
+        if (instructions.count>1){
+            instructions.removeFirst()
+            return unfold(passthrough, instructions:  instructions)
+        }
+        return passthrough
     }
     else if (from?.isKindOfClass(NSString.self) == true){
-        if (testLogSteps){
-            print("from \(instructions[0]) is NSString")
-        }
-        source=(from as! NSString)
-    }
-    else if (from?.isKindOfClass(NSNumber.self) == true){
-        if (testLogSteps){
-            print("from \(instructions[0]) is NSNumber")
-        }
-        source=(from as! NSNumber)
-    }
-    else if (from==nil){ // The item to process is empty and we need to discover what the first instruction is and use that as the item for the next unfold
-        if (testLogSteps){
-            print("from==nil")
-        }
-        let sourceURL=NSURL(string: (instructions[0]) as! String) // Attempt using the first instruction as a url
-        if (cachedBond[instructions[0] as! String] != nil){ // Do we have a cache for this url?
-            if (testLogSteps){
-                print("cachedbond... \(instructions[0] as! String) \(cachedBond[instructions[0] as! String].dynamicType)")
-                
-            }
-            source=cachedBond[instructions[0] as! String]! // Let's not process this file again we already did that
-        }
-        if (sourceURL != nil && sourceURL?.scheme != nil && sourceURL?.host != nil && (source?.isKindOfClass(NSURL.self) == true || source == nil)){
+        
+        let sourceURL=NSURL(string: (from) as! String)
+        if (sourceURL != nil && sourceURL?.scheme != nil && sourceURL?.host != nil){
             // Alright so this instruction appears to be a url that we can request but we haven't processed it yet.
             if (testLogSteps){
-                print("URL is real \(sourceURL) \(instructions[0] as! String)")
+                print("URL is real \(sourceURL) \(from as! String)")
             }
-            source=sourceURL
-            var sourceData=cachedFiles[instructions[0] as! String] // Use the file from memory
-            cachedBond[instructions[0] as! String]=source // Save this to process bond to not do this again
-            
-            
-            
-            
-            
-            
-            if (sourceData != nil){ // Alright we have some data to process
-                print("try NSKeyUnarchiver")
-                if (testLogSteps){
-                    print("data returned as it should")
-                }
-                source=sourceData
-                do {
-                    
-                    if (testLogSteps){
-                        print(sourceURL)
-                    }
-                    
-                    
-                    
-                    let unarchiver=NSKeyedUnarchiver(forReadingWithData: sourceData!)
-                    if #available(iOS 9.0, *) {
-                        let tempDictionary=try unarchiver.decodeTopLevelObject()
-                        unarchiver.finishDecoding()
-                        if (tempDictionary != nil){
-                            source=tempDictionary
-                            cachedBond[instructions[0] as! String]=source // save this to cache so we don't do it again
-                        }
-                    } else {
-                        // Fallback on earlier versions
-                    }
-                    
-                }
-                catch {
-                    
-                    /*log out any errors that might have occured*/
-                    
-                    print(error)
-                }
-            }
-            if (sourceData != nil && source?.isKindOfClass(NSDictionary.self) == false){ // Alright we have some data to process
-                print("try NSJSONSerialization")
-                if (testLogSteps){
-                    print("data returned as it should")
-                }
-                source=sourceData
-                do {
-                    
-                    if (testLogSteps){
-                        print(sourceURL)
-                    }
-                    
-                    
-                    
-                    var sourceAttributedString = NSMutableAttributedString(string: NSString(data: sourceData!, encoding: NSUTF8StringEncoding) as! String)
-                    // Convert it into the proper string to be processed.
-                    
-                    
-                    if (removeEntitiesSystemLevel){ // Control level toggle incase this appears to keep breaking
-                        if (sourceAttributedString.string.containsString("&")){
-                            TryCatch.realTry({ // The contained code can fail and swift can't catch it so we need an Objective-C try/catch implementation ontop of our swift try/catch
-                                do {
-                                    
-                                    let attributedOptions=[NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,NSCharacterEncodingDocumentAttribute:NSUTF8StringEncoding]
-                                    
-                                    sourceAttributedString = try NSMutableAttributedString(data:sourceData!, options:attributedOptions as! [String : AnyObject], documentAttributes:nil) //The data we get contains strings that are not meant to be seen by the user try removing the HTML entities
-                                    
-                                    
-                                    //raises  NSInternalInconsistencyException
-                                }
-                                catch { // System level HTML entity removal failed
-                                    print("[ERROR] Could not remove HTML entities. \(error)")
-                                }
-                                
-                                }, withCatch: { // System level HTML entity removal failed
-                                    print("[ERROR] Could not remove HTML entities.")
-                            })
-                        }
-                    }
-                    
-                    
-                    
-                    print("[ERROR] Could not remove HTML entities.")
-                    
-                    
-                    let sourceString=sourceAttributedString.string
-                    
-                    sourceData=sourceString.dataUsingEncoding(NSUTF8StringEncoding) // Return the string we made for entity removal into data to be JSON processed
-                    
-                    /* Just double check real quick that the class is truly available */
-                    
-                    
-                    if (NSClassFromString("NSJSONSerialization") != nil){
-                        
-                        /*attempt serialization*/
-                        
-                        let object=try NSJSONSerialization.JSONObjectWithData(sourceData!, options: NSJSONReadingOptions.MutableContainers)
-                        /*if it returned an actual NSDictionary then return it*/
-                        
-                        if (object.isKindOfClass(NSDictionary.self)){
-                            source=object as? NSDictionary
-                            cachedBond[instructions[0] as! String]=source // save this to cache so we don't do it again
-                        }
-                    }
-                    
-                }
-                catch {
-                    
-                    /*log out any errors that might have occured*/
-                    
-                    print(error)
-                }
-            }
-            if (sourceData != nil && source?.isKindOfClass(NSDictionary.self) == false){
-                //NSXMLParser(data: sourceData!).parse()
-                print("xml last resort")
-                
-                //print(NSString(data: sourceData!, encoding: NSUTF8StringEncoding))
-                
-                let parser=RSSParser(data: sourceData!)
-                parser.parse()
-                print(parser.rootNode)
-                
-                
+            if (cachedBond[from as! String] != nil){
+                return unfold(cachedBond[from as! String]!, instructions: instructions)
             }
             
+            let sourceData=cachedFiles[from as! String] // Use the file from memory
+            cachedBond[from as! String]=sourceData // Save this to process bond to not do this again
+            
+            let possibleFormattedData=unfold(sourceData, instructions:  [])
+            if (possibleFormattedData != nil){
+                cachedBond[from as! String]=possibleFormattedData // Save this to process bond to not do this again
+                return unfold(possibleFormattedData, instructions: instructions)
+            }
             
         }
-        if ((source?.isKindOfClass(NSDictionary.self)) == true){
-            let storedPath=NSBundle.mainBundle().pathForResource(sourceURL!.path!.stringByReplacingOccurrencesOfString("/", withString: "-"), ofType: nil)
-            if (storedPath != nil && NSFileManager().fileExistsAtPath(storedPath!)){
-                let overwrites=NSDictionary(contentsOfFile: storedPath!)
-                let newSource=foldOver(source as! NSDictionary, overwriteKey: nil, overwriteValue: overwrites!)
-                if (newSource != source as! NSObject?){
-                }
-                source=newSource
-                //print("source: \(source)")
-                if (cachedBond[instructions[0] as! String] == nil){
-                }
-                cachedBond[instructions[0] as! String]=source
+        return from
+    }
+    else if (from?.isKindOfClass(NSNumber.self) == true){
+        return (from as! NSNumber)
+    }
+    else if (from?.isKindOfClass(NSData.self) == true){
+        let sourceData:NSData?=from as? NSData
+        if (sourceData != nil){
+            var temp = parsePlist(sourceData!)
+            if (temp == nil){
+                temp = parseJSON(sourceData!)
             }
-            
+            if (temp == nil){
+                temp = parseXML(sourceData!)
+            }
+            return temp
+            //cachedBond[instructions[0] as! String]=source
         }
     }
-    /* This method failed to return an NSObject but we have to return something and hopefully not cause an error. */
+    else if (from == nil){
+        if (instructions.count>0){
+            let newFrom=instructions[0]
+            instructions.removeFirst()
+            return unfold(newFrom, instructions: instructions)
+        }
+    }
     
-    if (source == nil){
+    return from
+}
+
+func parsePlist(sourceData:NSData) -> AnyObject? {
+    if (testLogSteps){
+        print("try NSKeyUnarchiver")
+    }
+    do {
         
-        if (testLogSteps){
-            print("source is nil")
+        let unarchiver=NSKeyedUnarchiver(forReadingWithData: sourceData)
+        if #available(iOS 9.0, *) {
+            let tempDictionary=try unarchiver.decodeTopLevelObject()
+            unarchiver.finishDecoding()
+            return tempDictionary
+        } else {
+            // Fallback on earlier versions
         }
         
-        if (testLogSteps){
-            print((from as! NSObject).classForCoder)
-            if ((from?.isKindOfClass(NSDictionary.self)) == true){
-                print("from \((from as! NSDictionary).allKeys) unfold \(instructions[0]) \(instructions[0].dynamicType)")
-            }
-            if ((from?.isKindOfClass(NSArray.self)) == true){
-                print("from [\((from as! NSArray).count)] unfold \(instructions[0]) \(instructions[0].dynamicType)")
-            }
-            else {
-                print("from \(from) unfold \(instructions[0]) \(instructions[0].dynamicType)")
+    }
+    catch {
+        
+        /*log out any errors that might have occured*/
+        
+        print(error)
+    }
+    return nil
+}
+
+func parseJSON(sourceData:NSData) -> AnyObject?{
+    if (testLogSteps){
+        print("try NSJSONSerialization")
+    }
+    do {
+        
+        let transferSourceString=NSString(data: sourceData, encoding: NSUTF8StringEncoding)
+        if (transferSourceString == nil){
+            return nil
+        }
+        var sourceAttributedString = NSMutableAttributedString(string: transferSourceString as! String)
+        // Convert it into the proper string to be processed.
+        
+        
+        if (removeEntitiesSystemLevel){ // Control level toggle incase this appears to keep breaking
+            if (sourceAttributedString.string.containsString("&")){
+                TryCatch.realTry({ // The contained code can fail and swift can't catch it so we need an Objective-C try/catch implementation ontop of our swift try/catch
+                    do {
+                        
+                        let attributedOptions=[NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,NSCharacterEncodingDocumentAttribute:NSUTF8StringEncoding]
+                        
+                        sourceAttributedString = try NSMutableAttributedString(data:sourceData, options:attributedOptions as! [String : AnyObject], documentAttributes:nil) //The data we get contains strings that are not meant to be seen by the user try removing the HTML entities
+                        
+                        
+                        //raises  NSInternalInconsistencyException
+                    }
+                    catch { // System level HTML entity removal failed
+                        print("[ERROR] Could not remove HTML entities. \(error)")
+                    }
+                    
+                    }, withCatch: { // System level HTML entity removal failed
+                        print("[ERROR] Could not remove HTML entities.")
+                })
             }
         }
         
-        return nil
+        
+        
+        print("[ERROR] Could not remove HTML entities.")
+        
+        
+        let sourceString=sourceAttributedString.string
+        
+        let tempSourceData=sourceString.dataUsingEncoding(NSUTF8StringEncoding) // Return the string we made for entity removal into data to be JSON processed
+        
+        /* Just double check real quick that the class is truly available */
+        
+        
+        if (NSClassFromString("NSJSONSerialization") != nil){
+            
+            /*attempt serialization*/
+            
+            let object=try NSJSONSerialization.JSONObjectWithData(tempSourceData!, options: NSJSONReadingOptions.MutableContainers)
+            /*if it returned an actual NSDictionary then return it*/
+            
+            if (object.isKindOfClass(NSDictionary.self) || object.isKindOfClass(NSArray.self)){
+                return object
+            }
+        }
+        
+    }
+    catch {
+        
+        /*log out any errors that might have occured*/
+        
+        print(error)
+    }
+    return nil
+}
+
+func parseXML(sourceData:NSData) -> AnyObject?{
+    
+    if (testLogSteps){
+        print("xml last resort")
     }
     
-    /*Loop through this method until we are out of instructions*/
+    //print(NSString(data: sourceData!, encoding: NSUTF8StringEncoding))
     
-    instructions.removeFirst()
-    if (instructions.count>0){
-        return unfold(source, instructions:  instructions)
-    }
-    return source
+    let parser=RSSParser(data: sourceData)
+    parser.parse()
+    print(parser.rootNode)
+    return nil
 }
 
 func foldOver(var object:AnyObject?, overwriteKey:protocol<NSObjectProtocol ,NSCopying>?, overwriteValue:NSObject) -> NSObject?{

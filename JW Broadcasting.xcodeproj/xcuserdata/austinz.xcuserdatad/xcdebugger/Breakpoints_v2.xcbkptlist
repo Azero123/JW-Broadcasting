@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JW Broadcasting/AppDelegate.swift"
-            timestampString = "474832827.973281"
+            timestampString = "474836777.643903"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "222"
-            endingLineNumber = "222"
+            startingLineNumber = "221"
+            endingLineNumber = "221"
             landmarkName = "applicationWillResignActive(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -141,22 +141,6 @@
             startingLineNumber = "81"
             endingLineNumber = "81"
             landmarkName = "sizeOfItemAtIndex(_:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "JW Broadcasting/VideoOnDemandController.swift"
-            timestampString = "470714520.097756"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
-            landmarkName = "collectionView(_:layout:sizeForItemAtIndexPath:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -343,11 +327,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JW Broadcasting/AudioCategoryController.swift"
-            timestampString = "473499232.398679"
+            timestampString = "474850544.053795"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
             landmarkName = "viewDidLoad()"
             landmarkType = "5">
          </BreakpointContent>
@@ -375,11 +359,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JW Broadcasting/AppDelegate.swift"
-            timestampString = "474832827.973281"
+            timestampString = "474836777.643903"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
             landmarkName = "application(_:didFinishLaunchingWithOptions:)"
             landmarkType = "5">
          </BreakpointContent>

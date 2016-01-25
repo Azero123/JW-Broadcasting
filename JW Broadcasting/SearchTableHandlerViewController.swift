@@ -60,6 +60,7 @@ class SearchTableHandlerViewController: UIViewController, UISearchBarDelegate, U
     func prepareIndex(){
         
         print("[Search] Beginning index...")
+        NSLog("time measurement begin...")
         
         var itemsIndex:[[String]]=[]
         var items:[NSDictionary]=[]
@@ -254,6 +255,7 @@ class SearchTableHandlerViewController: UIViewController, UISearchBarDelegate, U
             
             return false
         })*/
+        NSLog("time measurement ended")
         
         results=newResults
         resultsTableView.reloadData()

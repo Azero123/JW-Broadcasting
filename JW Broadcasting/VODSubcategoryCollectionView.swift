@@ -1,5 +1,5 @@
 //
-//  MODSubcategoryCollectionView.swift
+//  VODSubcategoryCollectionView.swift
 //  JW Broadcasting
 //
 //  Created by Austin Zelenka on 12/4/15.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MODSubcategoryCollectionView: SuperCollectionView {
+class VODSubcategoryCollectionView: SuperCollectionView {
     
     let titlePosition:CGFloat=0
     
@@ -87,11 +87,10 @@ class MODSubcategoryCollectionView: SuperCollectionView {
     }
     
     override func cellShouldFocus(view: UIView, indexPath: NSIndexPath) {
-        
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
             if (view==UIScreen.mainScreen().focusedView){
                 
-                UIView.transitionWithView((self.delegate as! MediaOnDemandCategory).backgroundImage, duration: 0.5, options: .TransitionCrossDissolve, animations: {
+                UIView.transitionWithView((self.delegate as! VideoOnDemandCategory).backgroundImage, duration: 0.5, options: .TransitionCrossDissolve, animations: {
                     
                     var indexPathRow=indexPath.row
                     if (self.categoryCode.containsString("Featured")&&streamingCell){
@@ -111,7 +110,7 @@ class MODSubcategoryCollectionView: SuperCollectionView {
                         "images",["lsr","wss","cvr","lss","wsr","pss","pns",""],
                         ["lg","md","sm","xs",""]]) as? String
                     if (imageURL != nil){
-                        (self.delegate as! MediaOnDemandCategory).backgroundImage.image=imageUsingCache(imageURL!)
+                        (self.delegate as! VideoOnDemandCategory).backgroundImage.image=imageUsingCache(imageURL!)
                     }
                     }, completion: nil)
             }
@@ -147,24 +146,6 @@ class MODSubcategoryCollectionView: SuperCollectionView {
             }
         }
     }
-    /*
-    override var preferredFocusedView:UIView? {
-        get {
-            print("preferred focus")
-            var cellToFocus=super.preferredFocusedView
-            if (textDirection == .RightToLeft){
-                for cell in self.visibleCells() {
-                    if (cell.frame.origin.x>cellToFocus!.frame.origin.x){
-                        print("new")
-                        cellToFocus=cell
-                    }
-                }
-            }
-            print("\(cellToFocus)")
-            
-            return cellToFocus
-        }
-    }*/
     
     override func didScroll() {
         

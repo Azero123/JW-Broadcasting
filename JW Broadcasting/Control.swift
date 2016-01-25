@@ -35,19 +35,19 @@ let logFolding = testLogSteps
 
 /*Disable View Controllers*/
 
-let defaultViewController=NewAudioController.self //unimplemented
+let defaultViewController=HomeController.self //unimplemented
 
 let Home = true
 
-let BETAMedia = true
-let VOD = false
+let VOD = true
 
-let Audio = false
-let NewAudio = true
+let Audio = true
 
 let Language = true
 
 let Search = true
+
+let Meetings = true
 
 
 /*Settings for home page control*/
@@ -68,6 +68,9 @@ var StreamingAdvancedMode=false //This is for testing and shows details about th
 var StreamingHTTPStitching=false //Not started
 let timeToShow=10
 
+/*Language*/
+
+var languageDisplayCount=true
 
 /*
 var Home = {

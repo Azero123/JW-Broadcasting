@@ -1,5 +1,5 @@
 //
-//  MediaOnDemandMainCategories.swift
+//  VideoOnDemandMainCategories.swift
 //  JW Broadcasting
 //
 //  Created by Austin Zelenka on 12/13/15.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MediaOnDemandMainCategories: SuperCollectionView {
+class VideoOnDemandMainCategories: SuperCollectionView {
 
     /*
     // Only override drawRect: if you perform custom drawing.
@@ -41,17 +41,27 @@ class MediaOnDemandMainCategories: SuperCollectionView {
         let category="VideoOnDemand"
         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
         let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
-        if ((self.delegate?.isKindOfClass(MediaOnDemandController.self)) == true){
+        if ((self.delegate?.isKindOfClass(VideoOnDemandController.self)) == true){
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
                 if (view==UIScreen.mainScreen().focusedView){
-                    UIView.transitionWithView((self.delegate as! MediaOnDemandController).backgroundImageView, duration: 0.5, options: .TransitionCrossDissolve, animations: {
+                    UIView.transitionWithView((self.delegate as! VideoOnDemandController).backgroundImageView, duration: 0.5, options: .TransitionCrossDissolve, animations: {
                         
-                        (self.delegate as! MediaOnDemandController).backgroundImageView.image=imageUsingCache((unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|images|wss|lg") as? String)!)
+                        (self.delegate as! VideoOnDemandController).backgroundImageView.image=imageUsingCache((unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|images|wss|lg") as? String)!)
                         }, completion: nil)
                 }
             }
             
+        }
+        if (self.delegate?.isKindOfClass(MeetingsController.self) == true){
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
+                if (view==UIScreen.mainScreen().focusedView){
+                    UIView.transitionWithView((self.delegate as! MeetingsController).backgroundImageView, duration: 0.5, options: .TransitionCrossDissolve, animations: {
+                        
+                        (self.delegate as! MeetingsController).backgroundImageView.image=UIImage(named: ["Regional-Conventions-real-1.png","Assembly.png","weekly-meeings-real-2.png"][indexPath.row])
+                        }, completion: nil)
+                }
+            }
         }
         
         for subview in (view.subviews.first!.subviews) {

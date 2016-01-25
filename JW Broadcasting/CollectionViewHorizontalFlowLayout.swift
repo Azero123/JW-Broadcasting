@@ -33,13 +33,13 @@ class CollectionViewHorizontalFlowLayout: UICollectionViewFlowLayout {
         */
         
         
-        if (collectionView?.delegate?.isKindOfClass(MediaOnDemandCategory.self) == true){
+        if (collectionView?.delegate?.isKindOfClass(VideoOnDemandCategory.self) == true){
             
             
             let layout=UICollectionViewLayoutAttributes(forCellWithIndexPath: indexPath)
             
             
-            let normalItemSize=(collectionView?.delegate as! MediaOnDemandCategory).collectionView(collectionView!, layout: self, sizeForItemAtIndexPath: indexPath)
+            let normalItemSize=(collectionView?.delegate as! VideoOnDemandCategory).collectionView(collectionView!, layout: self, sizeForItemAtIndexPath: indexPath)
             
             
             layout.alpha=1
@@ -121,8 +121,8 @@ class CollectionViewHorizontalFlowLayout: UICollectionViewFlowLayout {
         
         }
         
-        if ((self.collectionView?.delegate?.isKindOfClass(MediaOnDemandCategory.self)) == true){
-            cellWidth=(self.collectionView?.delegate as! MediaOnDemandCategory).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*spacingPercentile
+        if ((self.collectionView?.delegate?.isKindOfClass(VideoOnDemandCategory.self)) == true){
+            cellWidth=(self.collectionView?.delegate as! VideoOnDemandCategory).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0)).width*spacingPercentile
         }
         
         

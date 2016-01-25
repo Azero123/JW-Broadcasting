@@ -165,6 +165,18 @@ class SlideShow: SuperCollectionView {
                 //})
                 
                 
+                /*let pathForSliderData=base+"/"+version+"/settings/"+languageCode+"?keys=WebHomeSlider"
+                let urlPath=NSURL(string: unfold("\(pathForSliderData)|settings|WebHomeSlider|slides|\((index % totalItems))|item|files|last|progressiveDownloadURL") as! String)!.path//(playerAsset as! AVURLAsset).URL.path!
+                print(NSUserDefaults.standardUserDefaults().objectForKey("saved-media-states"))
+                print(urlPath)
+                if (NSUserDefaults.standardUserDefaults().objectForKey("saved-media-states") != nil && (NSUserDefaults.standardUserDefaults().objectForKey("saved-media-states") as! NSDictionary).objectForKey(urlPath!) != nil){
+                    
+                
+                    let progressBar=UIView(frame: CGRect(x: 0, y: imageView.frame.size.height-3, width: 100, height: 3))
+                    progressBar.backgroundColor=UIColor(colorLiteralRed: 0.3, green: 0.44, blue: 0.64, alpha: 1.0)
+                    imageView.addSubview(progressBar)
+                }*/
+                
                 let imageURL=unfold(SLSlide, instructions: ["item","images","pnr","lg"]) as? String
                 if (imageURL != nil){
                     fetchDataUsingCache(imageURL!, downloaded: {
@@ -211,8 +223,6 @@ class SlideShow: SuperCollectionView {
         gradient.frame = slide.bounds
         gradient.colors = [UIColor.clearColor().CGColor, UIColor.clearColor().CGColor, UIColor.clearColor().CGColor, UIColor(red: 0, green: 0, blue: 0, alpha: 0.5).CGColor]
         //slide.contentView.layer.addSublayer(gradient)
-        
-        
         
         return slide
     }

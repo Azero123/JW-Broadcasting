@@ -110,7 +110,7 @@ class CollectionViewAlignmentFlowLayout: UICollectionViewFlowLayout {
         if ((self.collectionView?.delegate?.isKindOfClass(CategoryController.self)) == true){
             layout=(self.collectionView!.delegate as! CategoryController).collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: NSIndexPath(forRow: 0, inSection: 0))
         }
-        else if ((self.collectionView?.delegate?.isKindOfClass(MediaOnDemandController.self)) == true){
+        else if ((self.collectionView?.delegate?.isKindOfClass(VideoOnDemandController.self)) == true){
             
             //self.collectionView.
             return CGSize(width: (self.collectionView?.frame.size.width)!, height: 1500)

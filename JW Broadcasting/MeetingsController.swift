@@ -1,81 +1,83 @@
 //
-//  NewAudioController.swift
+//  MeetingsControllerViewController.swift
 //  JW Broadcasting
 //
-//  Created by Austin Zelenka on 12/14/15.
-//  Copyright © 2015 xquared. All rights reserved.
+//  Created by Austin Zelenka on 1/18/16.
+//  Copyright © 2016 xquared. All rights reserved.
 //
-
-//
-//  MediaOnDemandController.swift
-//  JW Broadcasting
-//
-//  Created by Austin Zelenka on 11/23/15.
-//  Copyright © 2015 xquared. All rights reserved.
-//
-
 
 import UIKit
 
-class NewAudioController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
-    @IBOutlet weak var MediaCollectionView: UICollectionView!
+class MeetingsController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+    @IBOutlet weak var VideoCollectionView: UICollectionView!
     @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var BackgroundEffectView: UIVisualEffectView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        /*
+        The gradual contextual background effect is not blurred exactly to apples default we change the color a bit to be more apparent and noticable.
+        */
+        
         backgroundImageView.alpha=0.75
         BackgroundEffectView.alpha=0.99
         
-        self.MediaCollectionView.clipsToBounds=false
-        self.MediaCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
-        self.MediaCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "footer")
-        (self.MediaCollectionView.collectionViewLayout as! CollectionViewAlignmentFlowLayout).spacingPercentile=1.35
+        /*
+        Prepareing the collection view by registering some of its generation abilities and setting the space between the cells customly.
+        */
+        
+        self.VideoCollectionView.clipsToBounds=false
+        self.VideoCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
+        self.VideoCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "footer")
+        (self.VideoCollectionView.collectionViewLayout as! CollectionViewAlignmentFlowLayout).spacingPercentile=1.275
+        
+        /*
+        
+        Generate content for language.
+        
+        */
+        
         renewContent()
     }
-    let images=[
-        "NewSongs":"newsongs-singtojehovah",
-        "Piano":"piano-singtojehovah",
-        "Vocal":"vocals-singtojehovah",
-        "KingdomMelodies":"kingdommelodies",
-        "Dramas":"drama",
-        "DramaticBibleReadings":"readings"
-    ]
     
     var previousLanguageCode=languageCode
     
     override func viewWillAppear(animated: Bool) {
+        
+        /*
+        The detail view controller of this view uses the semantic ForceRightToLeft. Incase the view was in RTL when it left we need to turn that off because this view manages all it's own RTL layouts.
+        */
+        
         UIView.appearance().semanticContentAttribute=UISemanticContentAttribute.ForceLeftToRight
+        (self.tabBarController as! rootController).disableNavBarTimeOut=true
+        /*
+        The view may be reappearing so if the language has been changed since the view last was ran that we need to update the content to the new language.
+        */
         if (previousLanguageCode != languageCode){
             renewContent()
         }
         previousLanguageCode=languageCode
-        (self.tabBarController as! rootController).disableNavBarTimeOut=true
+        
+        /*
+        Old code for when TVOS 9.0 couldn't even handle change in view controllers properly if they were running methods in background.
+        (Leave this incase we want to update the app to work in 9.0)
+        */
         
         self.view.hidden=false
     }
     
     override func viewDidDisappear(animated: Bool) {
+        /*
+        Old code for when TVOS 9.0 couldn't even handle change in view controllers properly if they were running methods in background.
+        (Leave this incase we want to update the app to work in 9.0)
+        */
         self.view.hidden=true
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func renewContent(){
         
-        //http://mediator.jw.org/v1/categories/E/Audio?detailed=1
-        let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
-        let AudioDataURL=categoriesDirectory+"/Audio?detailed=1"
-        
-        fetchDataUsingCache(AudioDataURL, downloaded: {
-            dispatch_async(dispatch_get_main_queue()) {
-                    self.MediaCollectionView.reloadData()
-            }
-        })
+        self.VideoCollectionView.reloadData()
     }
     
     
@@ -87,14 +89,7 @@ class NewAudioController: UIViewController, UICollectionViewDelegate, UICollecti
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        let category="Audio"
-        let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
-        let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
-        let response=unfold(categoryDataURL+"|category|subcategories|count") as? Int
-        if (response == nil){
-            return 0
-        }
-        return response!
+        return 3
     }
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
@@ -117,12 +112,7 @@ class NewAudioController: UIViewController, UICollectionViewDelegate, UICollecti
         
         let cell: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("category", forIndexPath: indexPath)
         cell.alpha=1
-        
-        let category="Audio"
-        let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
-        let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
-        
-        let extraction=titleExtractor(unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|name") as! String)
+        cell.tag=indexPath.row
         
         for subview in cell.contentView.subviews {
             if (subview.isKindOfClass(UIActivityIndicatorView.self)){
@@ -132,36 +122,30 @@ class NewAudioController: UIViewController, UICollectionViewDelegate, UICollecti
             if (subview.isKindOfClass(UIImageView.self)){
                 
                 let imageView=subview as! UIImageView
-                
-                imageView.image=UIImage()
-                
-                let imageURL=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|images|sqr|lg") as? String
+                imageView.image=UIImage(named: ["Regional-Conventions-real-1.png","Assembly.png","weekly-meeings-real-2.png"][indexPath.row])
+                imageView.userInteractionEnabled = true
+                imageView.adjustsImageWhenAncestorFocused = true
+                /*let imageURL=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|images|wss|lg") as? String
                 
                 imageView.userInteractionEnabled = true
                 imageView.adjustsImageWhenAncestorFocused = true
-                
-                
-                let key=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|key") as! String
-                
-                imageView.image=UIImage(named: images[key]!)
+                imageView.alpha=0.2
                 if (imageURL != nil && imageURL != ""){
                     
                     fetchDataUsingCache(imageURL!, downloaded: {
                         
                         dispatch_async(dispatch_get_main_queue()) {
-                            let image=imageUsingCache(imageURL!)
-                            (subview as! UIImageView).image=image
+                            if (cell.tag==indexPath.row){
+                                imageView.alpha=1
+                                let image=imageUsingCache(imageURL!)
+                                (subview as! UIImageView).image=image
+                            }
                         }
                     })
-                }
+                }*/
             }
             if (subview.isKindOfClass(UILabel.self)){
-                if ((subview as! UILabel).tag==0){
-                    (subview as! UILabel).text=extraction["correctedTitle"]
-                }
-                if ((subview as! UILabel).tag==1){
-                    (subview as! UILabel).text=extraction["subTitle"]
-                }
+                (subview as! UILabel).text=["Conventions","Assemblies","Meetings"][indexPath.row]
             }
         }
         return cell
@@ -169,37 +153,32 @@ class NewAudioController: UIViewController, UICollectionViewDelegate, UICollecti
     
     
     func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-        
-        let category="Audio"
-        let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
-        let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
-        categoryToGoTo=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|key") as! String
-        categoryIndexToGoTo=indexPath.row
+        categoryIndexToGoTo=[3,2,1][indexPath.row]
         return true
     }
     
     var categoryIndexToGoTo:Int=0
-    var categoryToGoTo=""
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if (segue.destinationViewController.isKindOfClass(AudioCategoryController.self)){
-            (segue.destinationViewController as! AudioCategoryController).categoryIndex=categoryIndexToGoTo
-            //(segue.destinationViewController as! AudioCategoryController).category=categoryToGoTo
+        /*
+        Let the detail View Controller know what the desired category is.
+        */
+        
+        if (segue.destinationViewController.isKindOfClass(MeetingsDetailController.self)){
+            (segue.destinationViewController as! MeetingsDetailController).categoryNumber=categoryIndexToGoTo
         }
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        let multiplier:CGFloat=1
-        let ratio:CGFloat=1
-        let width:CGFloat=360
-        return CGSize(width: width*ratio*multiplier, height: width*multiplier)
-    }
-    
-    func collectionView(collectionView: UICollectionView, shouldUpdateFocusInContext context: UICollectionViewFocusUpdateContext) -> Bool {
-        return true
+        /*
+        This handles the frame sizes of the previews without destroying ratios.
+        */
         
+        let multiplier:CGFloat=0.80
+        let ratio:CGFloat=1.77777777777778
+        let width:CGFloat=360
+        return CGSize(width: width*ratio*multiplier, height: width*multiplier) //Currently set to 512,288
     }
-    
     
     func collectionView(collectionView: UICollectionView, didUpdateFocusInContext context: UICollectionViewFocusUpdateContext, withAnimationCoordinator coordinator: UIFocusAnimationCoordinator) {
         /*
@@ -212,14 +191,17 @@ class NewAudioController: UIViewController, UICollectionViewDelegate, UICollecti
         */
         
         if (context.nextFocusedView != nil && context.previouslyFocusedView?.superview!.isKindOfClass(SuperCollectionView.self) == true && context.previouslyFocusedIndexPath != nil){
-            
             (context.previouslyFocusedView?.superview as! SuperCollectionView).cellShouldLoseFocus(context.previouslyFocusedView!, indexPath: context.previouslyFocusedIndexPath!)
+            
         }
         if (context.nextFocusedView?.superview!.isKindOfClass(SuperCollectionView.self) == true && context.nextFocusedIndexPath != nil){
             
             (context.nextFocusedView?.superview as! SuperCollectionView).cellShouldFocus(context.nextFocusedView!, indexPath: context.nextFocusedIndexPath!)
             (context.nextFocusedView?.superview as! SuperCollectionView).cellShouldFocus(context.nextFocusedView!, indexPath: context.nextFocusedIndexPath!, previousIndexPath: context.previouslyFocusedIndexPath)
+            
         }
     }
     
+    
 }
+

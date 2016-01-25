@@ -23,6 +23,7 @@ When selected the UITableView then brings up a prompt to confirm the switch. To 
 import UIKit
 
 class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    @IBOutlet weak var languageCountLabel: UILabel!
 
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     override func viewDidLoad() {
@@ -55,6 +56,24 @@ class LanguageSelector: UIViewController, UITableViewDataSource, UITableViewDele
             print("[ERROR] Language file not downloaded!")
             return 0 // There is an issue if this ever happens but let's not break the app anyway
         }
+        
+        
+        #if (arch(i386) || arch(x86_64)) && (os(iOS) || os(watchOS) || os(tvOS))
+            //If in simulator display language count
+            
+            var SLCount=0
+            
+            for language in languageList! {
+                if (language.objectForKey("isSignLanguage")?.boolValue == true){
+                    SLCount++
+                }
+            }
+            
+            languageCountLabel.numberOfLines=4
+            languageCountLabel.text="Languages\n\(languageList!.count)\nSign Languages\n\(SLCount)"
+            
+        #endif
+        
         
         return languageList!.count // How many rows do we need? the same amount as there are languages
     }

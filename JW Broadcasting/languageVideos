@@ -1,0 +1,923 @@
+[{
+    "data": {
+        "id_branch_channel": "1982",
+        "section": "2",
+        "event": "Circuit Assembly with Branch Representative - Afternoon",
+        "description": "",
+        "datestart": null,
+        "dateend": null,
+        "datecreated": "1448582400",
+        "hls": "http:\/\/wtbtshdflash-f.akamaihd.net\/i\/YrYkIgAEhddL4Wt4HB8uibWpnzIZR1qrRzt0jPbzA9yNAKtBWRQAnSgwy6Ske6T7LWdXbzYg_s7XZKYYgJ@1\/master.m3u8",
+        "hds": "http:\/\/wtbtshdflash-f.akamaihd.net\/z\/YrYkIgAEhddL4Wt4HB8uibWpnzIZR1qrRzt0jPbzA9yNAKtBWRQAnSgwy6Ske6T7LWdXbzYg_s7XZKYYgJ@1\/manifest.f4m",
+        "akamainame": "YrYkIgAEhddL4Wt4HB8uibWpnzIZR1qrRzt0jPbzA9yNAKtBWRQAnSgwy6Ske6T7LWdXbzYg_s7XZKYYgJ",
+        "streamid": "1",
+        "origid": null,
+        "type": "normal",
+        "status": "active",
+        "id_event": 340162,
+        "id": 340162,
+        "base_path": "",
+        "chapters": [],
+        "chapters_sections_md5": "ad7b81dea42cf2ef7525c274471e3ce6",
+        "chapters_sections_md5_applied": "ad7b81dea42cf2ef7525c274471e3ce6",
+        "childvodname": "uRXpm9xWyOFQIyIKAJ5VXZgObuFm1poMAgL9BHg2Iq7CQCpYRzEyI0TYI4KinVaUdUw2ghdLaTPbdC7N2VS1",
+        "child_ready": "1",
+        "copies": "1",
+        "copy_vodname": "uRXpm9xWyOFQIyIKAJ5VXZgObuFm1poMAgL9BHg2Iq7CQCpYRzEyI0TYI4KinVaUdUw2ghdLaTPbdC7N2VS1",
+        "date_time_process_begin": "1448659364",
+        "editing": "0",
+        "editing_completed": "1",
+        "hideSections": null,
+        "is_child": "1",
+        "is_vod": "1",
+        "language": "en",
+        "language_name": "English",
+        "origevent": "340161",
+        "vodname": "uRXpm9xWyOFQIyIKAJ5VXZgObuFm1poMAgL9BHg2Iq7CQCpYRzEyI0TYI4KinVaUdUw2ghdLaTPbdC7N2",
+        "vod_download": "1",
+        "vod_files": [{
+            "height": 720,
+            "url": "uRXpm9xWyOFQIyIKAJ5VXZgObuFm1poMAgL9BHg2Iq7CQCpYRzEyI0TYI4KinVaUdUw2ghdLaTPbdC7N2VS1_1_fle.mp4"
+        }, {
+            "height": 480,
+            "url": "uRXpm9xWyOFQIyIKAJ5VXZgObuFm1poMAgL9BHg2Iq7CQCpYRzEyI0TYI4KinVaUdUw2ghdLaTPbdC7N2VS1_2_fle.mp4"
+        }, {
+            "height": 360,
+            "url": "uRXpm9xWyOFQIyIKAJ5VXZgObuFm1poMAgL9BHg2Iq7CQCpYRzEyI0TYI4KinVaUdUw2ghdLaTPbdC7N2VS1_3_fle.mp4"
+        }, {
+            "height": 240,
+            "url": "uRXpm9xWyOFQIyIKAJ5VXZgObuFm1poMAgL9BHg2Iq7CQCpYRzEyI0TYI4KinVaUdUw2ghdLaTPbdC7N2VS1_4_fle.mp4"
+        }
+        ],
+        "vod_orig_event": "340162",
+        "vod_path": "\/fle",
+        "vod_total": "4",
+        "wait_main": "0",
+        "vod_files_urls": [{
+            "height": 720,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/uRXpm9xWyOFQIyIKAJ5VXZgObuFm1poMAgL9BHg2Iq7CQCpYRzEyI0TYI4KinVaUdUw2ghdLaTPbdC7N2VS1_1_fle.mp4"
+        }, {
+            "height": 480,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/uRXpm9xWyOFQIyIKAJ5VXZgObuFm1poMAgL9BHg2Iq7CQCpYRzEyI0TYI4KinVaUdUw2ghdLaTPbdC7N2VS1_2_fle.mp4"
+        }, {
+            "height": 360,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/uRXpm9xWyOFQIyIKAJ5VXZgObuFm1poMAgL9BHg2Iq7CQCpYRzEyI0TYI4KinVaUdUw2ghdLaTPbdC7N2VS1_3_fle.mp4"
+        }, {
+            "height": 240,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/uRXpm9xWyOFQIyIKAJ5VXZgObuFm1poMAgL9BHg2Iq7CQCpYRzEyI0TYI4KinVaUdUw2ghdLaTPbdC7N2VS1_4_fle.mp4"
+        }
+        ],
+        "vod_files_oldsite": "[{\"height\":720,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/uRXpm9xWyOFQIyIKAJ5VXZgObuFm1poMAgL9BHg2Iq7CQCpYRzEyI0TYI4KinVaUdUw2ghdLaTPbdC7N2VS1_1_fle.mp4\"},{\"height\":480,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/uRXpm9xWyOFQIyIKAJ5VXZgObuFm1poMAgL9BHg2Iq7CQCpYRzEyI0TYI4KinVaUdUw2ghdLaTPbdC7N2VS1_2_fle.mp4\"},{\"height\":360,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/uRXpm9xWyOFQIyIKAJ5VXZgObuFm1poMAgL9BHg2Iq7CQCpYRzEyI0TYI4KinVaUdUw2ghdLaTPbdC7N2VS1_3_fle.mp4\"},{\"height\":240,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/uRXpm9xWyOFQIyIKAJ5VXZgObuFm1poMAgL9BHg2Iq7CQCpYRzEyI0TYI4KinVaUdUw2ghdLaTPbdC7N2VS1_4_fle.mp4\"}]",
+        "vod_class": "vodDownloadActive",
+        "vod_firstfile_url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/uRXpm9xWyOFQIyIKAJ5VXZgObuFm1poMAgL9BHg2Iq7CQCpYRzEyI0TYI4KinVaUdUw2ghdLaTPbdC7N2VS1_1_fle.mp4",
+        "vod_url_hls": "http:\/\/vodstream-vh.akamaihd.net\/i\/fle\/uRXpm9xWyOFQIyIKAJ5VXZgObuFm1poMAgL9BHg2Iq7CQCpYRzEyI0TYI4KinVaUdUw2ghdLaTPbdC7N2VS1_,1,2,3,4,_fle.mp4.csmil\/master.m3u8",
+        "vod_url_hds": "http:\/\/vodstream-vh.akamaihd.net\/z\/fle\/uRXpm9xWyOFQIyIKAJ5VXZgObuFm1poMAgL9BHg2Iq7CQCpYRzEyI0TYI4KinVaUdUw2ghdLaTPbdC7N2VS1_,1,2,3,4,_fle.mp4.csmil\/manifest.f4m"
+    },
+    "title": "Circuit Assembly with Branch Representative - Afternoon",
+    "description": "Circuit Assembly with Branch Representative - Afternoon",
+    "url": "\/meeting\/create\/id\/340162",
+    "type": "schedule",
+    "status": "active",
+    "chapters": [],
+    "is_vod": "1",
+    "vod_download": "1",
+    "hls": "http:\/\/wtbtshdflash-f.akamaihd.net\/i\/YrYkIgAEhddL4Wt4HB8uibWpnzIZR1qrRzt0jPbzA9yNAKtBWRQAnSgwy6Ske6T7LWdXbzYg_s7XZKYYgJ@1\/master.m3u8",
+    "hds": "http:\/\/wtbtshdflash-f.akamaihd.net\/z\/YrYkIgAEhddL4Wt4HB8uibWpnzIZR1qrRzt0jPbzA9yNAKtBWRQAnSgwy6Ske6T7LWdXbzYg_s7XZKYYgJ@1\/manifest.f4m",
+    "akamainame": "YrYkIgAEhddL4Wt4HB8uibWpnzIZR1qrRzt0jPbzA9yNAKtBWRQAnSgwy6Ske6T7LWdXbzYg_s7XZKYYgJ",
+    "vod_url_hls": "http:\/\/vodstream-vh.akamaihd.net\/i\/fle\/uRXpm9xWyOFQIyIKAJ5VXZgObuFm1poMAgL9BHg2Iq7CQCpYRzEyI0TYI4KinVaUdUw2ghdLaTPbdC7N2VS1_,1,2,3,4,_fle.mp4.csmil\/master.m3u8",
+    "vod_url_hds": "http:\/\/vodstream-vh.akamaihd.net\/z\/fle\/uRXpm9xWyOFQIyIKAJ5VXZgObuFm1poMAgL9BHg2Iq7CQCpYRzEyI0TYI4KinVaUdUw2ghdLaTPbdC7N2VS1_,1,2,3,4,_fle.mp4.csmil\/manifest.f4m",
+    "date": "2015-11-27",
+    "language": "en",
+    "language_country": null,
+    "section": "2"
+}, {
+    "data": {
+        "id_branch_channel": "1982",
+        "section": "2",
+        "event": "Circuit Assembly with Branch Representative - Morning",
+        "description": "",
+        "datestart": null,
+        "dateend": null,
+        "datecreated": "1448582400",
+        "hls": "http:\/\/wtbtshdflash-f.akamaihd.net\/i\/sLiXudPfKhgTGmq16Xq34blQjCSEa1iA8UMLlqjxEEAGW4k3LRm3QRsrYA8up5URakB0ggzK_Xky1mA43A@1\/master.m3u8",
+        "hds": "http:\/\/wtbtshdflash-f.akamaihd.net\/z\/sLiXudPfKhgTGmq16Xq34blQjCSEa1iA8UMLlqjxEEAGW4k3LRm3QRsrYA8up5URakB0ggzK_Xky1mA43A@1\/manifest.f4m",
+        "akamainame": "sLiXudPfKhgTGmq16Xq34blQjCSEa1iA8UMLlqjxEEAGW4k3LRm3QRsrYA8up5URakB0ggzK_Xky1mA43A",
+        "streamid": "1",
+        "origid": null,
+        "type": "normal",
+        "status": "active",
+        "id_event": 340160,
+        "id": 340160,
+        "base_path": "",
+        "chapters": [],
+        "chapters_sections_md5": "ad7b81dea42cf2ef7525c274471e3ce6",
+        "chapters_sections_md5_applied": "ad7b81dea42cf2ef7525c274471e3ce6",
+        "childvodname": "6dNnwFwFnMd9QhfDreBA7DAsm3dYZqC1rJVAtLayW3hiAGMy29UEdmFf8rH61EN5EOWwlDFF3usGh7EDbVS1",
+        "child_ready": "1",
+        "copies": "1",
+        "copy_vodname": "6dNnwFwFnMd9QhfDreBA7DAsm3dYZqC1rJVAtLayW3hiAGMy29UEdmFf8rH61EN5EOWwlDFF3usGh7EDbVS1",
+        "date_time_process_begin": "1448654392",
+        "editing": "0",
+        "editing_completed": "1",
+        "hideSections": null,
+        "is_child": "1",
+        "is_vod": "1",
+        "language": "en",
+        "language_name": "English",
+        "origevent": "340159",
+        "vodname": "6dNnwFwFnMd9QhfDreBA7DAsm3dYZqC1rJVAtLayW3hiAGMy29UEdmFf8rH61EN5EOWwlDFF3usGh7EDb",
+        "vod_download": "1",
+        "vod_files": [{
+            "height": 720,
+            "url": "6dNnwFwFnMd9QhfDreBA7DAsm3dYZqC1rJVAtLayW3hiAGMy29UEdmFf8rH61EN5EOWwlDFF3usGh7EDbVS1_1_fle.mp4"
+        }, {
+            "height": 480,
+            "url": "6dNnwFwFnMd9QhfDreBA7DAsm3dYZqC1rJVAtLayW3hiAGMy29UEdmFf8rH61EN5EOWwlDFF3usGh7EDbVS1_2_fle.mp4"
+        }, {
+            "height": 360,
+            "url": "6dNnwFwFnMd9QhfDreBA7DAsm3dYZqC1rJVAtLayW3hiAGMy29UEdmFf8rH61EN5EOWwlDFF3usGh7EDbVS1_3_fle.mp4"
+        }, {
+            "height": 240,
+            "url": "6dNnwFwFnMd9QhfDreBA7DAsm3dYZqC1rJVAtLayW3hiAGMy29UEdmFf8rH61EN5EOWwlDFF3usGh7EDbVS1_4_fle.mp4"
+        }
+        ],
+        "vod_orig_event": "340160",
+        "vod_path": "\/fle",
+        "vod_total": "4",
+        "wait_main": "0",
+        "vod_files_urls": [{
+            "height": 720,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/6dNnwFwFnMd9QhfDreBA7DAsm3dYZqC1rJVAtLayW3hiAGMy29UEdmFf8rH61EN5EOWwlDFF3usGh7EDbVS1_1_fle.mp4"
+        }, {
+            "height": 480,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/6dNnwFwFnMd9QhfDreBA7DAsm3dYZqC1rJVAtLayW3hiAGMy29UEdmFf8rH61EN5EOWwlDFF3usGh7EDbVS1_2_fle.mp4"
+        }, {
+            "height": 360,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/6dNnwFwFnMd9QhfDreBA7DAsm3dYZqC1rJVAtLayW3hiAGMy29UEdmFf8rH61EN5EOWwlDFF3usGh7EDbVS1_3_fle.mp4"
+        }, {
+            "height": 240,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/6dNnwFwFnMd9QhfDreBA7DAsm3dYZqC1rJVAtLayW3hiAGMy29UEdmFf8rH61EN5EOWwlDFF3usGh7EDbVS1_4_fle.mp4"
+        }
+        ],
+        "vod_files_oldsite": "[{\"height\":720,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/6dNnwFwFnMd9QhfDreBA7DAsm3dYZqC1rJVAtLayW3hiAGMy29UEdmFf8rH61EN5EOWwlDFF3usGh7EDbVS1_1_fle.mp4\"},{\"height\":480,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/6dNnwFwFnMd9QhfDreBA7DAsm3dYZqC1rJVAtLayW3hiAGMy29UEdmFf8rH61EN5EOWwlDFF3usGh7EDbVS1_2_fle.mp4\"},{\"height\":360,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/6dNnwFwFnMd9QhfDreBA7DAsm3dYZqC1rJVAtLayW3hiAGMy29UEdmFf8rH61EN5EOWwlDFF3usGh7EDbVS1_3_fle.mp4\"},{\"height\":240,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/6dNnwFwFnMd9QhfDreBA7DAsm3dYZqC1rJVAtLayW3hiAGMy29UEdmFf8rH61EN5EOWwlDFF3usGh7EDbVS1_4_fle.mp4\"}]",
+        "vod_class": "vodDownloadActive",
+        "vod_firstfile_url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/6dNnwFwFnMd9QhfDreBA7DAsm3dYZqC1rJVAtLayW3hiAGMy29UEdmFf8rH61EN5EOWwlDFF3usGh7EDbVS1_1_fle.mp4",
+        "vod_url_hls": "http:\/\/vodstream-vh.akamaihd.net\/i\/fle\/6dNnwFwFnMd9QhfDreBA7DAsm3dYZqC1rJVAtLayW3hiAGMy29UEdmFf8rH61EN5EOWwlDFF3usGh7EDbVS1_,1,2,3,4,_fle.mp4.csmil\/master.m3u8",
+        "vod_url_hds": "http:\/\/vodstream-vh.akamaihd.net\/z\/fle\/6dNnwFwFnMd9QhfDreBA7DAsm3dYZqC1rJVAtLayW3hiAGMy29UEdmFf8rH61EN5EOWwlDFF3usGh7EDbVS1_,1,2,3,4,_fle.mp4.csmil\/manifest.f4m"
+    },
+    "title": "Circuit Assembly with Branch Representative - Morning",
+    "description": "Circuit Assembly with Branch Representative - Morning",
+    "url": "\/meeting\/create\/id\/340160",
+    "type": "schedule",
+    "status": "active",
+    "chapters": [],
+    "is_vod": "1",
+    "vod_download": "1",
+    "hls": "http:\/\/wtbtshdflash-f.akamaihd.net\/i\/sLiXudPfKhgTGmq16Xq34blQjCSEa1iA8UMLlqjxEEAGW4k3LRm3QRsrYA8up5URakB0ggzK_Xky1mA43A@1\/master.m3u8",
+    "hds": "http:\/\/wtbtshdflash-f.akamaihd.net\/z\/sLiXudPfKhgTGmq16Xq34blQjCSEa1iA8UMLlqjxEEAGW4k3LRm3QRsrYA8up5URakB0ggzK_Xky1mA43A@1\/manifest.f4m",
+    "akamainame": "sLiXudPfKhgTGmq16Xq34blQjCSEa1iA8UMLlqjxEEAGW4k3LRm3QRsrYA8up5URakB0ggzK_Xky1mA43A",
+    "vod_url_hls": "http:\/\/vodstream-vh.akamaihd.net\/i\/fle\/6dNnwFwFnMd9QhfDreBA7DAsm3dYZqC1rJVAtLayW3hiAGMy29UEdmFf8rH61EN5EOWwlDFF3usGh7EDbVS1_,1,2,3,4,_fle.mp4.csmil\/master.m3u8",
+    "vod_url_hds": "http:\/\/vodstream-vh.akamaihd.net\/z\/fle\/6dNnwFwFnMd9QhfDreBA7DAsm3dYZqC1rJVAtLayW3hiAGMy29UEdmFf8rH61EN5EOWwlDFF3usGh7EDbVS1_,1,2,3,4,_fle.mp4.csmil\/manifest.f4m",
+    "date": "2015-11-27",
+    "language": "en",
+    "language_country": null,
+    "section": "2"
+}, {
+    "data": {
+        "id_branch_channel": "1982",
+        "section": "2",
+        "event": "Circuit Assembly with Circuit Overseer - Afternoon",
+        "description": "",
+        "datestart": null,
+        "dateend": null,
+        "datecreated": "1448582400",
+        "hls": "http:\/\/wtbtshdflash-f.akamaihd.net\/i\/43IEDumcCgrdPgBBIyBMQZeWb6ePTqWlUcAZeAzAL5xMyhKCUjFhTnVhpmPWMlWUEfAgJFUk_NDzkHe6IY@1\/master.m3u8",
+        "hds": "http:\/\/wtbtshdflash-f.akamaihd.net\/z\/43IEDumcCgrdPgBBIyBMQZeWb6ePTqWlUcAZeAzAL5xMyhKCUjFhTnVhpmPWMlWUEfAgJFUk_NDzkHe6IY@1\/manifest.f4m",
+        "akamainame": "43IEDumcCgrdPgBBIyBMQZeWb6ePTqWlUcAZeAzAL5xMyhKCUjFhTnVhpmPWMlWUEfAgJFUk_NDzkHe6IY",
+        "streamid": "1",
+        "origid": null,
+        "type": "normal",
+        "status": "active",
+        "id_event": 340158,
+        "id": 340158,
+        "base_path": "",
+        "chapters": [],
+        "chapters_sections_md5": "ad7b81dea42cf2ef7525c274471e3ce6",
+        "chapters_sections_md5_applied": "ad7b81dea42cf2ef7525c274471e3ce6",
+        "childvodname": "eOelGc8MhXVG6uPf0BvoWS4Deq8Qv0Vr8AfYjLKbNy5wRaUIMPlxUhLutMYH9zEAkf7nLFzRnpg36IDBJVS1",
+        "child_ready": "1",
+        "copies": "1",
+        "copy_vodname": "eOelGc8MhXVG6uPf0BvoWS4Deq8Qv0Vr8AfYjLKbNy5wRaUIMPlxUhLutMYH9zEAkf7nLFzRnpg36IDBJVS1",
+        "date_time_process_begin": "1448653663",
+        "editing": "0",
+        "editing_completed": "1",
+        "hideSections": null,
+        "is_child": "1",
+        "is_vod": "1",
+        "language": "en",
+        "language_name": "English",
+        "origevent": "340157",
+        "vodname": "eOelGc8MhXVG6uPf0BvoWS4Deq8Qv0Vr8AfYjLKbNy5wRaUIMPlxUhLutMYH9zEAkf7nLFzRnpg36IDBJ",
+        "vod_download": "1",
+        "vod_files": [{
+            "height": 720,
+            "url": "eOelGc8MhXVG6uPf0BvoWS4Deq8Qv0Vr8AfYjLKbNy5wRaUIMPlxUhLutMYH9zEAkf7nLFzRnpg36IDBJVS1_1_fle.mp4"
+        }, {
+            "height": 480,
+            "url": "eOelGc8MhXVG6uPf0BvoWS4Deq8Qv0Vr8AfYjLKbNy5wRaUIMPlxUhLutMYH9zEAkf7nLFzRnpg36IDBJVS1_2_fle.mp4"
+        }, {
+            "height": 360,
+            "url": "eOelGc8MhXVG6uPf0BvoWS4Deq8Qv0Vr8AfYjLKbNy5wRaUIMPlxUhLutMYH9zEAkf7nLFzRnpg36IDBJVS1_3_fle.mp4"
+        }, {
+            "height": 240,
+            "url": "eOelGc8MhXVG6uPf0BvoWS4Deq8Qv0Vr8AfYjLKbNy5wRaUIMPlxUhLutMYH9zEAkf7nLFzRnpg36IDBJVS1_4_fle.mp4"
+        }
+        ],
+        "vod_orig_event": "340158",
+        "vod_path": "\/fle",
+        "vod_total": "4",
+        "wait_main": "0",
+        "vod_files_urls": [{
+            "height": 720,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/eOelGc8MhXVG6uPf0BvoWS4Deq8Qv0Vr8AfYjLKbNy5wRaUIMPlxUhLutMYH9zEAkf7nLFzRnpg36IDBJVS1_1_fle.mp4"
+        }, {
+            "height": 480,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/eOelGc8MhXVG6uPf0BvoWS4Deq8Qv0Vr8AfYjLKbNy5wRaUIMPlxUhLutMYH9zEAkf7nLFzRnpg36IDBJVS1_2_fle.mp4"
+        }, {
+            "height": 360,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/eOelGc8MhXVG6uPf0BvoWS4Deq8Qv0Vr8AfYjLKbNy5wRaUIMPlxUhLutMYH9zEAkf7nLFzRnpg36IDBJVS1_3_fle.mp4"
+        }, {
+            "height": 240,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/eOelGc8MhXVG6uPf0BvoWS4Deq8Qv0Vr8AfYjLKbNy5wRaUIMPlxUhLutMYH9zEAkf7nLFzRnpg36IDBJVS1_4_fle.mp4"
+        }
+        ],
+        "vod_files_oldsite": "[{\"height\":720,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/eOelGc8MhXVG6uPf0BvoWS4Deq8Qv0Vr8AfYjLKbNy5wRaUIMPlxUhLutMYH9zEAkf7nLFzRnpg36IDBJVS1_1_fle.mp4\"},{\"height\":480,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/eOelGc8MhXVG6uPf0BvoWS4Deq8Qv0Vr8AfYjLKbNy5wRaUIMPlxUhLutMYH9zEAkf7nLFzRnpg36IDBJVS1_2_fle.mp4\"},{\"height\":360,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/eOelGc8MhXVG6uPf0BvoWS4Deq8Qv0Vr8AfYjLKbNy5wRaUIMPlxUhLutMYH9zEAkf7nLFzRnpg36IDBJVS1_3_fle.mp4\"},{\"height\":240,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/eOelGc8MhXVG6uPf0BvoWS4Deq8Qv0Vr8AfYjLKbNy5wRaUIMPlxUhLutMYH9zEAkf7nLFzRnpg36IDBJVS1_4_fle.mp4\"}]",
+        "vod_class": "vodDownloadActive",
+        "vod_firstfile_url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/eOelGc8MhXVG6uPf0BvoWS4Deq8Qv0Vr8AfYjLKbNy5wRaUIMPlxUhLutMYH9zEAkf7nLFzRnpg36IDBJVS1_1_fle.mp4",
+        "vod_url_hls": "http:\/\/vodstream-vh.akamaihd.net\/i\/fle\/eOelGc8MhXVG6uPf0BvoWS4Deq8Qv0Vr8AfYjLKbNy5wRaUIMPlxUhLutMYH9zEAkf7nLFzRnpg36IDBJVS1_,1,2,3,4,_fle.mp4.csmil\/master.m3u8",
+        "vod_url_hds": "http:\/\/vodstream-vh.akamaihd.net\/z\/fle\/eOelGc8MhXVG6uPf0BvoWS4Deq8Qv0Vr8AfYjLKbNy5wRaUIMPlxUhLutMYH9zEAkf7nLFzRnpg36IDBJVS1_,1,2,3,4,_fle.mp4.csmil\/manifest.f4m"
+    },
+    "title": "Circuit Assembly with Circuit Overseer - Afternoon",
+    "description": "Circuit Assembly with Circuit Overseer - Afternoon",
+    "url": "\/meeting\/create\/id\/340158",
+    "type": "schedule",
+    "status": "active",
+    "chapters": [],
+    "is_vod": "1",
+    "vod_download": "1",
+    "hls": "http:\/\/wtbtshdflash-f.akamaihd.net\/i\/43IEDumcCgrdPgBBIyBMQZeWb6ePTqWlUcAZeAzAL5xMyhKCUjFhTnVhpmPWMlWUEfAgJFUk_NDzkHe6IY@1\/master.m3u8",
+    "hds": "http:\/\/wtbtshdflash-f.akamaihd.net\/z\/43IEDumcCgrdPgBBIyBMQZeWb6ePTqWlUcAZeAzAL5xMyhKCUjFhTnVhpmPWMlWUEfAgJFUk_NDzkHe6IY@1\/manifest.f4m",
+    "akamainame": "43IEDumcCgrdPgBBIyBMQZeWb6ePTqWlUcAZeAzAL5xMyhKCUjFhTnVhpmPWMlWUEfAgJFUk_NDzkHe6IY",
+    "vod_url_hls": "http:\/\/vodstream-vh.akamaihd.net\/i\/fle\/eOelGc8MhXVG6uPf0BvoWS4Deq8Qv0Vr8AfYjLKbNy5wRaUIMPlxUhLutMYH9zEAkf7nLFzRnpg36IDBJVS1_,1,2,3,4,_fle.mp4.csmil\/master.m3u8",
+    "vod_url_hds": "http:\/\/vodstream-vh.akamaihd.net\/z\/fle\/eOelGc8MhXVG6uPf0BvoWS4Deq8Qv0Vr8AfYjLKbNy5wRaUIMPlxUhLutMYH9zEAkf7nLFzRnpg36IDBJVS1_,1,2,3,4,_fle.mp4.csmil\/manifest.f4m",
+    "date": "2015-11-27",
+    "language": "en",
+    "language_country": null,
+    "section": "2"
+}, {
+    "data": {
+        "id_branch_channel": "1982",
+        "section": "2",
+        "event": "Circuit Assembly with Circuit Overseer - Morning",
+        "description": "",
+        "datestart": null,
+        "dateend": null,
+        "datecreated": "1448582400",
+        "hls": "http:\/\/wtbtshdflash-f.akamaihd.net\/i\/ktCUCl4ahzYE7MB7zvG4cW51LGwSJnepdn69NuiAIg3SmgMJV8cwpjXLQRd0UCpxInwcqADY_1r2WZK8fM@1\/master.m3u8",
+        "hds": "http:\/\/wtbtshdflash-f.akamaihd.net\/z\/ktCUCl4ahzYE7MB7zvG4cW51LGwSJnepdn69NuiAIg3SmgMJV8cwpjXLQRd0UCpxInwcqADY_1r2WZK8fM@1\/manifest.f4m",
+        "akamainame": "ktCUCl4ahzYE7MB7zvG4cW51LGwSJnepdn69NuiAIg3SmgMJV8cwpjXLQRd0UCpxInwcqADY_1r2WZK8fM",
+        "streamid": "1",
+        "origid": null,
+        "type": "normal",
+        "status": "active",
+        "id_event": 340156,
+        "id": 340156,
+        "base_path": "",
+        "chapters": [],
+        "chapters_sections_md5": "ad7b81dea42cf2ef7525c274471e3ce6",
+        "chapters_sections_md5_applied": "ad7b81dea42cf2ef7525c274471e3ce6",
+        "childvodname": "NEBv5dbEuQX0MdDOAO5jyppENBJaGH77f4QAZCxNlfmY8egH4szwkzj2ijBJISQEV7OALMjuDXpAAGxboVS1",
+        "child_ready": "1",
+        "copies": "1",
+        "copy_vodname": "NEBv5dbEuQX0MdDOAO5jyppENBJaGH77f4QAZCxNlfmY8egH4szwkzj2ijBJISQEV7OALMjuDXpAAGxboVS1",
+        "date_time_process_begin": "1448652857",
+        "editing": "0",
+        "editing_completed": "1",
+        "hideSections": null,
+        "is_child": "1",
+        "is_vod": "1",
+        "language": "en",
+        "language_name": "English",
+        "origevent": "340155",
+        "vodname": "NEBv5dbEuQX0MdDOAO5jyppENBJaGH77f4QAZCxNlfmY8egH4szwkzj2ijBJISQEV7OALMjuDXpAAGxbo",
+        "vod_download": "1",
+        "vod_files": [{
+            "height": 720,
+            "url": "NEBv5dbEuQX0MdDOAO5jyppENBJaGH77f4QAZCxNlfmY8egH4szwkzj2ijBJISQEV7OALMjuDXpAAGxboVS1_1_fle.mp4"
+        }, {
+            "height": 480,
+            "url": "NEBv5dbEuQX0MdDOAO5jyppENBJaGH77f4QAZCxNlfmY8egH4szwkzj2ijBJISQEV7OALMjuDXpAAGxboVS1_2_fle.mp4"
+        }, {
+            "height": 360,
+            "url": "NEBv5dbEuQX0MdDOAO5jyppENBJaGH77f4QAZCxNlfmY8egH4szwkzj2ijBJISQEV7OALMjuDXpAAGxboVS1_3_fle.mp4"
+        }, {
+            "height": 240,
+            "url": "NEBv5dbEuQX0MdDOAO5jyppENBJaGH77f4QAZCxNlfmY8egH4szwkzj2ijBJISQEV7OALMjuDXpAAGxboVS1_4_fle.mp4"
+        }
+        ],
+        "vod_orig_event": "340156",
+        "vod_path": "\/fle",
+        "vod_total": "4",
+        "wait_main": "0",
+        "vod_files_urls": [{
+            "height": 720,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/NEBv5dbEuQX0MdDOAO5jyppENBJaGH77f4QAZCxNlfmY8egH4szwkzj2ijBJISQEV7OALMjuDXpAAGxboVS1_1_fle.mp4"
+        }, {
+            "height": 480,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/NEBv5dbEuQX0MdDOAO5jyppENBJaGH77f4QAZCxNlfmY8egH4szwkzj2ijBJISQEV7OALMjuDXpAAGxboVS1_2_fle.mp4"
+        }, {
+            "height": 360,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/NEBv5dbEuQX0MdDOAO5jyppENBJaGH77f4QAZCxNlfmY8egH4szwkzj2ijBJISQEV7OALMjuDXpAAGxboVS1_3_fle.mp4"
+        }, {
+            "height": 240,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/NEBv5dbEuQX0MdDOAO5jyppENBJaGH77f4QAZCxNlfmY8egH4szwkzj2ijBJISQEV7OALMjuDXpAAGxboVS1_4_fle.mp4"
+        }
+        ],
+        "vod_files_oldsite": "[{\"height\":720,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/NEBv5dbEuQX0MdDOAO5jyppENBJaGH77f4QAZCxNlfmY8egH4szwkzj2ijBJISQEV7OALMjuDXpAAGxboVS1_1_fle.mp4\"},{\"height\":480,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/NEBv5dbEuQX0MdDOAO5jyppENBJaGH77f4QAZCxNlfmY8egH4szwkzj2ijBJISQEV7OALMjuDXpAAGxboVS1_2_fle.mp4\"},{\"height\":360,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/NEBv5dbEuQX0MdDOAO5jyppENBJaGH77f4QAZCxNlfmY8egH4szwkzj2ijBJISQEV7OALMjuDXpAAGxboVS1_3_fle.mp4\"},{\"height\":240,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/NEBv5dbEuQX0MdDOAO5jyppENBJaGH77f4QAZCxNlfmY8egH4szwkzj2ijBJISQEV7OALMjuDXpAAGxboVS1_4_fle.mp4\"}]",
+        "vod_class": "vodDownloadActive",
+        "vod_firstfile_url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/NEBv5dbEuQX0MdDOAO5jyppENBJaGH77f4QAZCxNlfmY8egH4szwkzj2ijBJISQEV7OALMjuDXpAAGxboVS1_1_fle.mp4",
+        "vod_url_hls": "http:\/\/vodstream-vh.akamaihd.net\/i\/fle\/NEBv5dbEuQX0MdDOAO5jyppENBJaGH77f4QAZCxNlfmY8egH4szwkzj2ijBJISQEV7OALMjuDXpAAGxboVS1_,1,2,3,4,_fle.mp4.csmil\/master.m3u8",
+        "vod_url_hds": "http:\/\/vodstream-vh.akamaihd.net\/z\/fle\/NEBv5dbEuQX0MdDOAO5jyppENBJaGH77f4QAZCxNlfmY8egH4szwkzj2ijBJISQEV7OALMjuDXpAAGxboVS1_,1,2,3,4,_fle.mp4.csmil\/manifest.f4m"
+    },
+    "title": "Circuit Assembly with Circuit Overseer - Morning",
+    "description": "Circuit Assembly with Circuit Overseer - Morning",
+    "url": "\/meeting\/create\/id\/340156",
+    "type": "schedule",
+    "status": "active",
+    "chapters": [],
+    "is_vod": "1",
+    "vod_download": "1",
+    "hls": "http:\/\/wtbtshdflash-f.akamaihd.net\/i\/ktCUCl4ahzYE7MB7zvG4cW51LGwSJnepdn69NuiAIg3SmgMJV8cwpjXLQRd0UCpxInwcqADY_1r2WZK8fM@1\/master.m3u8",
+    "hds": "http:\/\/wtbtshdflash-f.akamaihd.net\/z\/ktCUCl4ahzYE7MB7zvG4cW51LGwSJnepdn69NuiAIg3SmgMJV8cwpjXLQRd0UCpxInwcqADY_1r2WZK8fM@1\/manifest.f4m",
+    "akamainame": "ktCUCl4ahzYE7MB7zvG4cW51LGwSJnepdn69NuiAIg3SmgMJV8cwpjXLQRd0UCpxInwcqADY_1r2WZK8fM",
+    "vod_url_hls": "http:\/\/vodstream-vh.akamaihd.net\/i\/fle\/NEBv5dbEuQX0MdDOAO5jyppENBJaGH77f4QAZCxNlfmY8egH4szwkzj2ijBJISQEV7OALMjuDXpAAGxboVS1_,1,2,3,4,_fle.mp4.csmil\/master.m3u8",
+    "vod_url_hds": "http:\/\/vodstream-vh.akamaihd.net\/z\/fle\/NEBv5dbEuQX0MdDOAO5jyppENBJaGH77f4QAZCxNlfmY8egH4szwkzj2ijBJISQEV7OALMjuDXpAAGxboVS1_,1,2,3,4,_fle.mp4.csmil\/manifest.f4m",
+    "date": "2015-11-27",
+    "language": "en",
+    "language_country": null,
+    "section": "2"
+}, {
+    "data": {
+        "id_branch_channel": "1982",
+        "section": "3",
+        "event": "Regional Convention - Friday Afternoon",
+        "description": "",
+        "datestart": null,
+        "dateend": null,
+        "datecreated": "1447977600",
+        "hls": "http:\/\/wtbtshdflash-f.akamaihd.net\/i\/gACmT3lCRA1sH5n3U6jT9ms7NKdWvgow5BAMDnTPNR6mEaNhoOMauR1yLaOBPajtS1eQlnBP_UlWo1QpTJ@1\/master.m3u8",
+        "hds": "http:\/\/wtbtshdflash-f.akamaihd.net\/z\/gACmT3lCRA1sH5n3U6jT9ms7NKdWvgow5BAMDnTPNR6mEaNhoOMauR1yLaOBPajtS1eQlnBP_UlWo1QpTJ@1\/manifest.f4m",
+        "akamainame": "gACmT3lCRA1sH5n3U6jT9ms7NKdWvgow5BAMDnTPNR6mEaNhoOMauR1yLaOBPajtS1eQlnBP_UlWo1QpTJ",
+        "streamid": "1",
+        "origid": null,
+        "type": "normal",
+        "status": "active",
+        "id_event": 341781,
+        "id": 341781,
+        "base_path": "",
+        "chapters": [],
+        "chapters_sections_md5": "ad7b81dea42cf2ef7525c274471e3ce6",
+        "chapters_sections_md5_applied": "ad7b81dea42cf2ef7525c274471e3ce6",
+        "childvodname": "4BPjEMpAAyi7y0FPnglIiA1ljAGylMWJmPZxPxWm2en9piCvstk1vqBbNwlsA8AtGd0RPhSLGVKbUl4vIVS1",
+        "child_ready": "1",
+        "copies": "1",
+        "copy_vodname": "4BPjEMpAAyi7y0FPnglIiA1ljAGylMWJmPZxPxWm2en9piCvstk1vqBbNwlsA8AtGd0RPhSLGVKbUl4vIVS1",
+        "date_time_process_begin": "1448049974",
+        "editing": "0",
+        "editing_completed": "1",
+        "hideSections": null,
+        "is_child": "1",
+        "is_vod": "1",
+        "language": "en",
+        "language_name": "English",
+        "origevent": "341780",
+        "vodname": "4BPjEMpAAyi7y0FPnglIiA1ljAGylMWJmPZxPxWm2en9piCvstk1vqBbNwlsA8AtGd0RPhSLGVKbUl4vI",
+        "vod_download": "1",
+        "vod_files": [{
+            "height": 720,
+            "url": "4BPjEMpAAyi7y0FPnglIiA1ljAGylMWJmPZxPxWm2en9piCvstk1vqBbNwlsA8AtGd0RPhSLGVKbUl4vIVS1_1_fle.mp4"
+        }, {
+            "height": 480,
+            "url": "4BPjEMpAAyi7y0FPnglIiA1ljAGylMWJmPZxPxWm2en9piCvstk1vqBbNwlsA8AtGd0RPhSLGVKbUl4vIVS1_2_fle.mp4"
+        }, {
+            "height": 360,
+            "url": "4BPjEMpAAyi7y0FPnglIiA1ljAGylMWJmPZxPxWm2en9piCvstk1vqBbNwlsA8AtGd0RPhSLGVKbUl4vIVS1_3_fle.mp4"
+        }, {
+            "height": 240,
+            "url": "4BPjEMpAAyi7y0FPnglIiA1ljAGylMWJmPZxPxWm2en9piCvstk1vqBbNwlsA8AtGd0RPhSLGVKbUl4vIVS1_4_fle.mp4"
+        }
+        ],
+        "vod_orig_event": "341781",
+        "vod_path": "\/fle",
+        "vod_total": "4",
+        "wait_main": "0",
+        "vod_files_urls": [{
+            "height": 720,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/4BPjEMpAAyi7y0FPnglIiA1ljAGylMWJmPZxPxWm2en9piCvstk1vqBbNwlsA8AtGd0RPhSLGVKbUl4vIVS1_1_fle.mp4"
+        }, {
+            "height": 480,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/4BPjEMpAAyi7y0FPnglIiA1ljAGylMWJmPZxPxWm2en9piCvstk1vqBbNwlsA8AtGd0RPhSLGVKbUl4vIVS1_2_fle.mp4"
+        }, {
+            "height": 360,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/4BPjEMpAAyi7y0FPnglIiA1ljAGylMWJmPZxPxWm2en9piCvstk1vqBbNwlsA8AtGd0RPhSLGVKbUl4vIVS1_3_fle.mp4"
+        }, {
+            "height": 240,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/4BPjEMpAAyi7y0FPnglIiA1ljAGylMWJmPZxPxWm2en9piCvstk1vqBbNwlsA8AtGd0RPhSLGVKbUl4vIVS1_4_fle.mp4"
+        }
+        ],
+        "vod_files_oldsite": "[{\"height\":720,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/4BPjEMpAAyi7y0FPnglIiA1ljAGylMWJmPZxPxWm2en9piCvstk1vqBbNwlsA8AtGd0RPhSLGVKbUl4vIVS1_1_fle.mp4\"},{\"height\":480,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/4BPjEMpAAyi7y0FPnglIiA1ljAGylMWJmPZxPxWm2en9piCvstk1vqBbNwlsA8AtGd0RPhSLGVKbUl4vIVS1_2_fle.mp4\"},{\"height\":360,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/4BPjEMpAAyi7y0FPnglIiA1ljAGylMWJmPZxPxWm2en9piCvstk1vqBbNwlsA8AtGd0RPhSLGVKbUl4vIVS1_3_fle.mp4\"},{\"height\":240,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/4BPjEMpAAyi7y0FPnglIiA1ljAGylMWJmPZxPxWm2en9piCvstk1vqBbNwlsA8AtGd0RPhSLGVKbUl4vIVS1_4_fle.mp4\"}]",
+        "vod_class": "vodDownloadActive",
+        "vod_firstfile_url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/4BPjEMpAAyi7y0FPnglIiA1ljAGylMWJmPZxPxWm2en9piCvstk1vqBbNwlsA8AtGd0RPhSLGVKbUl4vIVS1_1_fle.mp4",
+        "vod_url_hls": "http:\/\/vodstream-vh.akamaihd.net\/i\/fle\/4BPjEMpAAyi7y0FPnglIiA1ljAGylMWJmPZxPxWm2en9piCvstk1vqBbNwlsA8AtGd0RPhSLGVKbUl4vIVS1_,1,2,3,4,_fle.mp4.csmil\/master.m3u8",
+        "vod_url_hds": "http:\/\/vodstream-vh.akamaihd.net\/z\/fle\/4BPjEMpAAyi7y0FPnglIiA1ljAGylMWJmPZxPxWm2en9piCvstk1vqBbNwlsA8AtGd0RPhSLGVKbUl4vIVS1_,1,2,3,4,_fle.mp4.csmil\/manifest.f4m"
+    },
+    "title": "Regional Convention - Friday Afternoon",
+    "description": "Regional Convention - Friday Afternoon",
+    "url": "\/meeting\/create\/id\/341781",
+    "type": "schedule",
+    "status": "active",
+    "chapters": [],
+    "is_vod": "1",
+    "vod_download": "1",
+    "hls": "http:\/\/wtbtshdflash-f.akamaihd.net\/i\/gACmT3lCRA1sH5n3U6jT9ms7NKdWvgow5BAMDnTPNR6mEaNhoOMauR1yLaOBPajtS1eQlnBP_UlWo1QpTJ@1\/master.m3u8",
+    "hds": "http:\/\/wtbtshdflash-f.akamaihd.net\/z\/gACmT3lCRA1sH5n3U6jT9ms7NKdWvgow5BAMDnTPNR6mEaNhoOMauR1yLaOBPajtS1eQlnBP_UlWo1QpTJ@1\/manifest.f4m",
+    "akamainame": "gACmT3lCRA1sH5n3U6jT9ms7NKdWvgow5BAMDnTPNR6mEaNhoOMauR1yLaOBPajtS1eQlnBP_UlWo1QpTJ",
+    "vod_url_hls": "http:\/\/vodstream-vh.akamaihd.net\/i\/fle\/4BPjEMpAAyi7y0FPnglIiA1ljAGylMWJmPZxPxWm2en9piCvstk1vqBbNwlsA8AtGd0RPhSLGVKbUl4vIVS1_,1,2,3,4,_fle.mp4.csmil\/master.m3u8",
+    "vod_url_hds": "http:\/\/vodstream-vh.akamaihd.net\/z\/fle\/4BPjEMpAAyi7y0FPnglIiA1ljAGylMWJmPZxPxWm2en9piCvstk1vqBbNwlsA8AtGd0RPhSLGVKbUl4vIVS1_,1,2,3,4,_fle.mp4.csmil\/manifest.f4m",
+    "date": "2015-11-20",
+    "language": "en",
+    "language_country": null,
+    "section": "3"
+}, {
+    "data": {
+        "id_branch_channel": "1982",
+        "section": "3",
+        "event": "Regional Convention - Friday Morning",
+        "description": "",
+        "datestart": null,
+        "dateend": null,
+        "datecreated": "1447977600",
+        "hls": "http:\/\/wtbtshdflash-f.akamaihd.net\/i\/3pa0PvG9CYVRvWRWAKlZpEOPRW25AoVI8zTONaYU33KXgM1spri8agFeSCLXJBJi4Afl5C5A_c47Jc1VKn@1\/master.m3u8",
+        "hds": "http:\/\/wtbtshdflash-f.akamaihd.net\/z\/3pa0PvG9CYVRvWRWAKlZpEOPRW25AoVI8zTONaYU33KXgM1spri8agFeSCLXJBJi4Afl5C5A_c47Jc1VKn@1\/manifest.f4m",
+        "akamainame": "3pa0PvG9CYVRvWRWAKlZpEOPRW25AoVI8zTONaYU33KXgM1spri8agFeSCLXJBJi4Afl5C5A_c47Jc1VKn",
+        "streamid": "1",
+        "origid": null,
+        "type": "normal",
+        "status": "active",
+        "id_event": 341791,
+        "id": 341791,
+        "base_path": "",
+        "chapters": [],
+        "chapters_sections_md5": "ad7b81dea42cf2ef7525c274471e3ce6",
+        "chapters_sections_md5_applied": "ad7b81dea42cf2ef7525c274471e3ce6",
+        "childvodname": "a8fHARtNSZ3bgLAMf9K14v6uzYDhhnnjN5OWn1YKIDR8J2YSrACUWREYIocFZmgaGNYEqxjQ7vfAn1pvyVS1",
+        "child_ready": "1",
+        "copies": "1",
+        "copy_vodname": "a8fHARtNSZ3bgLAMf9K14v6uzYDhhnnjN5OWn1YKIDR8J2YSrACUWREYIocFZmgaGNYEqxjQ7vfAn1pvyVS1",
+        "date_time_process_begin": "1448049554",
+        "editing": "0",
+        "editing_completed": "1",
+        "hideSections": null,
+        "is_child": "1",
+        "is_vod": "1",
+        "language": "en",
+        "language_name": "English",
+        "origevent": "341790",
+        "vodname": "a8fHARtNSZ3bgLAMf9K14v6uzYDhhnnjN5OWn1YKIDR8J2YSrACUWREYIocFZmgaGNYEqxjQ7vfAn1pvy",
+        "vod_download": "1",
+        "vod_files": [{
+            "height": 720,
+            "url": "a8fHARtNSZ3bgLAMf9K14v6uzYDhhnnjN5OWn1YKIDR8J2YSrACUWREYIocFZmgaGNYEqxjQ7vfAn1pvyVS1_1_fle.mp4"
+        }, {
+            "height": 480,
+            "url": "a8fHARtNSZ3bgLAMf9K14v6uzYDhhnnjN5OWn1YKIDR8J2YSrACUWREYIocFZmgaGNYEqxjQ7vfAn1pvyVS1_2_fle.mp4"
+        }, {
+            "height": 360,
+            "url": "a8fHARtNSZ3bgLAMf9K14v6uzYDhhnnjN5OWn1YKIDR8J2YSrACUWREYIocFZmgaGNYEqxjQ7vfAn1pvyVS1_3_fle.mp4"
+        }, {
+            "height": 240,
+            "url": "a8fHARtNSZ3bgLAMf9K14v6uzYDhhnnjN5OWn1YKIDR8J2YSrACUWREYIocFZmgaGNYEqxjQ7vfAn1pvyVS1_4_fle.mp4"
+        }
+        ],
+        "vod_orig_event": "341791",
+        "vod_path": "\/fle",
+        "vod_total": "4",
+        "wait_main": "0",
+        "vod_files_urls": [{
+            "height": 720,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/a8fHARtNSZ3bgLAMf9K14v6uzYDhhnnjN5OWn1YKIDR8J2YSrACUWREYIocFZmgaGNYEqxjQ7vfAn1pvyVS1_1_fle.mp4"
+        }, {
+            "height": 480,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/a8fHARtNSZ3bgLAMf9K14v6uzYDhhnnjN5OWn1YKIDR8J2YSrACUWREYIocFZmgaGNYEqxjQ7vfAn1pvyVS1_2_fle.mp4"
+        }, {
+            "height": 360,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/a8fHARtNSZ3bgLAMf9K14v6uzYDhhnnjN5OWn1YKIDR8J2YSrACUWREYIocFZmgaGNYEqxjQ7vfAn1pvyVS1_3_fle.mp4"
+        }, {
+            "height": 240,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/a8fHARtNSZ3bgLAMf9K14v6uzYDhhnnjN5OWn1YKIDR8J2YSrACUWREYIocFZmgaGNYEqxjQ7vfAn1pvyVS1_4_fle.mp4"
+        }
+        ],
+        "vod_files_oldsite": "[{\"height\":720,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/a8fHARtNSZ3bgLAMf9K14v6uzYDhhnnjN5OWn1YKIDR8J2YSrACUWREYIocFZmgaGNYEqxjQ7vfAn1pvyVS1_1_fle.mp4\"},{\"height\":480,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/a8fHARtNSZ3bgLAMf9K14v6uzYDhhnnjN5OWn1YKIDR8J2YSrACUWREYIocFZmgaGNYEqxjQ7vfAn1pvyVS1_2_fle.mp4\"},{\"height\":360,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/a8fHARtNSZ3bgLAMf9K14v6uzYDhhnnjN5OWn1YKIDR8J2YSrACUWREYIocFZmgaGNYEqxjQ7vfAn1pvyVS1_3_fle.mp4\"},{\"height\":240,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/a8fHARtNSZ3bgLAMf9K14v6uzYDhhnnjN5OWn1YKIDR8J2YSrACUWREYIocFZmgaGNYEqxjQ7vfAn1pvyVS1_4_fle.mp4\"}]",
+        "vod_class": "vodDownloadActive",
+        "vod_firstfile_url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/a8fHARtNSZ3bgLAMf9K14v6uzYDhhnnjN5OWn1YKIDR8J2YSrACUWREYIocFZmgaGNYEqxjQ7vfAn1pvyVS1_1_fle.mp4",
+        "vod_url_hls": "http:\/\/vodstream-vh.akamaihd.net\/i\/fle\/a8fHARtNSZ3bgLAMf9K14v6uzYDhhnnjN5OWn1YKIDR8J2YSrACUWREYIocFZmgaGNYEqxjQ7vfAn1pvyVS1_,1,2,3,4,_fle.mp4.csmil\/master.m3u8",
+        "vod_url_hds": "http:\/\/vodstream-vh.akamaihd.net\/z\/fle\/a8fHARtNSZ3bgLAMf9K14v6uzYDhhnnjN5OWn1YKIDR8J2YSrACUWREYIocFZmgaGNYEqxjQ7vfAn1pvyVS1_,1,2,3,4,_fle.mp4.csmil\/manifest.f4m"
+    },
+    "title": "Regional Convention - Friday Morning",
+    "description": "Regional Convention - Friday Morning",
+    "url": "\/meeting\/create\/id\/341791",
+    "type": "schedule",
+    "status": "active",
+    "chapters": [],
+    "is_vod": "1",
+    "vod_download": "1",
+    "hls": "http:\/\/wtbtshdflash-f.akamaihd.net\/i\/3pa0PvG9CYVRvWRWAKlZpEOPRW25AoVI8zTONaYU33KXgM1spri8agFeSCLXJBJi4Afl5C5A_c47Jc1VKn@1\/master.m3u8",
+    "hds": "http:\/\/wtbtshdflash-f.akamaihd.net\/z\/3pa0PvG9CYVRvWRWAKlZpEOPRW25AoVI8zTONaYU33KXgM1spri8agFeSCLXJBJi4Afl5C5A_c47Jc1VKn@1\/manifest.f4m",
+    "akamainame": "3pa0PvG9CYVRvWRWAKlZpEOPRW25AoVI8zTONaYU33KXgM1spri8agFeSCLXJBJi4Afl5C5A_c47Jc1VKn",
+    "vod_url_hls": "http:\/\/vodstream-vh.akamaihd.net\/i\/fle\/a8fHARtNSZ3bgLAMf9K14v6uzYDhhnnjN5OWn1YKIDR8J2YSrACUWREYIocFZmgaGNYEqxjQ7vfAn1pvyVS1_,1,2,3,4,_fle.mp4.csmil\/master.m3u8",
+    "vod_url_hds": "http:\/\/vodstream-vh.akamaihd.net\/z\/fle\/a8fHARtNSZ3bgLAMf9K14v6uzYDhhnnjN5OWn1YKIDR8J2YSrACUWREYIocFZmgaGNYEqxjQ7vfAn1pvyVS1_,1,2,3,4,_fle.mp4.csmil\/manifest.f4m",
+    "date": "2015-11-20",
+    "language": "en",
+    "language_country": null,
+    "section": "3"
+}, {
+    "data": {
+        "id_branch_channel": "1982",
+        "section": "3",
+        "event": "Regional Convention - Saturday Afternoon",
+        "description": "",
+        "datestart": null,
+        "dateend": null,
+        "datecreated": "1447977600",
+        "hls": "http:\/\/wtbtshdflash-f.akamaihd.net\/i\/jscIy7GQ8a89v3hloTPGt81olx0cGTqqxP3SWMU9sPmU8dzGn4TtH4KnSnfKB7gEy3cmlrjZ_0tCA7IjNb@1\/master.m3u8",
+        "hds": "http:\/\/wtbtshdflash-f.akamaihd.net\/z\/jscIy7GQ8a89v3hloTPGt81olx0cGTqqxP3SWMU9sPmU8dzGn4TtH4KnSnfKB7gEy3cmlrjZ_0tCA7IjNb@1\/manifest.f4m",
+        "akamainame": "jscIy7GQ8a89v3hloTPGt81olx0cGTqqxP3SWMU9sPmU8dzGn4TtH4KnSnfKB7gEy3cmlrjZ_0tCA7IjNb",
+        "streamid": "1",
+        "origid": null,
+        "type": "normal",
+        "status": "active",
+        "id_event": 341789,
+        "id": 341789,
+        "base_path": "",
+        "chapters": [],
+        "chapters_sections_md5": "ad7b81dea42cf2ef7525c274471e3ce6",
+        "chapters_sections_md5_applied": "ad7b81dea42cf2ef7525c274471e3ce6",
+        "childvodname": "R4BNFK3dsKLISAitYTbCHFhSUwML6AvIJTSrWJJIkyV4lXYDIFNw90YS14MKohavj6LsWtxCv7xws67cjVS1",
+        "child_ready": "1",
+        "copies": "1",
+        "copy_vodname": "R4BNFK3dsKLISAitYTbCHFhSUwML6AvIJTSrWJJIkyV4lXYDIFNw90YS14MKohavj6LsWtxCv7xws67cjVS1",
+        "date_time_process_begin": "1448058377",
+        "editing": "0",
+        "editing_completed": "1",
+        "hideSections": null,
+        "is_child": "1",
+        "is_vod": "1",
+        "language": "en",
+        "language_name": "English",
+        "origevent": "341788",
+        "vodname": "R4BNFK3dsKLISAitYTbCHFhSUwML6AvIJTSrWJJIkyV4lXYDIFNw90YS14MKohavj6LsWtxCv7xws67cj",
+        "vod_download": "1",
+        "vod_files": [{
+            "height": 720,
+            "url": "R4BNFK3dsKLISAitYTbCHFhSUwML6AvIJTSrWJJIkyV4lXYDIFNw90YS14MKohavj6LsWtxCv7xws67cjVS1_1_fle.mp4"
+        }, {
+            "height": 480,
+            "url": "R4BNFK3dsKLISAitYTbCHFhSUwML6AvIJTSrWJJIkyV4lXYDIFNw90YS14MKohavj6LsWtxCv7xws67cjVS1_2_fle.mp4"
+        }, {
+            "height": 360,
+            "url": "R4BNFK3dsKLISAitYTbCHFhSUwML6AvIJTSrWJJIkyV4lXYDIFNw90YS14MKohavj6LsWtxCv7xws67cjVS1_3_fle.mp4"
+        }, {
+            "height": 240,
+            "url": "R4BNFK3dsKLISAitYTbCHFhSUwML6AvIJTSrWJJIkyV4lXYDIFNw90YS14MKohavj6LsWtxCv7xws67cjVS1_4_fle.mp4"
+        }
+        ],
+        "vod_orig_event": "341789",
+        "vod_path": "\/fle",
+        "vod_total": "4",
+        "wait_main": "0",
+        "vod_files_urls": [{
+            "height": 720,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/R4BNFK3dsKLISAitYTbCHFhSUwML6AvIJTSrWJJIkyV4lXYDIFNw90YS14MKohavj6LsWtxCv7xws67cjVS1_1_fle.mp4"
+        }, {
+            "height": 480,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/R4BNFK3dsKLISAitYTbCHFhSUwML6AvIJTSrWJJIkyV4lXYDIFNw90YS14MKohavj6LsWtxCv7xws67cjVS1_2_fle.mp4"
+        }, {
+            "height": 360,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/R4BNFK3dsKLISAitYTbCHFhSUwML6AvIJTSrWJJIkyV4lXYDIFNw90YS14MKohavj6LsWtxCv7xws67cjVS1_3_fle.mp4"
+        }, {
+            "height": 240,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/R4BNFK3dsKLISAitYTbCHFhSUwML6AvIJTSrWJJIkyV4lXYDIFNw90YS14MKohavj6LsWtxCv7xws67cjVS1_4_fle.mp4"
+        }
+        ],
+        "vod_files_oldsite": "[{\"height\":720,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/R4BNFK3dsKLISAitYTbCHFhSUwML6AvIJTSrWJJIkyV4lXYDIFNw90YS14MKohavj6LsWtxCv7xws67cjVS1_1_fle.mp4\"},{\"height\":480,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/R4BNFK3dsKLISAitYTbCHFhSUwML6AvIJTSrWJJIkyV4lXYDIFNw90YS14MKohavj6LsWtxCv7xws67cjVS1_2_fle.mp4\"},{\"height\":360,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/R4BNFK3dsKLISAitYTbCHFhSUwML6AvIJTSrWJJIkyV4lXYDIFNw90YS14MKohavj6LsWtxCv7xws67cjVS1_3_fle.mp4\"},{\"height\":240,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/R4BNFK3dsKLISAitYTbCHFhSUwML6AvIJTSrWJJIkyV4lXYDIFNw90YS14MKohavj6LsWtxCv7xws67cjVS1_4_fle.mp4\"}]",
+        "vod_class": "vodDownloadActive",
+        "vod_firstfile_url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/R4BNFK3dsKLISAitYTbCHFhSUwML6AvIJTSrWJJIkyV4lXYDIFNw90YS14MKohavj6LsWtxCv7xws67cjVS1_1_fle.mp4",
+        "vod_url_hls": "http:\/\/vodstream-vh.akamaihd.net\/i\/fle\/R4BNFK3dsKLISAitYTbCHFhSUwML6AvIJTSrWJJIkyV4lXYDIFNw90YS14MKohavj6LsWtxCv7xws67cjVS1_,1,2,3,4,_fle.mp4.csmil\/master.m3u8",
+        "vod_url_hds": "http:\/\/vodstream-vh.akamaihd.net\/z\/fle\/R4BNFK3dsKLISAitYTbCHFhSUwML6AvIJTSrWJJIkyV4lXYDIFNw90YS14MKohavj6LsWtxCv7xws67cjVS1_,1,2,3,4,_fle.mp4.csmil\/manifest.f4m"
+    },
+    "title": "Regional Convention - Saturday Afternoon",
+    "description": "Regional Convention - Saturday Afternoon",
+    "url": "\/meeting\/create\/id\/341789",
+    "type": "schedule",
+    "status": "active",
+    "chapters": [],
+    "is_vod": "1",
+    "vod_download": "1",
+    "hls": "http:\/\/wtbtshdflash-f.akamaihd.net\/i\/jscIy7GQ8a89v3hloTPGt81olx0cGTqqxP3SWMU9sPmU8dzGn4TtH4KnSnfKB7gEy3cmlrjZ_0tCA7IjNb@1\/master.m3u8",
+    "hds": "http:\/\/wtbtshdflash-f.akamaihd.net\/z\/jscIy7GQ8a89v3hloTPGt81olx0cGTqqxP3SWMU9sPmU8dzGn4TtH4KnSnfKB7gEy3cmlrjZ_0tCA7IjNb@1\/manifest.f4m",
+    "akamainame": "jscIy7GQ8a89v3hloTPGt81olx0cGTqqxP3SWMU9sPmU8dzGn4TtH4KnSnfKB7gEy3cmlrjZ_0tCA7IjNb",
+    "vod_url_hls": "http:\/\/vodstream-vh.akamaihd.net\/i\/fle\/R4BNFK3dsKLISAitYTbCHFhSUwML6AvIJTSrWJJIkyV4lXYDIFNw90YS14MKohavj6LsWtxCv7xws67cjVS1_,1,2,3,4,_fle.mp4.csmil\/master.m3u8",
+    "vod_url_hds": "http:\/\/vodstream-vh.akamaihd.net\/z\/fle\/R4BNFK3dsKLISAitYTbCHFhSUwML6AvIJTSrWJJIkyV4lXYDIFNw90YS14MKohavj6LsWtxCv7xws67cjVS1_,1,2,3,4,_fle.mp4.csmil\/manifest.f4m",
+    "date": "2015-11-20",
+    "language": "en",
+    "language_country": null,
+    "section": "3"
+}, {
+    "data": {
+        "id_branch_channel": "1982",
+        "section": "3",
+        "event": "Regional Convention - Saturday Morning",
+        "description": "",
+        "datestart": null,
+        "dateend": null,
+        "datecreated": "1447977600",
+        "hls": "http:\/\/wtbtshdflash-f.akamaihd.net\/i\/wf6hV8qyYUPJHASfqcGgghY202PaDNkBHy1f1UMNZyBromGGclXF3UzChNUJFcVXd9K3P32O_oMLlfOiDg@1\/master.m3u8",
+        "hds": "http:\/\/wtbtshdflash-f.akamaihd.net\/z\/wf6hV8qyYUPJHASfqcGgghY202PaDNkBHy1f1UMNZyBromGGclXF3UzChNUJFcVXd9K3P32O_oMLlfOiDg@1\/manifest.f4m",
+        "akamainame": "wf6hV8qyYUPJHASfqcGgghY202PaDNkBHy1f1UMNZyBromGGclXF3UzChNUJFcVXd9K3P32O_oMLlfOiDg",
+        "streamid": "1",
+        "origid": null,
+        "type": "normal",
+        "status": "active",
+        "id_event": 341783,
+        "id": 341783,
+        "base_path": "",
+        "chapters": [],
+        "chapters_sections_md5": "ad7b81dea42cf2ef7525c274471e3ce6",
+        "chapters_sections_md5_applied": "ad7b81dea42cf2ef7525c274471e3ce6",
+        "childvodname": "RjYOdduKQEs1pDiw2bMaKYApV8YPh6R5a9BAWPkIpsCvYUazM7CXmVSYcgoOajV0benDS0u4Aso1t7weAVS1",
+        "child_ready": "1",
+        "copies": "1",
+        "copy_vodname": "RjYOdduKQEs1pDiw2bMaKYApV8YPh6R5a9BAWPkIpsCvYUazM7CXmVSYcgoOajV0benDS0u4Aso1t7weAVS1",
+        "date_time_process_begin": "1448050179",
+        "editing": "0",
+        "editing_completed": "1",
+        "hideSections": null,
+        "is_child": "1",
+        "is_vod": "1",
+        "language": "en",
+        "language_name": "English",
+        "origevent": "341782",
+        "vodname": "RjYOdduKQEs1pDiw2bMaKYApV8YPh6R5a9BAWPkIpsCvYUazM7CXmVSYcgoOajV0benDS0u4Aso1t7weA",
+        "vod_download": "1",
+        "vod_files": [{
+            "height": 720,
+            "url": "RjYOdduKQEs1pDiw2bMaKYApV8YPh6R5a9BAWPkIpsCvYUazM7CXmVSYcgoOajV0benDS0u4Aso1t7weAVS1_1_fle.mp4"
+        }, {
+            "height": 480,
+            "url": "RjYOdduKQEs1pDiw2bMaKYApV8YPh6R5a9BAWPkIpsCvYUazM7CXmVSYcgoOajV0benDS0u4Aso1t7weAVS1_2_fle.mp4"
+        }, {
+            "height": 360,
+            "url": "RjYOdduKQEs1pDiw2bMaKYApV8YPh6R5a9BAWPkIpsCvYUazM7CXmVSYcgoOajV0benDS0u4Aso1t7weAVS1_3_fle.mp4"
+        }, {
+            "height": 240,
+            "url": "RjYOdduKQEs1pDiw2bMaKYApV8YPh6R5a9BAWPkIpsCvYUazM7CXmVSYcgoOajV0benDS0u4Aso1t7weAVS1_4_fle.mp4"
+        }
+        ],
+        "vod_orig_event": "341783",
+        "vod_path": "\/fle",
+        "vod_total": "4",
+        "wait_main": "0",
+        "vod_files_urls": [{
+            "height": 720,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/RjYOdduKQEs1pDiw2bMaKYApV8YPh6R5a9BAWPkIpsCvYUazM7CXmVSYcgoOajV0benDS0u4Aso1t7weAVS1_1_fle.mp4"
+        }, {
+            "height": 480,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/RjYOdduKQEs1pDiw2bMaKYApV8YPh6R5a9BAWPkIpsCvYUazM7CXmVSYcgoOajV0benDS0u4Aso1t7weAVS1_2_fle.mp4"
+        }, {
+            "height": 360,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/RjYOdduKQEs1pDiw2bMaKYApV8YPh6R5a9BAWPkIpsCvYUazM7CXmVSYcgoOajV0benDS0u4Aso1t7weAVS1_3_fle.mp4"
+        }, {
+            "height": 240,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/RjYOdduKQEs1pDiw2bMaKYApV8YPh6R5a9BAWPkIpsCvYUazM7CXmVSYcgoOajV0benDS0u4Aso1t7weAVS1_4_fle.mp4"
+        }
+        ],
+        "vod_files_oldsite": "[{\"height\":720,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/RjYOdduKQEs1pDiw2bMaKYApV8YPh6R5a9BAWPkIpsCvYUazM7CXmVSYcgoOajV0benDS0u4Aso1t7weAVS1_1_fle.mp4\"},{\"height\":480,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/RjYOdduKQEs1pDiw2bMaKYApV8YPh6R5a9BAWPkIpsCvYUazM7CXmVSYcgoOajV0benDS0u4Aso1t7weAVS1_2_fle.mp4\"},{\"height\":360,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/RjYOdduKQEs1pDiw2bMaKYApV8YPh6R5a9BAWPkIpsCvYUazM7CXmVSYcgoOajV0benDS0u4Aso1t7weAVS1_3_fle.mp4\"},{\"height\":240,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/RjYOdduKQEs1pDiw2bMaKYApV8YPh6R5a9BAWPkIpsCvYUazM7CXmVSYcgoOajV0benDS0u4Aso1t7weAVS1_4_fle.mp4\"}]",
+        "vod_class": "vodDownloadActive",
+        "vod_firstfile_url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/RjYOdduKQEs1pDiw2bMaKYApV8YPh6R5a9BAWPkIpsCvYUazM7CXmVSYcgoOajV0benDS0u4Aso1t7weAVS1_1_fle.mp4",
+        "vod_url_hls": "http:\/\/vodstream-vh.akamaihd.net\/i\/fle\/RjYOdduKQEs1pDiw2bMaKYApV8YPh6R5a9BAWPkIpsCvYUazM7CXmVSYcgoOajV0benDS0u4Aso1t7weAVS1_,1,2,3,4,_fle.mp4.csmil\/master.m3u8",
+        "vod_url_hds": "http:\/\/vodstream-vh.akamaihd.net\/z\/fle\/RjYOdduKQEs1pDiw2bMaKYApV8YPh6R5a9BAWPkIpsCvYUazM7CXmVSYcgoOajV0benDS0u4Aso1t7weAVS1_,1,2,3,4,_fle.mp4.csmil\/manifest.f4m"
+    },
+    "title": "Regional Convention - Saturday Morning",
+    "description": "Regional Convention - Saturday Morning",
+    "url": "\/meeting\/create\/id\/341783",
+    "type": "schedule",
+    "status": "active",
+    "chapters": [],
+    "is_vod": "1",
+    "vod_download": "1",
+    "hls": "http:\/\/wtbtshdflash-f.akamaihd.net\/i\/wf6hV8qyYUPJHASfqcGgghY202PaDNkBHy1f1UMNZyBromGGclXF3UzChNUJFcVXd9K3P32O_oMLlfOiDg@1\/master.m3u8",
+    "hds": "http:\/\/wtbtshdflash-f.akamaihd.net\/z\/wf6hV8qyYUPJHASfqcGgghY202PaDNkBHy1f1UMNZyBromGGclXF3UzChNUJFcVXd9K3P32O_oMLlfOiDg@1\/manifest.f4m",
+    "akamainame": "wf6hV8qyYUPJHASfqcGgghY202PaDNkBHy1f1UMNZyBromGGclXF3UzChNUJFcVXd9K3P32O_oMLlfOiDg",
+    "vod_url_hls": "http:\/\/vodstream-vh.akamaihd.net\/i\/fle\/RjYOdduKQEs1pDiw2bMaKYApV8YPh6R5a9BAWPkIpsCvYUazM7CXmVSYcgoOajV0benDS0u4Aso1t7weAVS1_,1,2,3,4,_fle.mp4.csmil\/master.m3u8",
+    "vod_url_hds": "http:\/\/vodstream-vh.akamaihd.net\/z\/fle\/RjYOdduKQEs1pDiw2bMaKYApV8YPh6R5a9BAWPkIpsCvYUazM7CXmVSYcgoOajV0benDS0u4Aso1t7weAVS1_,1,2,3,4,_fle.mp4.csmil\/manifest.f4m",
+    "date": "2015-11-20",
+    "language": "en",
+    "language_country": null,
+    "section": "3"
+}, {
+    "data": {
+        "id_branch_channel": "1982",
+        "section": "3",
+        "event": "Regional Convention - Sunday Afternoon",
+        "description": "",
+        "datestart": null,
+        "dateend": null,
+        "datecreated": "1447977600",
+        "hls": "http:\/\/wtbtshdflash-f.akamaihd.net\/i\/ww2Vf65wqmb5vRe07KCEBVY8S2pa6TJSej5RX6T5VVUA7FuJkJJTTcaeC7wtgTCKNmpRoitX_O2A7IlhUQ@1\/master.m3u8",
+        "hds": "http:\/\/wtbtshdflash-f.akamaihd.net\/z\/ww2Vf65wqmb5vRe07KCEBVY8S2pa6TJSej5RX6T5VVUA7FuJkJJTTcaeC7wtgTCKNmpRoitX_O2A7IlhUQ@1\/manifest.f4m",
+        "akamainame": "ww2Vf65wqmb5vRe07KCEBVY8S2pa6TJSej5RX6T5VVUA7FuJkJJTTcaeC7wtgTCKNmpRoitX_O2A7IlhUQ",
+        "streamid": "1",
+        "origid": null,
+        "type": "normal",
+        "status": "active",
+        "id_event": 341787,
+        "id": 341787,
+        "base_path": "",
+        "chapters": [],
+        "chapters_sections_md5": "ad7b81dea42cf2ef7525c274471e3ce6",
+        "chapters_sections_md5_applied": "ad7b81dea42cf2ef7525c274471e3ce6",
+        "childvodname": "QjLjymWCynvpAA969RH6nOCkAvHOhPTOTTuYTFmKjmsvW2BcbOOA9WcnUkvP8B926fnjyDN0o4fHpPPCZVS1",
+        "child_ready": "1",
+        "copies": "1",
+        "copy_vodname": "QjLjymWCynvpAA969RH6nOCkAvHOhPTOTTuYTFmKjmsvW2BcbOOA9WcnUkvP8B926fnjyDN0o4fHpPPCZVS1",
+        "date_time_process_begin": "1448051039",
+        "editing": "0",
+        "editing_completed": "1",
+        "hideSections": null,
+        "is_child": "1",
+        "is_vod": "1",
+        "language": "en",
+        "language_name": "English",
+        "origevent": "341786",
+        "vodname": "QjLjymWCynvpAA969RH6nOCkAvHOhPTOTTuYTFmKjmsvW2BcbOOA9WcnUkvP8B926fnjyDN0o4fHpPPCZ",
+        "vod_download": "1",
+        "vod_files": [{
+            "height": 720,
+            "url": "QjLjymWCynvpAA969RH6nOCkAvHOhPTOTTuYTFmKjmsvW2BcbOOA9WcnUkvP8B926fnjyDN0o4fHpPPCZVS1_1_fle.mp4"
+        }, {
+            "height": 480,
+            "url": "QjLjymWCynvpAA969RH6nOCkAvHOhPTOTTuYTFmKjmsvW2BcbOOA9WcnUkvP8B926fnjyDN0o4fHpPPCZVS1_2_fle.mp4"
+        }, {
+            "height": 360,
+            "url": "QjLjymWCynvpAA969RH6nOCkAvHOhPTOTTuYTFmKjmsvW2BcbOOA9WcnUkvP8B926fnjyDN0o4fHpPPCZVS1_3_fle.mp4"
+        }, {
+            "height": 240,
+            "url": "QjLjymWCynvpAA969RH6nOCkAvHOhPTOTTuYTFmKjmsvW2BcbOOA9WcnUkvP8B926fnjyDN0o4fHpPPCZVS1_4_fle.mp4"
+        }
+        ],
+        "vod_orig_event": "341787",
+        "vod_path": "\/fle",
+        "vod_total": "4",
+        "wait_main": "0",
+        "vod_files_urls": [{
+            "height": 720,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/QjLjymWCynvpAA969RH6nOCkAvHOhPTOTTuYTFmKjmsvW2BcbOOA9WcnUkvP8B926fnjyDN0o4fHpPPCZVS1_1_fle.mp4"
+        }, {
+            "height": 480,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/QjLjymWCynvpAA969RH6nOCkAvHOhPTOTTuYTFmKjmsvW2BcbOOA9WcnUkvP8B926fnjyDN0o4fHpPPCZVS1_2_fle.mp4"
+        }, {
+            "height": 360,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/QjLjymWCynvpAA969RH6nOCkAvHOhPTOTTuYTFmKjmsvW2BcbOOA9WcnUkvP8B926fnjyDN0o4fHpPPCZVS1_3_fle.mp4"
+        }, {
+            "height": 240,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/QjLjymWCynvpAA969RH6nOCkAvHOhPTOTTuYTFmKjmsvW2BcbOOA9WcnUkvP8B926fnjyDN0o4fHpPPCZVS1_4_fle.mp4"
+        }
+        ],
+        "vod_files_oldsite": "[{\"height\":720,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/QjLjymWCynvpAA969RH6nOCkAvHOhPTOTTuYTFmKjmsvW2BcbOOA9WcnUkvP8B926fnjyDN0o4fHpPPCZVS1_1_fle.mp4\"},{\"height\":480,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/QjLjymWCynvpAA969RH6nOCkAvHOhPTOTTuYTFmKjmsvW2BcbOOA9WcnUkvP8B926fnjyDN0o4fHpPPCZVS1_2_fle.mp4\"},{\"height\":360,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/QjLjymWCynvpAA969RH6nOCkAvHOhPTOTTuYTFmKjmsvW2BcbOOA9WcnUkvP8B926fnjyDN0o4fHpPPCZVS1_3_fle.mp4\"},{\"height\":240,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/QjLjymWCynvpAA969RH6nOCkAvHOhPTOTTuYTFmKjmsvW2BcbOOA9WcnUkvP8B926fnjyDN0o4fHpPPCZVS1_4_fle.mp4\"}]",
+        "vod_class": "vodDownloadActive",
+        "vod_firstfile_url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/QjLjymWCynvpAA969RH6nOCkAvHOhPTOTTuYTFmKjmsvW2BcbOOA9WcnUkvP8B926fnjyDN0o4fHpPPCZVS1_1_fle.mp4",
+        "vod_url_hls": "http:\/\/vodstream-vh.akamaihd.net\/i\/fle\/QjLjymWCynvpAA969RH6nOCkAvHOhPTOTTuYTFmKjmsvW2BcbOOA9WcnUkvP8B926fnjyDN0o4fHpPPCZVS1_,1,2,3,4,_fle.mp4.csmil\/master.m3u8",
+        "vod_url_hds": "http:\/\/vodstream-vh.akamaihd.net\/z\/fle\/QjLjymWCynvpAA969RH6nOCkAvHOhPTOTTuYTFmKjmsvW2BcbOOA9WcnUkvP8B926fnjyDN0o4fHpPPCZVS1_,1,2,3,4,_fle.mp4.csmil\/manifest.f4m"
+    },
+    "title": "Regional Convention - Sunday Afternoon",
+    "description": "Regional Convention - Sunday Afternoon",
+    "url": "\/meeting\/create\/id\/341787",
+    "type": "schedule",
+    "status": "active",
+    "chapters": [],
+    "is_vod": "1",
+    "vod_download": "1",
+    "hls": "http:\/\/wtbtshdflash-f.akamaihd.net\/i\/ww2Vf65wqmb5vRe07KCEBVY8S2pa6TJSej5RX6T5VVUA7FuJkJJTTcaeC7wtgTCKNmpRoitX_O2A7IlhUQ@1\/master.m3u8",
+    "hds": "http:\/\/wtbtshdflash-f.akamaihd.net\/z\/ww2Vf65wqmb5vRe07KCEBVY8S2pa6TJSej5RX6T5VVUA7FuJkJJTTcaeC7wtgTCKNmpRoitX_O2A7IlhUQ@1\/manifest.f4m",
+    "akamainame": "ww2Vf65wqmb5vRe07KCEBVY8S2pa6TJSej5RX6T5VVUA7FuJkJJTTcaeC7wtgTCKNmpRoitX_O2A7IlhUQ",
+    "vod_url_hls": "http:\/\/vodstream-vh.akamaihd.net\/i\/fle\/QjLjymWCynvpAA969RH6nOCkAvHOhPTOTTuYTFmKjmsvW2BcbOOA9WcnUkvP8B926fnjyDN0o4fHpPPCZVS1_,1,2,3,4,_fle.mp4.csmil\/master.m3u8",
+    "vod_url_hds": "http:\/\/vodstream-vh.akamaihd.net\/z\/fle\/QjLjymWCynvpAA969RH6nOCkAvHOhPTOTTuYTFmKjmsvW2BcbOOA9WcnUkvP8B926fnjyDN0o4fHpPPCZVS1_,1,2,3,4,_fle.mp4.csmil\/manifest.f4m",
+    "date": "2015-11-20",
+    "language": "en",
+    "language_country": null,
+    "section": "3"
+}, {
+    "data": {
+        "id_branch_channel": "1982",
+        "section": "3",
+        "event": "Regional Convention - Sunday Morning",
+        "description": "",
+        "datestart": null,
+        "dateend": null,
+        "datecreated": "1447977600",
+        "hls": "http:\/\/wtbtshdflash-f.akamaihd.net\/i\/YLscJ241akanQ7rr966NalrIPVbKxu0KExnRs7u9IvOt7hsfWpagjy9vB6R2ugUvIVLwxwMF_PBJKYMVoY@1\/master.m3u8",
+        "hds": "http:\/\/wtbtshdflash-f.akamaihd.net\/z\/YLscJ241akanQ7rr966NalrIPVbKxu0KExnRs7u9IvOt7hsfWpagjy9vB6R2ugUvIVLwxwMF_PBJKYMVoY@1\/manifest.f4m",
+        "akamainame": "YLscJ241akanQ7rr966NalrIPVbKxu0KExnRs7u9IvOt7hsfWpagjy9vB6R2ugUvIVLwxwMF_PBJKYMVoY",
+        "streamid": "1",
+        "origid": null,
+        "type": "normal",
+        "status": "active",
+        "id_event": 341785,
+        "id": 341785,
+        "base_path": "",
+        "chapters": [],
+        "chapters_sections_md5": "ad7b81dea42cf2ef7525c274471e3ce6",
+        "chapters_sections_md5_applied": "ad7b81dea42cf2ef7525c274471e3ce6",
+        "childvodname": "MhyZSAA7wpTFRA4OKjJ3rtkRSv9pGEWi28qhobgRTbKPqJf2RxvFsxMqzoe3rYJRlcIGGuoHkQtrxVg7WVS1",
+        "child_ready": "1",
+        "copies": "1",
+        "copy_vodname": "MhyZSAA7wpTFRA4OKjJ3rtkRSv9pGEWi28qhobgRTbKPqJf2RxvFsxMqzoe3rYJRlcIGGuoHkQtrxVg7WVS1",
+        "date_time_process_begin": "1448051003",
+        "editing": "0",
+        "editing_completed": "1",
+        "hideSections": null,
+        "is_child": "1",
+        "is_vod": "1",
+        "language": "en",
+        "language_name": "English",
+        "origevent": "341784",
+        "vodname": "MhyZSAA7wpTFRA4OKjJ3rtkRSv9pGEWi28qhobgRTbKPqJf2RxvFsxMqzoe3rYJRlcIGGuoHkQtrxVg7W",
+        "vod_download": "1",
+        "vod_files": [{
+            "height": 720,
+            "url": "MhyZSAA7wpTFRA4OKjJ3rtkRSv9pGEWi28qhobgRTbKPqJf2RxvFsxMqzoe3rYJRlcIGGuoHkQtrxVg7WVS1_1_fle.mp4"
+        }, {
+            "height": 480,
+            "url": "MhyZSAA7wpTFRA4OKjJ3rtkRSv9pGEWi28qhobgRTbKPqJf2RxvFsxMqzoe3rYJRlcIGGuoHkQtrxVg7WVS1_2_fle.mp4"
+        }, {
+            "height": 360,
+            "url": "MhyZSAA7wpTFRA4OKjJ3rtkRSv9pGEWi28qhobgRTbKPqJf2RxvFsxMqzoe3rYJRlcIGGuoHkQtrxVg7WVS1_3_fle.mp4"
+        }, {
+            "height": 240,
+            "url": "MhyZSAA7wpTFRA4OKjJ3rtkRSv9pGEWi28qhobgRTbKPqJf2RxvFsxMqzoe3rYJRlcIGGuoHkQtrxVg7WVS1_4_fle.mp4"
+        }
+        ],
+        "vod_orig_event": "341785",
+        "vod_path": "\/fle",
+        "vod_total": "4",
+        "wait_main": "0",
+        "vod_files_urls": [{
+            "height": 720,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/MhyZSAA7wpTFRA4OKjJ3rtkRSv9pGEWi28qhobgRTbKPqJf2RxvFsxMqzoe3rYJRlcIGGuoHkQtrxVg7WVS1_1_fle.mp4"
+        }, {
+            "height": 480,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/MhyZSAA7wpTFRA4OKjJ3rtkRSv9pGEWi28qhobgRTbKPqJf2RxvFsxMqzoe3rYJRlcIGGuoHkQtrxVg7WVS1_2_fle.mp4"
+        }, {
+            "height": 360,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/MhyZSAA7wpTFRA4OKjJ3rtkRSv9pGEWi28qhobgRTbKPqJf2RxvFsxMqzoe3rYJRlcIGGuoHkQtrxVg7WVS1_3_fle.mp4"
+        }, {
+            "height": 240,
+            "url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/MhyZSAA7wpTFRA4OKjJ3rtkRSv9pGEWi28qhobgRTbKPqJf2RxvFsxMqzoe3rYJRlcIGGuoHkQtrxVg7WVS1_4_fle.mp4"
+        }
+        ],
+        "vod_files_oldsite": "[{\"height\":720,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/MhyZSAA7wpTFRA4OKjJ3rtkRSv9pGEWi28qhobgRTbKPqJf2RxvFsxMqzoe3rYJRlcIGGuoHkQtrxVg7WVS1_1_fle.mp4\"},{\"height\":480,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/MhyZSAA7wpTFRA4OKjJ3rtkRSv9pGEWi28qhobgRTbKPqJf2RxvFsxMqzoe3rYJRlcIGGuoHkQtrxVg7WVS1_2_fle.mp4\"},{\"height\":360,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/MhyZSAA7wpTFRA4OKjJ3rtkRSv9pGEWi28qhobgRTbKPqJf2RxvFsxMqzoe3rYJRlcIGGuoHkQtrxVg7WVS1_3_fle.mp4\"},{\"height\":240,\"url\":\"http:\\\/\\\/stream.jw.org.edgesuite.net\\\/fle\\\/MhyZSAA7wpTFRA4OKjJ3rtkRSv9pGEWi28qhobgRTbKPqJf2RxvFsxMqzoe3rYJRlcIGGuoHkQtrxVg7WVS1_4_fle.mp4\"}]",
+        "vod_class": "vodDownloadActive",
+        "vod_firstfile_url": "http:\/\/stream.jw.org.edgesuite.net\/fle\/MhyZSAA7wpTFRA4OKjJ3rtkRSv9pGEWi28qhobgRTbKPqJf2RxvFsxMqzoe3rYJRlcIGGuoHkQtrxVg7WVS1_1_fle.mp4",
+        "vod_url_hls": "http:\/\/vodstream-vh.akamaihd.net\/i\/fle\/MhyZSAA7wpTFRA4OKjJ3rtkRSv9pGEWi28qhobgRTbKPqJf2RxvFsxMqzoe3rYJRlcIGGuoHkQtrxVg7WVS1_,1,2,3,4,_fle.mp4.csmil\/master.m3u8",
+        "vod_url_hds": "http:\/\/vodstream-vh.akamaihd.net\/z\/fle\/MhyZSAA7wpTFRA4OKjJ3rtkRSv9pGEWi28qhobgRTbKPqJf2RxvFsxMqzoe3rYJRlcIGGuoHkQtrxVg7WVS1_,1,2,3,4,_fle.mp4.csmil\/manifest.f4m"
+    },
+    "title": "Regional Convention - Sunday Morning",
+    "description": "Regional Convention - Sunday Morning",
+    "url": "\/meeting\/create\/id\/341785",
+    "type": "schedule",
+    "status": "active",
+    "chapters": [],
+    "is_vod": "1",
+    "vod_download": "1",
+    "hls": "http:\/\/wtbtshdflash-f.akamaihd.net\/i\/YLscJ241akanQ7rr966NalrIPVbKxu0KExnRs7u9IvOt7hsfWpagjy9vB6R2ugUvIVLwxwMF_PBJKYMVoY@1\/master.m3u8",
+    "hds": "http:\/\/wtbtshdflash-f.akamaihd.net\/z\/YLscJ241akanQ7rr966NalrIPVbKxu0KExnRs7u9IvOt7hsfWpagjy9vB6R2ugUvIVLwxwMF_PBJKYMVoY@1\/manifest.f4m",
+    "akamainame": "YLscJ241akanQ7rr966NalrIPVbKxu0KExnRs7u9IvOt7hsfWpagjy9vB6R2ugUvIVLwxwMF_PBJKYMVoY",
+    "vod_url_hls": "http:\/\/vodstream-vh.akamaihd.net\/i\/fle\/MhyZSAA7wpTFRA4OKjJ3rtkRSv9pGEWi28qhobgRTbKPqJf2RxvFsxMqzoe3rYJRlcIGGuoHkQtrxVg7WVS1_,1,2,3,4,_fle.mp4.csmil\/master.m3u8",
+    "vod_url_hds": "http:\/\/vodstream-vh.akamaihd.net\/z\/fle\/MhyZSAA7wpTFRA4OKjJ3rtkRSv9pGEWi28qhobgRTbKPqJf2RxvFsxMqzoe3rYJRlcIGGuoHkQtrxVg7WVS1_,1,2,3,4,_fle.mp4.csmil\/manifest.f4m",
+    "date": "2015-11-20",
+    "language": "en",
+    "language_country": null,
+    "section": "3"
+}
+]
+

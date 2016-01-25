@@ -21,6 +21,15 @@ class AudioMainCategories: SuperCollectionView {
         "DramaticBibleReadings":"readings"
     ]
     
+    let SLImages=[
+        "NewSongs":"newsongs-singtojehovah",
+        "Piano":"piano-singtojehovah",
+        "Vocal":"vocals-singtojehovah",
+        "KingdomMelodies":"kingdommelodies",
+        "Dramas":"drama-jwblue",
+        "DramaticBibleReadings":"dramaticbiblereading-jwblue"
+    ]
+    
     override func cellShouldLoseFocus(view: UIView, indexPath: NSIndexPath) {
         for subview in (view.subviews.first!.subviews) {
             
@@ -41,18 +50,21 @@ class AudioMainCategories: SuperCollectionView {
     
     override func cellShouldFocus(view: UIView, indexPath: NSIndexPath) {
         
-        if ((self.delegate?.isKindOfClass(NewAudioController.self)) == true){
+        if ((self.delegate?.isKindOfClass(AudioController.self)) == true){
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
                 if (view==UIScreen.mainScreen().focusedView){
 
-                    UIView.transitionWithView((self.delegate as! NewAudioController).backgroundImageView, duration: 0.5, options: .TransitionCrossDissolve, animations: {
+                    UIView.transitionWithView((self.delegate as! AudioController).backgroundImageView, duration: 0.5, options: .TransitionCrossDissolve, animations: {
                         
                         let category="Audio"
                         let categoriesDirectory=base+"/"+version+"/categories/"+languageCode
                         let categoryDataURL=categoriesDirectory+"/"+category+"?detailed=1"
                         let key=unfold(categoryDataURL+"|category|subcategories|\(indexPath.row)|key") as! String
-                        (self.delegate as! NewAudioController).backgroundImageView.image=UIImage(named: self.images[key]!)
+                        (self.delegate as! AudioController).backgroundImageView.image=UIImage(named: self.images[key]!)
+                        if (languageFromCode(languageCode)!["isSignLanguage"]?.boolValue == true){
+                            (self.delegate as! AudioController).backgroundImageView.image=UIImage(named: self.SLImages[key]!)
+                        }
                         }, completion: nil)
                 }
             }

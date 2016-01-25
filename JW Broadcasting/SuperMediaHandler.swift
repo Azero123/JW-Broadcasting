@@ -22,6 +22,13 @@ class SuperMediaPlayer: NSObject, UIGestureRecognizerDelegate {
     override init() {
         super.init()
         playerViewController.player=player
+        
+        
+        /*NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+        [center addObserver:self selector:@selector(audioSessionInterrupted:) name:AVAudioSessionInterruptionNotification object:nil];
+        */
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "audioSessionInterrupted:", name: AVAudioSessionInterruptionNotification, object: nil)
+        
         player.addPeriodicTimeObserverForInterval(CMTime(value: 1, timescale: 1), queue: nil, usingBlock: { (time:CMTime) in
             
             let playerAsset:AVAsset? = self.player.currentItem != nil ? self.player.currentItem!.asset : nil
@@ -45,6 +52,10 @@ class SuperMediaPlayer: NSObject, UIGestureRecognizerDelegate {
             }
         })
         
+    }
+    
+    func audioSessionInterrupted(notification:NSNotification){
+        print("interruption")
     }
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceivePress press: UIPress) -> Bool {
